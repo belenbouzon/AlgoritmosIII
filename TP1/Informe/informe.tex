@@ -1,0 +1,136 @@
+\documentclass[a4paper]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{charter}   % tipografia
+\usepackage{graphicx}
+
+
+%%%%%%%LO AGREGUE%%%%%%%%%%  Y yo lo modifique
+%\usepackage{hyperref}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[bookmarks = true, colorlinks=true, linkcolor = black, citecolor = black, menucolor = black, urlcolor = blue]{hyperref} 
+
+
+
+
+%\usepackage{makeidx}
+\usepackage{paralist} %itemize inline
+\usepackage[ruled,vlined]{algorithm2e}
+%\usepackage{float}
+%\usepackage{amsmath, amsthm, amssymb}
+%\usepackage{amsfonts}
+%\usepackage{sectsty}
+%\usepackage{charter}
+%\usepackage{wrapfig}
+%\usepackage{listings}
+%\lstset{language=C}
+
+
+\input{codesnippet}
+\input{page.layout}
+% \setcounter{secnumdepth}{2}
+\usepackage{underscore}
+\usepackage{caratula}
+%\usepackage{url}
+\usepackage{hyperref}
+
+% ******************************************************** %
+%              TEMPLATE DE INFORME ORGA2 v0.1              %
+% ******************************************************** %
+% ******************************************************** %
+%                                                          %
+% ALGUNOS PAQUETES REQUERIDOS (EN UBUNTU):                 %
+% ========================================
+%                                                          %
+% texlive-latex-base                                       %
+% texlive-latex-recommended                                %
+% texlive-fonts-recommended                                %
+% texlive-latex-extra?                                     %
+% texlive-lang-spanish (en ubuntu 13.10)                   %
+% texlive-science										  %
+% ******************************************************** %
+
+
+
+\begin{document}
+
+
+\thispagestyle{empty}
+\materia{Algoritmos y Estructuras de Datos III}
+\submateria{Primer Cuatrimestre de 2015}
+\titulo{Trabajo Práctico I}
+%\subtitulo{subtitulo del trabajo}
+\integrante{Aldasoro Agustina}{86/13}{agusaldasoro@gmail.com}
+\integrante{Noriega Francisco}{660/12}{frannoriega.92@gmail.com}
+\integrante{Zimenspitz Ezequiel}{155/13}{ezeqzim@gmail.com}
+\integrante{Zuker Brian}{441/13}{brianzuker@gmail.com}
+
+
+\maketitle
+\newpage
+
+\thispagestyle{empty}
+\vfill
+\begin{abstract}
+Habi\'endonos sido dado una serie de tres problem\'aticas a resolver, se plantean sus respectivas soluciones acorde a los requisitos pedidos. Se adjunta una descripci\'on de cada problema y su soluci\'on, conjunto a su an\'alisis de correctitud y de complejidad sumado a su experimentaci\'on. El lenguaje elegido para llevar a cabo el trabajo es C++.
+
+Dentro de cada \emph{.cpp} est\'a el comando para compilar cada ejercicio desde la carpeta donde se encuentran los mismos. A continuaci\'on se los adjunta. El flag \emph{-std=c++11} debi\'o ser a\~nadido  dado que utilizamos la librer\'ia $<$chrono$>$, la cual nos permiti\'o medir tiempos de ejecuci\'on:
+\begin{enumerate}
+\item \emph{g++ -o main Zombieland.cpp -std=c++11}
+
+\item \emph{g++ -o main AltaFrecuencia.cpp -std=c++11}
+
+\item \emph{g++ -o main SenorCaballos.cpp -std=c++11}
+	
+\end{enumerate}
+
+
+
+\end{abstract}
+
+\thispagestyle{empty}
+\vspace{3cm}
+\tableofcontents
+\newpage
+
+
+%\normalsize
+\newpage
+\input{Zombieland.tex}
+\newpage
+\input{Altafrecuencia.tex}
+\newpage
+\input{Senorcaballos.tex}
+\newpage
+
+% \section{Objetivos generales}
+
+% El objetivo de este Trabajo Práctico es ...
+
+
+% \section{Contexto}
+
+% \begin{figure}
+%   \begin{center}
+% 	\includegraphics[scale=0.66]{imagenes/logouba.jpg}
+% 	\caption{Descripcion de la figura}
+% 	\label{nombreparareferenciar}
+%   \end{center}
+% \end{figure}
+
+
+% \paragraph{\textbf{Titulo del parrafo} } Bla bla bla bla.
+% Esto se muestra en la figura~\ref{nombreparareferenciar}.
+
+
+
+
+%Habra que insertar el enunciado???
+% %\section{Enunciado y solucion} 
+% %\input{enunciado}
+
+% \section{Conclusiones y trabajo futuro}
+
+\end{document}
+
