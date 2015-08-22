@@ -1,25 +1,23 @@
 \select@language {spanish}
-\contentsline {section}{\numberline {1}Problema 1: ZombieLand}{3}{section.1}
-\contentsline {subsection}{\numberline {1.1}Descripci\'on de la problem\'atica}{3}{subsection.1.1}
-\contentsline {subsection}{\numberline {1.2}Resoluci\'on propuesta y justificaci\'on}{5}{subsection.1.2}
-\contentsline {subsection}{\numberline {1.3}An\'alisis de la complejidad}{6}{subsection.1.3}
-\contentsline {subsection}{\numberline {1.4}C\'odigo fuente}{7}{subsection.1.4}
-\contentsline {subsection}{\numberline {1.5}Experimentaci\'on}{9}{subsection.1.5}
-\contentsline {subsubsection}{\numberline {1.5.1}Constrastaci\'on emp\'irica de la complejidad}{9}{subsubsection.1.5.1}
-\contentsline {subsubsection}{\numberline {1.5.2}Experimentaci\'on variando s\'olo el par\'ametro n}{9}{subsubsection.1.5.2}
-\contentsline {subsubsection}{\numberline {1.5.3}Experimentaci\'on variando el par\'ametro n y el presupuesto asociado}{11}{subsubsection.1.5.3}
-\contentsline {section}{\numberline {2}Problema 2: Alta Frecuencia}{13}{section.2}
-\contentsline {subsection}{\numberline {2.1}Descripci\'on de la problem\'atica}{13}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Resoluci\'on propuesta y justificaci\'on}{14}{subsection.2.2}
-\contentsline {subsection}{\numberline {2.3}An\'alisis de la complejidad}{15}{subsection.2.3}
-\contentsline {subsection}{\numberline {2.4}C\'odigo fuente}{19}{subsection.2.4}
-\contentsline {subsection}{\numberline {2.5}Experimentaci\'on}{22}{subsection.2.5}
-\contentsline {subsubsection}{\numberline {2.5.1}Constrastaci\'on Emp\'irica de la complejidad}{22}{subsubsection.2.5.1}
-\contentsline {section}{\numberline {3}Problema 3: El se\~nor de los caballos}{24}{section.3}
-\contentsline {subsection}{\numberline {3.1}Descripci\'on de la problem\'atica}{24}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Resoluci\'on propuesta y justificaci\'on}{25}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}An\'alisis de la complejidad}{26}{subsection.3.3}
-\contentsline {subsection}{\numberline {3.4}C\'odigo fuente}{27}{subsection.3.4}
-\contentsline {subsection}{\numberline {3.5}Experimentaci\'on}{31}{subsection.3.5}
-\contentsline {subsubsection}{\numberline {3.5.1}Constrastaci\'on Emp\'irica de la complejidad}{31}{subsubsection.3.5.1}
-\contentsline {subsubsection}{\numberline {3.5.2}Influencia de la cantidad de caballos preexistentes sobre los tiempos de ejecuci\'on}{38}{subsubsection.3.5.2}
+\contentsline {section}{\numberline {1}Objetivos generales}{3}{section.1}
+\contentsline {section}{\numberline {2}Problema 1: Tel\'egrafo}{4}{section.2}
+\contentsline {subsection}{\numberline {2.1}Descripci\'on de la problem\'atica}{4}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Resoluci\'on propuesta y justificaci\'on}{4}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}An\'alisis de la complejidad}{4}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}C\'odigo fuente}{4}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Experimentaci\'on}{4}{subsection.2.5}
+\contentsline {subsubsection}{\numberline {2.5.1}Constrastaci\'on Emp\'irica de la complejidad}{4}{subsubsection.2.5.1}
+\contentsline {section}{\numberline {3}Problema 2: A medias}{5}{section.3}
+\contentsline {subsection}{\numberline {3.1}Descripci\'on de la problem\'atica}{5}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Resoluci\'on propuesta y justificaci\'on}{5}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}An\'alisis de la complejidad}{5}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}C\'odigo fuente}{5}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Experimentaci\'on}{5}{subsection.3.5}
+\contentsline {subsubsection}{\numberline {3.5.1}Constrastaci\'on Emp\'irica de la complejidad}{5}{subsubsection.3.5.1}
+\contentsline {section}{\numberline {4}Problema 3: Girls Scouts}{6}{section.4}
+\contentsline {subsection}{\numberline {4.1}Descripci\'on de la problem\'atica}{6}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Resoluci\'on propuesta y justificaci\'on}{6}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}An\'alisis de la complejidad}{6}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}C\'odigo fuente}{6}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}Experimentaci\'on}{6}{subsection.4.5}
+\contentsline {subsubsection}{\numberline {4.5.1}Constrastaci\'on Emp\'irica de la complejidad}{6}{subsubsection.4.5.1}
