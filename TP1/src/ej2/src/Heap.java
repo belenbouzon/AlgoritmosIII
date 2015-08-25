@@ -48,4 +48,9 @@ public class Heap {
 		}
 		return res;
 	}
+	
+	public void ClearHeap(){
+		this.minHeap.clear();
+		this.maxHeap.clear();
+	}
 }
