@@ -6,7 +6,7 @@ Suponiendo que tengo el siguiente conjunto $\{2,8,5,3,10\}$, tomamos los subconj
 \begin{center}
 	$\{2\}$ $\{2,8\}$ $\{2,8,5\}$ $\{2,8,5,3\}$ $\{2,8,5,3,10\}$
 \end{center}
-Luego calculamos las medianas para cada uno de esos subconjuntos, teniendo en cuenta que deben estar ordenados para poder calcular las medianas correctamente. De esta manera, con el algoritmo que analizaremos a continuación, podemos obtener el siguiente conjunto de medianas $\{2,5,5,4,5\}$ que es solución al problema y que cumple que el $i$-ésimo, con $i = \{0 $..$ 4\}$, representa la parte entera de la mediana de los primeros $i$ números de la entrada. 
+Luego- entendiendo la mediana como el valor de la variable de posición central en un conjunto de datos ordenados - la calculamos para cada uno de esos subconjuntos, teniendo en cuenta que a los fines prácticos no necesitamos tener todos nuestros números ordenados, si no que nos alcanza con saber cuáles se encontrarían en las posiciones centrales para cada instancia del problema, si estuvieran ordenados. De esta manera, con el algoritmo que analizaremos a continuación, podemos obtener el siguiente conjunto de medianas $\{2,5,8,6,5\}$ que es solución al problema y que cumple que el $i$-ésimo, con $i = \{0 $..$ 4\}$, representa la parte entera de la mediana de los primeros $i$ números de la entrada. 
 \subsection{Resolución propuesta y justificación}
 
 \subsection{Análisis de la complejidad}
