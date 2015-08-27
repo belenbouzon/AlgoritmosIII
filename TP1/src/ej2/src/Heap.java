@@ -18,7 +18,7 @@ public class Heap {
 	}
 	
 	public void balancearHeaps(){
-		//si la diferencia absoluta de tamaños es mayor a uno, tengo que rebalancear.
+		//si la diferencia absoluta de tamaÃ±os es mayor a uno, tengo que rebalancear.
 		//si es 0, 1 o -1 esta bien.
 		int head;
 		int balance = this.minHeap.size() - this.maxHeap.size();
