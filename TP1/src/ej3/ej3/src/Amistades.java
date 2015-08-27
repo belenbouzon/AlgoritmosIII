@@ -6,13 +6,16 @@ public class Amistades {
 	TreeSet<Character> ultimo_conjunto_utilizado;
 	char ultima_exploradora_utilizada;
 	public boolean es_amiga_de(char exploradora1,char exploradora2){
-		//if(exploradora1==this.ultima_exploradora_utilizada){
-			//return this.ultimo_conjunto_utilizado.contains(exploradora2);
-		//}else{
+		if(exploradora1==this.ultima_exploradora_utilizada){
+			return this.ultimo_conjunto_utilizado.contains(exploradora2);
+		}else{
+			if(!this.registro_amistades.containsKey(exploradora1)){
+				return false;
+			}
 			this.ultimo_conjunto_utilizado = this.registro_amistades.get(exploradora1);
 			this.ultima_exploradora_utilizada = exploradora1;
 			return this.ultimo_conjunto_utilizado.contains(exploradora2);
-		//}
+		}
 	}
 	public void definir_amistad(char exploradora, TreeSet<Character> amigas){
 		this.registro_amistades.put(exploradora, amigas);

@@ -8,6 +8,7 @@ public class Solucion {
 	int suma_distancias;
 	TreeSet<Character> exploradoras_con_amigas;
 	TreeSet<Character> exploradoras_sin_amigas;
+	TreeSet<Character> exploradoras_agregadas;
 	Amistades am;
 	public Solucion(){
 		am = new Amistades();
@@ -15,6 +16,7 @@ public class Solucion {
 		suma_distancias = -1;
 		this.exploradoras_con_amigas = new TreeSet<Character>();
 		this.exploradoras_sin_amigas = new TreeSet<Character>();
+		this.exploradoras_agregadas = new TreeSet<Character>();
 		
 	}
 	private void encontrar_ronda(int iesimo,int cant_exploradoras_sin_amigas){
@@ -35,9 +37,17 @@ public class Solucion {
 			return;
 		}
 		while(it.hasNext()){
-			fogon.colocar_exploradora(it.next(), iesimo+1);
-			this.encontrar_ronda(iesimo+1,cant_exploradoras_sin_amigas);
-			fogon.limpiar_posicion(iesimo+1);
+			char nueva = it.next();
+			while(it.hasNext() && this.exploradoras_agregadas.contains(nueva)){
+				nueva = it.next();
+			}
+			if(!this.exploradoras_agregadas.contains(nueva)){
+				this.exploradoras_agregadas.add(nueva);
+				fogon.colocar_exploradora(nueva, iesimo+1);
+				this.encontrar_ronda(iesimo+1,cant_exploradoras_sin_amigas);
+				fogon.limpiar_posicion(iesimo+1);
+				this.exploradoras_agregadas.remove(nueva);
+			}
 		}
 		if(cant_exploradoras_sin_amigas>0){
 			char n = (char) -1;
@@ -49,10 +59,12 @@ public class Solucion {
 	private void procesar_amistad(String entrada){
 		int i = 0;
 		while(i < entrada.length()){
+			//TODO eliminar parche!!!!!!!!!!
+			//-------------------------------
 			TreeSet<Character> nuevo_conjunto = new TreeSet<Character>();
 			Character exploradora = entrada.charAt(i);
-			i += 2;
-			System.out.printf("letra: %c\n", entrada.charAt(i));
+			i ++;
+			System.out.printf("letra: %c\n", exploradora);
 			while(i < entrada.length() && entrada.charAt(i)!=';'){
 				if(entrada.charAt(i)!= ' '){
 					nuevo_conjunto.add(entrada.charAt(i));
@@ -63,6 +75,7 @@ public class Solucion {
 			if(nuevo_conjunto.size()!=0){
 				this.exploradoras_con_amigas.add(exploradora);
 			}else{
+				System.out.printf("sin_amiga: %c\n", exploradora);
 				this.exploradoras_sin_amigas.add(exploradora);
 			}
 			this.am.definir_amistad(exploradora, nuevo_conjunto);
@@ -75,7 +88,7 @@ public class Solucion {
 		this.fogon.colocar_exploradora(this.exploradoras_con_amigas.first(), 0);
 		this.exploradoras_con_amigas.pollFirst();
 		this.encontrar_ronda(0, this.exploradoras_sin_amigas.size());
-		if(this.suma_distancias<=this.fogon.distancias_actuales() || !this.fogon.esta_completo()){
+		if(this.suma_distancias<this.fogon.distancias_actuales() || !this.fogon.esta_completo()){
 			this.fogon.recuperar_backup();
 		}
 		if(!this.fogon.esta_completo()){
@@ -86,30 +99,30 @@ public class Solucion {
 		for(int j = 0;j<c_ex;j++){
 			res[j] = (char) -1;
 		}
-		TreeSet<Tuple <Character,Integer> > solucion_preprocesada = this.fogon.devolver_ronda();
+		LinkedHashSet<Tuple <Character,Integer> > solucion_preprocesada = this.fogon.devolver_ronda();
 		Iterator<Tuple <Character,Integer> > it = solucion_preprocesada.iterator();
 		while(it.hasNext()){
-			System.out.printf("qq: %d%n\n", solucion_preprocesada.size());
 			Tuple <Character,Integer> t = it.next();
 			res[t.y] = t.x;
 		}
 		Iterator<Character> sin_amigas = this.exploradoras_sin_amigas.iterator();
 		for(int j = 0;j<c_ex;j++){
 			if(res[j]==(char)-1){
-				if(it.hasNext()){
+				if(sin_amigas.hasNext()){
 					res[j] = sin_amigas.next();
 				}else{
 					System.out.printf("erorrrrrr\n");
 				}
 			}
 		}
+		System.out.printf("distancia entre amistades: %d%n\n",this.fogon.distancias_actuales());
 		System.out.printf("[");
 		int i = 0;
 		while(i<c_ex){
 			System.out.printf("%c, ",res[i]);
 			i++;
 		}
-		System.out.printf("]");
+		System.out.printf("]\n");
 		return res;
 	}
 }

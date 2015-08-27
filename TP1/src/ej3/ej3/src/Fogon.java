@@ -7,8 +7,8 @@ public class Fogon {
 	Amistades amistades;
 	//private LinkedHashSet<Tuple <Character,Integer> > exploradoras_con_amigas;
 	//private LinkedHashSet<Tuple <Character,Integer> > backup;
-	private TreeSet<Tuple <Character,Integer> > exploradoras_con_amigas;
-	private TreeSet<Tuple <Character,Integer> > backup;
+	private LinkedHashSet<Tuple <Character,Integer> > exploradoras_con_amigas;
+	private LinkedHashSet<Tuple <Character,Integer> > backup;
 	private int distancia_amistades_backup;
 	private int distancia_amistades;
 	private int cantidad_exploradoras_actuales;
@@ -16,14 +16,17 @@ public class Fogon {
 	private int cantidad_exploradoras_totales;
 	private int calcular_distancia(int ex1,int ex2,int n){
 		int res = ex2 - ex1;
-		return res % (n/2);
+		if(res<0){
+			res = (n/2)-res;
+		}
+		return res % (n/2 + 1);
 	}
 	public Fogon(Amistades amigas, int cantidad_exploradoras){
 		this.amistades = amigas;
 		this.cantidad_exploradoras_actuales = 0;
 		this.cantidad_exploradoras_totales = cantidad_exploradoras;
-		this.exploradoras_con_amigas = new TreeSet<Tuple <Character,Integer> > (new ComparadorTuplasCharInt());
-		this.backup = new TreeSet<Tuple <Character,Integer> > (new ComparadorTuplasCharInt());
+		this.exploradoras_con_amigas = new LinkedHashSet<Tuple <Character,Integer> > ();
+		this.backup = new LinkedHashSet<Tuple <Character,Integer> > ();
 	}
 	private int calcular_alteracion_distancias(Character exploradora,int posicion){
 		int res = 0;
@@ -75,7 +78,7 @@ public class Fogon {
 			}
 		}
 	}
-	public TreeSet<Tuple <Character,Integer> > devolver_ronda(){
+	public LinkedHashSet<Tuple <Character,Integer> > devolver_ronda(){
 		return this.exploradoras_con_amigas;
 	}
 };
