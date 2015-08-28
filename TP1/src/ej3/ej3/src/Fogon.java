@@ -40,7 +40,6 @@ public class Fogon {
 		return res;
 	}
 	public void colocar_exploradora(char exploradora,int posicion){
-		//System.out.printf("coloco_exploradora\n");
 		this.cantidad_exploradoras_actuales++;
 		if(exploradora!=-1){
 			this.distancia_amistades += this.calcular_alteracion_distancias(exploradora, posicion);
