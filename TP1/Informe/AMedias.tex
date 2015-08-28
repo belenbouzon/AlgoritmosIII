@@ -8,7 +8,38 @@ Suponiendo que tengo el siguiente conjunto $\{2,8,5,3,10\}$, tomamos los subconj
 \end{center}
 Luego- entendiendo la mediana como el valor de la variable de posición central en un conjunto de datos ordenados - la calculamos para cada uno de esos subconjuntos, teniendo en cuenta que a los fines prácticos no necesitamos tener todos nuestros números ordenados, si no que nos alcanza con saber cuáles se encontrarían en las posiciones centrales para cada instancia del problema, si estuvieran ordenados. De esta manera, con el algoritmo que analizaremos a continuación, podemos obtener el siguiente conjunto de medianas $\{2,5,8,6,5\}$ que es solución al problema y que cumple que el $i$-ésimo, con $i = \{0 $..$ 4\}$, representa la parte entera de la mediana de los primeros $i$ números de la entrada. 
 \subsection{Resolución propuesta y justificación}
+La solución que proponemos, utiliza dos heaps (uno que ordena los elementos de menor a mayor -min heap- y el otro de mayor a menor -max heap-) para obtener de forma rápida los elementos que se encuentran en la mitad del conjunto ordenado. Para lograr esto, el algoritmo almacena los elementos mas grandes en el min heap y los mas chicos en el max heap, decidiendo si es mas chico o mas grande al compararlo con la mediana del subconjunto anterior.\\
 
+El pseudocódigo que se muestra a continuación representa nuestro algoritmo y en el mismo se utilizan las variables $heap1$ y $heap2$ solamente para mostrar que estamos comparando los dos heaps y que no importa diferenciar cual es el max y cual es el min heap.\\
+
+Pseudocódigo:
+\begin{algorithmic}
+	\STATE $mediana =$ mediana actual (inicializada en cero)
+	\FOR{Cantidad de elementos en el conjunto}
+		\IF{Valor del elemento actual $\geq mediana$}
+			\STATE Insertar el valor en el min heap
+		\ELSE
+			\STATE Insertar el valor en el max heap
+		\ENDIF
+		%balancear heaps
+		\IF{La diferencia absoluta entre los tamaños de los dos heaps $>$ 1}
+			\STATE Pasar la cabeza del heap mas grande al otro heap
+		\ENDIF
+
+		%calcular mediana
+		\IF{Tamaño del $heap1 =$ tamaño del $heap2$}
+			\STATE Calcular el promedio entre las cabezas de los heaps
+			\STATE Devolver el promedio
+		\ELSE
+			\STATE Devolver la cabeza del heap mas grande
+		\ENDIF
+	\ENDFOR
+\end{algorithmic}
+
+
+Los heaps se encargan de mantener ordenadas las dos mitades del conjunto, pero como no se sabe de antemano contra que valor comparar para ubicar los elementos en el heap correcto, los mismos se pueden debalancear, generando que los elementos del medio no se encuentren en las cabezas. Por este motivo si llega a ocurrir ese caso, balanceamos los heaps pasando la cabeza del heap mas grande al otro.\\
+
+Luego calcular la mediana simplemente implica decidir si el subconjunto actual tiene cantidad par o impar de elementos y en función de eso, calcular el promedio de las dos cabezas o tomar la cabeza del heap mas grande.
 \subsection{Análisis de la complejidad}
 
 \subsection{Código fuente}
