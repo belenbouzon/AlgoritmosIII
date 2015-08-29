@@ -4,84 +4,94 @@ public class Main
 {
   public static void main(String[] args) throws Exception 
   {
-        if (args.length < 1){
-            System.out.printf("Debe pasar el nombre del archivo de input como parámetro. Además puede pasar el flag --tiempos después del nombre de archivo, seguido de un número entero, para correr las mediciones de tiempos esa cantidad de veces\n");
-            System.out.printf("USO: java Main INPUT [--tiempos N]\n");
-        }
-
-	    
-        Lector lect = new Lector(args[0]);
-
-        while (!lect.hasEnded)
+        MostrarIndicaciones(args);
+        
+        int ejecuciones = 1;
+        Boolean mideTiempos = false;
+        
+        if (args.length > 1 && args[1].equalsIgnoreCase("--tiempos"))
         {
-            int ejecuciones = 1;
-            Boolean tiempos = false;
-            if ((args.length > 1) && (args[1] == "--tiempos")){
-                tiempos = true;
-                ejecuciones = Integer.parseInt(args[2]);
-            }
-                        
+            mideTiempos = true;
+            ejecuciones = Integer.parseInt(args[2]);
+        }
+                
+        Lector lect = new Lector(args[0]);
+        Escritor esc = new Escritor(args[0]);
+        int caso = 1;
+
+        while (true)
+        {   
             int longitudCable = lect.LeerLongitud();
             ArrayList<Ciudad> ciudades = lect.LeerCiudades();
+            
+            if (lect.hasEnded){break;}
+            
             int n = ciudades.size();
             int res;
-            while (ejecuciones > 0){
+            int ciclos = ejecuciones;
+            esc.EscribirInt(caso);
+
+            while (ciclos > 0)
+            {
                 long time0= System.nanoTime();
             
                 if (longitudCable != 0 && ciudades.size() > 1)
                 {
                     Ramal ramal = new Ramal(ciudades);
                     int indiceCiudadMasLejanaAlcanzada    = 0;  
-                    int cantMaximaCiudadesUnidas 	      = 1;   
+                    int cantMaximaCiudadesUnidas          = 1;   
                     int ciudadesUnidas;
                     
-                    //System.out.printf("NUEVO EJERCICIO. Long del cable: %d \n", longitudCable);
-
                     while(ramal.HayCiudadesMasLejanas() && !ramal.EsLaUltimaCiudad(indiceCiudadMasLejanaAlcanzada)) 
                     {
-                        //System.out.printf("COMENZANDO EN LA ESTACION %d \n", ramal.indiceCiudadActual);
-
                         if (indiceCiudadMasLejanaAlcanzada > ramal.indiceCiudadActual)
                             ciudadesUnidas =  indiceCiudadMasLejanaAlcanzada - ramal.indiceCiudadActual + 1;
                         else
-                            ciudadesUnidas = 1;					
+                            ciudadesUnidas = 1;                 
 
                         while(ramal.AlcanzaParaUnirUnaCiudadMas(ciudadesUnidas, longitudCable)) 
                         {
                             ciudadesUnidas ++;
                             indiceCiudadMasLejanaAlcanzada ++;
                         }
-                        
-                        //System.out.printf("Yo llego a lo sumo hasta la %d \n", indiceCiudadMasLejanaAlcanzada);
-                        
+                                                
                         ramal.AvanzarCiudadBase();
                         
                         if (ciudadesUnidas > cantMaximaCiudadesUnidas)
                             cantMaximaCiudadesUnidas = ciudadesUnidas;
                         
-                        //System.out.printf("La max cant de ciudades unidas hasta el momento %d \n", cantMaximaCiudadesUnidas);
-
                     }
                       
                     res = cantMaximaCiudadesUnidas == 1? 0: cantMaximaCiudadesUnidas;
-                    
-                    if (!tiempos){
-                        System.out.printf("La max cant de ciudades q se pudo unir fue %d \n", res);
-                    }
 
                 }
                 else
                 {
                     res = 0;
                 }
-                long time1= System.nanoTime();
-                if (tiempos){
-                    System.out.printf(n + "," + Long.toString(time1-time0));
+
+                if (!mideTiempos){
+                    System.out.printf("La m�xima cantidad de estaciones unidas fue %d \n", res);
                 }
-                ejecuciones--;
+                else
+                {
+                    long time1= System.nanoTime();
+                    esc.EscribirInt(time1-time0);
+                }
+            ciclos--;
             }
+            esc.NuevaLinea();
+            caso++;
         }
+        esc.Fin();
   }
 
+private static void MostrarIndicaciones(String[] args) {
+	if (args.length < 1)
+	{
+	    System.out.printf("Debe pasar el nombre del archivo de input como parametro. Ademas puede pasar el flag --tiempos despues del nombre de archivo, seguido de un numero entero, para correr las mediciones de tiempos esa cantidad de veces\n");
+	    System.out.printf("USO: java Main INPUT [--tiempos N]\n");
+	}
 }
 
+}
