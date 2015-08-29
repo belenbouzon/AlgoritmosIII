@@ -50,7 +50,10 @@ public class Heap {
 	}
 	
 	public void ClearHeap(){
-		this.minHeap.clear();
-		this.maxHeap.clear();
+		/*es lo mismo que usar de nuevo Heap(),
+		pero asi queda mas claro lo que se quiere hacer.
+		*/
+		this.minHeap = new PriorityQueue<Integer>();
+		this.maxHeap = new PriorityQueue<Integer>(11, new MyComparator());
 	}
 }

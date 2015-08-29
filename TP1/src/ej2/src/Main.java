@@ -2,22 +2,28 @@ import java.io.*;
 
 public class Main {
 	public static void main(String[] args) throws Exception{
-		String[] array;
+		int[] conj;
 		int val;
 		int mediana;
 		int tam;
 		Heap heap = new Heap();
-		//leo el archivo.
-		BufferedReader in = new BufferedReader( new InputStreamReader( System.in) );
-		  
-		String line;
-		while ( ( line = in.readLine() ) != null ) {
-			array = line.split(" ");
+
+		if (args.length < 1){
+            System.out.printf("Debe pasar el nombre del archivo de input como parámetro. Además puede pasar el flag --tiempos después del nombre de archivo, seguido de un número entero, para correr las mediciones de tiempos esa cantidad de veces\n");
+            System.out.printf("USO: java Main INPUT [--tiempos N]\n");
+        }
+
+		Lector lect = new Lector(args[0]);
+
+		while (!lect.archivo_termino()) {
+			conj = lect.LeerConjunto();
+			if (lect.archivo_termino()) {
+				return;
+			}
 			mediana = 0;
-			tam = array.length;
+			tam = conj.length;
 			for(int i = 0; i < tam; i++){
-				val = Integer.parseInt(array[i]);			
-				//System.out.printf("val: %d \n", val);
+				val = conj[i];
 				if(val >= mediana){
 					heap.insertMinHeap(val);
 				}else{
