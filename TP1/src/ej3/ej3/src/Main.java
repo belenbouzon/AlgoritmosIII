@@ -5,7 +5,8 @@ public class Main {
 	public static void main(String[] args) throws Exception{
 		Solucion sol = new Solucion();
 		//String s = "prueba.txt";
-		Lector lec = new Lector(args[0]);
+		//Lector lec = new Lector(args[0]);
+		Lector lec = new Lector("prueba.txt");
 		String st = lec.leer_palabra();
 		List<String> datos_de_entrada = new LinkedList<String>();
 		while(st!=null){

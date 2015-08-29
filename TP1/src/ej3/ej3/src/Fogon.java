@@ -1,18 +1,20 @@
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class Fogon {
-	Amistades amistades;
+	//Amistades amistades;
 	//private LinkedHashSet<Tuple <Character,Integer> > exploradoras_con_amigas;
 	//private LinkedHashSet<Tuple <Character,Integer> > backup;
-	private LinkedHashSet<Tuple <Character,Integer> > exploradoras_con_amigas;
-	private LinkedHashSet<Tuple <Character,Integer> > backup;
-	private int distancia_amistades_backup;
+	
+	private TreeMap<Character,Integer> exploradoras_con_amigas;
+	private LinkedHashMap<Integer,Character> exploradoras_por_posiciones;
 	private int distancia_amistades;
 	private int cantidad_exploradoras_actuales;
-	private int cantidad_exploradoras_actuales_backup;
 	private int cantidad_exploradoras_totales;
 	private int calcular_distancia(int ex1,int ex2,int n){
 		int res = ex2 - ex1;
@@ -21,30 +23,28 @@ public class Fogon {
 		}
 		return res % (n/2 + 1);
 	}
-	public Fogon(Amistades amigas, int cantidad_exploradoras){
-		this.amistades = amigas;
+	public Fogon(int cantidad_exploradoras){
+		//this.amistades = amigas;
 		this.cantidad_exploradoras_actuales = 0;
 		this.cantidad_exploradoras_totales = cantidad_exploradoras;
-		this.exploradoras_con_amigas = new LinkedHashSet<Tuple <Character,Integer> > ();
-		this.backup = new LinkedHashSet<Tuple <Character,Integer> > ();
+		this.exploradoras_con_amigas = new TreeMap<Character,Integer> ();
 	}
-	private int calcular_alteracion_distancias(Character exploradora,int posicion){
+	private int calcular_alteracion_distancias(Exploradora exploradora,int posicion){
 		int res = 0;
-		Iterator<Tuple<Character,Integer> > it = this.exploradoras_con_amigas.iterator();
+		Iterator<Character> it = exploradora.amigas_de();
 		while(it.hasNext()){
-			Tuple<Character,Integer> t = it.next();
-			if(this.amistades.es_amiga_de(exploradora, t.x)){
-				res += calcular_distancia(posicion,t.y,this.cantidad_exploradoras_totales);
+			char ex = it.next();
+			if(this.exploradoras_con_amigas.containsKey(ex)){
+				res += calcular_distancia(posicion,this.exploradoras_con_amigas.get(ex),this.cantidad_exploradoras_totales);
 			}
 		}
 		return res;
 	}
-	public void colocar_exploradora(char exploradora,int posicion){
+	public void colocar_exploradora(Exploradora exploradora,int posicion){
 		this.cantidad_exploradoras_actuales++;
-		if(exploradora!=-1){
+		if(exploradora.letra!=-1){
 			this.distancia_amistades += this.calcular_alteracion_distancias(exploradora, posicion);
-			Tuple<Character,Integer> tupla = new Tuple<Character,Integer> (exploradora,posicion);
-			this.exploradoras_con_amigas.add(tupla);
+			this.exploradoras_con_amigas.put(exploradora.letra,posicion);
 		}
 	}
 	public int distancias_actuales(){
@@ -54,30 +54,30 @@ public class Fogon {
 		return (this.cantidad_exploradoras_actuales==this.cantidad_exploradoras_totales);
 	}
 	public void crear_backup(){
-		this.backup.clear();
-		this.backup.addAll(this.exploradoras_con_amigas);
-		this.distancia_amistades_backup = this.distancia_amistades;
-		this.cantidad_exploradoras_actuales_backup = this.cantidad_exploradoras_actuales;
+		
 	}
 	public void recuperar_backup(){
-		this.exploradoras_con_amigas.clear();
-		this.exploradoras_con_amigas.addAll(this.backup);
-		this.distancia_amistades = this.distancia_amistades_backup;
-		this.cantidad_exploradoras_actuales = this.cantidad_exploradoras_actuales_backup;
+		
 	}
-	public void limpiar_posicion(int pos){
-		Iterator<Tuple<Character,Integer> > it = this.exploradoras_con_amigas.iterator();
-		while(it.hasNext()){
-			Tuple<Character,Integer> t = it.next();
-			if(t.y==pos){
-				this.cantidad_exploradoras_actuales -= 1;
-				this.distancia_amistades -= this.calcular_alteracion_distancias(t.x, t.y);
-				it.remove();
-				return;
+	public void quitar_exploradora(Exploradora exploradora){
+		this.cantidad_exploradoras_actuales--;
+		if((exploradora.letra)!=(char)-1){
+			//System.out.printf("letra: %c\n", exploradora.letra);
+			if(!this.exploradoras_con_amigas.containsKey(exploradora.letra)){
+				//System.out.printf("no contiene exploradora!!\n");
 			}
+			Integer posicion = this.exploradoras_con_amigas.get(exploradora.letra);
+			if(posicion==null){
+				System.out.printf("letra sin resultado: %c\n",exploradora.letra);
+			}
+			this.distancia_amistades -= this.calcular_alteracion_distancias(exploradora, posicion);
+			this.exploradoras_con_amigas.remove(exploradora.letra);
 		}
 	}
-	public LinkedHashSet<Tuple <Character,Integer> > devolver_ronda(){
+	public Map<Character,Integer> devolver_ronda(){
 		return this.exploradoras_con_amigas;
+	}
+	public void limpiar_posicion(int posicion){
+		
 	}
 };
