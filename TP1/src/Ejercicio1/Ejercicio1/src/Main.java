@@ -14,11 +14,10 @@ public class Main
             mideTiempos = true;
             ejecuciones = Integer.parseInt(args[2]);
         }
-                
         Lector lect = new Lector(args[0]);
         Escritor esc = new Escritor(args[0]);
         int caso = 1;
-
+        
         while (true)
         {   
             int longitudCable = lect.LeerLongitud();
@@ -26,10 +25,9 @@ public class Main
             
             if (lect.hasEnded){break;}
             
-            int n = ciudades.size();
             int res;
             int ciclos = ejecuciones;
-            esc.EscribirInt(caso);
+            //esc.EscribirInt(caso);
 
             while (ciclos > 0)
             {
@@ -41,7 +39,7 @@ public class Main
                     int indiceCiudadMasLejanaAlcanzada    = 0;  
                     int cantMaximaCiudadesUnidas          = 1;   
                     int ciudadesUnidas;
-                    
+
                     while(ramal.HayCiudadesMasLejanas() && !ramal.EsLaUltimaCiudad(indiceCiudadMasLejanaAlcanzada)) 
                     {
                         if (indiceCiudadMasLejanaAlcanzada > ramal.indiceCiudadActual)
@@ -71,6 +69,8 @@ public class Main
                 }
 
                 if (!mideTiempos){
+                    esc.EscribirInt(res);
+
                     System.out.printf("La máxima cantidad de estaciones unidas fue %d \n", res);
                 }
                 else
@@ -86,12 +86,13 @@ public class Main
         esc.Fin();
   }
 
-private static void MostrarIndicaciones(String[] args) {
+  private static void MostrarIndicaciones(String[] args) 
+  {
 	if (args.length < 1)
 	{
 	    System.out.printf("Debe pasar el nombre del archivo de input como parametro. Ademas puede pasar el flag --tiempos despues del nombre de archivo, seguido de un numero entero, para correr las mediciones de tiempos esa cantidad de veces\n");
 	    System.out.printf("USO: java Main INPUT [--tiempos N]\n");
 	}
-}
-
+  }
+  
 }

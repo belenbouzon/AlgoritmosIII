@@ -15,6 +15,19 @@ public class Lector {
 	private BufferedReader is;
 	public boolean hasEnded = false;
 	
+	public String GetLine()
+	{
+		try 
+		{
+			return is.readLine();
+		}
+		catch (IOException e) 
+		{ 
+			hasEnded = true;
+			return null;
+		}
+	}
+	
 	public ArrayList<Ciudad> LeerCiudades () throws IOException
 	{
 		ArrayList<Ciudad> ciudades = new ArrayList<Ciudad>();
