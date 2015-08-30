@@ -18,7 +18,8 @@ public class Main
         Lector lect = new Lector(args[0]);
         Escritor esc = new Escritor(args[0], ".out");
         if (mideTiempos){
-            esc.EscribirString("n,tiempo\n");
+            esc.EscribirString("n,tiempo");
+            esc.NuevaLinea();
         }
         int caso = 1;
         
