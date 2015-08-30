@@ -21,7 +21,13 @@ public class Escritor {
 	
 	public void EscribirInt(long l) throws Exception
 	{
-		try {this.os.write(Long.toString(l) + " ");}
+		try {this.os.write(Long.toString(l));}
+		catch (IOException e) {throw new Exception ("No se pudo escribir el valor");}
+	}
+	
+    public void EscribirString(String s) throws Exception
+	{
+		try {this.os.write(s);}
 		catch (IOException e) {throw new Exception ("No se pudo escribir el valor");}
 	}
 	

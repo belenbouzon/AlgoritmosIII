@@ -17,6 +17,10 @@ public class Main
         
         Lector lect = new Lector(args[0]);
         Escritor esc = new Escritor(args[0], ".out");
+        if (mideTiempos){
+            esc.EscribirString("n,tiempo\n");
+        }
+        int caso = 1;
         
         while (true)
         {   
@@ -74,11 +78,15 @@ public class Main
                 else
                 {
                     long time1= System.nanoTime();
+                    esc.EscribirInt(ciudades.size());
+                    esc.EscribirString(",");
                     esc.EscribirInt(time1-time0);
                     esc.NuevaLinea();
                 }
-            ciclos--;
+                ciclos--;
+                esc.NuevaLinea();
             }
+            caso++;
         }
         esc.Fin();
   }
