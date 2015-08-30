@@ -4,8 +4,8 @@ import numpy as np
 from scipy import interpolate
 
 
-eje_y = [0,0,0,0,0,0]
-eje_x = [0,0,0,0,0,0]
+eje_y = np.arange(int(sys.argv[2]))
+eje_x = np.arange(int(sys.argv[2]))
 i = 0
 with open(sys.argv[1],'r') as f:
 		for row in f.readlines():
