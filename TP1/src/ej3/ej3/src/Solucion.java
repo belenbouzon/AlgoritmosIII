@@ -29,7 +29,7 @@ public class Solucion {
 			return;
 		}else if(fogon.esta_completo() && (suma_distancias==-1 || suma_distancias > fogon.distancias_actuales())){
 			suma_distancias = fogon.distancias_actuales();
-			fogon.crear_backup();
+			this.mejor_distribucion_encontrada.clear();
 			this.mejor_distribucion_encontrada.putAll(fogon.devolver_ronda());
 			return;
 		}else if(fogon.esta_completo()){
