@@ -48,3 +48,6 @@ TP1/Informe/informe.out
 *.gz
 *.toc
 *.class
+*.backup
+.~lock.*.odt#
+*.out
