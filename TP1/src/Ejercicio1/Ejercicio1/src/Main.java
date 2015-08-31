@@ -14,8 +14,13 @@ public class Main
             mideTiempos = true;
             ejecuciones = Integer.parseInt(args[2]);
         }
+        
         Lector lect = new Lector(args[0]);
-        Escritor esc = new Escritor(args[0]);
+        Escritor esc = new Escritor(args[0], ".out");
+        if (mideTiempos){
+            esc.EscribirString("n,tiempo");
+            esc.NuevaLinea();
+        }
         int caso = 1;
         
         while (true)
@@ -27,7 +32,6 @@ public class Main
             
             int res;
             int ciclos = ejecuciones;
-            //esc.EscribirInt(caso);
 
             while (ciclos > 0)
             {
@@ -70,17 +74,18 @@ public class Main
 
                 if (!mideTiempos){
                     esc.EscribirInt(res);
-
-                    System.out.printf("La m·xima cantidad de estaciones unidas fue %d \n", res);
+                    System.out.printf("La m√°xima cantidad de estaciones unidas fue %d \n", res);
                 }
                 else
                 {
                     long time1= System.nanoTime();
+                    esc.EscribirInt(ciudades.size());
+                    esc.EscribirString(",");
                     esc.EscribirInt(time1-time0);
                 }
-            ciclos--;
+                ciclos--;
+                esc.NuevaLinea();
             }
-            esc.NuevaLinea();
             caso++;
         }
         esc.Fin();
