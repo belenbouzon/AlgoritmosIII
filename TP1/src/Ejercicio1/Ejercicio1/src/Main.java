@@ -74,7 +74,7 @@ public class Main
 
                 if (!mideTiempos){
                     esc.EscribirInt(res);
-                    System.out.printf("La m·xima cantidad de estaciones unidas fue %d \n", res);
+                    System.out.printf("La m√°xima cantidad de estaciones unidas fue %d \n", res);
                 }
                 else
                 {
