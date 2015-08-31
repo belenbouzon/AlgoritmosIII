@@ -7,6 +7,9 @@ public class Main {
 		int mediana;
 		int tam;
 		Heap heap = new Heap();
+		// Si no tiene el flag --tiempos, se ejecuta solo una vez.
+		int cantEjec = 1;
+		int j;
         long time0;
         long time1;
         Boolean mideTiempos = false;
@@ -16,6 +19,7 @@ public class Main {
         if (args.length > 1 && args[1].equalsIgnoreCase("--tiempos"))
         {
             mideTiempos = true;
+            cantEjec = Integer.parseInt(args[2]);
         }
 
 		Lector lect = new Lector(args[0]);
@@ -25,38 +29,45 @@ public class Main {
 		while (!lect.archivo_termino()) {
 			conj = lect.LeerConjunto();
 			if (lect.archivo_termino()) {
-				//esc.Fin();
-				//return;
 				break;
 			}
 			mediana = 0;
 			tam = conj.length;
-			time0= System.nanoTime();
-			for(int i = 0; i < tam; i++){
-				val = conj[i];
-				if(val >= mediana){
-					heap.insertMinHeap(val);
-				}else{
-					heap.insertMaxHeap(val);
-				}
-				
-				heap.balancearHeaps();
-				
-				mediana = heap.calcularMediana();
-				//imprimir solucion
-				if (!mideTiempos){
-                	esc.EscribirInt(mediana);
-	            }
-			}
+			//Para correr varias veces el algoritmo y testear performance.
+			j = 0;
+			while(j < cantEjec){
+				time0 = System.nanoTime();
 
-            if (!mideTiempos){
-                esc.NuevaLinea();
-            }else {
-                time1= System.nanoTime();
-                esc.EscribirLong(time1-time0);
-                esc.NuevaLinea();
-            }
-			heap.ClearHeap();
+				for(int i = 0; i < tam; i++){
+					val = conj[i];
+					if(val >= mediana){
+						heap.insertMinHeap(val);
+					}else{
+						heap.insertMaxHeap(val);
+					}
+					
+					heap.balancearHeaps();
+					
+					mediana = heap.calcularMediana();
+					//imprimir solucion
+					if(!mideTiempos){
+						esc.EscribirInt(mediana);
+					}
+				}
+
+				if(mideTiempos){
+					time1 = System.nanoTime();
+					//separo las instancias del problema.
+					if(j == 0){
+						esc.EscribirInt(j);
+						esc.NuevaLinea();
+					}
+					esc.EscribirLong(time1-time0);
+				}
+				esc.NuevaLinea();
+				heap.ClearHeap();
+				j++;
+	        }
 		}
         esc.Fin();
 	}
