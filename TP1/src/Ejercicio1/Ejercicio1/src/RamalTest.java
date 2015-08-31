@@ -175,4 +175,22 @@ public class RamalTest {
 		 return ciudadesSinRepetir;
 	}
 
+		public static ArrayList<Ciudad> GenerarCiudadesAleatorias(int cantEstaciones)
+		{
+			
+		    Random rand = new Random();
+		    int cant = cantEstaciones;
+		    List<Ciudad> ciudadesAleatorias = new ArrayList<Ciudad>();
+			ciudadesAleatorias.add(new Ciudad(0));
+			int anterior = 0;
+
+				for (int i = 0; i < cant; i++)
+				{
+					int km = rand.nextInt(100) + anterior;
+					ciudadesAleatorias.add(new Ciudad(km));
+					anterior = km;
+				}
+								
+				return (ArrayList<Ciudad>) ciudadesAleatorias;
+		}		
 }

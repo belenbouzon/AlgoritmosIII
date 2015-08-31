@@ -14,9 +14,9 @@ public class Main
             mideTiempos = true;
             ejecuciones = Integer.parseInt(args[2]);
         }
+        
         Lector lect = new Lector(args[0]);
-        Escritor esc = new Escritor(args[0]);
-        int caso = 1;
+        Escritor esc = new Escritor(args[0], ".out");
         
         while (true)
         {   
@@ -27,7 +27,6 @@ public class Main
             
             int res;
             int ciclos = ejecuciones;
-            //esc.EscribirInt(caso);
 
             while (ciclos > 0)
             {
@@ -70,18 +69,16 @@ public class Main
 
                 if (!mideTiempos){
                     esc.EscribirInt(res);
-
                     System.out.printf("La máxima cantidad de estaciones unidas fue %d \n", res);
                 }
                 else
                 {
                     long time1= System.nanoTime();
                     esc.EscribirInt(time1-time0);
+                    esc.NuevaLinea();
                 }
             ciclos--;
             }
-            esc.NuevaLinea();
-            caso++;
         }
         esc.Fin();
   }
