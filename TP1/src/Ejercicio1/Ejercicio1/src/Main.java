@@ -82,7 +82,6 @@ public class Main
                     esc.EscribirInt(ciudades.size());
                     esc.EscribirString(",");
                     esc.EscribirInt(time1-time0);
-                    esc.NuevaLinea();
                 }
                 ciclos--;
                 esc.NuevaLinea();
