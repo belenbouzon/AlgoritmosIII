@@ -17,12 +17,7 @@ public class Main
         
         Lector lect = new Lector(args[0]);
         Escritor esc = new Escritor(args[0], ".out");
-        if (mideTiempos){
-            esc.EscribirString("n,tiempo");
-            esc.NuevaLinea();
-        }
-        int caso = 1;
-        
+
         while (true)
         {   
             int longitudCable = lect.LeerLongitud();
@@ -74,19 +69,16 @@ public class Main
 
                 if (!mideTiempos){
                     esc.EscribirInt(res);
-                    System.out.printf("La máxima cantidad de estaciones unidas fue %d \n", res);
+                    System.out.printf("La maxima cantidad de estaciones unidas fue %d \n", res);
                 }
                 else
                 {
                     long time1= System.nanoTime();
-                    esc.EscribirInt(ciudades.size());
-                    esc.EscribirString(",");
                     esc.EscribirInt(time1-time0);
                 }
                 ciclos--;
                 esc.NuevaLinea();
             }
-            caso++;
         }
         esc.Fin();
   }

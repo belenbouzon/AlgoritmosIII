@@ -19,13 +19,13 @@ public class CaseGenerator1 {
 		sizes.add(1);
 
 		int n = 10;
-		int maximoTam = 1000;
+		int maximoTam = 2000;
 		
 		while (n < maximoTam)
 		{
 			GenerarCasosConCantidad(n);
 			sizes.add(n);
-			n += 20;
+			n += 10;
 		}	
 		
 		/*Para cada N recupero todos los resultados y obtengo los promedios sin outliers*/
@@ -45,7 +45,7 @@ public class CaseGenerator1 {
 			}
 			
 			/*Eliminamos outliers*/
-			for (int k = 0; k < 5; k++)
+			for (int k = 0; k < 20; k++)
 			{
 			int minIndex = mediciones.indexOf(Collections.min(mediciones));
 			mediciones.remove(minIndex);
@@ -58,7 +58,7 @@ public class CaseGenerator1 {
 			for (int j = 0; j < mediciones.size(); j++)
 				suma += mediciones.get(j);
 			
-			float promedio = suma/mediciones.size() // /sizes.get(i); Acordarse hacerlo para el 1 tmb
+			float promedio = suma/mediciones.size(); // /sizes.get(i); Acordarse hacerlo para el 1 tmb
 
 
 			String path = getClass().getResource( "" ).getPath();
@@ -67,8 +67,8 @@ public class CaseGenerator1 {
 		    if (archivo.exists())
 		    {
 			    FileWriter fw = new FileWriter(archivo, true);
-			    fw.append(Integer.toString(sizes.get(i)));
-			    fw.append(" ");
+			    /*fw.append(Integer.toString(sizes.get(i)));
+			    fw.append(" ");*/
 			    fw.append(Float.toString(promedio));
 			    fw.append("\n");
 			    fw.close();
@@ -76,8 +76,8 @@ public class CaseGenerator1 {
 		    else
 		    {
 		    	Escritor escritor = new Escritor("resultados.out");
-			    escritor.EscribirLinea(Integer.toString(sizes.get(i)));
-			    escritor.EscribirLinea(" ");
+			    /*escritor.EscribirLinea(Integer.toString(sizes.get(i)));
+			    escritor.EscribirLinea(" ");*/
 			    escritor.EscribirLinea(Float.toString(promedio));
 			    escritor.NuevaLinea();
 			    escritor.Fin();
@@ -106,7 +106,7 @@ public class CaseGenerator1 {
 		    	fw.append("\n");
 		    	fw.close();
 		    }
-		    else
+		   /* else
 		    {
 				Escritor escritor = new Escritor("prueba"); 
 
@@ -120,13 +120,13 @@ public class CaseGenerator1 {
 				escritor.Fin();
 
 		    }
-
-			for (int i = 0; i < 100; i++)
+*/
+			for (int i = 0; i < 2; i++)
 			{
 				String parametros [] = new String [3];
 				parametros[0] = nombreArchivo;
 				parametros[1] = "--tiempos";
-				parametros[2] = "100";
+				parametros[2] = "350";
 				Main.main(parametros);
 			}
 			

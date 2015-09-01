@@ -7,7 +7,7 @@ public class Escritor {
 	public Escritor(String archiveIn) throws Exception 
 	{
 	     try{ this.os = new BufferedWriter( new FileWriter( getClass().getResource( "" ).getPath() + archiveIn) );}
-		catch (RuntimeException e) {throw new Exception ("Error al escribir el archivo");}
+	     catch (RuntimeException e) {throw new Exception ("Error al escribir el archivo");}
 	}
 	
 	public Escritor(String archiveIn, String extension) throws Exception 
