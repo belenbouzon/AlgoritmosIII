@@ -37,10 +37,6 @@ public class Fogon {
 			char ex = it.next();
 			if(this.exploradoras_con_amigas.containsKey(ex)){
 				res += calcular_distancia(posicion,this.exploradoras_con_amigas.get(ex),this.cantidad_exploradoras_totales);
-				//System.out.printf("relacion aceptada: %c, %c\n", exploradora.letra,ex);
-			}else{
-				//System.out.printf("problema!!!!!!!!!!!!!!");
-				//System.out.printf("relacion rechazada: %c, %c\n", exploradora.letra,ex);
 			}
 		}
 		return res;

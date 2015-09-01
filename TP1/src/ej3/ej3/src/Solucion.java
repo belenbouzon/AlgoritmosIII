@@ -164,7 +164,7 @@ public class Solucion {
 		}
 		Iterator<Character> sin_amigas = this.exploradoras_sin_amigas.iterator();
 		for(int j = 0;j<tamanio_de_fogon;j++){
-			if(lista_resultado.get(j)==null){
+			if(lista_resultado.get(j)==(char)-1){
 				if(sin_amigas.hasNext()){
 					lista_resultado.set(j,sin_amigas.next());
 				}
