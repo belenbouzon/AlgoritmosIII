@@ -1,18 +1,8 @@
-import java.util.List;
-import java.util.LinkedList;
-
 public class Main {
 	public static void main(String[] args) throws Exception{
 		Solucion sol = new Solucion();
-		//String s = "prueba.txt";
-		//Lector lec = new Lector(args[0]);
-		Lector lec = new Lector("prueba.txt");
-		String st = lec.leer_palabra();
-		List<String> datos_de_entrada = new LinkedList<String>();
-		while(st!=null){
-			datos_de_entrada.add(st);
-			st = lec.leer_palabra();
-		}
-		sol.generar_solucion(datos_de_entrada);
+		Lector lec = new Lector(args[0]);
+		//Lector lec = new Lector("../bin/Tp1Ej3_3.in");
+		sol.generar_solucion(lec.leer_palabra());
 	}
 }

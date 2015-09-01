@@ -1,11 +1,12 @@
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.TreeSet;
 
 
 public class Exploradora {
 	public char letra;
-	private TreeSet<Character> amistades;
+	public TreeSet<Character> amistades;
 	public Exploradora(char l,TreeSet<Character> am){
 		this.letra = l;
 		this.amistades = am;
@@ -22,5 +23,11 @@ public class Exploradora {
 	}
 	public Iterator<Character> amigas_de(){
 		return this.amistades.iterator();
+	}
+	public void aniadir_amiga(char nueva_amiga){
+		this.amistades.add(nueva_amiga);
+	}
+	public void aniadir_grupo_de_amigas(Set<Character> nuevas_amigas){
+		this.amistades.addAll(nuevas_amigas);
 	}
 }
