@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -8,7 +10,8 @@ public class Lector {
 	
 	public Lector(String archive) throws Exception 
 	{
-		try { this.is = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archive)));}
+		InputStream pathCompleto = new FileInputStream( getClass().getResource( "" ).getPath() + archive);
+		try { this.is = new BufferedReader( new InputStreamReader( pathCompleto));}
 		catch (RuntimeException e) {throw new Exception ("No pudo hallarse el archivo especificado.");}
 	}
 	
