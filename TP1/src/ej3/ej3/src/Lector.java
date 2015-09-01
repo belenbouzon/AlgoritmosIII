@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 
 public class Lector {
@@ -13,12 +12,8 @@ public class Lector {
 	}
 	
 	private BufferedReader is;
-	private boolean hasEnded = false;
 
 	
-	public boolean archivo_termino(){
-		return hasEnded;
-	}
 	public String leer_palabra() throws IOException{
 		String st = this.is.readLine();
 		return st;
