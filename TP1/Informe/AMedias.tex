@@ -6,7 +6,7 @@ Suponiendo que tengo el siguiente conjunto $\{2,8,5,3,10\}$, tomamos los subconj
 \begin{center}
 	$\{2\}$ $\{2,8\}$ $\{2,8,5\}$ $\{2,8,5,3\}$ $\{2,8,5,3,10\}$
 \end{center}
-Luego- entendiendo la mediana como el valor de la variable de posición central en un conjunto de datos ordenados - la calculamos para cada uno de esos subconjuntos, teniendo en cuenta que a los fines prácticos no necesitamos tener todos nuestros números ordenados, si no que nos alcanza con saber cuáles se encontrarían en las posiciones centrales para cada instancia del problema, si estuvieran ordenados. De esta manera, con el algoritmo que analizaremos a continuación, podemos obtener el siguiente conjunto de medianas $\{2,5,8,6,5\}$ que es solución al problema y que cumple que el $i$-ésimo, con $i = \{0 $..$ 4\}$, representa la parte entera de la mediana de los primeros $i$ números de la entrada. 
+Luego- entendiendo la mediana como el valor en la posición central o el promedio entre los dos valores en las posiciones centrales (en el caso que la cantidad de elementos sea par) de un conjunto de datos ordenados - la calculamos para cada uno de esos subconjuntos, teniendo en cuenta que a los fines prácticos no necesitamos tener todos nuestros números ordenados, si no que nos alcanza con saber cuáles se encontrarían en las posiciones centrales para cada instancia del problema, si estuvieran ordenados. De esta manera, con el algoritmo que analizaremos a continuación, podemos obtener el siguiente conjunto de medianas $\{2,5,8,6,5\}$ que es solución al problema y que cumple que el $i$-ésimo, con $i = \{0 $..$ 4\}$, representa la parte entera de la mediana de los primeros $i$ números de la entrada. 
 
 \subsection{Resolución propuesta y justificación}
 
@@ -43,8 +43,13 @@ Los heaps se encargan de mantener ordenadas las dos mitades del conjunto, pero c
 
 Luego calcular la mediana simplemente implica decidir si el subconjunto actual tiene cantidad par o impar de elementos y en función de eso, calcular el promedio de las dos cabezas o tomar la cabeza del heap mas grande.
 \subsection{Análisis de la complejidad}
-
+% NO ESTÁ TERMINADO!
+Complejidad $\mathcal{O}(n\log{}n)$ por priority queue \footnote{http://docs.oracle.com/javase/7/docs/api/java/util/PriorityQueue.html}
 \subsection{Código fuente}
+\lstinputlisting[name=AMedias, numbers=left, frame=lines, firstline=30, lastline=47]{../src/ej2/src/Main.java}
+\lstinputlisting[name=Heaps, numbers=left, frame=lines, firstline=7, lastline=18]{../src/ej2/src/Heap.java}
+\lstinputlisting[name=AMedias, numbers=left, frame=lines, firstline=20, lastline=38]{../src/ej2/src/Heap.java}
+\lstinputlisting[name=AMedias, numbers=left, frame=lines, firstline=40, lastline=52]{../src/ej2/src/Heap.java}
 
 \subsection{Experimentación}
 

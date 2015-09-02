@@ -20,8 +20,28 @@
 %\usepackage{sectsty}
 %\usepackage{charter}
 %\usepackage{wrapfig}
-%\usepackage{listings}
-%\lstset{language=C}
+\usepackage{listings}
+\usepackage[svgnames, table, usenames, dvipsnames]{xcolor}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{gray}{0.25}
+\definecolor{myblue}{rgb}{0.2,0.2,0.6}
+
+%Estilos para el c\'odigo fuente
+\lstset{
+	basicstyle=\ttfamily\scriptsize,
+	breaklines=true,
+	captionpos=b,
+	commentstyle=\color{mygreen},
+	escapechar=@,
+	extendedchars=true,
+	identifierstyle=\color{myblue},
+	language=java,
+	numbers=left,
+	numberstyle=\tiny\color{mygray},
+	stringstyle=\color{orange},	
+	tabsize=3
+}
 
 
 \input{codesnippet}
