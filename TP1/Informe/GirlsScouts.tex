@@ -32,19 +32,34 @@ Si las sentamos así:
 
 vamos a estar obteniendo una solución óptima, ya que la suma total de distancias es 3 (contando a cada amistad una sola vez) y la distancia máxima es 1.
 
-El algoritmo a implementar debe hallar, utilizando backtracking, la permutación en donde la separación entre las niñas que son amigas sea mínima. La técnica algorítmica para resolver el problema puede reducirse a una decisión simple en cada paso: para cada posicion, determinar a qué niña colocar. La mecánica del backtracking busca detectar las instancias en donde los resultados serán peores que el mejor caso registrado, independientemente de las decisiones que se tomen adelante en esa misma rama; de esta forma, se evita el computo de permutaciones que no resultarán óptimas.
+El formato de salida para cada grupo de exploradoras es una línea de texto donde se debe indicar la distancia máxima obtenida, seguida de un espacio y una cadena de letras que indica la forma en que fueron sentadas las exploradoras. En caso de haber obtenido más de una solución, se debe devolver la primera en órden alfabético. Para el último ejemplo, la forma de codificar sería así:
+
+\texttt{1 ACDEB}
+
+Nótese que es equivalente a esta otra: \texttt{1 CDEBA}, ya que la única diferencia es por cuál exploradora empezamos a describir la ronda.
+
+%El algoritmo a implementar debe hallar, utilizando backtracking, la permutación en donde la separación entre las niñas que son amigas sea mínima. La técnica algorítmica para resolver el problema puede reducirse a una decisión simple en cada paso: para cada posicion, determinar a qué niña colocar. La mecánica del backtracking busca detectar las instancias en donde los resultados serán peores que el mejor caso registrado, independientemente de las decisiones que se tomen adelante en esa misma rama; de esta forma, se evita el computo de permutaciones que no resultarán óptimas.
 
 
-\subsection{Resoluci\'on propuesta y justificaci\'on}
+\subsection{Algoritmo desarrollado}
+
+Desarrollamos un algoritmo que utiliza la técnica de \textit{backtracking}. 
 La mecánica del algoritmo recursivo consiste en encontrar la mejor permutación posible desde determinada posición (dejando fijos los i primeros elementos).
 Para esto, el algoritmo fija un valor en la posición i-esima y se llama recursivamente. Al volver de la recursion, se cambia el valor en la posición i-esima y se vuelve a llamar a la recursion, hasta que se hayan probado todos los valores posibles.
 Cuando se detecta una instancia mejor a la anterior, se guarda una copia de la misma, y se recupera posteriormente si no se ha detectado un mejor caso.
-\subsection{An\'alisis de la complejidad}
+
+\subsection{Justificación de correctitud}
+
+\subsection{Análisis de la complejidad temporal}
 La cantidad de posibles permutaciones para una ronda es de '(e-1)!'; en el peor escenario posible, los datos de entradas tienen un orden tal que el algoritmo encuentre una mejor situación en cada iteración, por lo cual tendrá que recorrer las '(e-1)!' permutaciones. 
 
 En cada colocación de una exploradora, se deberá calcular que distancia existe entre ella y sus amigas, lo cual en un peor caso tiene un costo de O(a ln a)
 Entonces, en el peor caso, la complejidad del algoritmo pertenece a $O( (e-1)! e a ln a), == O( (e)! a ln a)$,   lo cual es menor que $O(ee a lna) (e! < e^e)$, menor a  $O(ee a2) (a ln a < a^2)$
-\subsection{C\'odigo fuente}
-\subsection{Experimentaci\'on}
 
-\subsubsection{Constrastaci\'on Emp\'irica de la complejidad}\label{tiempos}
+\subsection{Tests de correctitud}
+
+\subsection{Experimentación para observar la performance real}
+
+\subsubsection{Peor caso}
+
+\subsubsection{Caso promedio}
