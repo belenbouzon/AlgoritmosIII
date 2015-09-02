@@ -30,23 +30,23 @@ public class Fogon {
 		this.exploradoras_con_amigas = new TreeMap<Character,Integer> ();
 		this.nivel_de_desorden_alfabetico = 0;
 	}
-	private int calcular_alteracion_distancias(Exploradora exploradora,int posicion){
+	private int calcular_alteracion_distancias(Exploradora exploradora,int posicion){ //O(a ln a)
 		int res = 0;
 		Iterator<Character> it = exploradora.amigas_de();
-		while(it.hasNext()){
+		while(it.hasNext()){ //Se realizan a iteraciones por (1). El ciclo tarda O(a ln a) en concretarse
 			char ex = it.next();
-			if(this.exploradoras_con_amigas.containsKey(ex)){
-				res += calcular_distancia(posicion,this.exploradoras_con_amigas.get(ex),this.cantidad_exploradoras_totales);
+			if(this.exploradoras_con_amigas.containsKey(ex)){ //O(a ln a) (1)
+				res += calcular_distancia(posicion,this.exploradoras_con_amigas.get(ex),this.cantidad_exploradoras_totales); //O(ln a) (1)(2)
 			}
 		}
 		return res;
 	}
-	public void colocar_exploradora(Exploradora exploradora,int posicion){
+	public void colocar_exploradora(Exploradora exploradora,int posicion){ //O(a ln a)
 		this.cantidad_exploradoras_actuales++;
 		if(exploradora.letra!=-1){
-			this.distancia_amistades += this.calcular_alteracion_distancias(exploradora, posicion);
+			this.distancia_amistades += this.calcular_alteracion_distancias(exploradora, posicion); //O(a ln a)
 			this.nivel_de_desorden_alfabetico += posicion * (int)exploradora.letra;
-			this.exploradoras_con_amigas.put(exploradora.letra,posicion);
+			this.exploradoras_con_amigas.put(exploradora.letra,posicion); //O(ln a) (1)(3)
 		}
 	}
 	public int distancias_actuales(){
@@ -61,22 +61,13 @@ public class Fogon {
 	public void recuperar_backup(){
 		
 	}
-	public void quitar_exploradora(Exploradora exploradora){
+	public void quitar_exploradora(Exploradora exploradora){ //O(a ln a)
 		this.cantidad_exploradoras_actuales--;
 		if((exploradora.letra)!=(char)-1){
-			//System.out.printf("letra: %c\n", exploradora.letra);
-			if(!this.exploradoras_con_amigas.containsKey(exploradora.letra)){
-				//System.out.printf("no contiene exploradora!!\n");
-			}
-			Integer posicion = this.exploradoras_con_amigas.get(exploradora.letra);
-			if(posicion==null){
-				System.out.printf("letra sin resultado: %c\n",exploradora.letra);
-			}
+			Integer posicion = this.exploradoras_con_amigas.get(exploradora.letra); //O(ln a) (1)(3)
 			this.nivel_de_desorden_alfabetico -= posicion * (int)exploradora.letra;
-			this.distancia_amistades -= this.calcular_alteracion_distancias(exploradora, posicion);
+			this.distancia_amistades -= this.calcular_alteracion_distancias(exploradora, posicion);//O(a ln a)
 			this.exploradoras_con_amigas.remove(exploradora.letra);
-			//this.exploradoras.remove(exploradora);
-			//System.out.printf("quite exploradora: %c\n",exploradora.letra);
 		}
 	}
 	public Map<Character,Integer> devolver_ronda(){
@@ -88,17 +79,12 @@ public class Fogon {
 	public int dame_desorden_alfabetico(){
 		return this.nivel_de_desorden_alfabetico;
 	}
-	public int calcular_distancia_maxima(Exploradora exploradora){
+	public int calcular_distancia_maxima(Exploradora exploradora){//O(ln a)
 		Iterator<Character> it = exploradora.amigas_de();
 		int res = 0;
 		while(it.hasNext()){
 			char exploradora_actual = it.next();
-			System.out.print(this.exploradoras_con_amigas.descendingKeySet());
-			if(!this.exploradoras_con_amigas.containsKey(exploradora.letra)){
-				System.out.printf("exploradora fallida: %c\n", exploradora.letra);
-				return 0;
-			}
-			int distancia = calcular_distancia(this.exploradoras_con_amigas.get(exploradora.letra),this.exploradoras_con_amigas.get(exploradora_actual),this.cantidad_exploradoras_totales);
+			int distancia = calcular_distancia(this.exploradoras_con_amigas.get(exploradora.letra),this.exploradoras_con_amigas.get(exploradora_actual),this.cantidad_exploradoras_totales); //O(ln a)
 			if(distancia > res){
 				res = distancia;
 			}
@@ -106,3 +92,6 @@ public class Fogon {
 		return res;
 	}
 };
+//(1) O(ln a) la busqueda e inserción en un TreeMap es logaritmica
+// (2) el conjunto de amigas de una exploradora a lo sumo contiene a elementos
+//(3) el conjunto de exploradoras con amigas a lo sumo contiene a elementos
