@@ -106,21 +106,7 @@ public class CaseGenerator1 {
 		    	fw.append("\n");
 		    	fw.close();
 		    }
-		   /* else
-		    {
-				Escritor escritor = new Escritor("prueba"); 
 
-				escritor.EscribirInt(longitud);
-				escritor.NuevaLinea();
-				for (int j = 0; j < ciudades.size() -1; j++)
-				{
-					escritor.EscribirInt(ciudades.get(j).GetKilometro());
-				}
-				escritor.NuevaLinea();
-				escritor.Fin();
-
-		    }
-*/
 			for (int i = 0; i < 2; i++)
 			{
 				String parametros [] = new String [3];

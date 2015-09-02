@@ -26,55 +26,175 @@ Un algoritmo planteado a partir de esta idea, partiría de la estación Nro. 0 p
  
 Dicho esto, la propuesta de resolución escogida versa sobre la idea de utilizar información relevada en estaciones anteriores para aminorar la cantidad de cómputos, como se esboza en el siguiente pseudocódigo:
 
-\textcolor{blue}{ME PARECE Q ESTOY SEPARANDO DEL CICLO ALGO Q VA ADENTRO =p}
-\begin{algorithmic}
 
-  \IF{Existe alguna estación en el ramal}
-    \STATE tomar la primera estación
-    \STATE fijarse hasta cuál se puede llegar sin cortar el cable y guardar la estación más lejana alcanzada
-    \WHILE{Hay más estaciones}
-	\STATE Calcular la distancia entre la estación actual y la más lejana alcanzada
-	\IF{La actual no es la última y tampoco lo es la más lejana alcanzada}
-		 \STATE Fijarse si alcanza el cable para unir estaciones posteriores a la más lejana conectada hasta el momento, incrementando el contador de estaciones unidas.
+\begin{algorithmic} 
+	
+\IF{Existe alguna estación en el ramal y la longitud del cable es positiva}
+	\WHILE{La estación a partir de la cuál estoy midiendo no es la última y tapoco lo es la más lejana alcanzada por dicha estación}
+		\STATE Calcular la cantidad de ciudades para las cuales se sabe que alcanza el cable
+		\WHILE{Alcanza el cable para unir otra estación}
+			\STATE Incrementar la cantidad de estaciones que pudieron unirse
+			\STATE Guardar cuál fue la estación más lejana alcanzada hasta el momento a partir de la que se mide
+		\ENDWHILE
+		\STATE Avanzar ciudad a partir de la cuál se mide
+		\STATE Actualizar la máxima cantidad de ciudades unidas hasta el momento.
+	\ENDWHILE
+	\IF {Se lograron conectar dos o más ciudades}
+		\STATE Devolver la maxima cantidad de estaciones que se consiguió unir.
+	\ELSE
+		\STATE Devolver 0
 	\ENDIF
-	\IF { la cantidad de estaciones unidas es mayor al valor máximo alcanzado hasta el momento}
-		\STATE actualizar dicho valor
-	\ENDIF
-   \ENDWHILE
-   \STATE Devolver la maxima cantidad de estaciones que se consiguió unir.
-  \ELSE
-    \STATE Devolver 0
-  \ENDIF
+\ENDIF
 \end{algorithmic}
 
-Este procedimiento resolve adecuadamente el problema propuesto porque calcula para cada ciudad inicial la máxima cantidad de ciudades que pueden ser recorridas y lo realiza con una cota de complejidad de O(n).\\
+Este procedimiento resuelve adecuadamente el problema propuesto porque calcula para cada ciudad inicial la máxima cantidad de ciudades que pueden ser recorridas y lo realiza con una cota de complejidad de O(n), como se detallará en el próximo apartado.\\
+Además, como se afirma que un programa es correcto si resuelve lo pedido en una cantidad finita de pasos y sabiendo que para cualquier entrada de tama\~no N el algoritmo termina a lo sumo en $m*N$ interaciones del loop principal \footnote{Nótese que el bucle principal llega a su fin cuando se alcanza como ciudad base a la última estación de un ramal de N estaciones que se recorre linealmente}, podemos afirmar que nuestra solución es correcta respecto del problema presentado.\\
 
-
-%
-%Fijarse si el ramal tiene alguna estacion
-%Si tiene:
-%	Tomar primera estación
-%	Fijarse hasta cuál puede unirse con la longitud del cable dada.
-%
-%	Mientras haya más estaciones
-%		Calcular la distancia entre la estación actual y la más lejana alcanzada
-%		Si la actual no es la última & la más lejana alcanzada no es la última
-%			Fijarse si alcanza el cable para unir estaciones posteriores a la más lejana conectada hasta el momento
-%			incrementando el contador de estaciones unidas.
-%		Si la cantidad de estaciones unidas es mayor al valor máximo alcanzado hasta el momento, actualizar dicho 		valor.
-%
-%	Devolver la maxima cantidad de estaciones que se consiguió unir.
-%
-%Si no tiene
-%	Devolver 0
-
-
+\newpage
 \subsection{An\'alisis de la complejidad}
 
+
+Sea N la cantidad total de estaciones \\
+
+Entonces se afirma que en el peor caso cada estación va a ser estación basal en alguna instanciación del ciclo. En otras palabras, el ciclo se repetirá a lo sumo N veces.\\
+Dada una instanciación del ciclo en la estación i-ésima ($i != 0$), existen dos posibilidades:
+\begin{itemize}
+\item	La estación $i-1$ llegó a conectar a la i-ésima y a $k$ estaciones posteriores a ella.
+\item	El cable no fue lo suficientemente largo para lograrlo
+\end{itemize}
+
+Si nos encontráramos en el segundo caso, el algoritmo partiría de la ciudad i-ésima recorriendo a lo sumo $N-i-1$ estaciones posteriores para analizar hasta cuál es capaz de unir.\\
+Si el caso fuese el primero, entonces la ciudad posterior ($i$) contrastará la longitud del cable y las distancias entre kilometros para - a lo sumo - N-i-1-k estaciones (en lugar de hacerlo para N-i-1, como hubiese debido hacerlo bajo otras circunstancias).\\
+
+Esto implica que para cada estación $i$, podrían llegar a realizarse a lo sumo N-i-1 comparaciones pero todas aquellas que se efectúen serán descontadas de la cantidad de cálculos que potencialmente haría la ciudad siguiente, forzando a que cada estación sea consultada acerca de su proximidad una sola vez y permitiendo de esta manera que la ejecución del algoritmo se complete en tiempo lineal respecto del tamaño del input.\\ 
+
+ \newpage
 \subsection{C\'odigo fuente}
 
+A continuación se presenta la parte más relevante del código fuente, seleccionada en función de la relación con la resolución del problema, dejando de lado aspectos necesarios pero secundarios, como ser el manejo de la lectura del input, la escritura del output, 
+la medición de los tiempos, etc.
+
+\begin{verbatim}
+
+public class Main 
+{
+  public static void main(String[] args) throws Exception 
+  {
+ 
+	if (longitudCable != 0 && ciudades.size() > 1)
+	{
+	    Ramal ramal = new Ramal(ciudades);
+	    int indiceCiudadMasLejanaAlcanzada    = 0;  
+	    int cantMaximaCiudadesUnidas          = 1;   
+	    int ciudadesUnidas;
+
+	    while(ramal.HayCiudadesMasLejanas() &&
+		 !ramal.EsLaUltimaCiudad(indiceCiudadMasLejanaAlcanzada)) 
+	    {
+	        if (indiceCiudadMasLejanaAlcanzada > ramal.indiceCiudadActual)
+	            ciudadesUnidas =  indiceCiudadMasLejanaAlcanzada -
+					 ramal.indiceCiudadActual + 1;
+	        else
+	            ciudadesUnidas = 1;                 
+
+	        while(ramal.AlcanzaParaUnirUnaCiudadMas(ciudadesUnidas, longitudCable)) 
+	        {
+	            ciudadesUnidas ++;
+	            indiceCiudadMasLejanaAlcanzada ++;
+	        }
+	                                
+	        ramal.AvanzarCiudadBase();
+	        
+	        if (ciudadesUnidas > cantMaximaCiudadesUnidas)
+	            cantMaximaCiudadesUnidas = ciudadesUnidas;
+	        
+	    }
+	      
+	    res = cantMaximaCiudadesUnidas == 1? 0: cantMaximaCiudadesUnidas;
+
+	}
+	else
+	{
+	    res = 0;
+	}
+  } 
+}
+
+\end{verbatim}
+
+\newpage
+\begin{verbatim}
+
+public class Ramal {
+	
+    public Ramal(){}
+
+	public ArrayList<Ciudad> ciudades;
+
+	public Ramal (ArrayList<Ciudad> ciudades)
+	{
+		this.ciudades = ciudades;
+		this.indiceCiudadActual = 0;
+	}
+	
+	public int indiceCiudadActual;
+	
+	public boolean AlcanzaParaUnirUnaCiudadMas(int ciudadesUnidas, int longitudDeCable) 
+	{
+		return !EsLaUltimaCiudad(indiceCiudadActual) &&
+		!EsLaUltimaCiudad(indiceCiudadActual + ciudadesUnidas - 1) &&
+		DistanciaEntreCiudades(indiceCiudadActual, indiceCiudadActual + ciudadesUnidas) 
+											<= longitudDeCable; 
+	}
+	
+	public void AvanzarCiudadBase()
+	{
+		if (!EsLaUltimaCiudad(indiceCiudadActual))
+			indiceCiudadActual++;
+	}
+	
+	public boolean HayCiudadesMasLejanas()
+	{
+		return (indiceCiudadActual < ciudades.size() - 1);
+	}
+	
+	public int DistanciaEntreCiudades(int indiceCiudadA, int indiceCiudadB)
+	{
+		return this.ciudades.get(indiceCiudadB).GetKilometro() -
+			 this.ciudades.get(indiceCiudadA).GetKilometro();
+	}
+
+	public boolean EsLaUltimaCiudad(int indiceCiudad) 
+	{
+		return indiceCiudad == this.ciudades.size() - 1;
+	}
+}
+
+\end{verbatim}
+\newpage
 \subsection{Experimentaci\'on}
 
-\subsubsection{Constrastaci\'on Emp\'irica de la complejidad}\label{tiempos}
+Para contrastar nuestra hipótesis acerca de la complejidad temporal lineal del algoritmo propuesto, diseñamos una clase denominada ClassGenerator1 encargada de generar ramales pseudoaleatorios con una cantidad de estaciones secuencialmente creciente.\\ 
+La misma clase ejecuta sobre cada instancia una cantidad paramétrica de veces \footnote{350 veces, en este caso} el algoritmo que resuelve el problema propuesto. Por cada iteración sobre una misma instancia se guardan los tiempos medidos y al finalizar todas las ejecuciones sobre cada una de las instancias, se almacena en un archivo denominado "resultados.out" el procesamiento de los datos relevados, de manera tal que persista para cada caso el promedio de los tiempos calculados sin considerar los outliers.\\
+De esta forma procuramos estandarizar en la medida de lo posible los resultados, de manera que no resulten considerablemente afectados por limitaciones del hardware y del software empleado durante el análisis. \\
+ \newpage
 
+\subsubsection{Constrastaci\'on Emp\'irica de la complejidad}
+
+  \begin{figure}[h!]
+   \begin{center}
+ 	\includegraphics[scale=0.8]{imagenes/ej1/relativas.png}
+	\label{estaciones}
+   \end{center}
+ \end{figure}
+
+  \begin{figure}[h!]
+   \begin{center}
+ 	\includegraphics[scale=0.8]{imagenes/ej1/absolutas.png}
+	\label{estaciones}
+   \end{center}
+ \end{figure}
+
+
+\newpage
 
