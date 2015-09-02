@@ -56,18 +56,19 @@ Además, como se afirma que un programa es correcto si resuelve lo pedido en una
 Sea N la cantidad total de estaciones \\
 
 Entonces se afirma que en el peor caso cada estación va a ser estación basal en alguna instanciación del ciclo. En otras palabras, el ciclo se repetirá a lo sumo N veces.\\
+
 Dada una instanciación del ciclo en la estación i-ésima ($i != 0$), existen dos posibilidades:
 \begin{itemize}
 \item	La estación $i-1$ llegó a conectar a la i-ésima y a $k$ estaciones posteriores a ella.
 \item	El cable no fue lo suficientemente largo para lograrlo.
 \end{itemize}
 
-Si nos encontráramos en el segundo caso, el algoritmo partiría de la ciudad i-ésima recorriendo a lo sumo $N-i-1$ estaciones posteriores para analizar hasta cuál es capaz de unir.\\
-Si el caso fuese el primero, entonces la ciudad posterior ($i$) contrastará la longitud del cable y las distancias entre kilometros para - a lo sumo - N-i-1-k estaciones (en lugar de hacerlo para N-i-1, como hubiese debido hacerlo bajo otras circunstancias).\\
+Si nos encontráramos en el segundo caso, el algoritmo partiría de la ciudad i-ésima recorriendo a lo sumo $N-i-1$ estaciones posteriores para analizar hasta cuál es la más lejana alcanzable.\\
+Si el caso fuese el primero, entonces la ciudad posterior ($i$) contrastará la longitud del cable y las distancias entre kilometros para - a lo sumo - N-i-1-k estaciones (en lugar de hacerlo para N-i-1, como hubiese debido hacerlo bajo otra implementación).\\
 
-Esto implica que para cada estación $i$, podrían llegar a realizarse a lo sumo N-i-1 comparaciones pero todas aquellas que se efectúen serán descontadas de la cantidad de cálculos que potencialmente haría la ciudad siguiente, forzando a que cada estación sea consultada acerca de su proximidad una sola vez y permitiendo de esta manera que la ejecución del algoritmo se complete en tiempo lineal respecto del tamaño del input.\\ 
+Esto implica que para cada estación $i$, podrían llegar a realizarse a lo sumo N-i-1 comparaciones pero todas aquellas que se efectúen serán descontadas de la cantidad de cálculos que potencialmente haría la ciudad siguiente, forzando a que cada estación sea consultada acerca de su proximidad una única vez y permitiendo de esta manera que la ejecución del algoritmo se complete en tiempo lineal respecto del tamaño del input.\\ 
 
- \newpage
+\newpage
 \subsection{C\'odigo fuente}
 
 A continuación se presenta la parte más relevante del código fuente, seleccionada en función de la relación con la resolución del problema, dejando de lado aspectos necesarios pero secundarios, como ser el manejo de la lectura del input, la escritura del output, 
@@ -173,28 +174,40 @@ public class Ramal {
 \newpage
 \subsection{Experimentaci\'on}
 
-Para contrastar nuestra hipótesis acerca de la complejidad temporal lineal del algoritmo propuesto, diseñamos una clase denominada ClassGenerator1 encargada de generar ramales pseudoaleatorios con una cantidad de estaciones secuencialmente creciente.\\ 
-La misma clase ejecuta sobre cada instancia una cantidad paramétrica de veces \footnote{350 veces, en este caso} el algoritmo que resuelve el problema propuesto. Por cada iteración sobre una misma instancia se guardan los tiempos medidos y al finalizar todas las ejecuciones sobre cada una de las instancias, se almacena en un archivo denominado "resultados.out" el procesamiento de los datos relevados, de manera tal que persista para cada caso el promedio de los tiempos calculados sin considerar los outliers.\\
+Para contrastar nuestra hipótesis acerca de la complejidad temporal - lineal - del algoritmo propuesto, diseñamos una clase denominada ClassGenerator1 encargada de generar ramales pseudoaleatorios con una cantidad de estaciones secuencialmente creciente.\\ 
+La misma clase ejecuta sobre cada instancia una cantidad paramétrica de veces \footnote{350 veces, para el presente trabajo} el algoritmo que resuelve el problema propuesto. Por cada iteración sobre una misma instancia se guardan los tiempos medidos y al finalizar todas las ejecuciones sobre cada una de las instancias, se almacena en un archivo denominado "resultados.out" el procesamiento de los datos relevados, de manera tal que persista para cada caso el promedio de los tiempos calculados sin considerar los outliers.\\
 De esta forma procuramos estandarizar en la medida de lo posible los resultados, de manera que no resulten considerablemente afectados por limitaciones del hardware y del software empleado durante el análisis. \\
  \newpage
 
 \subsubsection{Constrastaci\'on Emp\'irica de la complejidad}
 
-  \begin{figure}[h!]
-   \begin{center}
- 	\includegraphics[scale=0.8]{imagenes/ej1/relativas.png}
-	\label{estaciones}
-   \end{center}
- \end{figure}
+Habiendo ejecutado nuestro algoritmo para 200 casos distintos donde caso_{i} tiene un input de tamaño 10$i$, obtuvimos resultados que expresamos visualmente en los gráficos  \ref{estacionesAbs} y \ref{estacionesRel}.\\
+Mientras que el primero muestra los tiempos absolutos conseguidos para cada entrada (luego del promediado y la eliminación de outliers), el segundo presenta las razones entre los tiempos medidos para cada instancia y el tamaño de sus correspondientes parámetros de entrada. 
+
 
   \begin{figure}[h!]
    \begin{center}
  	\includegraphics[scale=0.8]{imagenes/ej1/absolutas.png}
-	\label{estaciones}
+	\label{estacionesAbs}
+   \end{center}
+ \end{figure}
+ 
+ En la figura \ref{estacionesAbs} graficamos además - a modo de referencia - la función F(x) = 25*x, con el fin de dejar en evidencia la cota superior lineal que de forma teórica dedujimos para el algoritmo que se analiza en esta sección. \\
+ Como se puede ver, no todas las instancias aumentan su tiempo de cómputo a medida que el tamaño de la entrada se acrecienta. Esto puede deberse a varios factores, entre ellos:
+ \begin{itemize}
+ \item {}
+ \item{}
+\end{itemize}
+\textcolor{blue}{SEGUIR ACA TMB: cosas de java, casos borde, condicionales en los que se entra o no, ciclos que terminan cuando la longitud del cable es larga y recorre todo, garbage collector, procesos que corren paralelamente en la pc, etc.}
+ 
+  \begin{figure}[h!]
+   \begin{center}
+ 	\includegraphics[scale=0.8]{imagenes/ej1/relativas.png}
+	\label{estacionesRel}
    \end{center}
  \end{figure}
 
 
 \newpage
 
-{\huge \textcolor{blue}{Fijarse en los casos en que el tiempo es menor al esperado, cuál es el motivo (si es que hay algún caso que se repita). Completar argumentación viendo que el puntero sólo va hacia adelante.}}
+{\huge \textcolor{blue}{Fijarse en los casos en que el tiempo es menor al esperado, cuál es el motivo (si es que hay algún caso que se repita). Completar argumentación viendo que el puntero sólo va hacia adelante. Fijarse de correr muchas veces la misma instancia sin cortar el contador de tiempo, y dividir el total por la cantidad de veces que se ejecutó para hacer más uniforme la propuesta. Cambia algo? ahí no se eliminan los outliers. En qué casos tarda lo máximo? en cuáles lo mínimo? cómo influye el lenguaje implementado?}}
