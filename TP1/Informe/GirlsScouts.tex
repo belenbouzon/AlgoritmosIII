@@ -43,7 +43,10 @@ Nótese que es equivalente a esta otra: \texttt{1 CDEBA}, ya que la única difer
 
 \subsection{Algoritmo desarrollado}
 
-Desarrollamos un algoritmo que utiliza la técnica de \textit{backtracking}. 
+Desarrollamos un algoritmo que utiliza la técnica de \textit{backtracking}. Esta técnica consiste en generar de forma incremental candidatos parciales para formar soluciones, haciéndolo de manera tal de poder, en cada paso, evaluar si completar la solución parcial puede resultar en una solución válida o no. De esta manera, si se decide que no se pueden generar soluciones válidas a partir del candidato parcial, se puede abandonar la generación de todas las soluciones que derivan de éste.
+
+
+
 La mecánica del algoritmo recursivo consiste en encontrar la mejor permutación posible desde determinada posición (dejando fijos los i primeros elementos).
 Para esto, el algoritmo fija un valor en la posición i-esima y se llama recursivamente. Al volver de la recursion, se cambia el valor en la posición i-esima y se vuelve a llamar a la recursion, hasta que se hayan probado todos los valores posibles.
 Cuando se detecta una instancia mejor a la anterior, se guarda una copia de la misma, y se recupera posteriormente si no se ha detectado un mejor caso.
