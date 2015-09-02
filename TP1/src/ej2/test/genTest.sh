@@ -1,19 +1,22 @@
 #!/bin/bash
 
-file=$1
-maxN=$2
-espaciado=$3
-touch $file
+maxN=$1
+espaciado=$2
+count=1
 
-for ((m=1; m < $maxN; m+=espaciado))
+let maxN+=1
+
+for (( m = 1; m <= $maxN; m+=$espaciado ))
 do
+	touch $count
 	line=""
-	for ((i=0; i<$m; i++))
+	for (( i = 0; i < $m; i++ ))
 	do
 		num=$[ 1 + $[ RANDOM % 10000 ]]
-		line="$line $num "
+		line="$line $num"
 	done
-	echo $line >> $file
+	echo $line >> $count
+	let count+=1
 done
 
 exit 0
