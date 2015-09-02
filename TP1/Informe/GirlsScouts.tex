@@ -11,8 +11,26 @@ Veamos un ejemplo. Tenemos un grupo de 5 chicas: A, B, C, D y E. A es amiga de B
 
 \texttt{A BC;B A;C AD;D C;E}
 
-Si las sentamos así:  ABEDC
+Si las sentamos así:
 
+\begin{tikzpicture}[auto, node distance=3cm, every loop/.style={},
+                    thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+  \node[main node] (1) {A};
+  \node[main node] (2) [below left of=1] {B};
+  \node[main node] (3) [below right of=2] {E};
+  \node[main node] (4) [below right of=1] {D};
+  \node[main node] (5) [right of=1] {C};
+
+  \path[every node/.style={font=\sffamily\small}]
+    (1) edge node [left] {} (2)
+        edge node[right] {} (5)
+    (2) edge node [right] {} (1)
+    (4) edge node [left] {} (5)
+    (5) edge node {} (4);
+\end{tikzpicture}
+
+vamos a estar obteniendo una solución óptima (nótese que no es la única), ya que la suma total de distancias es 0.
 
 El algoritmo a implementar debe hallar, utilizando backtracking, la permutación en donde la separación entre las niñas que son amigas sea mínima. La técnica algorítmica para resolver el problema puede reducirse a una decisión simple en cada paso: para cada posicion, determinar a qué niña colocar. La mecánica del backtracking busca detectar las instancias en donde los resultados serán peores que el mejor caso registrado, independientemente de las decisiones que se tomen adelante en esa misma rama; de esta forma, se evita el computo de permutaciones que no resultarán óptimas.
 
