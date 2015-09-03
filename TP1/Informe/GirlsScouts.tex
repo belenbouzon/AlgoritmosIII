@@ -57,6 +57,25 @@ En cada paso del algoritmo recursivo vamos agregando una chica a la ronda en un 
 
 \subsection{Justificación de correctitud}
 
+El hecho de estar generando todo el árbol de posibilidades nos asegura no estar dejando fuera soluciones posibles. El cuidado debe estar, entonces, en realizar las podas de forma correcta y de medir distancias de forma correcta. Analicemos más en detalle las podas realizadas:
+
+\begin{itemize}
+ \item Una vez ubicadas todas las exploradoras que tienen amigas, no probamos las distintas combinaciones con aquellas exploradoras que no tienen amigas: simplemente elegimos la permutación que está primera alfabéticamente. Esto es correcto ya que las exploradoras que no tienen amigas no forman parte de ninguna amistad, con lo cual, no cambian en nada a las distancias.
+ \item \textcolor{blue}{No tiene sentido dejar lugares vacíos entre las exploradoras que sí tienen amigas. Si pensamos a las exploradoras como nodos de un grafo, y a las amistades como vértices, siempre va a convenir, en la ronda, sentar a cada componente conexa de ese grafo toda junta. Cada componente conexa es un grupo de amigas. Pueden no ser todas amigas entre sí, pero sí son todas amigas con algún grado de separación\footnote{\url{https://en.wikipedia.org/wiki/Six_degrees_of_separation}}. Conviene sentar a la componente conexa toda junta (una al lado de la otra). Introducir a una exploradora de otra componente conexa sólo añadiría distancia entre exploradoras amigas. Si eliminamos del grafo a todos los nodos aislados (aquellas exploradoras que no tienen ninguna amiga), es posible que igualmente tengamos más de una componente conexa. Es indiferente para las distancias entre amigas si colocamos en la ronda a las distintas componentes conexas juntas entre sí o separadas. Poner o no poner exploradoras sin amigas entre los grupos de las que sí son amigas entre sí no afecta a la distancia. Lo único que influye es cómo ubicamos relativamente entre sí a cada componente conexa de amigas. Si no nos importara el orden alfabético y pudiéramos devolver cualquier solución óptima, esto nos permitiría aplicar una poda aquí. Pero como el enunciado pide que entre múltiples soluciones óptimas devolvamos aquella que es alfabéticamente menor, no hemos podido aplicar esta poda.}
+ 
+ Lo que sí podríamos hacer es:
+ \begin{enumerate}
+  \item Encontrar cada componente conexa.
+  \item Ubicar en la ronda a la primera exploradora en órden alfabético.
+  \item Hacer el algoritmo recursivo anterior, pero solo con las exploradoras de la componente conexa de la primera exploradora.
+  \item Al terminar esa componente conexa, elegir la siguiente, eligiendo a la que tenga a la primera exploradora (alfabéticamente) de todas las que no están ya ubicadas en la ronda.
+  \item Seguir haciendo lo mismo hasta llegar a una solución.
+ \end{enumerate}
+
+\end{itemize}
+
+\textcolor{red}{ Para pensar: cualquier rotación de la ronda es equivalente. ¿Podemos hacer poda usando eso?}
+
 \subsection{Análisis de la complejidad temporal}
 La cantidad de posibles permutaciones para una ronda es de '(e-1)!'; en el peor escenario posible, los datos de entradas tienen un orden tal que el algoritmo encuentre una mejor situación en cada iteración, por lo cual tendrá que recorrer las '(e-1)!' permutaciones. 
 
