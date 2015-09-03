@@ -82,6 +82,9 @@ public class Solucion {
 				if(!a_modificar.es_amiga_de(amiga.letra)){//O(ln a)
 					a_modificar.aniadir_amiga(exploradora.letra); //O(ln a)
 				}
+				if(this.exploradoras_sin_amigas.contains(a_modificar.letra)){
+					this.exploradoras_sin_amigas.remove(a_modificar.letra);
+				}
 			}
 		}
 	}
@@ -122,7 +125,7 @@ public class Solucion {
 		int tamanio_de_fogon = this.exploradoras_con_amigas.size()+this.exploradoras_sin_amigas.size();
 		this.fogon = new Fogon(tamanio_de_fogon);
 		this.fogon.colocar_exploradora(this.exploradoras_con_amigas.first(), 0); //O(a ln a)
-		this.exploradoras_con_amigas.pollFirst(); //¿O(ln a)?
+		this.exploradoras_agregadas.add(this.exploradoras_con_amigas.first().letra); //¿O(ln a)?
 		this.encontrar_ronda(0, this.exploradoras_sin_amigas.size()); //O((e-1)! e a ln a) = O(e! a ln a) 
 		
 		ArrayList<Character> lista_resultado = new ArrayList<Character>(tamanio_de_fogon);
