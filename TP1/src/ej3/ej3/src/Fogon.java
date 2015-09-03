@@ -30,6 +30,9 @@ public class Fogon {
 		this.exploradoras_con_amigas = new TreeMap<Character,Integer> ();
 		this.nivel_de_desorden_alfabetico = 0;
 	}
+    public int size(){
+        return this.cantidad_exploradoras_totales;
+    }
 	private int calcular_alteracion_distancias(Exploradora exploradora,int posicion){ //O(a ln a)
 		int res = 0;
 		Iterator<Character> it = exploradora.amigas_de();

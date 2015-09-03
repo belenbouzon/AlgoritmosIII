@@ -15,7 +15,11 @@ public class Lector {
 
 	
 	public String leer_palabra() throws IOException{
-		String st = this.is.readLine();
-		return st;
+
+        try{
+            return this.is.readLine();
+        } catch(IOException e){
+            return null;
+        }
 	}
 }

@@ -14,7 +14,7 @@ public class Solucion {
 	Map<Character,Integer> mejor_distribucion_encontrada;
 	int menor_desorden_alfabetico_encontrado;
 	private int calcular_distancia_maxima_2(Exploradora exploradora, Map<Character, Integer> solucion_preprocesada){
-		Iterator<Character> it = exploradora.amigas_de();
+		Iterator<Character> it = exploradora.amigas_de();  // O(1)
 		int res = 0;
 		while(it.hasNext()){
 			char exploradora_actual = it.next();
@@ -114,6 +114,9 @@ public class Solucion {
 		}
 	}
 	public void generar_solucion(String entrada){ //O((e-1)!a ln a)
+        if (Tiempos.mideTiempos){
+            Tiempos.time0 = System.nanoTime();
+        }
 		this.procesar_amistad(entrada); //O(e+ a ln a)
 		
 		int tamanio_de_fogon = this.exploradoras_con_amigas.size()+this.exploradoras_sin_amigas.size();
@@ -152,11 +155,21 @@ public class Solucion {
 				}
 			}
 		}
-		System.out.printf("%d ",distancia_maxima);
+		if (!Tiempos.mideTiempos) {
+            System.out.printf("%d ",distancia_maxima);
+        }
 		Iterator<Character> iterador_final = lista_resultado.iterator();
 		while(iterador_final.hasNext()){ //O(e) el tamanio de la lista resultado es el tamanio del fogon
-			System.out.printf("%c", iterador_final.next());
+            Character n = iterador_final.next();
+            if (!Tiempos.mideTiempos){
+			    System.out.printf("%c", n);
+            }
 		}
+        if (Tiempos.mideTiempos){
+            Tiempos.time1 = System.nanoTime() - Tiempos.time0;
+            System.out.printf("%d,%d",fogon.size(),Tiempos.time1);
+        }
+        System.out.printf("\n");
 	}
 }
 
