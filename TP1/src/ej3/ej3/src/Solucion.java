@@ -75,7 +75,7 @@ public class Solucion {
 			if(!this.exploradoras_con_amigas.contains(amiga)){ //O(ln a)(1)(3)
 				TreeSet<Character> conjunto_de_nueva_amiga = new TreeSet<Character>();
 				conjunto_de_nueva_amiga.add(exploradora.letra); //O(1) el conjunto acaba de ser creado
-				Exploradora nueva_exploradoraExploradora = new Exploradora(amiga.letra, conjunto_de_nueva_amiga);
+				Exploradora nueva_exploradoraExploradora = new Exploradora(amiga.letra, conjunto_de_nueva_amiga);   //TODO: WTF ese nombre de variable??
 				this.exploradoras_con_amigas.add(nueva_exploradoraExploradora); //O(ln a)(1)(3)
 			}else{
 				Exploradora a_modificar = this.exploradoras_con_amigas.ceiling(amiga);
@@ -97,7 +97,7 @@ public class Solucion {
 				}
 				i++;
 			}
-			i++;
+			i++; // el ;
 			Exploradora exploradora = new Exploradora(letra_exploradora,nuevo_conjunto);
 			if(nuevo_conjunto.size()!=0 && !this.exploradoras_con_amigas.contains(exploradora)){ //O(ln a)(1)(3)
 				this.exploradoras_con_amigas.add(exploradora); //O(ln a)(1)(3)
@@ -113,6 +113,22 @@ public class Solucion {
 			}
 		}
 	}
+    public int cantidad_de_amistades(){
+        System.out.printf("Exploradoras con amigas: %d\n",this.exploradoras_con_amigas.size());
+        int amistades = 0;
+        Iterator<Exploradora> it = this.exploradoras_con_amigas.iterator();
+        while (it.hasNext()){
+            Exploradora e = it.next();
+            amistades = amistades + e.amistades.size();
+            Iterator<Character> amigas = e.amistades.iterator();
+            System.out.printf("%c:",e.letra);
+            while (amigas.hasNext()){
+                System.out.printf("%c",amigas.next());
+            }
+            System.out.printf("\n");
+        }
+        return amistades/2;
+    }
 	public void generar_solucion(String entrada){ //O((e-1)!a ln a)
         if (Tiempos.mideTiempos){
             Tiempos.time0 = System.nanoTime();
@@ -167,7 +183,7 @@ public class Solucion {
 		}
         if (Tiempos.mideTiempos){
             Tiempos.time1 = System.nanoTime() - Tiempos.time0;
-            System.out.printf("%d,%d",fogon.size(),Tiempos.time1);
+            System.out.printf("%d,%d,%d",fogon.size(),this.cantidad_de_amistades(),Tiempos.time1);
         }
         System.out.printf("\n");
 	}
