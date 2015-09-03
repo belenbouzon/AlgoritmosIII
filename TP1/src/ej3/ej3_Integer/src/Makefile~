@@ -1,0 +1,4 @@
+.PHONY: iniciar_test
+iniciar_test:
+	java ../Main prueba_1.txt > prueba_1.out
+	java ../Main prueba_2.txt > prueba_2.out
