@@ -1,4 +1,4 @@
-\section{Problema 3: Girls Scouts}
+\section{Problema 3: Girl Scouts}
 \subsection{Descripción de la problemática}
 
 En este ejercicio existe un grupo de niñas exploradoras, algunas de ellas amigas entre sí, que deben formarse en una ronda. Siendo $e$ la cantidad de exploradoras, existen $(e-1)!$ permutaciones posibles en las cuales pueden sentarse. Podemos medir la distancia entre dos amigas como la mínima cantidad de chicas que hay entre una y otra, más 1. Por ejemplo, si una chica está al lado de la otra, la distancia entre ellas es 1. Si tenemos una ronda de tres chicas, la distancia entre cualquier par de chicas va a ser 1.
@@ -43,13 +43,17 @@ Nótese que es equivalente a esta otra: \texttt{1 CDEBA}, ya que la única difer
 
 \subsection{Algoritmo desarrollado}
 
-Desarrollamos un algoritmo que utiliza la técnica de \textit{backtracking}. Esta técnica consiste en generar de forma incremental candidatos parciales para formar soluciones, haciéndolo de manera tal de poder, en cada paso, evaluar si completar la solución parcial puede resultar en una solución válida o no. De esta manera, si se decide que no se pueden generar soluciones válidas a partir del candidato parcial, se puede abandonar la generación de todas las soluciones que derivan de éste.
+Desarrollamos un algoritmo que utiliza la técnica de \textit{backtracking}. Esta técnica consiste en generar de forma incremental candidatos parciales para formar soluciones. De forma implícita, los candidatos parciales pueden ser representados como los nodos de un árbol; las soluciones completas son las hojas del árbol. El algoritmo va generando el árbol de forma recursiva al hacer un recorrido DFS. En cada paso, se hace una evaluación que permite decidir si las hojas descendientes del candidato parcial actual pueden ser solución o no del problema. De esta manera, se evalúa todo el árbol de posibilidades sin necesariamente recorrerlo entero, ya que se pueden descartar ramas enteras antes de entrar en ellas.
+
+Aplicando esta técnica a este problema en particular, desarrollamos un algoritmo de \textit{backtracking} que busca las mejores permutaciones posibles para las niñas exploradoras. El algoritmo comienza con una ronda vacía con tantos lugares como exploradoras hay en el grupo. Los lugares son fijos, y medimos la distancia entre dos chicas como la cantidad de lugares que me tengo que ``mover'' para llegar de una chica a la otra.
+
+Separamos a las exploradoras en dos grupos: aquellas que no tienen ninguna amiga, y aquellas que sí (tienen al menos una amistad). A las que no tienen amigas las ubicaremos en la ronda solamente al final, ya que, una vez ubicadas todas las exploradoras que sí tienen amigas, aquellas que no tienen amistades no influirán en las distancias, y cualquier permuitación de las chicas sin amigas será equivalente en el resultado final (podemos simplemente generar la que es alfabéticamente primera, descartando las otras).
+
+En cada paso del algoritmo recursivo vamos agregando una chica a la ronda en un lugar determinado (que queda fijo), sin modificar la ubicación de las que ya están en la ronda. Luego, evaluamos si la distancia máxima entre pares de amigas es mayor a la mejor obtenida (para alguna solución óptima hallada anteriormente). Si lo es, entonces descartamos todas las ramas que descienden de este caso y retornamos, de manera tal de continuar la ejecución por otra rama del árbol. Si no lo es, continuamos la exploración del árbol, a menos que ya hayamos llegado a una hoja. En tal caso, si la solución obtenida es mejor a la que hasta ahora era la mejor, la nueva solución pasa a ser la mejor. Al finalizar el recorrido completo, se devuelve la solución que fue guardada como la mejor.
+
+{\large \textcolor{blue}{Para medir la distancia máxima entre pares de amigas en cada iteración no es necesario recalcular todas las distancias en la ronda. En cada llamada recursiva, además de la ronda podemos pasar un parámetro que tenga la distancia máxima de esa ronda. De esa forma, en cada iteración sólo es necesario calcular la distancia entre la exploradora que se agrega y sus amigas, para ver si esa distancia supera a la máxima que recibimos como parámetro de entrada.}}
 
 
-
-La mecánica del algoritmo recursivo consiste en encontrar la mejor permutación posible desde determinada posición (dejando fijos los i primeros elementos).
-Para esto, el algoritmo fija un valor en la posición i-esima y se llama recursivamente. Al volver de la recursion, se cambia el valor en la posición i-esima y se vuelve a llamar a la recursion, hasta que se hayan probado todos los valores posibles.
-Cuando se detecta una instancia mejor a la anterior, se guarda una copia de la misma, y se recupera posteriormente si no se ha detectado un mejor caso.
 
 \subsection{Justificación de correctitud}
 
