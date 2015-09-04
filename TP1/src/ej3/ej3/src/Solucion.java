@@ -72,6 +72,9 @@ public class Solucion {
 		Exploradora amiga = new Exploradora((char)0,null);
 		while(it.hasNext()){ //O(a ln a) El ciclo tiene a iteraciones (1)
 			amiga.letra = it.next();
+			if(this.exploradoras_sin_amigas.contains(amiga.letra)){
+				this.exploradoras_sin_amigas.remove(amiga.letra);
+			}
 			if(!this.exploradoras_con_amigas.contains(amiga)){ //O(ln a)(1)(3)
 				TreeSet<Character> conjunto_de_nueva_amiga = new TreeSet<Character>();
 				conjunto_de_nueva_amiga.add(exploradora.letra); //O(1) el conjunto acaba de ser creado
@@ -81,9 +84,6 @@ public class Solucion {
 				Exploradora a_modificar = this.exploradoras_con_amigas.ceiling(amiga);
 				if(!a_modificar.es_amiga_de(amiga.letra)){//O(ln a)
 					a_modificar.aniadir_amiga(exploradora.letra); //O(ln a)
-				}
-				if(this.exploradoras_sin_amigas.contains(a_modificar.letra)){
-					this.exploradoras_sin_amigas.remove(a_modificar.letra);
 				}
 			}
 		}
@@ -102,14 +102,16 @@ public class Solucion {
 			}
 			i++; // el ;
 			Exploradora exploradora = new Exploradora(letra_exploradora,nuevo_conjunto);
-			if(nuevo_conjunto.size()!=0 && !this.exploradoras_con_amigas.contains(exploradora)){ //O(ln a)(1)(3)
-				this.exploradoras_con_amigas.add(exploradora); //O(ln a)(1)(3)
-				this.modificar_amiga(exploradora,nuevo_conjunto); //O(a ln a)
-			}else if(nuevo_conjunto.size()!=0){
-				this.exploradoras_con_amigas.ceiling(exploradora).aniadir_grupo_de_amigas(nuevo_conjunto); //O(ln a) (1)(3) la función celling es similar a la contain, con la diferencia que retorna por referencia el objeto en si en caso de encontrarlo
-				this.modificar_amiga(exploradora,nuevo_conjunto); //O(a ln a)
+			if(nuevo_conjunto.size()!=0){
 				if(this.exploradoras_sin_amigas.contains(exploradora.letra)){
 					this.exploradoras_sin_amigas.remove(exploradora.letra); //O(ln e) (3) el conjunto exploradoras_sin_amigas a lo sumo tiene e elementos
+				}
+				if(!this.exploradoras_con_amigas.contains(exploradora)){ //O(ln a)(1)(3)
+					this.exploradoras_con_amigas.add(exploradora); //O(ln a)(1)(3)
+					this.modificar_amiga(exploradora,nuevo_conjunto); //O(a ln a)
+				}else{
+					this.exploradoras_con_amigas.ceiling(exploradora).aniadir_grupo_de_amigas(nuevo_conjunto); //O(ln a) (1)(3) la función celling es similar a la contain, con la diferencia que retorna por referencia el objeto en si en caso de encontrarlo
+					this.modificar_amiga(exploradora,nuevo_conjunto); //O(a ln a)
 				}
 			}else{
 				this.exploradoras_sin_amigas.add(letra_exploradora); //O(ln e) (3) el conjunto exploradoras_sin_amigas a lo sumo tiene e elementos
@@ -137,7 +139,6 @@ public class Solucion {
             Tiempos.time0 = System.nanoTime();
         }
 		this.procesar_amistad(entrada); //O(e+ a ln a)
-		
 		int tamanio_de_fogon = this.exploradoras_con_amigas.size()+this.exploradoras_sin_amigas.size();
 		this.fogon = new Fogon(tamanio_de_fogon);
 		this.fogon.colocar_exploradora(this.exploradoras_con_amigas.first(), 0); //O(a ln a)
@@ -170,7 +171,7 @@ public class Solucion {
 		for(int j = 0;j<tamanio_de_fogon;j++){ //O(e) el tamanio del fogon es de e exploradoras
 			if(lista_resultado.get(j)==(char)-1){//O(1) (4)
 				if(sin_amigas.hasNext()){
-					lista_resultado.set(j,sin_amigas.next());//O(1) (4) 
+					//lista_resultado.set(j,sin_amigas.next());//O(1) (4) 
 				}
 			}
 		}
