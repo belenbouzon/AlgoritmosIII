@@ -51,7 +51,7 @@ Separamos a las exploradoras en dos grupos: aquellas que no tienen ninguna amiga
 
 En cada paso del algoritmo recursivo vamos agregando una chica a la ronda en un lugar determinado (que queda fijo), sin modificar la ubicación de las que ya están en la ronda. Luego, evaluamos si la distancia máxima entre pares de amigas es mayor a la mejor obtenida (para alguna solución óptima hallada anteriormente). Si lo es, entonces descartamos todas las ramas que descienden de este caso y retornamos, de manera tal de continuar la ejecución por otra rama del árbol. Si no lo es, continuamos la exploración del árbol, a menos que ya hayamos llegado a una hoja. En tal caso, si la solución obtenida es mejor a la que hasta ahora era la mejor, la nueva solución pasa a ser la mejor. Al finalizar el recorrido completo, se devuelve la solución que fue guardada como la mejor.
 
-{\large \textcolor{blue}{Para medir la distancia máxima entre pares de amigas en cada iteración no es necesario recalcular todas las distancias en la ronda. En cada llamada recursiva, además de la ronda podemos pasar un parámetro que tenga la distancia máxima de esa ronda. De esa forma, en cada iteración sólo es necesario calcular la distancia entre la exploradora que se agrega y sus amigas, para ver si esa distancia supera a la máxima que recibimos como parámetro de entrada.}}
+{\large \textcolor{blue}{Para medir la sumatoria de distancias entre pares de amigas en cada iteración no es necesario recalcular todas las distancias en la ronda. Simplemente se debe calcular las las distancias de la exploradora que se agrega o se quita de una determinada posición con sus amigas que ya esten colocadas.}}
 
 
 
@@ -61,26 +61,12 @@ El hecho de estar generando todo el árbol de posibilidades nos asegura no estar
 
 \begin{itemize}
  \item Una vez ubicadas todas las exploradoras que tienen amigas, no probamos las distintas combinaciones con aquellas exploradoras que no tienen amigas: simplemente elegimos la permutación que está primera alfabéticamente. Esto es correcto ya que las exploradoras que no tienen amigas no forman parte de ninguna amistad, con lo cual, no cambian en nada a las distancias.
- \item \textcolor{blue}{No tiene sentido dejar lugares vacíos entre las exploradoras que sí tienen amigas. Si pensamos a las exploradoras como nodos de un grafo, y a las amistades como vértices, siempre va a convenir, en la ronda, sentar a cada componente conexa de ese grafo toda junta. Cada componente conexa es un grupo de amigas. Pueden no ser todas amigas entre sí, pero sí son todas amigas con algún grado de separación\footnote{\url{https://en.wikipedia.org/wiki/Six_degrees_of_separation}}. Conviene sentar a la componente conexa toda junta (una al lado de la otra). Introducir a una exploradora de otra componente conexa sólo añadiría distancia entre exploradoras amigas. Si eliminamos del grafo a todos los nodos aislados (aquellas exploradoras que no tienen ninguna amiga), es posible que igualmente tengamos más de una componente conexa. Es indiferente para las distancias entre amigas si colocamos en la ronda a las distintas componentes conexas juntas entre sí o separadas. Poner o no poner exploradoras sin amigas entre los grupos de las que sí son amigas entre sí no afecta a la distancia. Lo único que influye es cómo ubicamos relativamente entre sí a cada componente conexa de amigas. Si no nos importara el orden alfabético y pudiéramos devolver cualquier solución óptima, esto nos permitiría aplicar una poda aquí. Pero como el enunciado pide que entre múltiples soluciones óptimas devolvamos aquella que es alfabéticamente menor, no hemos podido aplicar esta poda.}
+ \item A medida que se van formando los distintos fogones, se chequea en cada instancia si el caso que se esta construyendo produce una mayor separación promedio que el mejor caso registrado. Es decir, si en un fogón, aún estando incompleto, se registra mayor separación entre amigas, se concluye que todas las posibles permutaciones que partan desde ese punto no seran óptimas.
  
- Lo que sí podríamos hacer es:
- \begin{enumerate}
-  \item Encontrar cada componente conexa.
-  \item Ubicar en la ronda a la primera exploradora en órden alfabético.
-  \item Hacer el algoritmo recursivo anterior, pero solo con las exploradoras de la componente conexa de la primera exploradora.
-  \item Al terminar esa componente conexa, elegir la siguiente, eligiendo a la que tenga a la primera exploradora (alfabéticamente) de todas las que no están ya ubicadas en la ronda.
-  \item Seguir haciendo lo mismo hasta llegar a una solución.
- \end{enumerate}
-
-\end{itemize}
-
-\textcolor{red}{ Para pensar: cualquier rotación de la ronda es equivalente. ¿Podemos hacer poda usando eso?}
-
 \subsection{Análisis de la complejidad temporal}
 La cantidad de posibles permutaciones para una ronda es de '(e-1)!'; en el peor escenario posible, los datos de entradas tienen un orden tal que el algoritmo encuentre una mejor situación en cada iteración, por lo cual tendrá que recorrer las '(e-1)!' permutaciones. 
-
-En cada colocación de una exploradora, se deberá calcular que distancia existe entre ella y sus amigas, lo cual en un peor caso tiene un costo de O(a ln a)
-Entonces, en el peor caso, la complejidad del algoritmo pertenece a $O( (e-1)! e a ln a), == O( (e)! a ln a)$,   lo cual es menor que $O(ee a lna) (e! < e^e)$, menor a  $O(ee a2) (a ln a < a^2)$
+Cada permutación del fogon cuesta no mas de '2*e' pasos. En cada paso, al colocar o quitar una exploradora, se debe calcular la alteración que se produce en la distancia de amistades. Para esto se debe chequear para cada amiga de la exploradora si esta en el fogon y, en caso afirmativo, cual es su posición. Logicamente, la cantidad de amistades de una exploradora no excede 'a' y, como se utiliza un TreeMap para identificar las posiciones de las exploradoras con amigas, determinar la posicion de cada amiga en el fogon puede resolverse en 'ln a'
+En un peor caso, entonces, la complejidad del algoritmo pertenece a $O( (e-1)! e a ln a)$ lo cual puede ser acotado por $O(e^e a lna)$, estrictamente menor a la complejidad solicitada en el enunciado.
 
 \subsection{Tests de correctitud}
 
