@@ -2,7 +2,7 @@
 
 cantFiles=$1
 touch resultados.out
-echo "n prom" > resultados.out
+echo "n	prom" > resultados.out
 
 for (( file = 1; file <= $cantFiles; file++ )) 
 do
@@ -13,7 +13,7 @@ do
 
 	for i in {1..100}
 	do
-	    clocks=$(java -cp ../bin/ Main $file --tiempos)
+	    clocks=$(java -cp ../bin/ Main $file.t --tiempos)
 	    n=$(echo $clocks | cut -d "-" -f 1)
 	    clocks=$(echo $clocks | cut -d "-" -f 2)
 
@@ -34,7 +34,7 @@ do
 	promedio=$(($promedio-$min-$max))
 	promedio=$(($promedio/98))
 
-	echo $n $promedio >> resultados.out
+	echo $n	$promedio >> resultados.out
 
 done
 
