@@ -5,8 +5,8 @@ import math
 
 
 ## CONSTANTES:
-## e fijo en 20 y a incrementa cuadráticamente
-e = 20
+## e fijo y a incrementa linealmente
+e = 10
 filenameEfijo = "./casosMedicionEfijo.in"
 
 
@@ -44,6 +44,6 @@ while (a <= amax):
             fout.write(letras[amiga])
         fout.write(';')
     fout.write("\n")
-    a = 2*a
+    a = a + 1
 
 fout.close()
