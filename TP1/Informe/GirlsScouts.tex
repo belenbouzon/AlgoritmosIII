@@ -69,10 +69,54 @@ La cantidad de posibles permutaciones para una ronda es de '(e-1)!'; en el peor 
 Cada permutación del fogon cuesta no mas de '2*e' pasos. En cada paso, al colocar o quitar una exploradora, se debe calcular la alteración que se produce en la distancia de amistades. Para esto se debe chequear para cada amiga de la exploradora si esta en el fogon y, en caso afirmativo, cual es su posición. Logicamente, la cantidad de amistades de una exploradora no excede 'a' y, como se utiliza un TreeMap para identificar las posiciones de las exploradoras con amigas, determinar la posicion de cada amiga en el fogon puede resolverse en 'ln a'
 En un peor caso, entonces, la complejidad del algoritmo pertenece a $O( (e-1)! e a ln a)$ lo cual puede ser acotado por $O(e^e a lna)$, estrictamente menor a la complejidad solicitada en el enunciado.
 
-\subsection{Tests de correctitud}
+%\subsection{Tests de correctitud}
+
 
 \subsection{Experimentación para observar la performance real}
 
-\subsubsection{Peor caso}
+%\subsubsection{Peor caso}
 
-\subsubsection{Caso promedio}
+%\subsubsection{Caso promedio}
+
+Se generaron casos de test de forma aleatoria, dejando fijo el valor de e (en 10), e incrementando el valor de a. El valor máximo de a es la mitad de $e (e-1)$, ya que no es posible tener más amistades. La relación entre el tiempo de ejecución y $a$, en este caso, se puede ver en los gráficos \ref{Efijot} y \ref{Efijotdividido}.
+
+ \begin{figure}[h!]
+   \begin{center}
+ 	\includegraphics[width=11cm]{imagenes/ej3/Efijo-t.png}
+	\caption{e = 10. Relación entre tiempo de ejecución y cantidad de amistades.}
+	\label{Efijot}
+   \end{center}
+ \end{figure}
+ 
+ \begin{figure}[h!]
+   \begin{center}
+ 	\includegraphics[width=11cm]{imagenes/ej3/Efijo-tdividido.png}
+	\caption{e = 10. Relación entre tiempo de ejecución y cantidad de amistades. Dividimos el tiempo por $a^2$.}
+	\label{Efijotdividido}
+   \end{center}
+ \end{figure}
+
+En el segundo gráfico se puede apreciar que la curva tiende a cero. Esto implica que la curva de tiempos está acotada por la curva de $a^2$.
+
+
+Se generaron también tests de forma aleatoria dejando el valor de $a$ fijo en relación a $e$ de manera tal que $a = e$ y se obtuvieron los siguientes gráficos de performance (\ref{EAt} y \ref{EAtdividido}).
+
+ \begin{figure}[h!]
+   \begin{center}
+ 	\includegraphics[width=11cm]{imagenes/ej3/EA-t.png}
+	\caption{Relación entre tiempo de ejecución y cantidad de exploradoras ($a=e$).}
+	\label{EAt}
+   \end{center}
+ \end{figure}
+ 
+ \begin{figure}[h!]
+   \begin{center}
+ 	\includegraphics[width=11cm]{imagenes/ej3/EA-tdividido.png}
+	\caption{Relación entre tiempo de ejecución y cantidad de exploradoras ($a=e$). Dividimos el tiempo por $e^e$.}
+	\label{EAtdividido}
+   \end{center}
+ \end{figure}
+ 
+ Nuevamente, en el gráfico \ref{EAtdividido} se puede ver cómo la curva tiende a cero, con lo cual podemos decir que también el tiempo de ejecución está acotado por $e^e$.
+ 
+ De estos análisis, podemos concluir que empíricamente el algoritmo implementado cumple con las cotas de complejidad, al menos para casos promedio, de ser $O(e^e a^2)$.
