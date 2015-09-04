@@ -5,10 +5,13 @@
 En el primer ejercicio se nos presenta un contexto en el que se pretende conectar con un cable de longitud arbitraria la mayor cantidad de estaciones férreas consecutivas pertenecientes a un ramal dado. 
 Siéndonos provistas las distancias entre las sucesivas estaciones y la longitud del cable, la propuesta de este problema es hallar el valor de dicha cantidad.
 
-Supongamos, por ejemplo, que nos fuera dado un ramal con cada estación  0<$i$ definida en el kilometro $j*2+2^(j-1)$ de manera tal que en un ramal de cinco estaciones las mismas se encontraran en los kilómetros 0, 3, 6, 10, 16.
-Si contáramos con un cable de 5 kilómetros, la respuesta correcta debería ser "2", puesto que con dicha longitud se podrían unir a lo sumo dos estaciones (pudiendo ser las mismas la primera y la segunda, la segunda y la tercera o la tercera y la cuarta).
-Si el mismo cable pudiera extenderse hasta los 6 km, la respuesta arrojada debería ser "3", representando a la combinación de las ciudades 1, 2 y 3 (cuya distancias suman exactamente 6km).
-En cambio, si midiera 1 km, la respuesta debería ser "1", puesto que no puede conectarse más de una ciudad - sea cual fuere - con un cable de dicha longitud.
+Supongamos, por ejemplo, que nos fuera dado un ramal con cada estación  0<$i$ definida en el kilometro $j*2+2^(j-1)$ de manera tal que en un ramal de cinco estaciones las mismas se encontraran en los kilómetros 0, 3, 6, 10, 16. \\
+
+Si contáramos con un cable de 5 kilómetros, la respuesta correcta debería ser "2", puesto que con dicha longitud se podrían unir a lo sumo dos estaciones (pudiendo ser las mismas la primera y la segunda, la segunda y la tercera o la tercera y la cuarta).\\
+
+Si el mismo cable pudiera extenderse hasta los 6 km, la respuesta arrojada debería ser "3", representando a la combinación de las ciudades 1, 2 y 3 (cuya distancias suman exactamente 6km).\\
+
+En cambio, si midiera 1 km, la respuesta debería ser "1", puesto que no puede conectarse más de una ciudad - sea cual fuere - con un cable de dicha longitud.\\
 
 \subsection{Resoluci\'on propuesta y justificaci\'on}
 Una primera aproximación a la resolución hubiese podido ser calcular, partiendo de cada ciudad, cuántas ciudades se pueden comunicar a partir de ella con el cable ofrecido. El problema de esta solución es que al ser `` ciego`` a los resultados parciales que cada iteración ofrece, potencialmente pueden llegar a realizarse los mismos cálculos en reiteradas oportunidades.
@@ -47,7 +50,9 @@ Dicho esto, la propuesta de resolución escogida versa sobre la idea de utilizar
 \end{algorithmic}
 
 Este procedimiento resuelve adecuadamente el problema propuesto porque calcula para cada ciudad inicial la máxima cantidad de ciudades que pueden ser recorridas y lo realiza con una cota de complejidad de O(n), como se detallará en el próximo apartado.\\
+
 Además, como se afirma que un programa es correcto si resuelve lo pedido en una cantidad finita de pasos y sabiendo que para cualquier entrada de tama\~no N el algoritmo termina a lo sumo en $m*N$ interaciones del loop principal (con m un entero positivo) \footnote{Nótese que el bucle principal llega a su fin cuando se alcanza como ciudad base a la última estación de un ramal de N estaciones que se recorre linealmente}, podemos afirmar que nuestra solución es correcta respecto del problema presentado.\\
+
 
 \newpage
 \subsection{An\'alisis de la complejidad}
@@ -64,6 +69,7 @@ Dada una instanciación del ciclo en la estación i-ésima ($i != 0$), existen d
 \end{itemize}
 
 Si nos encontráramos en el segundo caso, el algoritmo partiría de la ciudad i-ésima recorriendo a lo sumo $N-i-1$ estaciones posteriores para analizar hasta cuál es la más lejana alcanzable.\\
+
 Si el caso fuese el primero, entonces la ciudad posterior ($i$) contrastará la longitud del cable y las distancias entre kilometros para - a lo sumo - N-i-1-k estaciones (en lugar de hacerlo para N-i-1, como hubiese debido hacerlo bajo otra implementación).\\
 
 Esto implica que para cada estación $i$, podrían llegar a realizarse a lo sumo N-i-1 comparaciones pero todas aquellas que se efectúen serán descontadas de la cantidad de cálculos que potencialmente haría la ciudad siguiente, forzando a que cada estación sea consultada acerca de su proximidad una única vez y permitiendo de esta manera que la ejecución del algoritmo se complete en tiempo lineal respecto del tamaño del input.\\ 
@@ -71,7 +77,7 @@ Esto implica que para cada estación $i$, podrían llegar a realizarse a lo sumo
 \newpage
 \subsection{C\'odigo fuente}
 
-A continuación se presenta la parte más relevante del código fuente, seleccionada en función de la relación con la resolución del problema, dejando de lado aspectos necesarios pero secundarios, como ser el manejo de la lectura del input, la escritura del output, 
+A continuación se presenta la parte más relevante del código fuente, seleccionada en función de la pertinencia con la resolución del problema, dejando de lado aspectos necesarios pero secundarios, como ser el manejo de la lectura del input, la escritura del output, 
 la medición de los tiempos, etc.
 
 \begin{verbatim}
@@ -174,40 +180,74 @@ public class Ramal {
 \newpage
 \subsection{Experimentaci\'on}
 
-Para contrastar nuestra hipótesis acerca de la complejidad temporal - lineal - del algoritmo propuesto, diseñamos una clase denominada ClassGenerator1 encargada de generar ramales pseudoaleatorios con una cantidad de estaciones secuencialmente creciente.\\ 
-La misma clase ejecuta sobre cada instancia una cantidad paramétrica de veces \footnote{350 veces, para el presente trabajo} el algoritmo que resuelve el problema propuesto. Por cada iteración sobre una misma instancia se guardan los tiempos medidos y al finalizar todas las ejecuciones sobre cada una de las instancias, se almacena en un archivo denominado "resultados.out" el procesamiento de los datos relevados, de manera tal que persista para cada caso el promedio de los tiempos calculados sin considerar los outliers.\\
+Para contrastar nuestra hipótesis acerca de la complejidad temporal (presuntamente lineal) del algoritmo propuesto, diseñamos una clase denominada ClassGenerator1 encargada de generar ramales pseudoaleatorios con una cantidad de estaciones secuencialmente creciente.\\ 
+La misma clase ejecuta sobre cada instancia una cantidad paramétrica de veces \footnote{350 veces, para el presente trabajo} el algoritmo que resuelve el problema propuesto. Por cada iteración sobre una misma instancia se guardan los tiempos medidos y al finalizar todas las ejecuciones sobre cada una de las instancias, se almacena en un archivo denominado $resultados.out$ el procesamiento de los datos relevados, de manera tal que persista para cada caso el promedio de los tiempos calculados sin considerar los outliers.\\
 De esta forma procuramos estandarizar en la medida de lo posible los resultados, de manera que no resulten considerablemente afectados por limitaciones del hardware y del software empleado durante el análisis. \\
  \newpage
 
 \subsubsection{Constrastaci\'on Emp\'irica de la complejidad}
 
-Habiendo ejecutado nuestro algoritmo para 200 casos distintos donde caso_{i} tiene un input de tamaño 10$i$, obtuvimos resultados que expresamos visualmente en los gráficos  \ref{estacionesAbs} y \ref{estacionesRel}.\\
-Mientras que el primero muestra los tiempos absolutos conseguidos para cada entrada (luego del promediado y la eliminación de outliers), el segundo presenta las razones entre los tiempos medidos para cada instancia y el tamaño de sus correspondientes parámetros de entrada. 
+Habiendo ejecutado nuestro algoritmo para 200 casos distintos donde vale que para todo $i$, caso$_{i}$ tiene un input de tamaño 10*$i$, obtuvimos resultados que expresamos visualmente en los gráficos  ~\ref{estacionesAbs} y ~\ref{estacionesRel}.\\
 
+Mientras que el primero muestra los tiempos absolutos conseguidos para cada entrada (luego del promediado y la eliminación de outliers), el segundo presenta las razones entre los tiempos medidos para cada instancia y el tamaño de sus correspondientes parámetros de entrada. \\
+
+En la figura \ref{estacionesRel} puede verse cómo al dividir cada tiempo computado por el tamaño del input los resultados tienden a una constante.
 
   \begin{figure}[h!]
    \begin{center}
  	\includegraphics[scale=0.8]{imagenes/ej1/absolutas.png}
+	\caption{Mediciones absolutas sobre el tamaño del input}
 	\label{estacionesAbs}
    \end{center}
  \end{figure}
  
  En la figura \ref{estacionesAbs} graficamos además - a modo de referencia - la función F(x) = 25*x, con el fin de dejar en evidencia la cota superior lineal que de forma teórica dedujimos para el algoritmo que se analiza en esta sección. \\
- Como se puede ver, no todas las instancias aumentan su tiempo de cómputo a medida que el tamaño de la entrada se acrecienta. Esto puede deberse a varios factores, entre ellos:
- \begin{itemize}
- \item {}
- \item{}
-\end{itemize}
-\textcolor{blue}{SEGUIR ACA TMB: cosas de java, casos borde, condicionales en los que se entra o no, ciclos que terminan cuando la longitud del cable es larga y recorre todo, garbage collector, procesos que corren paralelamente en la pc, etc.}
+
+Es conveniente aclarar que, si bien se puede vislumbrar que existe una correlación directa entre el tamaño del parámetro de entrada y los tiempos asociados a los peores casos, la gráfica presentada no es en sí la base que nos hace afirmar que la complejidad asintótica del algoritmo es lineal, si no que esta aseveración se apoya fuertemente en el estudio formal del algoritmo, esbozado en la sección \textit{An\'alisis de la complejidad}. Es decir que consideramos a los resultados obtenidos tan sólo como un sustento empírico más en favor de nuestros supuestos. En cambio, si los mismos hubieran sido inconsistentes con el análisis teórico entonces hubiesen resultado de gran relevancia a la hora de poner en tela de  juicio nuestras hipótesis iniciales. \\
+
  
   \begin{figure}[h!]
    \begin{center}
  	\includegraphics[scale=0.8]{imagenes/ej1/relativas.png}
+	\caption{Mediciones relativas al tamaño del input}
 	\label{estacionesRel}
    \end{center}
  \end{figure}
 
+ Ahora bien, no todas las instancias aumentan su tiempo de cómputo a medida que el tamaño de la entrada se acrecienta. Esto puede deberse a varios factores, de entre los cuales consideramos necesario mencionar al menos dos:
+ \begin{enumerate}[1.]
+ \item {Diferencia entre instancias de casos}
+ \item{Cuestiones de implementación y entorno de testing}
+\end{enumerate}
+
+En relación a las cuestiones de implementación y entorno de testing aparecen involucrados una enorme cantidad de factores que influyen al momento de realizar las pruebas, como ser:
+\begin {itemize}
+\item prestaciones de hardware
+\item ejecución de programas y servicios del sistema operativo, de manera de manera sincrónica y paralera a la toma de mediciones
+\item manejo de la memoria caché
+\item ejecución del Garbaje Collector \footnote{El Garbage Collector es un proceso de baja prioridad que se ejecuta en la JVM y es el encargado de liberar la memoria que no se emplea (elimina del heap los objetos que no posean una referencia apuntándolos en el Stack). El hecho de que sea de baja prioridad implica que no puede ejecutarse en cualquier momento, si no que su comienzo se verá supeditado al manejo que haga el procesador con los trabajos de mayor prioridad. }, etc.
+\end{itemize}
+
+Si bien varios de ellos escapan a nuestro control, decidimos seleccionar las mediciones con diversos criterios previamente mencionados, de manera que los resultados fueran tan representativos como fuese posible.\\
+
+En cuanto a los casos de prueba de performance, hemos de recordar que fueron generados de manera pseudo-aleatoria, siendo el tamaño del input el único parámetro ofrecido para la generación de las diversas instancias.\\
+
+Es por esto que podemos ver casos donde el tamaño del input es similar y los tiempos medidos son aparentemente contradictorios.\\
+Tomemos, por ejemplo, los casos de 1960 y 1970 estaciones. Si se los compara, se puede ver que para la primera instancia I$_{1}$ el valor de Tiempo( I$_{1}$) / CantEstaciones(I$_{1}$) resultó ser exactamente el doble que el obtenido mediante el cálculo de Tiempo( I$_{2}$) / CantEstaciones(I$_{2}$).\\
+Observando este y otros casos llamativos, se puede comprender lo planteado observando de qué manera particular fueron instanciados los problemas \footnote{Todos los casos sobre los que fueron corridos las pruebas junto con las mediciones de tiempos correspondientes se encuentran en la carpeta /bin junto a otros datos útiles}.\\
+De esta manera y haciendo un seguimiento de la implementación para estos contextos, es posible atribuir diferencias temporales tan significativas entre parámetros cuantitativamente cercanos pero cualitativamente disímiles a la longitud del cable obtenida. \\
+Esto cobra sentido al observar que en el caso de menor cantidad de estaciones la longitud con la que se contaba era de aproximadamente la mitad del kilometraje que separaba a la primera ciudad de la última, mientras que en el problema resuelto para mayor cantidad de estaciones el cable llegaba a unir 1866 de 1970 estaciones desde la primera iteración principal (es decir, comparando cuántas podían unirse desde la ciudad ubicada en el Km 0).\\
+
+Esto es consistente con lo que se puede observar si se busca que instancia tuvo la mínima razón Tiempo/TamañoInput. En nuestras pruebas ocurrió para un ramal generado de manera que la longitud del cable era tal que permitía unir 1227 de 1250 estaciones partiendo de la inicial. \footnote{Ver instancia con 1250 estaciones}\\
+
+Todo esto tiene sentido si se observa a la luz del código, donde una simple guarda impidió que el ciclo se ejecutara una cantidad de veces mayor a la necesaria: Las líneas a las que nos referimos son 
+\begin{verbatim}
+ while(ramal.HayCiudadesMasLejanas() && !ramal.EsLaUltimaCiudad(indiceCiudadMasLejanaAlcanzada)) 
+\end{verbatim}
+
+Gracias a la segunda condición, podemos asegurar que el ciclo deja de ejecutarse cuando habiéndonos parado en una determinada ciudad inicial logramos alcanzar la última de las estaciones, lo cual sucede con mayor velocidad cuando no se ha de cambiar varias veces el índice de la ciudad inicial, situación que se cumple cuando el cable provisto es lo suficientemente extenso como para cubrir una cantidad considerable \footnote{Proporcional a la cantidad total de estaciones} de estaciones consecutivas.
+
+
+
 
 \newpage
-
-{\huge \textcolor{blue}{Fijarse en los casos en que el tiempo es menor al esperado, cuál es el motivo (si es que hay algún caso que se repita). Completar argumentación viendo que el puntero sólo va hacia adelante. Fijarse de correr muchas veces la misma instancia sin cortar el contador de tiempo, y dividir el total por la cantidad de veces que se ejecutó para hacer más uniforme la propuesta. Cambia algo? ahí no se eliminan los outliers. En qué casos tarda lo máximo? en cuáles lo mínimo? cómo influye el lenguaje implementado?}}
