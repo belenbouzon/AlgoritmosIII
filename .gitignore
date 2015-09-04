@@ -44,7 +44,6 @@ Temporary Items
 *.aux
 *.log
 TP1/Informe/informe.out
-*.pdf
 *.gz
 *.toc
 *.class
