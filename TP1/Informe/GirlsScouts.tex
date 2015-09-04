@@ -62,6 +62,7 @@ El hecho de estar generando todo el árbol de posibilidades nos asegura no estar
 \begin{itemize}
  \item Una vez ubicadas todas las exploradoras que tienen amigas, no probamos las distintas combinaciones con aquellas exploradoras que no tienen amigas: simplemente elegimos la permutación que está primera alfabéticamente. Esto es correcto ya que las exploradoras que no tienen amigas no forman parte de ninguna amistad, con lo cual, no cambian en nada a las distancias.
  \item A medida que se van formando los distintos fogones, se chequea en cada instancia si el caso que se esta construyendo produce una mayor separación promedio que el mejor caso registrado. Es decir, si en un fogón, aún estando incompleto, se registra mayor separación entre amigas, se concluye que todas las posibles permutaciones que partan desde ese punto no seran óptimas.
+ \end{itemize}
  
 \subsection{Análisis de la complejidad temporal}
 La cantidad de posibles permutaciones para una ronda es de '(e-1)!'; en el peor escenario posible, los datos de entradas tienen un orden tal que el algoritmo encuentre una mejor situación en cada iteración, por lo cual tendrá que recorrer las '(e-1)!' permutaciones. 
