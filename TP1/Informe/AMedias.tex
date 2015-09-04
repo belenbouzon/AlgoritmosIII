@@ -42,11 +42,25 @@ Pseudocódigo:
 Los heaps se encargan de mantener ordenadas las dos mitades del conjunto, pero como no se sabe de antemano contra que valor comparar para ubicar los elementos en el heap correcto, los mismos se pueden debalancear, generando que los elementos del medio no se encuentren en las cabezas. Por este motivo si llega a ocurrir ese caso, balanceamos los heaps pasando la cabeza del heap mas grande al otro.\\
 
 Luego calcular la mediana simplemente implica decidir si el subconjunto actual tiene cantidad par o impar de elementos y en función de eso, calcular el promedio de las dos cabezas o tomar la cabeza del heap mas grande.
+
 \subsection{Análisis de la complejidad}
-% NO ESTÁ TERMINADO!
 Nuestra solución tiene una complejidad temporal de $\mathcal{O}(n\log{}n)$ siendo $n$ la cantidad de elementos del conjunto. \\
 
-El algoritmo está contenido en un \emph{for} que recorre una sola vez cada elemento del conjunto, con lo cual la ejecución de ese ciclo tiene una complejidad de $\mathcal{O}(n)$. Luego se utilizan los métodos de la clase \emph{Heap} que utiliza la clase \emph{Priority Queue} \footnote{http://docs.oracle.com/javase/7/docs/api/java/util/PriorityQueue.html} que está incluida en \emph{java.util}.
+El algoritmo está contenido en un \emph{for} que recorre una sola vez cada elemento del conjunto, con lo cual la ejecución de ese ciclo tiene una complejidad de $\mathcal{O}(n)$. Luego se utilizan los métodos de la clase \emph{Heap} que utiliza como base a la clase \emph{Priority Queue} que está incluida en \emph{java.util}. Las complejidades de todos los métodos de \emph{Priority Queue} que se mencionan a continuación, están especificadas en la documentación de java\footnote{http://docs.oracle.com/javase/7/docs/api/java/util/PriorityQueue.html}. El algoritmo ejecuta los métodos de \emph{Heap} de la siguiente manera:
+
+\begin{itemize}
+	\item Insertar elemento en heap: Es $\mathcal{O}(1)$ elegir en que heap se va a insertar el elemento mas $\mathcal{O}(\log{}n)$ insertar en la cola de prioridad con \emph{PriorityQueue.add()}.\\ Notar que el elemento nunca se inserta en los dos heaps, por lo tanto la complejidad queda\\ $\mathcal{O}(1) + \mathcal{O}(\log{}n) = \mathcal{O}(\log{}n)$.
+	\item Balancear heaps: Hace comparaciones y asignaciones en $\mathcal{O}(1)$, luego llama a \emph{PriorityQueue.poll()} que obtiene y remueve la cabeza del heap en $\mathcal{O}(\log{}n)$ y por último inserta la cabeza en el otro heap con \emph{PriorityQueue.add()} también en $\mathcal{O}(\log{}n)$.\\ Quedando una complejidad de $k * \mathcal{O}(1) + 2 * \mathcal{O}(\log{}n) = \mathcal{O}(\log{}n)$ con $k$ una constante.
+	\item Calcular mediana: Hace operaciones aritméticas, asignaciones y comparaciones en $\mathcal{O}(1)$, obtiene los tamaños de los heaps con \emph{PriorityQueue.size()} también en $\mathcal{O}(1)$ y obtiene la cabeza de uno o de los dos heaps, lo cual no hace diferencia ya que la complejidad de \emph{PriorityQueue.peek()} es $\mathcal{O}(1)$.\\ En este paso nos queda una complejidad de $k * \mathcal{O}(1) = \mathcal{O}(1)$ con $k$ una constante.
+\end{itemize}
+
+\noindent Por lo tanto, siguiendo el análisis de complejidad, nos termina quedando:
+\begin{center}
+	$\mathcal{O}(n) * (\mathcal{O}(\log{}n) + \mathcal{O}(\log{}n) + \mathcal{O}(1)) = \mathcal{O}(n\log{}n)$
+\end{center}
+Lo cual condice la afirmación que hicimos al principio de la sección.
+
+\newpage
 \subsection{Código fuente}
 \lstinputlisting[name=AMedias, numbers=left, frame=lines, firstline=30, lastline=47]{../src/ej2/src/Main.java}
 \lstinputlisting[name=Heaps, numbers=left, frame=lines, firstline=7, lastline=18]{../src/ej2/src/Heap.java}
@@ -56,4 +70,19 @@ El algoritmo está contenido en un \emph{for} que recorre una sola vez cada elem
 \subsection{Experimentación}
 
 \subsubsection{Constrastación Empírica de la complejidad}
+\begin{figure}[h!]
+   \begin{center}
+ 	\includegraphics[scale=0.8]{imagenes/ej2/tiempos.png}
+	\caption{Medición de tiempo promedio entre 100 corridas}
+	\label{estacionesRel}
+   \end{center}
+ \end{figure}
+
+ \begin{figure}[h!]
+   \begin{center}
+ 	\includegraphics[scale=0.8]{imagenes/ej2/linealizacion.png}
+	\caption{Tiempo promedio dividido por la cota de complejidad}
+	\label{estacionesRel}
+   \end{center}
+ \end{figure}
 
