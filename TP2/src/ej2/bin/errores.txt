@@ -1,0 +1,10 @@
+Exception in thread "main" java.util.IllegalFormatConversionException: d != Nodo
+	at java.util.Formatter$FormatSpecifier.failConversion(Formatter.java:4045)
+	at java.util.Formatter$FormatSpecifier.printInteger(Formatter.java:2748)
+	at java.util.Formatter$FormatSpecifier.print(Formatter.java:2702)
+	at java.util.Formatter.format(Formatter.java:2488)
+	at java.io.PrintStream.format(PrintStream.java:970)
+	at java.io.PrintStream.printf(PrintStream.java:871)
+	at Solucion.calcular_segundos_desde(Solucion.java:23)
+	at Solucion.calcular_segundos(Solucion.java:49)
+	at Main.main(Main.java:5)

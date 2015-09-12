@@ -1,0 +1,6 @@
+nodo: 2
+nodo: 0
+nodo: 3
+nodo: 1
+nodo: 2
+12
