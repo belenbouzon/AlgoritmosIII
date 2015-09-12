@@ -119,18 +119,20 @@ public class Solucion {
 		}
 	}
     public int cantidad_de_amistades(){
-        System.out.printf("Exploradoras con amigas: %d\n",this.exploradoras_con_amigas.size());
+        //System.out.printf("Exploradoras con amigas: %d\n",this.exploradoras_con_amigas.size());
         int amistades = 0;
         Iterator<Exploradora> it = this.exploradoras_con_amigas.iterator();
         while (it.hasNext()){
             Exploradora e = it.next();
             amistades = amistades + e.amistades.size();
+            /*
             Iterator<Character> amigas = e.amistades.iterator();
             System.out.printf("%c:",e.letra);
             while (amigas.hasNext()){
                 System.out.printf("%c",amigas.next());
             }
             System.out.printf("\n");
+            */
         }
         return amistades/2;
     }

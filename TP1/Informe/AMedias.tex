@@ -43,7 +43,11 @@ Los heaps se encargan de mantener ordenadas las dos mitades del conjunto, pero c
 
 Luego calcular la mediana simplemente implica decidir si el subconjunto actual tiene cantidad par o impar de elementos y en función de eso, calcular el promedio de las dos cabezas o tomar la cabeza del heap mas grande.
 
-Por el invariante del ciclo \emph{for}: \texttt{\{$i >= 0 \land i <$ cantidad de elementos del conjunto $\land\ mediana =$ mediana de los primero $i$ números\}}, podemos asegurar que el ciclo termina, ya que se cumple antes y después de cada iteración del ciclo y al darse la condición de terminación (\texttt{$i >=$ cantidad de elementos del conjunto}), efectivamente termina. Luego por la documentación de \emph{Priority Queue} sabemos que los heaps van a mantener los elementos ordenado en todo momento, dándonos fácil acceso al mínimo y el máximo. Al rebalancear los heaps nos aseguramos de que siempre se cumpla que la diferencia absoluta entre los tamaños de los heaps sea menor igual a uno, lo que causa que los heaps tengan la mitad o la mitad mas uno de los elementos del subconjunto actual. Teniendo en cuenta que vale lo anterior y por estar ordenados de forma ascendente el que contiene los elementos más pequeños y de forma descendente el otro, se cumple que las cabezas siempre representan a los elementos centrales del subconjunto actual con $j$ elementos, o sea, los valores en las posiciones $j/2 \land (j/2)+1$. Por lo que para calcular la mediana podemos obtener los tamaños de los heaps y decidir si hay que calcular el promedio o devolver la cabeza del mas grande. De esta manera el algoritmo cumple con la definición de mediana para cada subconjunto incremental.
+Por el invariante del ciclo \emph{for}: \texttt{\{$i >= 0 \land i <$ cantidad de elementos del conjunto $\land\ mediana =$ mediana de los primero $i$ números\}}, podemos asegurar que el ciclo termina, ya que se cumple antes y después de cada iteración del ciclo y al darse la condición de terminación (\texttt{$i >=$ cantidad de elementos del conjunto}), efectivamente termina.\\
+
+Luego por la documentación de \emph{Priority Queue} sabemos que los heaps van a mantener los elementos ordenado en todo momento, dándonos fácil acceso al mínimo y el máximo. Al rebalancear los heaps nos aseguramos de que siempre se cumpla que la diferencia absoluta entre los tamaños de los heaps sea menor igual a uno, lo que causa que los heaps tengan la mitad o la mitad mas uno de los elementos del subconjunto actual.\\
+
+Teniendo en cuenta que vale lo anterior y por estar ordenados de forma ascendente el que contiene los elementos más pequeños y de forma descendente el otro, se cumple que las cabezas siempre representan a los elementos centrales del subconjunto actual con $j$ elementos, o sea, los valores en las posiciones $j/2 \land (j/2)+1$. Por lo que para calcular la mediana podemos obtener los tamaños de los heaps y decidir si hay que calcular el promedio o devolver la cabeza del mas grande. De esta manera el algoritmo cumple con la definición de mediana para cada subconjunto incremental.
 
 \subsection{Análisis de la complejidad}
 Nuestra solución tiene una complejidad temporal de $\mathcal{O}(n\log{}n)$ siendo $n$ la cantidad de elementos del conjunto. \\
@@ -60,31 +64,48 @@ El algoritmo está contenido en un \emph{for} que recorre una sola vez cada elem
 \begin{center}
 	$\mathcal{O}(n) * (\mathcal{O}(\log{}n) + \mathcal{O}(\log{}n) + \mathcal{O}(1)) = \mathcal{O}(n\log{}n)$
 \end{center}
-Lo cual condice la afirmación que hicimos al principio de la sección.
+Lo cual condice la afirmación que hicimos al principio de la subsección.
 
 \newpage
 \subsection{Código fuente}
+A continuación se incluyen las partes más relevantes del código.\\
+El loop principal que se encuentra en la clase \emph{Main.java}:
 \lstinputlisting[name=AMedias, numbers=left, frame=lines, firstline=30, lastline=47]{../src/ej2/src/Main.java}
+Los métodos que manipulan los heaps que se encuentran en la clase \emph{Heap.java}
 \lstinputlisting[name=Heaps, numbers=left, frame=lines, firstline=7, lastline=18]{../src/ej2/src/Heap.java}
-\lstinputlisting[name=AMedias, numbers=left, frame=lines, firstline=20, lastline=38]{../src/ej2/src/Heap.java}
-\lstinputlisting[name=AMedias, numbers=left, frame=lines, firstline=40, lastline=52]{../src/ej2/src/Heap.java}
+\lstinputlisting[name=Heaps, numbers=left, frame=lines, firstline=20, lastline=38]{../src/ej2/src/Heap.java}
+\lstinputlisting[name=Heaps, numbers=left, frame=lines, firstline=40, lastline=52]{../src/ej2/src/Heap.java}
 
 \subsection{Experimentación}
+Para analizar la performance del algoritmo creamos dos scripts: uno que se encarga de generar casos de test pseudoaletorios\footnote{genTest.sh}, el cual genera archivos con instancias del problema incrementando el $n$ con un cierto espaciado; El otro script\footnote{testPerformance.sh} se encarga de correr el programa una cierta cantidad de veces para cada instancia generada por el primer script, luego descarta los outliers y calcula el tiempo promedio entre todas las corridas. Estos promedios se guardan en el archivo \emph{resultados.out}.
 
 \subsubsection{Constrastación Empírica de la complejidad}
+A continuación presentamos dos gráficos que muestran el comportamiento en la práctica del algoritmo. Para obtener estos resultados utilizamos 301 tests cada uno conteniendo una instancia del problema en las que el $n$ varía entre 1 y 3001, saltando de a 10 números y los valores de cada instancia se generaron pseudoaleatoriamente con un rango entre 1 y 10000. Luego, cada una de estas instancias fue ejecutada 100 veces.
+
+
 \begin{figure}[h!]
-   \begin{center}
+	\centering
  	\includegraphics[scale=0.8]{imagenes/ej2/tiempos.png}
 	\caption{Medición de tiempo promedio entre 100 corridas}
-	\label{estacionesRel}
-   \end{center}
+	\label{tiemposprom}
  \end{figure}
+
+ Al mirar el gráfico de la figura \ref{tiemposprom} no queda muy claro que la cota de complejidad propuesta sea correcta. Por lo que decidimos linealizar los resultados, dividiéndolos por $k * \log{n}$ con $n$ tamaño del input y $k$ una constante. Como se esperaba, el gráfico de la figura \ref{tiempolineal} se asemeja bastante a una recta. Con lo cual parecería que el algoritmo cumple con la cota de complejidad teórica que analizamos anteriormente.
 
  \begin{figure}[h!]
-   \begin{center}
+ 	\centering
  	\includegraphics[scale=0.8]{imagenes/ej2/linealizacion.png}
-	\caption{Tiempo promedio dividido por la cota de complejidad}
-	\label{estacionesRel}
-   \end{center}
+	\caption{Tiempo promedio dividido por el logaritmo del tamaño del input}
+	\label{tiempolineal}
  \end{figure}
 
+Por último, tomamos los tiempos promedio y los dividimos por la cota teórica para poder observar si los resultados tienden a una constante.
+
+\begin{figure}[h!]
+	\centering
+ 	\includegraphics[scale=0.8]{imagenes/ej2/cota.png}
+	\caption{Tiempo promedio dividido por la cota de complejidad}
+	\label{cotalog}
+ \end{figure}
+
+La figura \ref{cotalog} muestra este análisis en el que efectivamente los resultados parecen tender a una constante. De esta forma concluimos que el algoritmo cumple con la cota de complejidad propuesta. 
