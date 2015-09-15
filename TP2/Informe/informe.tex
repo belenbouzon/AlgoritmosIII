@@ -1,0 +1,113 @@
+\documentclass[a4paper]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{charter}   % tipografia
+\usepackage{graphicx}
+\usepackage{algorithmic}
+\usepackage{amsmath}
+%\usepackage{algorithm}
+%\usepackage[noend]{algpseudocode}
+
+\usepackage[bookmarks = true, colorlinks=true, linkcolor = black, citecolor = black, menucolor = black, urlcolor = blue]{hyperref} 
+
+
+%\usepackage{makeidx}
+\usepackage{paralist} %itemize inline
+\usepackage[ruled,vlined]{algorithm2e}
+%\usepackage{float}
+%\usepackage{amsmath, amsthm, amssymb}
+%\usepackage{amsfonts}
+%\usepackage{sectsty}
+%\usepackage{charter}
+%\usepackage{wrapfig}
+\usepackage{listings}
+\usepackage[svgnames, table, usenames, dvipsnames]{xcolor}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{gray}{0.25}
+\definecolor{myblue}{rgb}{0.2,0.2,0.6}
+
+%Estilos para el c\'odigo fuente
+\lstset{
+	basicstyle=\ttfamily\scriptsize,
+	breaklines=true,
+	captionpos=b,
+	commentstyle=\color{mygreen},
+	escapechar=@,
+	extendedchars=true,
+	identifierstyle=\color{myblue},
+	language=java,
+	numbers=left,
+	numberstyle=\tiny\color{mygray},
+	stringstyle=\color{orange},	
+	tabsize=3
+}
+
+
+\input{codesnippet}
+\input{page.layout}
+\usepackage{underscore}
+\usepackage{caratula}
+\usepackage{hyperref}
+\usepackage{tikz}
+
+\begin{document}
+
+\thispagestyle{empty}
+\materia{Algoritmos y Estructuras de Datos III}
+\submateria{Segundo Cuatrimestre de 2015}
+\titulo{Trabajo Práctico II}
+%\subtitulo{subtitulo del trabajo}
+\integrante{Bouzón, María Belén}{128/13}{belenbouzon@hotmail.com}
+\integrante{Jiménez, Paula}{655/10}{puly05@gmail.com}
+\integrante{Montepagano, Pablo}{205/12}{pablo@montepagano.com.ar}
+\integrante{Rey, Maximiliano}{037/13}{rey.maximiliano@gmail.com}
+
+
+\maketitle
+\newpage
+
+\thispagestyle{empty}
+%\vfill
+%\begin{abstract}
+
+%\end{abstract}
+
+\thispagestyle{empty}
+\vspace{3cm}
+\tableofcontents
+\newpage
+
+%\section{Objetivos generales}
+
+%\newpage
+\input{SaliendoFreezer.tex}
+\newpage
+\input{AlgoRush.tex}
+\newpage
+\input{PerdidosPasillos.tex}
+\newpage
+
+
+% \section{Contexto}
+
+% \begin{figure}
+%   \begin{center}
+% 	\includegraphics[scale=0.66]{imagenes/logouba.jpg}
+% 	\caption{Descripcion de la figura}
+% 	\label{nombreparareferenciar}
+%   \end{center}
+% \end{figure}
+
+
+% \paragraph{\textbf{Titulo del parrafo} } Bla bla bla bla.
+% Esto se muestra en la figura~\ref{nombreparareferenciar}.
+
+
+% %\section{Enunciado y solucion} 
+% %\input{enunciado}
+
+% \section{Conclusiones y trabajo futuro}
+
+\end{document}
+
