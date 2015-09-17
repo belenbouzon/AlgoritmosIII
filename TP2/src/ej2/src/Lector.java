@@ -44,10 +44,14 @@ public class Lector{
 		int nodo_iesimo = 2;
 		for(int i = 0;i<portales.length;i++){
 			String coordenadas [] = portales[i].split(" ");
-			int piso_1 = Integer.parseInt(coordenadas[0]);
-			int distancia_1 = Integer.parseInt(coordenadas[1]);
-			int piso_2 = Integer.parseInt(coordenadas[2]);
-			int distancia_2 = Integer.parseInt(coordenadas[3]);
+			int k = 0;
+			if(coordenadas[0].length()==0){
+				k = 1;
+			}
+			int piso_1 = Integer.parseInt(coordenadas[0+k]);
+			int distancia_1 = Integer.parseInt(coordenadas[1+k]);
+			int piso_2 = Integer.parseInt(coordenadas[2+k]);
+			int distancia_2 = Integer.parseInt(coordenadas[3+k]);
 			Nodo nodo;
 			if(!mapas_de_piso.containsKey(piso_1)){
 				TreeMap<Integer,Nodo> nuevo = new TreeMap<Integer,Nodo>();
@@ -99,6 +103,17 @@ public class Lector{
 			nodo.agregar_arista(nodo2, 2);
 			nodo2.agregar_arista(nodo, 2);
 		}
+		//----------Test------------
+		for(int i=0;i<=L;i++){
+			if(mapas_de_piso.containsKey(i)){
+				Set<Entry<Integer,Nodo>> otros = mapas_de_piso.get(i).entrySet();
+				Iterator<Entry<Integer,Nodo>> it = otros.iterator();
+				while(it.hasNext()){
+					System.out.printf("piso: %d,nodo: %d\n", i,it.next().getValue().piso);
+				}
+			}
+		}
+		//--------------------------
 	}
 	public String leer_palabra() throws IOException{
 

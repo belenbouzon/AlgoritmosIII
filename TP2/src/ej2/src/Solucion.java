@@ -17,22 +17,31 @@ public class Solucion{
 		}
 		while(it.hasNext()){
 			Entry<Nodo,Integer> nodo = it.next();
-			if(!ya_estuve.contains(nodo.getKey()) && this.calculados.containsKey(nodo.getKey())){
-				int nuevo_valor = nodo.getValue() + this.calculados.get(nodo.getKey());
-				if(valor_minimo == -1 || valor_minimo > nuevo_valor){
-					valor_minimo = nuevo_valor;
+			if(!ya_estuve.contains(nodo.getKey())){
+				System.out.printf("desde:%d hasta:%d\n", posicion.piso,nodo.getKey().piso);
+				if(this.calculados.containsKey(nodo.getKey())){
+					int recursion = this.calculados.get(nodo.getKey());
+					if(recursion!=-1){
+						int nuevo_valor = nodo.getValue() + recursion;
+						if(valor_minimo == -1 || (valor_minimo > nuevo_valor && nuevo_valor!=-1)){
+							valor_minimo = nuevo_valor;
+						}
+					}
+				}else{
+					ya_estuve.add(nodo.getKey());
+					int valor_recursion = calcular_segundos_desde(nodo.getKey());
+					ya_estuve.remove(nodo.getKey());
+					if(valor_recursion!=-1){
+						int nuevo_valor = nodo.getValue() + valor_recursion;
+						if(valor_minimo == -1 || (valor_minimo > nuevo_valor && nuevo_valor!=-1)){
+							valor_minimo = nuevo_valor;
+						}
+					}
+					this.calculados.put(nodo.getKey(),valor_recursion);
 				}
-			}else if(!ya_estuve.contains(nodo.getKey())){
-				ya_estuve.add(nodo.getKey());
-				int valor_recursion = calcular_segundos_desde(nodo.getKey());
-				ya_estuve.remove(nodo.getKey());
-				int nuevo_valor = nodo.getValue() + valor_recursion;
-				if(valor_minimo == -1 || valor_minimo > nuevo_valor){
-					valor_minimo = nuevo_valor;
-				}
-				this.calculados.put(nodo.getKey(),valor_recursion);
 			}
 		}
+		System.out.printf("\n");
 		return valor_minimo;
 	}
 	public int calcular_segundos(){
