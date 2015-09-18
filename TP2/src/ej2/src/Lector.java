@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.LinkedHashSet;
 
 import java.util.Iterator;
 
@@ -31,8 +32,8 @@ public class Lector{
 		String entrada = this.leer_palabra();
 		String portales [] = entrada.split(";");
 		TreeMap<Integer,TreeMap<Integer,Nodo>> mapas_de_piso = new TreeMap<Integer,TreeMap<Integer,Nodo>>();
-		this.prim_nodo = new Nodo(0);
-		this.ult_nodo = new Nodo(1);
+		this.prim_nodo = new Nodo(0,0);
+		this.ult_nodo = new Nodo(1,L);
 		TreeMap<Integer,Nodo> pos_0 = new TreeMap<Integer,Nodo>();
 		pos_0.put(0, this.prim_nodo);
 		TreeMap<Integer,Nodo> pos_l = new TreeMap<Integer,Nodo>();
@@ -55,22 +56,22 @@ public class Lector{
 			Nodo nodo;
 			if(!mapas_de_piso.containsKey(piso_1)){
 				TreeMap<Integer,Nodo> nuevo = new TreeMap<Integer,Nodo>();
-				nodo = new Nodo(nodo_iesimo);
+				nodo = new Nodo(nodo_iesimo,distancia_1);
 				nodo_iesimo++;
 				nuevo.put(distancia_1,nodo);
 				mapas_de_piso.put(piso_1,nuevo);
 			}else{
 				TreeMap<Integer,Nodo> piso = mapas_de_piso.get(piso_1);
 				if(!piso.containsKey(distancia_1)){
-					nodo = new Nodo(nodo_iesimo);
+					nodo = new Nodo(nodo_iesimo,distancia_1);
 					nodo_iesimo++;
-					Set<Entry<Integer,Nodo>> otros = piso.entrySet();
+					/*Set<Entry<Integer,Nodo>> otros = piso.entrySet();
 					Iterator<Entry<Integer,Nodo>> it = otros.iterator();
 					while(it.hasNext()){
 						Entry<Integer,Nodo> otro_nodo = it.next();
 						otro_nodo.getValue().agregar_arista(nodo, absoluto(otro_nodo.getKey()-distancia_1));
 						nodo.agregar_arista(otro_nodo.getValue(), absoluto(otro_nodo.getKey()-distancia_1));
-					}
+					}*/
 					piso.put(distancia_1,nodo);
 				}else{
 					nodo = piso.get(distancia_1);
@@ -79,29 +80,29 @@ public class Lector{
 			Nodo nodo2;
 			if(!mapas_de_piso.containsKey(piso_2)){
 				TreeMap<Integer,Nodo> nuevo = new TreeMap<Integer,Nodo>();
-				nodo2 = new Nodo(nodo_iesimo);
+				nodo2 = new Nodo(nodo_iesimo,distancia_2);
 				nodo_iesimo++;
 				nuevo.put(distancia_2,nodo2);
 				mapas_de_piso.put(piso_2,nuevo);
 			}else{
 				TreeMap<Integer,Nodo> piso = mapas_de_piso.get(piso_2);
 				if(!piso.containsKey(distancia_2)){
-					Set<Entry<Integer,Nodo>> otros = piso.entrySet();
+					nodo2 = new Nodo(nodo_iesimo,distancia_2);
+					nodo_iesimo++;
+					/*Set<Entry<Integer,Nodo>> otros = piso.entrySet();
 					Iterator<Entry<Integer,Nodo>> it = otros.iterator();
-					nodo2 = new Nodo(nodo_iesimo);
 					while(it.hasNext()){
 						Entry<Integer,Nodo> otro_nodo = it.next();
 						otro_nodo.getValue().agregar_arista(nodo2, absoluto(otro_nodo.getKey()-distancia_2));
 						nodo2.agregar_arista(otro_nodo.getValue(), absoluto(otro_nodo.getKey()-distancia_2));
-					}
-					nodo_iesimo++;
+					}*/
 					piso.put(distancia_2,nodo2);
 				}else{
 					nodo2 = piso.get(distancia_2);
 				}
 			}
-			nodo.agregar_arista(nodo2, 2);
-			nodo2.agregar_arista(nodo, 2);
+			nodo.agregar_punto_teletransporte(nodo2);
+			nodo2.agregar_punto_teletransporte(nodo);
 		}
 		//----------Test------------
 		for(int i=0;i<=L;i++){
@@ -109,11 +110,25 @@ public class Lector{
 				Set<Entry<Integer,Nodo>> otros = mapas_de_piso.get(i).entrySet();
 				Iterator<Entry<Integer,Nodo>> it = otros.iterator();
 				while(it.hasNext()){
-					System.out.printf("piso: %d,nodo: %d\n", i,it.next().getValue().piso);
+					System.out.printf("piso: %d,nodo: %d\n", i,it.next().getValue().identificacion);
 				}
 			}
 		}
 		//--------------------------
+
+		Set<Entry<Integer,TreeMap<Integer,Nodo>>> conjunto = mapas_de_piso.entrySet();
+		Iterator<Entry<Integer,TreeMap<Integer,Nodo>>> it_principal = conjunto.iterator();
+		while(it_principal.hasNext()){
+			TreeMap<Integer,Nodo> sub_dicc = it_principal.next().getValue();
+			Set<Entry<Integer,Nodo>> subconjunto = sub_dicc.entrySet();
+			Iterator<Entry<Integer,Nodo>> it_secundario = subconjunto.iterator();
+			Set<Nodo> conjunto_aristas_caminando = new LinkedHashSet<Nodo>();
+			while(it_secundario.hasNext()){
+				Nodo nodo_mapeado = it_secundario.next().getValue();
+				conjunto_aristas_caminando.add(nodo_mapeado);
+				nodo_mapeado.aristas_caminado = conjunto_aristas_caminando;
+			}
+		}
 	}
 	public String leer_palabra() throws IOException{
 
