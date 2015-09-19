@@ -2,11 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Collection;
-import java.util.Comparator;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.Map.Entry;
 import java.util.LinkedHashSet;
 
 import java.util.Iterator;
@@ -15,6 +11,14 @@ public class Lector{
 	private Nodo prim_nodo;
 	private Nodo ult_nodo;
 	private BufferedReader is;
+	private int n;
+	private int L;
+	public int cantidad_pisos(){
+		return n;
+	}
+	public int largo_pasillos(){
+		return L;
+	}
 	public Nodo primer_nodo(){
 		return this.prim_nodo;
 	}
@@ -43,21 +47,14 @@ public class Lector{
 	private void procesar_entrada() throws IOException{
 		String formato = this.leer_palabra();
 		String parametros [] = formato.split(" ");
-		int n = Integer.parseInt(parametros[0]);
-		int L = Integer.parseInt(parametros[1]);
+		this.n = Integer.parseInt(parametros[0]);
+		this.L = Integer.parseInt(parametros[1]);
 		String entrada = this.leer_palabra();
 		String portales [] = entrada.split(";");
-		//TreeMap<Integer,TreeMap<Integer,Nodo>> mapas_de_piso = new TreeMap<Integer,TreeMap<Integer,Nodo>>();
 		BoundedIntegerMap<BoundedIntegerMap<Nodo>> mapas_de_piso = new BoundedIntegerMap<BoundedIntegerMap<Nodo>>(n);
 		iniciar_diccionario(mapas_de_piso,n,L);
 		this.prim_nodo = new Nodo(0,0);
 		this.ult_nodo = new Nodo(1,L);
-		/*TreeMap<Integer,Nodo> pos_0 = new TreeMap<Integer,Nodo>();
-		pos_0.put(0, this.prim_nodo);
-		TreeMap<Integer,Nodo> pos_l = new TreeMap<Integer,Nodo>();
-		pos_l.put(L, this.ult_nodo);
-		mapas_de_piso.put(0, pos_0);
-		mapas_de_piso.put(n, pos_l);*/
 		mapas_de_piso.get(0).put(0, prim_nodo);
 		mapas_de_piso.get(n).put(L, ult_nodo);
 		

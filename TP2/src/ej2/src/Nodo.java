@@ -1,6 +1,4 @@
 import java.util.LinkedHashSet;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Map.Entry;
 import java.util.Set;
 
 public class Nodo{

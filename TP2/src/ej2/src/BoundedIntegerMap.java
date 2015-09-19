@@ -1,6 +1,6 @@
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -54,8 +54,15 @@ public class BoundedIntegerMap<E extends Object> implements Map<Integer,E>  {
 
 	@Override
 	public Set<java.util.Map.Entry<Integer, E>> entrySet() {
-		// TODO Auto-generated method stub
-		return null;
+		Set<java.util.Map.Entry<Integer, E>> res = new LinkedHashSet<java.util.Map.Entry<Integer, E>>();
+		int i = 0;
+		while(i<this.tamanio_maximo){
+			if(this.contiene_dato[i]){
+				res.add(new AbstractMap.SimpleEntry<Integer, E>(i,this.get(i)));
+			}
+			i++;
+		}
+		return res;
 	}
 
 	@Override
@@ -70,8 +77,15 @@ public class BoundedIntegerMap<E extends Object> implements Map<Integer,E>  {
 
 	@Override
 	public Set<Integer> keySet() {
-		// TODO Auto-generated method stub
-		return null;
+		Set<Integer> res = new LinkedHashSet<Integer>();
+		int i = 0;
+		while(i<this.tamanio_maximo){
+			if(this.contiene_dato[i]){
+				res.add(i);
+			}
+			i++;
+		}
+		return res;
 	}
 
 	@Override
@@ -96,12 +110,10 @@ public class BoundedIntegerMap<E extends Object> implements Map<Integer,E>  {
 
 	@Override
 	public Collection<E> values() {
-		int cant = 0;
 		Collection<E> res = new LinkedHashSet<E>();
 		int i = 0;
 		while(i<this.tamanio_maximo){
 			if(this.contiene_dato[i]){
-				cant++;
 				res.add(this.get(i));
 			}
 			i++;

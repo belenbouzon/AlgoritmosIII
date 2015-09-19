@@ -1,13 +1,11 @@
-import java.util.TreeMap;
 import java.util.Iterator;
-import java.util.Map.Entry;
-import java.util.TreeSet;
 
 public class Solucion{
 	private Nodo comienzo;
 	private Nodo fin;
-	private TreeMap<Nodo,Integer> calculados;
-	private TreeSet<Nodo> ya_estuve;
+	private BoundedIntegerMap<Integer> calculados;
+	//private TreeSet<Nodo> ya_estuve;
+	private boolean ya_estuve[];
 	private static int absoluto(int numero){
 		if(numero<0){
 			numero = -numero;
@@ -18,7 +16,7 @@ public class Solucion{
 		Iterator<Nodo> it = posicion.aristas_teletranspoorte.iterator();
 		Iterator<Nodo> it2 = posicion.aristas_caminado.iterator();
 		int valor_minimo = -1;
-		ya_estuve.add(this.comienzo);
+		ya_estuve[this.comienzo.identificacion] = true;
 		if(posicion==this.fin){
 			return 0;
 		}
@@ -33,10 +31,10 @@ public class Solucion{
 				//System.out.printf("desde:%d hasta:%d\n", posicion.identificacion,nodo.identificacion);
 				teleport = false;
 			}
-			if(!ya_estuve.contains(nodo)){
+			if(!ya_estuve[nodo.identificacion]){
 				//System.out.printf("desde:%d hasta:%d\n", posicion.identificacion,nodo.identificacion);
-				if(this.calculados.containsKey(nodo)){
-					int recursion = this.calculados.get(nodo);
+				if(this.calculados.containsKey(nodo.identificacion)){
+					int recursion = this.calculados.get(nodo.identificacion);
 					if(recursion!=-1){
 						int nuevo_valor = absoluto(posicion.posicion - nodo.posicion) + recursion;
 						if(valor_minimo == -1 || (valor_minimo > nuevo_valor && nuevo_valor!=-1)){
@@ -44,9 +42,9 @@ public class Solucion{
 						}
 					}
 				}else{
-					ya_estuve.add(nodo);
+					ya_estuve[nodo.identificacion] = true;
 					int valor_recursion = calcular_segundos_desde(nodo);
-					ya_estuve.remove(nodo);
+					ya_estuve[nodo.identificacion] = false;
 					if(valor_recursion!=-1){
 						int nuevo_valor;
 						if(teleport){
@@ -58,7 +56,7 @@ public class Solucion{
 							valor_minimo = nuevo_valor;
 						}
 					}
-					this.calculados.put(nodo,valor_recursion);
+					this.calculados.put(nodo.identificacion,valor_recursion);
 				}
 			}
 		}
@@ -68,10 +66,13 @@ public class Solucion{
 	public int calcular_segundos(){
 		return calcular_segundos_desde(this.comienzo);
 	}
-	public Solucion(Nodo com,Nodo f){
+	public Solucion(Nodo com,Nodo f,int tam){
 		this.comienzo = com;
 		this.fin = f;
-		this.calculados = new TreeMap<Nodo,Integer>(new ComparadorNodo());
-		this.ya_estuve = new TreeSet<Nodo>(new ComparadorNodo());
+		this.calculados = new BoundedIntegerMap<Integer>(tam+1);
+		this.ya_estuve = new boolean [tam];
+		for(int i=0;i<tam;i++){
+			this.ya_estuve[i] = false;
+		}
 	}
 }
