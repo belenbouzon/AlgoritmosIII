@@ -105,19 +105,25 @@ public class Lector{
 			nodo2.agregar_punto_teletransporte(nodo);
 		}
 		//----------Test------------
-		for(int i=0;i<=L;i++){
+		/*for(int i=0;i<=L;i++){
 			if(mapas_de_piso.containsKey(i)){
 				Set<Entry<Integer,Nodo>> otros = mapas_de_piso.get(i).entrySet();
 				Iterator<Entry<Integer,Nodo>> it = otros.iterator();
 				while(it.hasNext()){
-					System.out.printf("piso: %d,nodo: %d\n", i,it.next().getValue().identificacion);
+					Nodo nn = it.next().getValue();
+					System.out.printf("piso: %d,nodo: %d\n", i,nn.identificacion);
+					System.out.print(nn.aristas_teletranspoorte);
+					System.out.printf("\n");
 				}
 			}
-		}
+		}*/
+		
 		//--------------------------
 
 		Set<Entry<Integer,TreeMap<Integer,Nodo>>> conjunto = mapas_de_piso.entrySet();
 		Iterator<Entry<Integer,TreeMap<Integer,Nodo>>> it_principal = conjunto.iterator();
+		//System.out.print(conjunto);
+		//System.out.printf("\n");
 		while(it_principal.hasNext()){
 			TreeMap<Integer,Nodo> sub_dicc = it_principal.next().getValue();
 			Set<Entry<Integer,Nodo>> subconjunto = sub_dicc.entrySet();
@@ -129,6 +135,20 @@ public class Lector{
 				nodo_mapeado.aristas_caminado = conjunto_aristas_caminando;
 			}
 		}
+		//----------Test------------
+		/*for(int i=0;i<=L;i++){
+			if(mapas_de_piso.containsKey(i)){
+				Set<Entry<Integer,Nodo>> otros = mapas_de_piso.get(i).entrySet();
+				Iterator<Entry<Integer,Nodo>> it = otros.iterator();
+				while(it.hasNext()){
+					Nodo nn = it.next().getValue();
+					System.out.print(nn.aristas_caminado);
+					System.out.printf("\n");
+				}
+			}
+		}*/
+		
+		//--------------------------
 	}
 	public String leer_palabra() throws IOException{
 

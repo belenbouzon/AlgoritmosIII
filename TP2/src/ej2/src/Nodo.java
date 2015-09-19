@@ -12,22 +12,23 @@ public class Nodo{
 		this.identificacion =n;
 		this.aristas = ar;
 	}*/
-	public void agregar_arista(Nodo nod){
+	/*public void agregar_arista(Nodo nod){
 		this.aristas_caminado.add(nod);
-	}
+	}*/
 	public void agregar_punto_teletransporte(Nodo nod){
 		this.aristas_teletranspoorte.add(nod);
 	}
-	public Nodo(int n,Nodo nod,int pos){
+	/*public Nodo(int n,Nodo nod,int pos){
 		this.identificacion = n;
-		this.aristas_caminado = new LinkedHashSet<Nodo>();
+		//this.aristas_caminado = new LinkedHashSet<Nodo>();
+		this.posicion = pos;
 		this.aristas_teletranspoorte = new LinkedHashSet<Nodo>();
 		this.aristas_teletranspoorte.add(nod);
-	}
+	}*/
 	public Nodo(int n,int pos){
 		this.identificacion = n;
 		this.posicion = pos;
-		this.aristas_caminado = new LinkedHashSet<Nodo>();
+		//this.aristas_caminado = new LinkedHashSet<Nodo>();
 		this.aristas_teletranspoorte = new LinkedHashSet<Nodo>();
 	}
 }
