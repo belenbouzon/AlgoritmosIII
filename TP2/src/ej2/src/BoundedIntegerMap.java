@@ -6,16 +6,29 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class BoundedIntegerMap<E> implements Map<Integer,E>  {
+public class BoundedIntegerMap<E extends Object> implements Map<Integer,E>  {
 	private ArrayList<E> array_datos;
 	private boolean [] contiene_dato;
 	private int tamanio_maximo;
 	private int cantidad_claves;
+	
 	@Override
 	public void clear() {
 		for(int i = 0;i<tamanio_maximo;i++){
 			array_datos.set(i, null);
+			this.contiene_dato[i] = false;
 		}
+		this.cantidad_claves = 0;
+	}
+	public BoundedIntegerMap(int n){
+		this.array_datos = new ArrayList<E>(n+1);
+		this.contiene_dato = new boolean [n+1];
+		this.tamanio_maximo = n+1;
+		for(int i = 0;i<tamanio_maximo;i++){
+			array_datos.add(i,null);
+			this.contiene_dato[i] = false;
+		}
+		this.cantidad_claves = 0;
 	}
 
 	@Override
@@ -25,13 +38,12 @@ public class BoundedIntegerMap<E> implements Map<Integer,E>  {
 
 	@Override
 	public boolean containsValue(Object arg0) {
-		E arg0_e = (E) arg0;
 		int i = 0;
 		int cant = 0;
 		while(i<this.tamanio_maximo && cant<this.cantidad_claves){
 			if(this.contiene_dato[i]){
 				cant++;
-				if(this.array_datos.get(i)==arg0_e){
+				if(this.array_datos.get(i)==arg0){
 					return true;
 				}
 			}
@@ -64,8 +76,9 @@ public class BoundedIntegerMap<E> implements Map<Integer,E>  {
 
 	@Override
 	public E put(Integer arg0, E arg1) {
-		E res = this.array_datos.get((Integer)arg0);
+		E res = this.array_datos.get(arg0);
 		this.array_datos.set(arg0, arg1);
+		this.contiene_dato[arg0] = true;
 		return res;
 	}
 	@Override
@@ -86,7 +99,7 @@ public class BoundedIntegerMap<E> implements Map<Integer,E>  {
 		int cant = 0;
 		Collection<E> res = new LinkedHashSet<E>();
 		int i = 0;
-		while(i<this.tamanio_maximo && cant<this.cantidad_claves){
+		while(i<this.tamanio_maximo){
 			if(this.contiene_dato[i]){
 				cant++;
 				res.add(this.get(i));
