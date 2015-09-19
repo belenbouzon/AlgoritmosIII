@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Collection;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.Map.Entry;
@@ -120,12 +121,12 @@ public class Lector{
 		
 		//--------------------------
 
-		Set<Entry<Integer,TreeMap<Integer,Nodo>>> conjunto = mapas_de_piso.entrySet();
-		Iterator<Entry<Integer,TreeMap<Integer,Nodo>>> it_principal = conjunto.iterator();
+		Collection<TreeMap<Integer,Nodo>> conjunto = mapas_de_piso.values();
+		Iterator<TreeMap<Integer,Nodo>> it_principal = conjunto.iterator();
 		//System.out.print(conjunto);
 		//System.out.printf("\n");
 		while(it_principal.hasNext()){
-			TreeMap<Integer,Nodo> sub_dicc = it_principal.next().getValue();
+			TreeMap<Integer,Nodo> sub_dicc = it_principal.next();
 			Set<Entry<Integer,Nodo>> subconjunto = sub_dicc.entrySet();
 			Iterator<Entry<Integer,Nodo>> it_secundario = subconjunto.iterator();
 			Set<Nodo> conjunto_aristas_caminando = new LinkedHashSet<Nodo>();
