@@ -1,8 +1,26 @@
 \section{Problema 1: Saliendo del Freezer}
 
 \subsection{Descripción de la problemática}
+En este ejercicio se nos presenta una edificación de N niveles cuyo flujo de transporte entre distintos pisos - no necesariamente consecutivos - se encuentra dado por teletransportación a través de portales unidireccionales (es decir, que sólo permiten el ascenso).\\
+A partir de este contexto y asegurando que existe al menos una solución para cada instancia, se nos pide dise\~nar un algoritmo de complejidad O($n^{2}$) que calcule la mayor cantidad de portales que pueden ser usados para subir desde planta baja al piso N, sin descender en ningún momento.\\
 
 \subsection{Resolución propuesta y justificación}
+Para garantizar la cota superior de complejidad solicitada propoponemos resolver el problema utilizando un algoritmo de programación dinámica cuyo comportamiento esté regido por las siguientes instrucciones: \\
+
+\begin{itemize}
+\item tomar un piso (partiendo por el superior)
+\item para cada uno, fijarse a qué otros niveles superiores comunica.
+\item para cada uno de ellos comparar la máxima cantidad de portales que los separa del último nivel
+\item tomar el máximo de ellos y almacenarlo 
+\item al llegar al primer piso, devolver el máximo calculado.
+\end{itemize}
+
+este comportamiento puede organizarse y entenderse a través del siguiente pseudocódigo:\\
+\textcolor{blue}{completar una vez qe tenga el algoritmo}
+\begin{algorithmic} 
+	\STATE bla
+\end{algorithmic} 
+
 
 \subsection{Análisis de la complejidad}
 
