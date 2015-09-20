@@ -9,18 +9,19 @@ A partir de este contexto se nos pide desarrollar un algoritmo que elimine cualq
 
 Para resolver el problema, desarrollamos un método que hace uso de una adaptación del algoritmo de Kruskal, mediante el cuál es posible encontrar un árbol generador mínimo con una complejidad de O(m log m) (siendo m la cantidad de aristas).\\
 El algoritmo propuesto ordena inicialmente cada pasillo de acuerdo a sus longitudes y los toma uno a uno de mayor a menor verificando si conectan vértices entre los cuales ya existe un camino o no. De ser cierto, la arista en cuestión es descartada. De ser falso, la misma pasa a ser parte del conjunto solución y se repite el procedimiento con la siguiente hasta que se hayan analizado todas.\\
-Para que las complejidades respetaran los requerimientos, fue necesario desarrollar... (find & union) \textcolor{blue}{COMPLETAR} 
+Para que las complejidades respetaran los requerimientos, fue necesario desarrollar... (find \& union) \textcolor{blue}{COMPLETAR} \\
 El pseudocódigo de nuestro algoritmo es el siguiente:
 
 \begin{algorithmic} 
 
-\STATE Ordenar pasillos de acuerdo a su longitud.
-\For{\texttt{pasillo p in pasillos}
-	\IF {El pasillo conecta dos intersecciones que no tenían demarcado un camino previamente}
-		\STATE Agregar el pasillo al conjunto solución.
-		\STATE Sumar la longitud del pasillo a la solución.
+\STATE \texttt{Ordenar pasillos de acuerdo a su longitud.}
+\FOR{\texttt{pasillo p in pasillos}}
+	\IF {\texttt{El pasillo conecta dos intersecciones que no ten\'ian demarcado un camino previamente}}
+		\STATE \texttt{Agregar el pasillo al conjunto soluci\'on.}
+		\STATE \texttt{Sumar la longitud del pasillo a la soluci\'on.}
 	\ENDIF
-\EndFor
+\ENDFOR
+\end{algorithmic} 
 
 
 \subsection{Análisis de la complejidad}
