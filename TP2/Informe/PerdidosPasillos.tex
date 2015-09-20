@@ -2,12 +2,32 @@
 
 \subsection{Descripción de la problemática}
 
+En este ejercicio se nos presenta un pabellón con M pasillos de distintas longitudes (potencialmente) y un conjunto vértices que pueden ser tanto intersecciones en las cuales dos o más de ellos convergen, o extremos incididos por un sólo corredor. 
+A partir de este contexto se nos pide desarrollar un algoritmo que elimine cualquier ciclo posible del grafo dado, logrando crear partiendo del mismo un árbol generador cuyo peso (dado por la sumatoria de los pesos de cada arista) sea mayor o igual al de cualquier otro árbol generador posible (conocido como árbol generador máximo).
+
 \subsection{Resolución propuesta y justificación}
+
+Para resolver el problema, desarrollamos un método que hace uso de una adaptación del algoritmo de Kruskal, mediante el cuál es posible encontrar un árbol generador mínimo con una complejidad de O(m log m) (siendo m la cantidad de aristas).\\
+El algoritmo propuesto ordena inicialmente cada pasillo de acuerdo a sus longitudes y los toma uno a uno de mayor a menor verificando si conectan vértices entre los cuales ya existe un camino o no. De ser cierto, la arista en cuestión es descartada. De ser falso, la misma pasa a ser parte del conjunto solución y se repite el procedimiento con la siguiente hasta que se hayan analizado todas.\\
+Para que las complejidades respetaran los requerimientos, fue necesario desarrollar... (find & union) \textcolor{blue}{COMPLETAR} 
+El pseudocódigo de nuestro algoritmo es el siguiente:
+
+\begin{algorithmic} 
+
+\STATE Ordenar pasillos de acuerdo a su longitud.
+\For{\texttt{pasillo p in pasillos}
+	\IF {El pasillo conecta dos intersecciones que no tenían demarcado un camino previamente}
+		\STATE Agregar el pasillo al conjunto solución.
+		\STATE Sumar la longitud del pasillo a la solución.
+	\ENDIF
+\EndFor
+
 
 \subsection{Análisis de la complejidad}
 
 \subsection{Código fuente}
 
 \subsection{Experimentación}
+\textcolor{blue}{Pensar casos borde}
 
 \subsubsection{Constrastación Empírica de la complejidad}
