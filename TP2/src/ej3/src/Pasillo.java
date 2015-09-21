@@ -13,16 +13,10 @@ public class Pasillo implements Comparable<Pasillo> {
 	}
 
 	public int compareTo( Pasillo other ) {
-		if ( lessThan( other ) ) {
-			return -1;
-		} else if ( other.lessThan( this ) ) {
-			return 1;
-		} else {
-		   return 0;
-		}
+		return this.longitud - other.getLongitud();
    }
 
-   public boolean lessThan( Pasillo otro ) {
+ /*  public boolean lessThan( Pasillo otro ) {
       if ( getLongitud() != otro.getLongitud() ) {
          return getLongitud() > otro.getLongitud();
       } else if ( getExtremo1() != otro.getExtremo1() ) {
@@ -31,7 +25,7 @@ public class Pasillo implements Comparable<Pasillo> {
          return getExtremo2() < otro.getExtremo2();
       }
    }
-
+*/
 	// Accessors
    public int getExtremo1() {                   return extremo1;        }
    public void setExtremo1( int extremo ) {     extremo1 = extremo;     }
