@@ -54,11 +54,6 @@ int main( int argc, char* argv[]){
         string lineaPortales;
         std::getline(infile, lineaPortales);
 
-        /*
-         * Este parseo con regex lo dejo comentado
-         * porque no encuentro en la documentación
-         * la complejidad. Lo reemplacé con el código
-         * de más abajo (que es menos claro)
         std::regex reg1("\\s*(\\d+)\\s+(\\d+)\\s*[;\\n$]*");
         sregex_iterator it(lineaPortales.begin(), lineaPortales.end(), reg1);
         sregex_iterator it_end;
@@ -69,41 +64,7 @@ int main( int argc, char* argv[]){
             portales[sale].push_back(llega);
             p++;
             ++it;
-        }   // O(P)
-        */
-
-
-        // parseo portales
-        std::string delimiter = "; ";
-        size_t pos = 0;
-        size_t espacio = 0;
-        std::string token;
-        while ((pos = lineaPortales.find(delimiter)) != std::string::npos) {
-            token = lineaPortales.substr(0, pos);
-            // ahora falta separar el primer portal del segundo
-            if ((espacio = token.find(' ')) != std::string::npos){
-                int sale = stoi(token.substr(0,espacio));
-                int llega = stoi(token.substr(espacio));
-                portales[sale].push_back(llega);
-                p++;
-            } else{
-                cout << "ERROR DE PARSEO!!!" << endl;
-                exit(1);
-            }
-
-            lineaPortales.erase(0, pos + delimiter.length());
-        }
-        // queda el último
-        if ((espacio = lineaPortales.find(' ')) != std::string::npos){
-            int sale = stoi(lineaPortales.substr(0,espacio));
-            int llega = stoi(lineaPortales.substr(espacio));
-            portales[sale].push_back(llega);
-        } else{
-            cout << "ERROR DE PARSEO!!!" << endl;
-            exit(1);
-        }
-
-        // todo este parseo de los portales es O(P)
+        }   
 
     
         // ya quedaron los datos de entrada del problema cargados.
