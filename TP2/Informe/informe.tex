@@ -49,7 +49,14 @@
 \usepackage{underscore}
 \usepackage{caratula}
 \usepackage{hyperref}
-\usepackage{tikz}
+%\usepackage{tikz}
+\usepackage{enumitem}
+
+\newlength{\wideitemsep}
+\setlength{\wideitemsep}{.7\itemsep}
+\addtolength{\wideitemsep}{-3pt}
+\let\olditem\item
+\renewcommand{\item}{\setlength{\itemsep}{\wideitemsep}\olditem}
 
 \begin{document}
 
