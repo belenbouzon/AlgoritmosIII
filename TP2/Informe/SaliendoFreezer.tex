@@ -8,7 +8,7 @@ Se pide diseñar un algoritmo de complejidad O($n^{2}$) que encuentre un camino 
 El formato de entrada es un archivo de texto. Cada problema está representado en dos líneas de texto. La primera es el valor de N. La segunda es una lista de portales que sigue el siguiente formato:
 
 \begin{verbatim}
-pd ph[;p p]    // pd (piso desde), ph (piso hasta) enteros, pares de p separados por ; 
+pd ph[; pd ph]    // pd (piso desde), ph (piso hasta) enteros, pares de p separados por "; "
 \end{verbatim}
 
 Para la salida, lo único que interesa es la cantidad de portales que hay que utilizar para recorrer el camino que usa la cantidad máxima posible de portales. La salida es una línea de texto que tiene ese valor.
@@ -65,6 +65,8 @@ Finalmente, el algoritmo itera por cada piso del edificio desde el piso $N-1$ ha
 
 \subsection{Justificación de correctitud}
 
+
+\textcolor{blue}{ACÁ PONER QUE LOS TESTS QUE ESTABAN EN JAVA LOS REPLIQUÉ EN EL ARCHIVO test.sh}
 \subsection{Análisis de la complejidad}
 
 En en código fuente hemos comentado las distintas partes indicando los costos de cada una. Si llamamos $N$ a la cantidad de pisos del edificio y $P$ a la cantidad total de portales, la conclusión a la que llegamos es que el algoritmo tiene un costo de $\mathcal{O}(N+P)$. 
@@ -75,9 +77,24 @@ $\displaystyle\sum_{i=1}^{N} i = \frac{N (N+1)}{2} = \frac{N^2 + N}{2}$
 
 Por lo tanto, podemos reescribir el costo del algoritmo en función de $N$ como perteneciente a $\mathcal{O}(N+N^2)$, lo cual pertenece a $\mathcal{O}(N^2)$, que es lo que se pide en el enunciado.
 \subsection{Código fuente}
-
+\lstinputlisting[name=Solucion, numbers=left, frame=lines, firstline=136, lastline=160]{../src/ej1/ej1.cpp}
 \subsection{Experimentación}
 
 \textcolor{blue}{PONER ACÁ CÓMO COMPILAR Y EJECUTAR EL PROGRAMA}
+
+ \begin{figure}[h!]
+   \begin{center}
+ 	\includegraphics[width=11cm]{imagenes/ej1/tvsn-peorcaso.png}
+	\caption{Relación entre tiempo de ejecución y cantidad de pisos (peor caso).}
+	\label{tvsn-peorcaso}
+   \end{center}
+ \end{figure}
+\begin{figure}[h!]
+   \begin{center}
+ 	\includegraphics[width=11cm]{imagenes/ej1/tvsp-peorcaso.png}
+	\caption{Relación entre tiempo de ejecución y cantidad de portales (peor caso).}
+	\label{tvsp-peorcaso}
+   \end{center}
+ \end{figure}
 
 \subsubsection{Constrastación Empírica de la complejidad}

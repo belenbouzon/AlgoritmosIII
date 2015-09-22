@@ -1,5 +1,5 @@
 GCC=g++
-CFLAGS= -Wall -O2 -std=c++11 -ggdb
+CFLAGS= -Wall -std=c++11 -ggdb
 CPPCHECK=cppcheck
 CPP_FILES := ej1.cpp 
 OBJ_FILES := $(CPP_FILES:.cpp=.o)
