@@ -6,7 +6,6 @@ public class Grafo {
    private List<Pasillo> _pasillos;
    private UnionFind _sets;
 
-   // O(n)
    public Grafo( int n, List<Pasillo> ps ) {
 	   OrdenarDesc(ps);
       _pasillos = ps;
@@ -17,7 +16,6 @@ public class Grafo {
 	   ps.sort(new PasilloComparator());
    }
 
-   // O(m.log(m))
    public final int kruskal() {
 	   int suma = 0;
 	   Pasillo p;
@@ -25,6 +23,8 @@ public class Grafo {
 	   while(it.hasNext()){
 		   p = it.next();
 		   if(_sets.isSameSet(p.getExtremo1(), p.getExtremo2())){
+			   //si estan en el mismo set
+			   //tengo que sumar la long del pasillo a clausurar.
 			   suma += p.getLongitud();
 		   }else{
 			   _sets.unionSet(p.getExtremo1(), p.getExtremo2());

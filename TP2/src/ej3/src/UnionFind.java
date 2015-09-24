@@ -1,5 +1,3 @@
-//package uba.algo3.kruskal;
-
 import java.util.ArrayList;
 
 public class UnionFind {

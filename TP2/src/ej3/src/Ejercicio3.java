@@ -1,15 +1,19 @@
-//package uba.algo3.tp2;
-
 import java.util.List;
-
+//Esta clase se usa solo para correr los tests.
+//para tiempos o leer de archivo usar Main.
 public class Ejercicio3 {
 
-   public Ejercicio3( List<Pasillo> ps ) {
-   }
-
+	private List<Pasillo> pasillos;
+	private int nodos;
+	
+	public Ejercicio3(int n, List<Pasillo> ps){
+			pasillos = ps;
+			nodos = n;
+	}
 
    public int solve() {
-	   return 0;
+	   Grafo g = new Grafo(nodos, pasillos);
+	   return g.kruskal();
    }
 
 }

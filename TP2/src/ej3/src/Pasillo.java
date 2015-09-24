@@ -1,5 +1,3 @@
-//package uba.algo3.tp2;
-
 public class Pasillo implements Comparable<Pasillo> {
 
 	private int extremo1;
