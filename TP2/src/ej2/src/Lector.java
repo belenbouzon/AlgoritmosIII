@@ -13,6 +13,8 @@ public class Lector{
 	private BufferedReader is;
 	private int n;
 	private int L;
+	private String formato;
+	private String entrada;
 	public int cantidad_pisos(){
 		return n;
 	}
@@ -44,13 +46,13 @@ public class Lector{
 		}
 		return n;
 	}*/
-	private void procesar_entrada() throws IOException{
-		String formato = this.leer_palabra();
-		String parametros [] = formato.split(" ");
+	public void procesar_entrada() throws IOException{
+		//String formato = this.leer_palabra();
+		String parametros [] = formato.split(" "); //O(1)
 		this.n = Integer.parseInt(parametros[0]);
 		this.L = Integer.parseInt(parametros[1]);
-		String entrada = this.leer_palabra();
-		String portales [] = entrada.split(";");
+		//String entrada = this.leer_palabra();
+		String portales [] = entrada.split(";"); //O(1)
 		BoundedIntegerMap<BoundedIntegerMap<Nodo>> mapas_de_piso = new BoundedIntegerMap<BoundedIntegerMap<Nodo>>(n);
 		iniciar_diccionario(mapas_de_piso,n,L);
 		this.prim_nodo = new Nodo(0,0);
@@ -61,7 +63,7 @@ public class Lector{
 		
 		Integer nodo_iesimo = 2;
 		for(int i = 0;i<portales.length;i++){
-			String coordenadas [] = portales[i].split(" ");
+			String coordenadas [] = portales[i].split(" "); //O(1)
 			int k = 0;
 			if(coordenadas[0].length()==0){
 				k = 1;
@@ -92,7 +94,7 @@ public class Lector{
 			//Nodo nodo2 = incluir_nodo(piso_2,distancia_2,nodo_iesimo,mapas_de_piso);
 			{
 				BoundedIntegerMap<Nodo> piso = mapas_de_piso.get(piso_2);
-				if(!piso.containsKey(distancia_2)){
+				if(!piso.containsKey(distancia_2)){ //O(1)
 					nodo2 = new Nodo(nodo_iesimo,distancia_2);
 					nodo_iesimo++;
 					piso.put(distancia_2,nodo2);
@@ -121,14 +123,12 @@ public class Lector{
 
 		Collection<BoundedIntegerMap<Nodo>> conjunto = mapas_de_piso.values();
 		Iterator<BoundedIntegerMap<Nodo>> it_principal = conjunto.iterator();
-		//System.out.print(conjunto);
-		//System.out.printf("\n");
-		while(it_principal.hasNext()){
+		while(it_principal.hasNext()){ //O(nL) para todos los pisos se recorren todos los puntos del piso 
 			BoundedIntegerMap<Nodo> sub_dicc = it_principal.next();
 			Collection<Nodo> subconjunto = sub_dicc.values();
 			Iterator<Nodo> it_secundario = subconjunto.iterator();
 			Set<Nodo> conjunto_aristas_caminando = new LinkedHashSet<Nodo>();
-			while(it_secundario.hasNext()){
+			while(it_secundario.hasNext()){ //O(L) no existen más de L puntos de portal
 				Nodo nodo_mapeado = it_secundario.next();
 				conjunto_aristas_caminando.add(nodo_mapeado);
 				nodo_mapeado.aristas_caminado = conjunto_aristas_caminando;
@@ -161,6 +161,7 @@ public class Lector{
 	public Lector(String archivo) throws Exception{
 		try { this.is = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archivo)));}
 		catch (RuntimeException e) {throw new Exception ("No pudo hallarse el archivo especificado.");}
-		this.procesar_entrada();
+		this.formato = this.leer_palabra();
+		this.entrada = this.leer_palabra();
 	}
 }

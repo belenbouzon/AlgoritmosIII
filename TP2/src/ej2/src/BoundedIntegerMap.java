@@ -13,9 +13,9 @@ public class BoundedIntegerMap<E extends Object> implements Map<Integer,E>  {
 	private int cantidad_claves;
 	
 	@Override
-	public void clear() {
+	public void clear() { //O(tamanio_maximo)
 		for(int i = 0;i<tamanio_maximo;i++){
-			array_datos.set(i, null);
+			array_datos.set(i, null); //O(1)
 			this.contiene_dato[i] = false;
 		}
 		this.cantidad_claves = 0;
@@ -109,12 +109,12 @@ public class BoundedIntegerMap<E extends Object> implements Map<Integer,E>  {
 	}
 
 	@Override
-	public Collection<E> values() {
+	public Collection<E> values() { //O(tamanio_maximo)
 		Collection<E> res = new LinkedHashSet<E>();
 		int i = 0;
-		while(i<this.tamanio_maximo){
+		while(i<this.tamanio_maximo){//O(tamanio_maximo)
 			if(this.contiene_dato[i]){
-				res.add(this.get(i));
+				res.add(this.get(i));//O(1)
 			}
 			i++;
 		}
