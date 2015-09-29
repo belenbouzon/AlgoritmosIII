@@ -5,7 +5,10 @@ public class Nodo{
 	public int identificacion;
 	public Set<Nodo> aristas_caminado;
 	public Set<Nodo> aristas_teletranspoorte;
+	public boolean ya_estuve;
 	public int posicion;
+	public boolean ya_calculado;
+	public int camino_minimo;
 	/*public Nodo(int n,Set<Entry<Nodo,Integer>> ar){
 		this.identificacion =n;
 		this.aristas = ar;
@@ -28,5 +31,7 @@ public class Nodo{
 		this.posicion = pos;
 		//this.aristas_caminado = new LinkedHashSet<Nodo>();
 		this.aristas_teletranspoorte = new LinkedHashSet<Nodo>();
+		this.ya_estuve = false;
+		this.ya_calculado = false;
 	}
 }

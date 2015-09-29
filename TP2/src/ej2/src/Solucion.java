@@ -3,8 +3,8 @@ import java.util.Iterator;
 public class Solucion{
 	private Nodo comienzo;
 	private Nodo fin;
-	private BoundedIntegerMap<Integer> calculados;
-	private boolean ya_estuve[];
+	//private BoundedIntegerMap<Integer> calculados;
+	//private boolean ya_estuve[];
 	private static int absoluto(int numero){
 		if(numero<0){
 			numero = -numero;
@@ -15,7 +15,7 @@ public class Solucion{
 		Iterator<Nodo> it = posicion.aristas_teletranspoorte.iterator();
 		Iterator<Nodo> it2 = posicion.aristas_caminado.iterator();
 		int valor_minimo = -1;
-		ya_estuve[this.comienzo.identificacion] = true; //O(1) acceso a un array
+		this.comienzo.ya_estuve = true; //O(1) acceso a un array
 		if(posicion==this.fin){
 			return 0;
 		}
@@ -29,19 +29,24 @@ public class Solucion{
 				nodo= it2.next();
 				teleport = false;
 			}
-			if(!ya_estuve[nodo.identificacion]){ //O(1) acceso a un array
-				if(this.calculados.containsKey(nodo.identificacion)){
-					int recursion = this.calculados.get(nodo.identificacion); //O(1)
+			if(!nodo.ya_estuve){ //O(1) acceso a un array
+				if(nodo.ya_calculado){
+					int recursion = nodo.camino_minimo; //O(1)
 					if(recursion!=-1){
-						int nuevo_valor = absoluto(posicion.posicion - nodo.posicion) + recursion;
+						int nuevo_valor;
+						if(teleport){
+							nuevo_valor = 2 + recursion;
+						}else{
+							nuevo_valor = absoluto(posicion.posicion - nodo.posicion) + recursion;
+						}
 						if(valor_minimo == -1 || (valor_minimo > nuevo_valor && nuevo_valor!=-1)){
 							valor_minimo = nuevo_valor;
 						}
 					}
 				}else{
-					ya_estuve[nodo.identificacion] = true;
+					nodo.ya_estuve = true;
 					int valor_recursion = calcular_segundos_desde(nodo); // recursion
-					ya_estuve[nodo.identificacion] = false;
+					nodo.ya_estuve = false;
 					if(valor_recursion!=-1){
 						int nuevo_valor;
 						if(teleport){
@@ -53,7 +58,8 @@ public class Solucion{
 							valor_minimo = nuevo_valor;
 						}
 					}
-					this.calculados.put(nodo.identificacion,valor_recursion);//O(1)
+					nodo.camino_minimo = valor_recursion;//O(1)
+					nodo.ya_calculado = true;
 				}
 			}
 		}
@@ -65,11 +71,11 @@ public class Solucion{
 	public Solucion(Nodo com,Nodo f,int tam){
 		this.comienzo = com;
 		this.fin = f;
-		this.calculados = new BoundedIntegerMap<Integer>(tam+1);
-		this.ya_estuve = new boolean [tam];
+		//this.calculados = new BoundedIntegerMap<Integer>(tam+1);
+		/*this.ya_estuve = new boolean [tam];
 		for(int i=0;i<tam;i++){
 			this.ya_estuve[i] = false;
-		}
+		}*/
 	}
 }
 
