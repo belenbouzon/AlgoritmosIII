@@ -2,9 +2,9 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 public class Tester {
-	public static long promediar(ArrayList<Long> lista){
+	public static long promediar(ArrayList<Long> lista,int cantidad_de_veces){
 		long res = 0;
-		for(int i = 1;i<4500;i++){
+		for(int i = 1;i<cantidad_de_veces;i++){
 			res += lista.get(i)/5;
 		}
 		return res;
@@ -13,7 +13,7 @@ public class Tester {
 	@Test
 	public static void testear(String archivo,ArrayList<Long> lista) throws Exception{
 		Lector recuperar_nodos = new Lector(archivo);
-		for(int i = 0;i<500;i++){
+		for(int i = 0;i<2;i++){
 			long inicio = System.nanoTime();
 			recuperar_nodos.procesar_entrada();
 			Solucion sol = new Solucion(recuperar_nodos.primer_nodo(),recuperar_nodos.ultimo_nodo(),recuperar_nodos.cantidad_pisos()*recuperar_nodos.largo_pasillos());
@@ -26,10 +26,11 @@ public class Tester {
 		}
 	}
 	public static void main (String [] entrada) throws Exception{
-		ArrayList<Long> lista = new ArrayList<Long>(4500);
+		int cantidad_de_veces = Integer.parseInt(entrada[1]);
+		ArrayList<Long> lista = new ArrayList<Long>(cantidad_de_veces*2);
 		int numero = 1;
 		//for(int i = 1;i<=9;i++){
-		for(int i = 1;i<=Integer.parseInt(entrada[1]);i++){
+		for(int i = 1;i<=cantidad_de_veces;i++){
 			String lote = entrada[0];
 			String cadena = "";
 			cadena = String.valueOf(numero);
@@ -85,6 +86,6 @@ public class Tester {
 		Tester.testear(lote,lista);
 		//System.gc();
 		*/
-		System.out.printf("%d\n", Tester.promediar(lista));
+		System.out.printf("%d\n", Tester.promediar(lista,cantidad_de_veces));
 	}
 }

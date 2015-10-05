@@ -12,22 +12,24 @@ public class Solucion{
 		return numero;
 	}
 	private int calcular_segundos_desde(Nodo posicion){ //O(P-#ya_estive(1))
+		posicion.ya_estuve = true;
 		Iterator<Nodo> it = posicion.aristas_teletranspoorte.iterator();
 		Iterator<Nodo> it2 = posicion.aristas_caminado.iterator();
 		int valor_minimo = -1;
 		this.comienzo.ya_estuve = true; //O(1) acceso a un array
 		if(posicion==this.fin){
+			posicion.ya_estuve = false;
 			return 0;
 		}
 		while(it.hasNext() || it2.hasNext()){
 			Nodo nodo;
 			boolean teleport;
-			if(it.hasNext()){
-				nodo= it.next();
-				teleport = true;
-			}else{
+			if(it2.hasNext()){
 				nodo= it2.next();
 				teleport = false;
+			}else{
+				nodo= it.next();
+				teleport = true;
 			}
 			if(!nodo.ya_estuve){ //O(1) acceso a un array
 				if(nodo.ya_calculado){
@@ -39,14 +41,12 @@ public class Solucion{
 						}else{
 							nuevo_valor = absoluto(posicion.posicion - nodo.posicion) + recursion;
 						}
-						if(valor_minimo == -1 || (valor_minimo > nuevo_valor && nuevo_valor!=-1)){
+						if(valor_minimo == -1 || valor_minimo > nuevo_valor){
 							valor_minimo = nuevo_valor;
 						}
 					}
 				}else{
-					nodo.ya_estuve = true;
 					int valor_recursion = calcular_segundos_desde(nodo); // recursion
-					nodo.ya_estuve = false;
 					if(valor_recursion!=-1){
 						int nuevo_valor;
 						if(teleport){
@@ -54,15 +54,16 @@ public class Solucion{
 						}else{
 							nuevo_valor = absoluto(posicion.posicion - nodo.posicion) + valor_recursion;
 						}
-						if(valor_minimo == -1 || (valor_minimo > nuevo_valor && nuevo_valor!=-1)){
+						if(valor_minimo == -1 || valor_minimo > nuevo_valor){
 							valor_minimo = nuevo_valor;
 						}
 					}
-					nodo.camino_minimo = valor_recursion;//O(1)
-					nodo.ya_calculado = true;
 				}
 			}
 		}
+		posicion.camino_minimo = valor_minimo;
+		posicion.ya_calculado = true;
+		posicion.ya_estuve = false;
 		return valor_minimo;
 	}
 	public int calcular_segundos(){

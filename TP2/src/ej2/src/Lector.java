@@ -46,7 +46,7 @@ public class Lector{
 		}
 		return n;
 	}*/
-	public void procesar_entrada() throws IOException{
+	public void procesar_entrada(){
 		//String formato = this.leer_palabra();
 		String parametros [] = formato.split(" "); //O(1)
 		this.n = Integer.parseInt(parametros[0]);
@@ -135,6 +135,7 @@ public class Lector{
 			}
 		}
 		//----------Test------------
+		//System.out.printf("\n id buscada: %d\n",mapas_de_piso.get(0).get(5).identificacion);
 		/*for(int i=0;i<=L;i++){
 			if(mapas_de_piso.containsKey(i)){
 				Collection<Nodo> otros = mapas_de_piso.get(i).values();
@@ -163,5 +164,9 @@ public class Lector{
 		catch (RuntimeException e) {throw new Exception ("No pudo hallarse el archivo especificado.");}
 		this.formato = this.leer_palabra();
 		this.entrada = this.leer_palabra();
+	}
+	public Lector(String form, String entr){
+		this.formato = form;
+		this.entrada = entr;
 	}
 }

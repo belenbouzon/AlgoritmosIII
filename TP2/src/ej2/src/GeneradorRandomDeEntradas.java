@@ -107,7 +107,7 @@ public class GeneradorRandomDeEntradas {
 			System.out.printf(" %d %d %d %d", ultimo,nuevo_pasillo_1,nuevo_piso,nuevo_pasillo_2);
 			ultimo = nuevo_piso;
 			ya_utilizados.add(t);
-			if(i!=this.cantidad_portales-1 && !ultimo_considerado){
+			if(i!=this.cantidad_portales-1){
 				System.out.printf(";");
 			}
 		}
