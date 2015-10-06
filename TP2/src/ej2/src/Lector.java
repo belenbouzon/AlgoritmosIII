@@ -127,11 +127,19 @@ public class Lector{
 			BoundedIntegerMap<Nodo> sub_dicc = it_principal.next();
 			Collection<Nodo> subconjunto = sub_dicc.values();
 			Iterator<Nodo> it_secundario = subconjunto.iterator();
-			Set<Nodo> conjunto_aristas_caminando = new LinkedHashSet<Nodo>();
+			Set<Nodo> conjunto_aristas_caminando = null;
+			Nodo anterior = null;
 			while(it_secundario.hasNext()){ //O(L) no existen más de L puntos de portal
-				Nodo nodo_mapeado = it_secundario.next();
-				conjunto_aristas_caminando.add(nodo_mapeado);
-				nodo_mapeado.aristas_caminado = conjunto_aristas_caminando;
+				Nodo actual = it_secundario.next();
+				if(conjunto_aristas_caminando!=null){
+					conjunto_aristas_caminando.add(actual);
+				}
+				conjunto_aristas_caminando = new LinkedHashSet<Nodo>();
+				actual.aristas_caminado = conjunto_aristas_caminando;
+				if(anterior!=null){
+					conjunto_aristas_caminando.add(anterior);
+				}
+				anterior = actual;
 			}
 		}
 		//----------Test------------

@@ -1,4 +1,6 @@
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Solucion{
 	private Nodo comienzo;
@@ -10,6 +12,68 @@ public class Solucion{
 			numero = -numero;
 		}
 		return numero;
+	}
+	private int calcular_segundos_desde_alternativo(){
+		Queue<Nodo> pila = new LinkedList<Nodo>();
+		Nodo actual = this.fin;
+		this.fin.camino_minimo = 0;
+		this.fin.ya_calculado = true;
+		//int distancia = 0;
+		do{
+			//System.out.printf("portal mapeado: %d camino_minimo: %d\n",actual.identificacion,actual.camino_minimo);
+			//actual.camino_minimo = distancia;
+			//actual.ya_estuve = true;
+			//actual.ya_calculado = true;
+			if(actual.fantasma==0){
+				Iterator<Nodo> it = actual.aristas_caminado.iterator();
+				while(it.hasNext()){
+					Nodo nodo = it.next();
+					int camino = absoluto(actual.posicion - nodo.posicion);
+					if(!nodo.ya_calculado){
+						//pila.add(new Tupla<Integer, Nodo>(absoluto(actual.b.posicion - nodo.posicion),nodo));
+						if(camino == 1){
+							pila.add(nodo);
+							nodo.camino_minimo = actual.camino_minimo+1;
+							nodo.ya_calculado = true;
+							if(nodo==this.comienzo){
+								return nodo.camino_minimo;
+							}
+						}else if(camino!=0){
+							//System.out.printf("camino: %d\n",camino);
+							pila.add(Nodo.nodo_fantasma(camino, nodo,actual.camino_minimo+1));
+						}else{
+							System.out.printf("problema!!!!!!!!!!!!!!!!!!!!\n");
+						}
+					}
+				}
+				it = actual.aristas_teletranspoorte.iterator();
+				while(it.hasNext()){
+					Nodo nodo = it.next();
+					if(!nodo.ya_calculado){
+						//nodo.camino_minimo = actual.camino_minimo+1;
+						pila.add(Nodo.nodo_fantasma(2, nodo,actual.camino_minimo+1));
+					}
+				}
+			}else if(actual.fantasma==1){
+				Iterator<Nodo> it = actual.aristas_teletranspoorte.iterator();
+				Nodo nodo = it.next();
+				if(!nodo.ya_calculado){
+					pila.add(nodo);
+					nodo.camino_minimo = actual.camino_minimo + 1;
+					nodo.ya_calculado = true;
+					if(nodo==this.comienzo){
+						return nodo.camino_minimo;
+					}
+				}
+			}else{
+				actual.fantasma--;
+				actual.camino_minimo++;
+				pila.add(actual);
+			}
+			actual = pila.poll();
+		}while(actual!=null);
+		
+		return this.comienzo.camino_minimo;
 	}
 	private int calcular_segundos_desde(Nodo posicion){ //O(P-#ya_estive(1))
 		posicion.ya_estuve = true;
@@ -67,7 +131,8 @@ public class Solucion{
 		return valor_minimo;
 	}
 	public int calcular_segundos(){
-		return this.calcular_segundos_desde(this.comienzo); //O(p)
+		return this.calcular_segundos_desde_alternativo();
+		//return this.calcular_segundos_desde(this.comienzo); //O(p)
 	}
 	public Solucion(Nodo com,Nodo f,int tam){
 		this.comienzo = com;
