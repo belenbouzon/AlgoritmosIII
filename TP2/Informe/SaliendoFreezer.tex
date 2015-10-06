@@ -31,7 +31,7 @@ El algoritmo diseñado utiliza la técnica de programación dinámica con un enf
 
 En primer lugar \textit{parseamos} los datos de entrada, generando una tabla de tamaño N. La tabla contiene una lista de enteros en cada posición. La lista que se encuentra en la posición i-ésima de la tabla representa a los portales que salen desde el piso i. Los valores de la lista son los pisos a los que se llega desde ese piso usando un portal.
 
-Luego, inicializamos en -1 una tabla de resultados parciales. Nos referimos a resultados parciales porque en la posición i-ésima de la tabla resultados encontraremos la respuesta al subproblema de ``máxima cantidad de portales que se pueden utilizar para llegar al piso N partiendo desde el piso i''. Si no es posible llegar al piso N desde el piso i, guardaremos el valor -1 en esa posición.
+Luego, inicializamos en \texttt{-1} una tabla de resultados parciales. Nos referimos a resultados parciales porque en la posición i-ésima de la tabla resultados encontraremos la respuesta al subproblema de ``máxima cantidad de portales que se pueden utilizar para llegar al piso N partiendo desde el piso i''. Si no es posible llegar al piso N desde el piso i, guardaremos el valor -1 en esa posición.
 
 Nótese que ninguna de las dos tablas tiene un lugar para el piso N, ya que no hay portales que partan desde el piso N ni tiene sentido el problema de llegar al piso N desde el mismo piso N.
 
@@ -40,7 +40,7 @@ Finalmente, el algoritmo itera por cada piso del edificio desde el piso $N-1$ ha
 \begin{enumerate}[label*=\bfseries\arabic*.]
  \item leer el valor de N del archivo de entrada
  \item inicializar la tabla \texttt{portales} con listas (de enteros) vacías
- \item inicializar la tabla \texttt{resultados} con -1
+ \item inicializar la tabla \texttt{resultados} con \texttt{-1}
  \item llenar la tabla \texttt{portales} con los portales de cada piso
  \item Para cada piso \texttt{p} desde $N-1$ hasta 0:
  \begin{enumerate}[label*=\bfseries\arabic*.]
@@ -63,10 +63,12 @@ Finalmente, el algoritmo itera por cada piso del edificio desde el piso $N-1$ ha
 \end{enumerate}
 
 
-\subsection{Justificación de correctitud}
+\subsection{Tests de correctitud}
 
 
-\textcolor{blue}{ACÁ PONER QUE LOS TESTS QUE ESTABAN EN JAVA LOS REPLIQUÉ EN EL ARCHIVO test.sh}
+Los casos de test provistos por la cátedra fueron replicados en el script \texttt{test.sh}. Para correrlo, primero es necesario tener el código del ejercicio compilado, lo cual se hace ejecutando el comando \texttt{make} en el directorio del código fuente.
+
+
 \subsection{Análisis de la complejidad}
 
 En en código fuente hemos comentado las distintas partes indicando los costos de cada una. Si llamamos $N$ a la cantidad de pisos del edificio y $P$ a la cantidad total de portales, la conclusión a la que llegamos es que el algoritmo tiene un costo de $\mathcal{O}(N+P)$. 
@@ -76,11 +78,17 @@ Ahora bien, la cantidad de portales pertenece a $\mathcal{O}(N^2)$. En un edific
 $\displaystyle\sum_{i=1}^{N} i = \frac{N (N+1)}{2} = \frac{N^2 + N}{2}$
 
 Por lo tanto, podemos reescribir el costo del algoritmo en función de $N$ como perteneciente a $\mathcal{O}(N+N^2)$, lo cual pertenece a $\mathcal{O}(N^2)$, que es lo que se pide en el enunciado.
-\subsection{Código fuente}
-\lstinputlisting[name=Solucion, numbers=left, frame=lines, firstline=136, lastline=160]{../src/ej1/ej1.cpp}
-\subsection{Experimentación}
 
-\textcolor{blue}{PONER ACÁ CÓMO COMPILAR Y EJECUTAR EL PROGRAMA}
+\newpage
+
+\subsection{Código fuente}
+\lstinputlisting[name=Solucion, numbers=left, frame=lines, firstline=139, lastline=165]{../src/ej1/ej1.cpp}
+
+\subsection{Medición empírica de la complejidad}
+
+Para la medición de tiempos agregamos código al ejercicio de manera tal de que el programa pueda ser llamado con el argumento \texttt{--tiempos}. Al llamarlo de ese modo, vamos generando peores casos de tamaño creciente, y ejecutando, para cada uno, cincuenta veces el algoritmo. De cada corrida se toma la medición en milisegundos de la ejecución utilizando la biblioteca chrono de la STL de C++.
+
+Los peores casos que generamos son aquellos donde existe la máxima cantidad posible de portales.
 
  \begin{figure}[h!]
    \begin{center}
@@ -97,4 +105,6 @@ Por lo tanto, podemos reescribir el costo del algoritmo en función de $N$ como 
    \end{center}
  \end{figure}
 
-\subsubsection{Constrastación Empírica de la complejidad}
+ DIBUJAR DOS CURVAS DE $N^2$ QUE ENCIERREN A LA GRÁFICA EN EL GRAFICO 1.
+ 
+ Como se puede apreciar en los gráficos, el crecimiento de los tiempos de ejecución coincide con la complejidad calculada de forma analítica.

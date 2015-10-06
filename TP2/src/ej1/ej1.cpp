@@ -19,7 +19,6 @@ vector< list < unsigned int > > portales;
 int main( int argc, char* argv[]){
     bool debug = false;
     bool tiempos = false;
-    int corridas = 1;                      // cantidad de corridas a hacer para medir tiempos
     string nombreInput = "";
     if (argc < 2){
         cout << "Uso:\n./ej1 [--tiempos] [--debug] infile.in\n";
@@ -30,7 +29,6 @@ int main( int argc, char* argv[]){
             debug = true;
         } else if (p == "--tiempos"){
             tiempos = true;
-            corridas = 50;
             break;
         } else{
             nombreInput = p; 
@@ -60,6 +58,11 @@ int main( int argc, char* argv[]){
             std::getline(infile, lineaPortales);
 
 
+            // Con regex parseamos los datos de entrada. Nótese que no se contempla el parseo en el cómputo de complejidad del algoritmo,
+            // ya que la STL no especifica con claridad la complejidad del uso de regexes. Sin embargo, como estamos utilizando backreferences,
+            // sabemos que la complejidad es al menos exponencial (con respecto a la longitud del string). Sin embargo, consideramos que el parseo
+            // no es lo interesante del ejercicio y nos pareció una pérdida de tiempo invertir tiempo en esto.
+            // https://swtch.com/~rsc/regexp/regexp1.html
             std::regex reg1("\\s*(\\d+)\\s+(\\d+)\\s*[;\\n$]*");
             sregex_iterator it(lineaPortales.begin(), lineaPortales.end(), reg1);
             sregex_iterator it_end;
@@ -90,9 +93,11 @@ int main( int argc, char* argv[]){
             outfile << res << endl;
         } // termino problemas
     }else{
+        // ejecucion para medicion de tiempos
         cout << "n,p,t" << endl;
         vector<unsigned int> tams = {50,100,200,300,500,750,1000,1250,1500,1750,2000,2500,3000,4000,5000,7000,8000,9000,10000,11000,12000,13000,14000,15000,16000};
         for (unsigned int i=0; i<tams.size(); i++){
+            int corridas = 50;
             int ejecucion = 0;
             while (ejecucion < corridas){
                 n = tams[i];
@@ -116,7 +121,6 @@ int main( int argc, char* argv[]){
 }
 
 
-//void genPeorCaso(unsigned int n, vector< int >& resultados, vector< list < unsigned int > >& portales){
 void genPeorCaso(){
     // genero una instancia del problema donde hay la máxima cantidad posible de portales
     resultados.resize(n);
@@ -132,29 +136,29 @@ void genPeorCaso(){
     }
 }
 
-//int resolver(unsigned int n, vector< int >& resultados, vector< list < unsigned int > >& portales){
 int resolver(){
      int i = n-1;
-     while (i>=0){
-        int max = -1;
+     while (i>=0){  // este ciclo corre N veces (una vez por cada piso entre 0 y N-1)
+        int max = -1;   // O(1)
         for (std::list<unsigned int>::iterator it=portales[i].begin(); it != portales[i].end(); ++it){
-            int costo = -1;
-            if (*it == n){
+            // este ciclo corre tantas veces como portales haya en este piso
+            int costo = -1;     // O(1)
+            if (*it == n){      // O(1)
                 // el portal va directo a N
-                costo = 1;
-            } else if (resultados[*it] == -1){
+                costo = 1;      // O(1)
+            } else if (resultados[*it] == -1){      // O(1)
                 // no se puede llegar a N por este portal
-                costo = -1;
+                costo = -1;     // O(1)
             } else{
-                costo = resultados[*it] + 1;
+                costo = resultados[*it] + 1;        // O(1)
             }
-            if (costo > max){
-                max = costo;
+            if (costo > max){       // O(1)
+                max = costo;        // O(1)
             }
         }
-        resultados[i] = max;
-        i--;
+        resultados[i] = max;        // O(1)
+        i--;                        // O(1)
     }
-    int res = resultados[0];
-    return res;
+    int res = resultados[0];        // O(1)
+    return res;                     // O(1)
 }
