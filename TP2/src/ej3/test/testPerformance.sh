@@ -2,7 +2,7 @@
 
 cantFiles=$1
 touch resultados.out
-echo "n	prom" > resultados.out
+echo "m	prom" > resultados.out
 
 for (( file = 1; file <= $cantFiles; file++ )) 
 do
