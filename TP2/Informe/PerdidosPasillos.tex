@@ -2,32 +2,36 @@
 
 \subsection{Descripción de la problemática}
 
-En este ejercicio se nos presenta un pabellón con M pasillos de -potencialmente- distintas longitudes y un conjunto vértices que pueden ser tanto intersecciones en las cuales dos o más de ellos convergen, o extremos incididos por un sólo corredor. 
-A partir de este contexto se nos pide desarrollar un algoritmo que elimine cualquier ciclo posible del grafo dado, logrando crear, partiendo del mismo, un árbol generador cuyo peso (dado por la sumatoria de los pesos de cada arista) sea mayor o igual al de cualquier otro árbol generador posible (conocido como árbol generador máximo).
+En este ejercicio se nos presenta un pabellón con M pasillos de longitudes -potencialmente- distintas, representados por las aristas de un grafo y un conjunto vértices que pueden ser tanto intersecciones en las cuales dos o más de ellos convergen, o extremos incididos por un sólo corredor. 
+A partir de este contexto se nos pide desarrollar un algoritmo que elimine cualquier ciclo del grafo dado, logrando crear un árbol generador cuyo peso (dado por la sumatoria de los pesos de cada arista) sea mayor o igual al de cualquier otro árbol generador posible (conocido como árbol generador máximo). Cabe destacar que queremos encontrar el árbol generador máximo ya que de esta manera nos aseguramos de que los pasillos a clausurar sean los de menor longitud en el ciclo y por lo tanto los que tienen menor costo de clausura.\\
+
+\emph{Nota:} Para correr el programa con un input específico ya sea para obtener el output y/o las mediciones de tiempo, utilizar la clase Main.java. En el caso que se quieran correr los tests, utilizar la clase TestEj3.java la cual utiliza la clase Ejercicio3.java. Main y Ejercicio3 hacen exactamente lo mismo salvo que la primera implementa las mediciones de tiempo y los métodos para leer y escribir archivos que no son necesarios para correr los tests. 
 
 \subsection{Resolución propuesta y justificación}
 
-Para resolver el problema, desarrollamos un método que hace uso de una adaptación del algoritmo de Kruskal, mediante el cuál es posible encontrar un árbol generador mínimo con una complejidad de O(m log m) (siendo m la cantidad de aristas).\\
-El algoritmo propuesto ordena inicialmente cada pasillo de acuerdo a sus longitudes y los toma uno a uno de mayor a menor verificando si conectan vértices entre los cuales ya existe un camino o no. De ser cierto, la arista en cuestión es descartada. De ser falso, la misma pasa a ser parte del conjunto solución y se repite el procedimiento con la siguiente hasta que se hayan analizado todas.\\
-Para que las complejidades se ajustaran a los requerimientos, fue necesario desarrollar la clase \textit{UnionFind}, la cual implementa los métodos \textit{findSet}, \textit{unionSet} e \textit{isSameSet} . El primero de ellos permite, dado un elemento, hallar al representante del conjunto en el que se encuentra. El segundo, por su parte, realiza la unión de dos conjuntos. Por último, el tercero analiza si los dos valores parametrizados están incluídos en el mismo conjunto. \\
+Para resolver el problema, desarrollamos un método que hace uso de una adaptación del algoritmo de Kruskal, mediante el cuál es posible encontrar un árbol generador máximo con una complejidad de $\mathcal{O}(m\log{}m)$ (siendo $m$ la cantidad de aristas).\\
+El algoritmo propuesto inicialmente ordena de mayor a menor cada pasillo de acuerdo a sus longitudes y los toma uno a uno verificando si conectan vértices entre los cuales ya existe un camino o no. De ser cierto, la arista en cuestión es descartada. De ser falso, la misma pasa a ser parte del árbol y se repite el procedimiento con la siguiente hasta que se hayan analizado todas. Las longitudes de las aristas descartadas se suman para llevar la cuenta de los metros de pasillo que deben ser clausurados.\\
+Para que las complejidades se ajustaran a los requerimientos, fue necesario desarrollar la clase \textit{UnionFind}, la cual implementa los métodos \textit{findSet}, \textit{unionSet} e \textit{isSameSet} . El primero de ellos permite, dado un elemento, hallar al representante del conjunto en el que se encuentra. El segundo, por su parte, realiza la unión de dos conjuntos. Por último, el tercero analiza si los dos valores parametrizados están incluidos en el mismo conjunto. \\
 
 El pseudocódigo de nuestro algoritmo es el siguiente:
 
 \begin{algorithmic} 
 
 \STATE \texttt{Ordenar pasillos de mayor a menor}
+\STATE $suma = $ metros a clausurar (inicializada en cero)
 \FOR{\texttt{pasillo in pasillos}}
-	\IF {\texttt{El pasillo conecta dos conjuntos de pasillos que no ten\'ian conexión hasta el momento}}
-		\STATE \texttt{Unir conjuntos conectados}
+	\IF {\texttt{El pasillo conecta dos conjuntos disjuntos de pasillos}}
+		\STATE \texttt{Unir el conjunto mas chico al mas grande}
 	\ELSE
-		\STATE \texttt{Sumar la longitud del pasillo a la soluci\'on.}
+		\STATE \texttt{$suma += $ la longitud del pasillo actual}
 	\ENDIF
 \ENDFOR
+\STATE devolver $suma$
 \end{algorithmic} 
 
 
 \subsection{Análisis de la complejidad}
-
+Nuestra solución tiene una complejidad temporal de $\mathcal{O}(m\log{}m)$ siendo $m$ la cantidad de aristas del grafo. \\
 \subsection{Código fuente}
 
 \subsection{Experimentación}

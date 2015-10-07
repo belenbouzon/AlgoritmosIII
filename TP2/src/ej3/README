@@ -1,0 +1,15 @@
+README
+
+Para ejecutar el programa:
+
+- Opción 1: Especificar archivo de entrada y obtener los resultados
+
+java -cp ../bin Main Tp2Ej3.in
+
+- Opción 2: Obtener las mediciones de tiempos
+
+java -cp ../bin Main Tp2Ej3.in --tiempos
+
+- Opción 3: Correr los tests
+
+java -cp .:/usr/share/java/junit.jar org.junit.runner.JUnitCore [TestEj3]

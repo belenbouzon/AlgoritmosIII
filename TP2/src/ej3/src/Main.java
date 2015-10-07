@@ -47,7 +47,7 @@ public class Main {
    private static void MostrarIndicaciones(int length) throws Exception{
 		if (length < 1){
 		    System.out.printf("Debe pasar el nombre del archivo de input como parametro. Ademas puede pasar el flag --tiempos despues del nombre de archivo para obtener las mediciones de tiempos\n");
-		    System.out.printf("USO: java Ejercicio3 INPUT [--tiempos]\n");
+		    System.out.printf("USO: java Main INPUT [--tiempos]\n");
 			System.exit(0);
 		}
    }
