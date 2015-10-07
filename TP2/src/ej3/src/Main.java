@@ -37,7 +37,8 @@ public class Main {
 			if(mideTiempos){
 				time1 = System.nanoTime();
 				time1 = time1-time0;
-				System.out.printf("%d-%s\n", nodos, Long.toString(time1));
+				// Imprime cantidad de aristas (m) y tiempo.
+				System.out.printf("%d-%s\n", ps.size(), Long.toString(time1));
 			}
 			esc.NuevaLinea();
 		}

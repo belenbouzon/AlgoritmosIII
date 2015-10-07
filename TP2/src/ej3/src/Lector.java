@@ -22,7 +22,7 @@ public class Lector {
 	}
 	
 	public int CantIntersecciones(){
-		//esta función solo se puede usar después de haber llamado a LeerLista.
+		//esta funcion solo se puede usar despues de haber llamado a LeerLista.
 		//sino devuelve basura.
 		return intersecciones;
 	}

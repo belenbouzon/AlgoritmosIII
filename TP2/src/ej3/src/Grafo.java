@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Collections;
 
 public class Grafo {
 
@@ -13,7 +14,8 @@ public class Grafo {
    }
    
    public void OrdenarDesc(List<Pasillo> ps){
-	   ps.sort(new PasilloComparator());
+		//ps.Sort(new PasilloComparator()); //Con java 7 no compila.
+		Collections.sort(ps, new PasilloComparator());
    }
 
    public final int kruskal() {
