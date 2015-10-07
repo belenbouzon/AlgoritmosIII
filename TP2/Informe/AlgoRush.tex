@@ -7,18 +7,42 @@ Se requiere un algoritmo que determine la cantidad minima de segundos en ir desd
 \subsection{Resolución propuesta y justificación}
 Lo primero que hace el algoritmo es transformar la entrada en un grafo. Según nuestra representación, cada portal es considerado como un nodo. Las aristas que parten de un nodo llegan a todos aquellos otros nodos a los que se puede alcanzar desde el actual, ya sea porque son un punto de destino de teletransporte del mismo, o porque se encuentran en el mismo piso y se puede alcanzar caminando.
 
-Como estructura auxiliar para ocnstruir el grafo se utiliza un diccionario de diccionarios de nodos, cuyas claves para acceder a un nodo son el piso y la distaancia respectivamente.
+Como estructura auxiliar para construir el grafo se utiliza un diccionario de diccionarios de nodos, cuyas claves para acceder a un nodo son el piso y la distaancia respectivamente.
 Un nodo contiene: un identificador (un int propio de cada nodo), la posicion en el pasillo donde se encuentra, un conjunto de nodos a los cuales se puede llegar caminando y un conjunto de nodos que son puntos de destino de teletransporte.
 
-Posterirmente un segundo algoritmo, utilizando el grafo generado por el primero, se encarga de determinar el camino entre ambos extremos del grafo (desde el principio del piso 0 hasta el final del último piso). Para esto existe una función que calcula la distancia desde cualquier nodo hasta el extremo superior, la cual considera el camino minimo entre los nodos adyacentes y el extremo del último piso y, cuando el nodo buscado no estaba calculado anteriormente, se llama recursivamente a la función.
+Posterirmente un segundo algoritmo, utilizando el grafo generado por el primero, se encarga de determinar el camino entre ambos extremos del grafo (desde el principio del piso 0 hasta el final del último piso, basadose en el BFS relajando ejes. El BFS se utiliza para calcular caminos mínimos en ejes sin peso; para esto, determina en cada paso la distancia al inicio de todos los adyacentes a determinado nodo X, considerando que, o bien el camino mínimo desde la raiz hasta el nodo evaluado pasaba por X, por lo cual es el camino mínimo hasta X más uno, o existía un camino más rapido hasta el nodo, pero entonces, el mismo ya se habrá evaluado anteriormente, por lo cual ya se conocerá el camino mínimo. El BFS relajando ejes consiste en adaptar un grafo pesado para simular un grafico sin pesos en aristas. Para esto, cuando una aristaa contiene un peso superior a 1, coloca nodos ``fantasma'' entre ambos para aumentar la distancia entre los nodos.
+El algoritmo utilizado en el TP utiliza una cola en donde ingresa los adyacentes de los nodos evaluados para procesarlos luego de forma ordenada. Para emular los nodos fantasma, el algoritmo crea un solo nodo extra, que almacena la cantidad de nodos fantasma que deberían existir, y, si el algoritmo detecta que el nodo evaluado emula a más de un fantasma, altera dicho valor y lo vuelve a encolar.
 
 \subsection{Análisis de la complejidad}
 Inicialmente, se debe construir un diccionario de N elementos y luego N diccionarios de L elementos, lo cual tiene un costo de O(nL). Luego se procesa la entrada que determina las posiciones de los portales y se van creando los nodos y clasificando en los diccionarios. Como la consulta y escritura en el diccionario es O(1), la complejidad total es de O(P). Finalmente, la complejidad de formar el grafo es de O(P+NL).
-Para la busqueda del camino mínimo se crea inicialmente un diccionario de N*L elementos, lo cual tiene una complejidad de O(NL). Luego comienza a ejecutarse el algoritmo recursivo. Como el algoritmo nunca recorre dos veces el mismo nodo (ya que cada vez que resuelve el valor del camino mínimo para un nodo lo almacena en el diccionario) la complejidad es O(P).
+Para la busqueda del camino mínimo se crea inicialmente un diccionario de N*L elementos, lo cual tiene una complejidad de O(NL). Luego comienza a ejecutarse el algoritmo que calcula el camnino mínimo. En el peor caso, el algoritmo debe recorrer cada uno de los nodos. Sabemos que el grafo no tiene más de 2*N*L nodos,incluyendo los nodos fantasma, ya que dos nodos calificados en un mismo piso no pueden estar separados por una distancia superior a L y se debe agregar un nodo fantasma para marcar el paso de un nodo a otro por teletransporte. Entonces, la complejidad del algoritmo de camino mínimo es O(NL).
 Finalmente, el costo de construir el grafo y hallar el camino mínimo entre sus extremos es O(P+ NL).
 
 \subsection{Código fuente}
 
 \subsection{Experimentación}
+\subsubsection{Piensa con portales}
+En este test existe un portal que lleva directamente desde la entrada al aula. El algoritmo deberia utilizarlo y llegar al aula en dos segundos.
+
+\subsubsection{Encontre un atajo}
+En este test existen dos portales en el primer piso con una longitud considerable. El primero de ellos toma un camino largo hacia el aula y el otro uno más corto. Como debido a la distancia entre el origen de ambos caminos, el algoritmo comenzará a adentrarse en el camino largo antes del corto. Se pretende testear si el algoritmo finalmente devuelve la solución correcta a pesar de esto.
+
+\subsubsection{¿y_como_llegue_aqui?}
+En esta oportunidad se introduce un ciclo en el grafico. Existen dos portales en el piso cero, uno de los cuales entra al ciclo y otro que lleva a la dirección correcta.
+
+\subsubsection{Linea recta}
+Este test se basa en probar la correctitud algoritmo cuando existen portales superpuestos. Existe un único camino entre el inicio y el aula, en donde todos los portales intermedios tienen otro superpuesto que lleva a otro piso, por lo que no es necesario camninar, excepto en el primer y el último piso.
+
+\subsubsection{cuello_botella}
+Este test tambíen esta centrado en probar el algoritmo cuando existen portales superpuestos. En este caso, existen muchos portales con un extremo en un mismo punto.
+
+\subsubsection{No quiero caminar}
+Este test se centra en explotar la posibilidad de utilizar un portal que comunica dos puntos del mismo piso. En el mismo, existen dos pisos con un portal en cada extremo y se necesita llegar de uno a otro dentro de cualquier camino existente; sin embargo, otro portal que cuyos extremos son muy cercanos a cada uno de los portales, por lo cual el camino mínimo deberia utilizar estos portales intermedios.
+
+\subsubsection{la_venganza_de_los_ciclos}
+En la entrada de este test se presentan dos ciclos en el grafo; dentro del camino mínimo se incluyen algunos nodos pertenecientes a los mismos. Nuevamente se pretende evaluar el comportamiento del algoritmo frente a los ciclos, pero en esta ocacion incluyendolos dentro de un camino simple hasta el aula.
+
+\subsubsection{salidas_de_emergencia}
+En esta ocación se prueba el uso intensivo de nodos fantasma. En este test solo existen portales que comunican el principio de un piso con el final del piso anterior.
 
 \subsubsection{Constrastación Empírica de la complejidad}
