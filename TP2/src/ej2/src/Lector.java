@@ -47,11 +47,9 @@ public class Lector{
 		return n;
 	}*/
 	public void procesar_entrada(){
-		//String formato = this.leer_palabra();
 		String parametros [] = formato.split(" "); //O(1)
 		this.n = Integer.parseInt(parametros[0]);
 		this.L = Integer.parseInt(parametros[1]);
-		//String entrada = this.leer_palabra();
 		String portales [] = entrada.split(";"); //O(1)
 		BoundedIntegerMap<BoundedIntegerMap<Nodo>> mapas_de_piso = new BoundedIntegerMap<BoundedIntegerMap<Nodo>>(n);
 		iniciar_diccionario(mapas_de_piso,n,L);
@@ -73,53 +71,27 @@ public class Lector{
 			int piso_2 = Integer.parseInt(coordenadas[2+k]);
 			int distancia_2 = Integer.parseInt(coordenadas[3+k]);
 			Nodo nodo;
-			{
-				BoundedIntegerMap<Nodo> piso = mapas_de_piso.get(piso_1);
-				if(!piso.containsKey(distancia_1)){
-					nodo = new Nodo(nodo_iesimo,distancia_1);
-					nodo_iesimo++;
-					/*Set<Entry<Integer,Nodo>> otros = piso.entrySet();
-					Iterator<Entry<Integer,Nodo>> it = otros.iterator();
-					while(it.hasNext()){
-						Entry<Integer,Nodo> otro_nodo = it.next();
-						otro_nodo.getValue().agregar_arista(nodo, absoluto(otro_nodo.getKey()-distancia_1));
-						nodo.agregar_arista(otro_nodo.getValue(), absoluto(otro_nodo.getKey()-distancia_1));
-					}*/
-					piso.put(distancia_1,nodo);
-				}else{
-					nodo = piso.get(distancia_1);
-				}
+			BoundedIntegerMap<Nodo> dicc_piso_1 = mapas_de_piso.get(piso_1);
+			if(!dicc_piso_1.containsKey(distancia_1)){
+				nodo = new Nodo(nodo_iesimo,distancia_1);
+				nodo_iesimo++;
+				dicc_piso_1.put(distancia_1,nodo);
+			}else{
+				nodo = dicc_piso_1.get(distancia_1);
 			}
 			Nodo nodo2;
-			//Nodo nodo2 = incluir_nodo(piso_2,distancia_2,nodo_iesimo,mapas_de_piso);
-			{
-				BoundedIntegerMap<Nodo> piso = mapas_de_piso.get(piso_2);
-				if(!piso.containsKey(distancia_2)){ //O(1)
-					nodo2 = new Nodo(nodo_iesimo,distancia_2);
-					nodo_iesimo++;
-					piso.put(distancia_2,nodo2);
-				}else{
-					nodo2 = piso.get(distancia_2);
-				}
+			BoundedIntegerMap<Nodo> dicc_piso_2 = mapas_de_piso.get(piso_2);
+			if(!dicc_piso_2.containsKey(distancia_2)){ //O(1)
+				nodo2 = new Nodo(nodo_iesimo,distancia_2);
+				nodo_iesimo++;
+				dicc_piso_2.put(distancia_2,nodo2);
+			}else{
+				nodo2 = dicc_piso_2.get(distancia_2);
 			}
+			
 			nodo.agregar_punto_teletransporte(nodo2);
 			nodo2.agregar_punto_teletransporte(nodo);
 		}
-		//----------Test------------
-		/*for(int i=0;i<=L;i++){
-			if(mapas_de_piso.containsKey(i)){
-				Set<Entry<Integer,Nodo>> otros = mapas_de_piso.get(i).entrySet();
-				Iterator<Entry<Integer,Nodo>> it = otros.iterator();
-				while(it.hasNext()){
-					Nodo nn = it.next().getValue();
-					System.out.printf("piso: %d,nodo: %d\n", i,nn.identificacion);
-					System.out.print(nn.aristas_teletranspoorte);
-					System.out.printf("\n");
-				}
-			}
-		}*/
-		
-		//--------------------------
 
 		Collection<BoundedIntegerMap<Nodo>> conjunto = mapas_de_piso.values();
 		Iterator<BoundedIntegerMap<Nodo>> it_principal = conjunto.iterator();
@@ -142,25 +114,8 @@ public class Lector{
 				anterior = actual;
 			}
 		}
-		//----------Test------------
-		//System.out.printf("\n id buscada: %d\n",mapas_de_piso.get(0).get(5).identificacion);
-		/*for(int i=0;i<=L;i++){
-			if(mapas_de_piso.containsKey(i)){
-				Collection<Nodo> otros = mapas_de_piso.get(i).values();
-				Iterator<Nodo> it = otros.iterator();
-				while(it.hasNext()){
-					Nodo nn = it.next();
-					System.out.printf("Nodo: %d ", nn.identificacion);
-					System.out.print(nn.aristas_caminado);
-					System.out.printf("\n");
-				}
-			}
-		}*/
-		
-		//--------------------------
 	}
 	public String leer_palabra() throws IOException{
-
         try{
             return this.is.readLine();
         } catch(IOException e){

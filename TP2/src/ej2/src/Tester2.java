@@ -18,7 +18,7 @@ public class Tester2 {
 			for(int i = 0;i<cantidad_de_iteraciones;i++){
 				long inicio = System.nanoTime();
 				recuperar_nodos.procesar_entrada();
-				Solucion sol = new Solucion(recuperar_nodos.primer_nodo(),recuperar_nodos.ultimo_nodo(),recuperar_nodos.cantidad_pisos()*recuperar_nodos.largo_pasillos());
+				Solucion sol = new Solucion(recuperar_nodos.primer_nodo(),recuperar_nodos.ultimo_nodo());
 				sol.calcular_segundos();
 				long fin = System.nanoTime();
 				lista.add(fin-inicio);

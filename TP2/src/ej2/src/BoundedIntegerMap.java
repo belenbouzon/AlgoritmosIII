@@ -43,7 +43,7 @@ public class BoundedIntegerMap<E extends Object> implements Map<Integer,E>  {
 		while(i<this.tamanio_maximo && cant<this.cantidad_claves){
 			if(this.contiene_dato[i]){
 				cant++;
-				if(this.array_datos.get(i)==arg0){
+				if(this.array_datos.get(i).equals(arg0)){
 					return true;
 				}
 			}
@@ -123,7 +123,7 @@ public class BoundedIntegerMap<E extends Object> implements Map<Integer,E>  {
 
 	@Override
 	public void putAll(Map<? extends Integer, ? extends E> m) {
-		// TODO Auto-generated method stub	
+		// No implementado (metodo opcional)
 	}
 
 }
