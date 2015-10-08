@@ -35,7 +35,7 @@ public class Solucion{
 			pila.add(actual);
 		}
 	}
-	private int calcular_segundos_desde_alternativo(){
+	public int calcular_segundos(){
 		Queue<Nodo> pila = new LinkedList<Nodo>();
 		Nodo actual = this.fin;
 		this.fin.camino_minimo = 0;
@@ -68,9 +68,9 @@ public class Solucion{
 		}while(actual!=null);
 		return this.comienzo.camino_minimo;
 	}
-	public int calcular_segundos(){
+	/*public int calcular_segundos(){
 		return this.calcular_segundos_desde_alternativo();
-	}
+	}*/
 	public Solucion(Nodo com,Nodo f){
 		this.comienzo = com;
 		this.fin = f;
