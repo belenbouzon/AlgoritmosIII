@@ -12,6 +12,12 @@ public class GeneradorRandomDeEntradas {
 	private boolean contiene_sima;
 	private int ramdom_1;
 	private int ramdom_2;
+	
+	
+	//_-----piso movimiento------
+	private int piso_movimieno_ultimo_piso;
+	private String piso_movimiento_ultimo_string;
+	//--------
 	public GeneradorRandomDeEntradas(int p,int longit, int cant){
 		this.pisos = p;
 		this.longitud_pasillo = longit;
@@ -154,6 +160,17 @@ public class GeneradorRandomDeEntradas {
 		}
 		return res;
 	}
+	
+	public String generar_lineas_rectas_pisos_movimiento(){
+		this.piso_movimiento_ultimo_string += "; ";
+		this.piso_movimiento_ultimo_string += Integer.toString(this.piso_movimieno_ultimo_piso);
+		this.piso_movimiento_ultimo_string += " 0";
+		this.piso_movimieno_ultimo_piso++;
+		this.piso_movimiento_ultimo_string += Integer.toString(this.piso_movimieno_ultimo_piso);
+		this.piso_movimiento_ultimo_string += " 0";
+		return this.piso_movimiento_ultimo_string;
+	}
+	
 	public static void main(String [] entrada){
 		GeneradorRandomDeEntradas entrada_generada = new GeneradorRandomDeEntradas(Integer.parseInt(entrada[0]),Integer.parseInt(entrada[1]),Integer.parseInt(entrada[2]));
 		entrada_generada.imprimir_entrada_3();
