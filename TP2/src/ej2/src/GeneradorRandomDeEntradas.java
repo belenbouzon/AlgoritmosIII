@@ -112,6 +112,48 @@ public class GeneradorRandomDeEntradas {
 			}
 		}
 	}
+	public String imprimir_entrada_a_string(){
+		String res = "";
+		//System.out.printf("%d %d\n", this.pisos,this.longitud_pasillo);
+		LinkedHashSet<DobleTupla> ya_utilizados = new LinkedHashSet<DobleTupla>();
+		int ultimo = 0;
+		boolean ultimo_considerado = false;
+		for(int i=0;i<this.cantidad_portales;i++){
+			int nuevo_pasillo_1 = this.numeros.nextInt(this.pisos+1);
+			int nuevo_piso = this.numeros.nextInt(this.pisos+1);
+			int nuevo_pasillo_2 = this.numeros.nextInt(this.pisos+1);
+			DobleTupla t = new DobleTupla(ultimo,nuevo_pasillo_1,nuevo_piso,nuevo_pasillo_2);
+			while(ya_utilizados.contains(t)){
+				nuevo_pasillo_1 = this.numeros.nextInt(this.pisos+1);
+				nuevo_piso = this.numeros.nextInt(this.pisos+1);
+				nuevo_pasillo_2 = this.numeros.nextInt(this.pisos+1);
+				t = new DobleTupla(ultimo,nuevo_pasillo_1,nuevo_piso,nuevo_pasillo_2);
+			}
+			if(nuevo_piso == this.pisos){
+				ultimo_considerado = true;
+			}
+			if(i==this.cantidad_portales-1 && !ultimo_considerado){
+				nuevo_piso = this.pisos;
+			}
+			res += " ";
+			res += Integer.toString(ultimo);
+			res += " ";
+			res += Integer.toString(nuevo_pasillo_1);
+			res += " ";
+			res += Integer.toString(nuevo_piso);
+			res += " ";
+			res += Integer.toString(nuevo_pasillo_2);
+			
+			
+			//System.out.printf(" %d %d %d %d", ultimo,nuevo_pasillo_1,nuevo_piso,nuevo_pasillo_2);
+			ultimo = nuevo_piso;
+			ya_utilizados.add(t);
+			if(i!=this.cantidad_portales-1){
+				res += ";";
+			}
+		}
+		return res;
+	}
 	public static void main(String [] entrada){
 		GeneradorRandomDeEntradas entrada_generada = new GeneradorRandomDeEntradas(Integer.parseInt(entrada[0]),Integer.parseInt(entrada[1]),Integer.parseInt(entrada[2]));
 		entrada_generada.imprimir_entrada_3();
