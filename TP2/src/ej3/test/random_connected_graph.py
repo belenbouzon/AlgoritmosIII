@@ -307,13 +307,21 @@ if __name__ == '__main__':
     graph = approach(nodes, num_edges, args.loops, args.multigraph,
                      args.digraph)
 
-    # Display (Hacer que imprima como lo necesitamos y que agregue un peso a la arista)
+    # Display
     if not args.no_output:
         #graph.sort_edges()
         if args.pretty:
             pprint(graph.edges)
         else:
-            print(graph.edges)
+            # Imprime con el formato de entrada del ej3.
+            for x in graph.edges:
+                l = random.randint(1,100000)
+                if x != graph.edges[-1]:
+                    #print(x[0],x[1],l,end="; ")
+                    print '{0} {1} {2};'.format(x[0],x[1],l),
+                else:
+                    #print(x[0],x[1],l)
+                    print '{0} {1} {2}'.format(x[0],x[1],l)
 
     # Save to GML
     if args.gml:

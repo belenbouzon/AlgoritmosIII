@@ -1,35 +1,19 @@
 #!/bin/bash
-
-maxM=$1
-espaciado=$2
+# cant de nodos del grafo
+N=$1
+# el M inicial es igual a N-1 (min para un grafo conexo)
+# muestras es la cantidad de grafos que se quieren generar para el N fijo (ej 100, 200)
+muestras=$2
 count=1
-
-let maxM+=1
+# cant de aristas del grafo completo de N nodos.
+maxM=$(($N*($N-1)/2))
+let espaciado=($maxM-$N+1)/$muestras
 # m = cantidad de aristas del grafo
-for (( m = 1; m <= $maxM; m+=$espaciado ))
+for (( m = $N-1; m <= $maxM; m+=$espaciado ))
 do
-	touch "$count.t"
-	line=""
-	for (( i = 0; i < $m; i++ ))
-	do
-		id=$[ RANDOM %  ]
-		ih=$[ RANDOM % 10000 ]
-		if [[ $id eq $ih ]]; then
-			let ih+=1
-		fi
-		l=$[ 1 + $[ RANDOM % 10000 ]]
-		line="$line; $id $ih $l"
-	done
-	echo $line > "$count.t"
+	touch "$count-$N.t"
+	python random_connected_graph.py $N -e $m > "$count-$N.t"
 	let count+=1
 done
 
 exit 0
-
-# Random connected graph
-
-# https://gist.github.com/bwbaugh/4602818#file-random_connected_graph-py
-
-# https://github.com/MikeMirzayanov/testlib/blob/master/generators/gen-tree-graph.cpp
-
-# https://www-complexnetworks.lip6.fr/~latapy/FV/generation.html

@@ -13,3 +13,8 @@ java -cp ../bin Main Tp2Ej3.in --tiempos
 - Opción 3: Correr los tests
 
 java -cp .:/usr/share/java/junit.jar org.junit.runner.JUnitCore [TestEj3]
+
+
+Para ejecutar el generador de grafos conexos:
+
+python random_connected_graph.py <cantNodos> -e <cantAristas>
