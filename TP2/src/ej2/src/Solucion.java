@@ -61,9 +61,9 @@ public class Solucion{
 			}else {
 				procesar_nodo_fantasma(actual,pila);
 			}
-			if(this.comienzo.ya_calculado){
+			/*if(this.comienzo.ya_calculado){
 				return this.comienzo.camino_minimo;
-			}
+			}*/
 			actual = pila.poll();
 		}while(actual!=null);
 		return this.comienzo.camino_minimo;
