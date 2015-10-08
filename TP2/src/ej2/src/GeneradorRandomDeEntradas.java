@@ -24,6 +24,9 @@ public class GeneradorRandomDeEntradas {
 		this.cantidad_portales = cant;
 		//this.numeros = new Random(391);
 		this.numeros = new Random();
+		
+		this.piso_movimiento_ultimo_string = "";
+		this.piso_movimieno_ultimo_piso = 0;
 	}
 	public void imprimir_entrada_2(){
 		System.out.printf("%d %d\n", this.pisos,this.longitud_pasillo);
@@ -166,8 +169,10 @@ public class GeneradorRandomDeEntradas {
 		this.piso_movimiento_ultimo_string += Integer.toString(this.piso_movimieno_ultimo_piso);
 		this.piso_movimiento_ultimo_string += " 0";
 		this.piso_movimieno_ultimo_piso++;
+		this.piso_movimiento_ultimo_string += " ";
 		this.piso_movimiento_ultimo_string += Integer.toString(this.piso_movimieno_ultimo_piso);
 		this.piso_movimiento_ultimo_string += " 0";
+		//System.out.printf("%s\n", this.piso_movimiento_ultimo_string.substring(1));
 		return this.piso_movimiento_ultimo_string;
 	}
 	
