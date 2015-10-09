@@ -50,6 +50,7 @@ En \textit{isSameSet} no hay nada que analizar ya que solo llama a \textit{findS
 Por último tenemos a \textit{unionSet} que se encarga de encontrar la mejor manera de unir dos componentes conexas. Para eso obtiene las raíces de los dos nodos a unir y los respectivos ranks de las raíces. Luego une el árbol de menor rango al de mayor ya que es menos costoso unir el mas chico al mas grande que al revés. La unión es simplemente definir a la raíz de árbol mas grande, como el padre de la raíz del mas chico, agregando así una nueva rama. En el caso que los dos tuvieran el mismo rango se le suma uno a la nueva raíz para constatar que el árbol que se formó es mas grande que los dos que se tenía anteriormente.\\
 
 En conclusión, podemos asegurar que en cada paso de kruskal agregamos una arista al árbol generador o sumamos la longitud, del pasillo a clausurar, a la solución del problema y como el AG que se genera es máximo, entonces se cumple que la suma de los metros a clausurar es mínima.
+%\footnote{Para corroborar la correctitud también se corrieron los tests entregados por la cátedra y se agregaron algunos casos en el archivo \emph{Tp2Ej3.in}}.
 
 \subsection{Análisis de la complejidad}
 Nuestra solución tiene una complejidad temporal de $\mathcal{O}(m\log{}m)$ siendo $m$ la cantidad de aristas del grafo. En el análisis también se va a utilizar $n$ como la cantidad de nodos.\\
@@ -82,8 +83,20 @@ Los métodos que manipulan al grafo que se encuentran en la clase \emph{Grafo.ja
 Por último la clase \emph{UnionFind.java}
 \lstinputlisting[name=uf, numbers=left, frame=lines, firstline=8, lastline=59]{../src/ej3/src/UnionFind.java}
 
-\newpage
 
 \subsection{Experimentación}
 
+Para analizar la performance del algoritmo creamos dos scripts: uno que se encarga de generar casos de test pseudoaletorios\footnote{genTest.sh}, el cual utiliza un script de python\footnote{random_connected_graph.py; Source: https://gist.github.com/bwbaugh/4602818$\#$file-random$\_$connected$\_$graph-py} que se encarga de generar grafos conexos con un $n$ y un $m$ dados. Combinando estos dos fijamos el $n$, luego generamos grafos conexos con aristas elegidas al azar y con $m$ que empieza valiendo $n-1$ y se va incrementando con un cierto espaciado. El otro script\footnote{testPerformance.sh} se encarga de correr el programa una cierta cantidad de veces para cada instancia generada por el primer script, luego descarta los outliers y calcula el tiempo promedio entre todas las corridas. Estos promedios se guardan en el archivo \emph{resultados-$N$.out} con $N$ la cantidad de nodos que se fijó para generar los grafos.
+
+\newpage
+
 \subsubsection{Constrastación Empírica de la complejidad}
+
+%A continuación presentamos dos gráficos que muestran el comportamiento en la práctica del algoritmo. Para obtener estos resultados utilizamos 301 tests cada uno conteniendo una instancia del problema en las que el $n$ varía entre 1 y 3001, saltando de a 10 números y los valores de cada instancia se generaron pseudoaleatoriamente con un rango entre 1 y 10000. Luego, cada una de estas instancias fue ejecutada 100 veces.
+
+% \begin{figure}[h!]
+% 	\centering
+%  	\includegraphics[scale=0.8]{imagenes/ej2/tiempos.png}
+% 	\caption{Medición de tiempo promedio entre 100 corridas}
+% 	\label{tiemposprom}
+%  \end{figure}
