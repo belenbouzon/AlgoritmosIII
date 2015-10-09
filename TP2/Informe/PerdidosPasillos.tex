@@ -52,7 +52,25 @@ Por último tenemos a \textit{unionSet} que se encarga de encontrar la mejor man
 En conclusión, podemos asegurar que en cada paso de kruskal agregamos una arista al árbol generador o sumamos la longitud, del pasillo a clausurar, a la solución del problema y como el AG que se genera es máximo, entonces se cumple que la suma de los metros a clausurar es mínima.
 
 \subsection{Análisis de la complejidad}
-Nuestra solución tiene una complejidad temporal de $\mathcal{O}(m\log{}m)$ siendo $m$ la cantidad de aristas del grafo. \\
+Nuestra solución tiene una complejidad temporal de $\mathcal{O}(m\log{}m)$ siendo $m$ la cantidad de aristas del grafo. En el análisis también se va a utilizar $n$ como la cantidad de nodos.\\
+
+Para empezar, al crear el grafo, lo primero que hacemos es ordenar la lista, lo que tiene una complejidad de $\mathcal{O}(m\log{}m)$ por la documentación de \textit{sort}\footnote{http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html$\#$sort(java.util.List,\%20java.util.Comparator)}. Luego se crea una nueva instancia de \textit{UnionFind} dentro de la cual se ejecuta un \emph{for} $n$ veces por lo que podríamos decir que la complejidad es $\mathcal{O}(n)$, pero como el enunciado asegura que las instancias del problema siempre son conexas, entonces $m = n-1$ como mínimo y como estamos buscando sacar ciclos, la mayoría de las instancias van a tener $m > n$ por lo tanto se puede asumir como cota superior, que tarda $\mathcal{O}(m)$.\\
+
+La función \textit{kruskal( )} se basa en un ciclo que recorre todas las aristas de la lista una sola vez, con lo cual ejecuta $\mathcal{O}(m)$ iteraciones. Dentro del mismo se utilizan las funciones de \textit{UnionFind}. A continuación pasamos a detallar las mismas:
+
+\begin{itemize}
+	\item \textit{isSameSet} se utiliza como máximo una sola vez dentro del ciclo y esta llama a \textit{findSet} la cual ejecuta un \emph{while} que en teoría itera $\mathcal{O}(altura\_del\_arbol)$ en el peor caso, pero por los teoremas demostrados en clase y como estamos utilizando la \emph{representación con bosques}, \emph{path compression} y \emph{union by rank} se puede decir que la complejidad de este paso queda acotada por $\mathcal{O}(m)$ y puede ser despreciada.
+	\item \textit{unionSet} también se ejecuta a lo sumo una vez. Dentro de la función se llama dos veces a \textit{findSet} pero como necesariamente (en esta implementación) se llamó antes a \textit{isSameSet} para los mismos argumentos, entonces se puede afirmar que ya se realizó el \emph{path compression} para esos nodos, por lo tanto se obtiene la raíz en $\mathcal{O}(1)$. Obtener el rank, setear al nuevo padre e incrementar un rank también toman tiempo constante.  
+\end{itemize}
+
+En la implementación de \textit{kruskal} se hizo una pequeña optimización que consiste en contar la cantidad de aristas que se agregan al AG para que una vez que se llegue al máximo ($n-1$) no se intente agregar mas al árbol y solo se sumen las distancias. Sin embargo esto no modifica la complejidad final ya que de todos modos se van a tener que recorrer todas las aristas.\\
+
+Analizando las complejidades de las distintas partes se puede ver que la que mas pesa es la de ordenar las aristas y por lo tanto la cota final es la que afirmamos al principio:
+
+\begin{center}
+	$\mathcal{O}(m\log{}m) + \mathcal{O}(c*m) = \mathcal{O}(m\log{}m)$ Con $c$ una constante.
+\end{center}
+
 \subsection{Código fuente}
 
 \subsection{Experimentación}
