@@ -13,9 +13,9 @@ do
 	promedio=0
 
 
-	for i in {1..100}
+	for i in {1..5}
 	do
-	    clocks=$(java -cp ../bin/:./N-$N Main "$file-$N.t" --tiempos)
+	    clocks=$(java -Xms512m -Xmx2048m -cp ../bin/:./N-$N Main "$file-$N.t" --tiempos)
 	    n=$(echo $clocks | cut -d "-" -f 1)
 	    clocks=$(echo $clocks | cut -d "-" -f 2)
 
@@ -32,9 +32,10 @@ do
 	    
 	done
 
+	echo "done $file"
 
 	promedio=$(($promedio-$min-$max))
-	promedio=$(($promedio/98))
+	promedio=$(($promedio/3))
 
 	echo $n	$promedio >> $result
 
