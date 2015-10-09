@@ -1,3 +1,4 @@
+\newpage
 \section{Problema 3: Perdidos en los Pasillos}
 
 \subsection{Descripción de la problemática}
@@ -18,17 +19,37 @@ El pseudocódigo de nuestro algoritmo es el siguiente:
 \begin{algorithmic} 
 
 \STATE \texttt{Ordenar pasillos de mayor a menor}
-\STATE $suma = $ metros a clausurar (inicializada en cero)
-\FOR{\texttt{pasillo in pasillos}}
+\STATE \texttt{$suma = $ metros a clausurar (inicializada en cero)}
+\FOR{\texttt{Cantidad de pasillos}}
 	\IF {\texttt{El pasillo conecta dos conjuntos disjuntos de pasillos}}
 		\STATE \texttt{Unir el conjunto mas chico al mas grande}
 	\ELSE
 		\STATE \texttt{$suma += $ la longitud del pasillo actual}
 	\ENDIF
 \ENDFOR
-\STATE devolver $suma$
+\STATE \texttt{devolver $suma$}
 \end{algorithmic} 
 
+
+El algoritmo para ordenar la lista de pasillos asumimos que es correcto ya que estamos utilizando el método \textit{sort} de \emph{java.util.Collections} para ordenar de mayor a menor. Luego decimos que el ciclo termina ya que al utilizar un iterador de una lista finita y ciclar mientras exista un elemento siguiente, se puede asegurar que el ciclo va a llegar al último elemento y terminar por poscondición de la función \textit{hasNext()}.\\
+
+Dentro del ciclo analizamos cada arista para decidir si pasa a formar parte del árbol generador máximo ya que esa arista une dos componentes conexas o en caso contrario, al agregarla se estaría generando un ciclo, entonces solo se guarda la longitud y se continúa con la próxima en la lista. Al tener las aristas ordenadas de mayor a menor nos aseguramos que siempre vamos a intentar agregar las de mayor peso primero y que si al probar con un eje se forma un ciclo $C$, ese eje va a ser el de menor peso de $C$.\\
+
+Para probar que esto es correcto tenemos que analizar el funcionamiento de la clase \textit{UnionFind} dado que se encarga de decirle a kruskal, de manera eficiente, si tiene que poner la arista o no. El constructor crea dos arreglos y utiliza un \emph{for} para inicializarlos, el cual tiene un invariante simple que asegura que cuando se cumple que \texttt{\{$i >= n$\}} termina. Al crear estas estructuras definimos un bosque que no tiene ninguna arista y cada nodo es su propio padre. También definimos un \emph{rank} que nos va a servir para comparar los tamaños de las componentes conexas que vaya creando kruskal.\\
+
+En \textit{isSameSet} no hay nada que analizar ya que solo llama a \textit{findSet} con los parámetros de entrada y devuelve true si dio el mismo resultado para $i$ y para $j$. \textit{findSet} se encarga de averiguar cual es la raíz del árbol\footnote{Definimos \emph{raíz} al nodo que se tiene como padre a si mismo y que un árbol tiene una sola raíz.} al que pertenece el nodo que le llega por parámetro y lo hace de la siguiente manera:
+\begin{itemize}
+	\item obtiene el padre directo del nodo.
+	\item copia el nodo en una nueva variable $elemento$.
+	\item cicla mientras el padre del elemento no sea si mismo.
+	\item Dentro del ciclo el elemento pasa a ser el padre y se obtiene el padre de este nuevo elemento, de esta manera se van actualizando las variables obteniendo los ancestros hasta que eventualmente se llega a la raíz, la cual es la condición de terminación del ciclo ya que todo árbol tiene raíz, y por lo tanto termina.
+	\item Comprime el árbol modificando al nodo para que su padre directo se la raíz, salteando a todos los ancestros que hubiera en el medio.
+	\item Por último devuelve al nodo raíz.
+\end{itemize}
+
+Por último tenemos a \textit{unionSet} que se encarga de encontrar la mejor manera de unir dos componentes conexas. Para eso obtiene las raíces de los dos nodos a unir y los respectivos ranks de las raíces. Luego une el árbol de menor rango al de mayor ya que es menos costoso unir el mas chico al mas grande que al revés. La unión es simplemente definir a la raíz de árbol mas grande, como el padre de la raíz del mas chico, agregando así una nueva rama. En el caso que los dos tuvieran el mismo rango se le suma uno a la nueva raíz para constatar que el árbol que se formó es mas grande que los dos que se tenía anteriormente.\\
+
+En conclusión, podemos asegurar que en cada paso de kruskal agregamos una arista al árbol generador o sumamos la longitud, del pasillo a clausurar, a la solución del problema y como el AG que se genera es máximo, entonces se cumple que la suma de los metros a clausurar es mínima.
 
 \subsection{Análisis de la complejidad}
 Nuestra solución tiene una complejidad temporal de $\mathcal{O}(m\log{}m)$ siendo $m$ la cantidad de aristas del grafo. \\
