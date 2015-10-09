@@ -92,11 +92,40 @@ Para analizar la performance del algoritmo creamos dos scripts: uno que se encar
 
 \subsubsection{Constrastación Empírica de la complejidad}
 
-%A continuación presentamos dos gráficos que muestran el comportamiento en la práctica del algoritmo. Para obtener estos resultados utilizamos 301 tests cada uno conteniendo una instancia del problema en las que el $n$ varía entre 1 y 3001, saltando de a 10 números y los valores de cada instancia se generaron pseudoaleatoriamente con un rango entre 1 y 10000. Luego, cada una de estas instancias fue ejecutada 100 veces.
+A continuación presentamos tres gráficos que muestran el comportamiento en la práctica del algoritmo. Para obtener estos resultados fijamos tres valores de $n$ y luego se fueron modificando los valores de $m$. Las instancias fueron corridas varias veces para minimizar el error de medición.\\
 
-% \begin{figure}[h!]
-% 	\centering
-%  	\includegraphics[scale=0.8]{imagenes/ej2/tiempos.png}
-% 	\caption{Medición de tiempo promedio entre 100 corridas}
-% 	\label{tiemposprom}
-%  \end{figure}
+El primer gáfico presenta grafos de 1000 nodos, el segundo grafos de 5000 y el tercero de 10000.
+
+\begin{figure}[h!]
+	\centering
+ 	\includegraphics[scale=0.8]{imagenes/ej3/tiempos1000.png}
+	%\caption{Medición de tiempo promedio entre 100 corridas}
+	%\label{tiemposprom}
+ \end{figure}
+
+ \begin{figure}[h!]
+	\centering
+ 	\includegraphics[scale=0.8]{imagenes/ej3/tiempos5000.png}
+	%\caption{Medición de tiempo promedio entre 100 corridas}
+	%\label{tiemposprom}
+ \end{figure}
+
+ \begin{figure}[h!]
+	\centering
+ 	\includegraphics[scale=0.8]{imagenes/ej3/tiempos10000.png}
+	%\caption{Medición de tiempo promedio entre 100 corridas}
+	%\label{tiemposprom}
+ \end{figure}
+
+ Se hicieron estos gráficos fijando el $n$ a modo de mostrar que efectivamente la cantidad de nodos no influye en la complejidad final del algoritmo y como se puede observar las curvas son similares. Los dos últimos grafos tienen menos instancias dado que generar grafos mas grandes y luego correr el programa resultaba en un problema de falta de poder de procesamiento y de memoria física que soportara las estructuras de datos de mas de 200 MB.
+
+\newpage
+
+ \begin{figure}[h!]
+	\centering
+ 	\includegraphics[scale=0.8]{imagenes/ej3/mlogm1000.png}
+	%\caption{Medición de tiempo promedio entre 100 corridas}
+	%\label{tiemposprom}
+ \end{figure}
+
+ Para finalizar con este análisis tomamos las muestras de los grafos de 1000 nodos y las dividimos por $m\log{}m$ para corroborar que la complejidad teórica se condice con la realidad y concluímos dadas estas muestras, el gráfico parece tender a una constante por lo que decimos que nuestro algoritmo cumple con la cota de complejidad propuesta.
