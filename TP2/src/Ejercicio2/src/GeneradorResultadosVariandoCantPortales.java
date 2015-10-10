@@ -1,10 +1,8 @@
-import org.junit.Test;
-
 
 public class GeneradorResultadosVariandoCantPortales {
-	GeneradorResultadosVariandoCantPortales() throws Exception
+	GeneradorResultadosVariandoCantPortales(int cantidadDePisos, int longitudDePasillos, int escala) throws Exception
 	{
-		GeneradorDeTestsPortales gen = new GeneradorDeTestsPortales();
+		GenerarCasosDeTests gen = new GenerarCasosDeTests(cantidadDePisos, longitudDePasillos, escala);
 
 		for (int i = 4; i < 28; i++) //el intervalo que corresponda a los archivos creados
 		{
@@ -13,17 +11,5 @@ public class GeneradorResultadosVariandoCantPortales {
 			Main.main(parametros);
 			
 		}
-
-
-	}
-	
-	
-	/*
-	 * 		GeneradorDeTestsPortales gen = new GeneradorDeTestsPortales();
-	 * 		crea los archivos que coinciden en n y l y varian en p.-
-	 *		Se llaman p.ToString() + "Portales"
-	 */
-	
-	
-	
+	}	
 }

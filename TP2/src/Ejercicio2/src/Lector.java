@@ -4,7 +4,6 @@ import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.Set;
 import java.util.LinkedHashSet;
-
 import java.util.Iterator;
 
 public class Lector{
@@ -16,6 +15,23 @@ public class Lector{
 	public int cantPortales;
 	private String formato;
 	private String entrada;
+	private static String path;
+
+	public String GetLine()
+	{
+		try 
+		{
+			return is.readLine();
+		}
+		catch (IOException e) 
+		{ 
+			hasEnded = true;
+			return null;
+		}
+	}
+	
+	public boolean hasEnded = false;
+	
 	public int cantidad_pisos(){
 		return n;
 	}
@@ -27,6 +43,10 @@ public class Lector{
 	}
 	public Nodo ultimo_nodo(){
 		return this.ult_nodo;
+	}
+	public static String Path()
+	{
+		return path;
 	}
 	private static void iniciar_diccionario(BoundedIntegerMap<BoundedIntegerMap<Nodo>> map,int n, int l){
 		for(int i = 0;i<=n;i++){
@@ -120,6 +140,15 @@ public class Lector{
 		catch (RuntimeException e) {throw new Exception ("No pudo hallarse el archivo especificado." + archivo);}
 		this.formato = this.leer_palabra();
 		this.entrada = this.leer_palabra();
+		this.path = getClass().getResource( "" ).getPath();
+	}
+	
+
+	public Lector(String archivo, boolean EsDeMedicion) throws Exception
+	{
+		try { this.is = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archivo)));}
+		catch (RuntimeException e) {throw new Exception ("No pudo hallarse el archivo especificado." + archivo);}
+		this.path = getClass().getResource( "" ).getPath();
 	}
 	
 	public Lector(String form, String entr)

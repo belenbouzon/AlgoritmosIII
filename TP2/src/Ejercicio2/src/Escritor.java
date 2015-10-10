@@ -10,16 +10,15 @@ public class Escritor {
 	     catch (RuntimeException e) {throw new Exception ("Error al escribir el archivo");}
 	}
 	
+	public void EscribirLinea (String linea) throws Exception
+	{
+		try {this.os.write(linea);}
+		catch (IOException e) {throw new Exception ("No se pudo escribir linea");}
+
+	}
 	
 	BufferedWriter os;
-	
-	/*
-	public void EscribirInt(long l) throws Exception
-	{
-		try {this.os.write(Long.toString(l));}
-		catch (IOException e) {throw new Exception ("No se pudo escribir el valor");}
-	}
-	*/
+
 	
     public void EscribirString(String s) throws Exception
 	{
@@ -44,15 +43,7 @@ public class Escritor {
 		try {this.os.append(Integer.toString(num) + " ");}
 		catch (IOException e) {throw new Exception ("No se pudo escribir el numero");}
 	}
-	
-	
-	public void EscribirLinea (String linea) throws Exception
-	{
-		try {this.os.write(linea);}
-		catch (IOException e) {throw new Exception ("No se pudo escribir linea");}
-
-	}
-	*/
+    */
 	public void Fin() throws IOException
 	{
 		this.os.close();
