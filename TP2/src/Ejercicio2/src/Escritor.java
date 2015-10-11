@@ -62,7 +62,7 @@ public class Escritor {
 			this.os.append(String.valueOf(arista.distanciaHasta));
 			this.os.write(";");
 		} 
-		catch (IOException e) { throw new Exception ("No se pudo escribir linea");}
+		catch (IOException e) { throw new Exception ("No se pudo escribir arista");}
 	}
 	
 	
