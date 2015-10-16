@@ -61,20 +61,15 @@ public class Solucion{
 			}else {
 				procesar_nodo_fantasma(actual,pila);
 			}
-			/*if(this.comienzo.ya_calculado){
-				return this.comienzo.camino_minimo;
-			}*/
+
 			actual = pila.poll();
 		}while(actual!=null);
 		return this.comienzo.camino_minimo;
 	}
-	/*public int calcular_segundos(){
-		return this.calcular_segundos_desde_alternativo();
-	}*/
+
 	public Solucion(Nodo com,Nodo f){
 		this.comienzo = com;
 		this.fin = f;
 	}
 }
 
-//(1)

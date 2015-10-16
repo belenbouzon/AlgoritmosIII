@@ -10,17 +10,22 @@ public class Nodo{
 	public int camino_minimo;
 	public int fantasma;
 	
-	public void agregar_punto_teletransporte(Nodo nod){
+	public void agregar_punto_teletransporte(Nodo nod)
+	{
 		this.aristas_teletranspoorte.add(nod);
 	}
-	public static Nodo nodo_fantasma(int cantidad_ciclos,Nodo nodo_real,int camino){
+	
+	public static Nodo nodo_fantasma(int cantidad_ciclos,Nodo nodo_real,int camino)
+	{
 		Nodo res = new Nodo(-1,-1);
 		res.fantasma = cantidad_ciclos-1;
 		res.aristas_teletranspoorte.add(nodo_real);
 		res.camino_minimo = camino;
 		return res;
 	}
-	public Nodo(int n,int pos){
+	
+	public Nodo(int n,int pos)
+	{
 		this.identificacion = n;
 		this.posicion = pos;
 		this.aristas_teletranspoorte = new LinkedHashSet<Nodo>();

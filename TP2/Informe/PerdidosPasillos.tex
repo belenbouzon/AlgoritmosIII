@@ -1,3 +1,4 @@
+\newpage
 \section{Problema 3: Perdidos en los Pasillos}
 
 \subsection{Descripción de la problemática}
@@ -18,23 +19,113 @@ El pseudocódigo de nuestro algoritmo es el siguiente:
 \begin{algorithmic} 
 
 \STATE \texttt{Ordenar pasillos de mayor a menor}
-\STATE $suma = $ metros a clausurar (inicializada en cero)
-\FOR{\texttt{pasillo in pasillos}}
+\STATE \texttt{$suma = $ metros a clausurar (inicializada en cero)}
+\FOR{\texttt{Cantidad de pasillos}}
 	\IF {\texttt{El pasillo conecta dos conjuntos disjuntos de pasillos}}
 		\STATE \texttt{Unir el conjunto mas chico al mas grande}
 	\ELSE
 		\STATE \texttt{$suma += $ la longitud del pasillo actual}
 	\ENDIF
 \ENDFOR
-\STATE devolver $suma$
+\STATE \texttt{devolver $suma$}
 \end{algorithmic} 
 
 
+El algoritmo para ordenar la lista de pasillos asumimos que es correcto ya que estamos utilizando el método \textit{sort} de \emph{java.util.Collections} para ordenar de mayor a menor. Luego decimos que el ciclo termina ya que al utilizar un iterador de una lista finita y ciclar mientras exista un elemento siguiente, se puede asegurar que el ciclo va a llegar al último elemento y terminar por poscondición de la función \textit{hasNext()}.\\
+
+Dentro del ciclo analizamos cada arista para decidir si pasa a formar parte del árbol generador máximo ya que esa arista une dos componentes conexas o en caso contrario, al agregarla se estaría generando un ciclo, entonces solo se guarda la longitud y se continúa con la próxima en la lista. Al tener las aristas ordenadas de mayor a menor nos aseguramos que siempre vamos a intentar agregar las de mayor peso primero y que si al probar con un eje se forma un ciclo $C$, ese eje va a ser el de menor peso de $C$.\\
+
+Para probar que esto es correcto tenemos que analizar el funcionamiento de la clase \textit{UnionFind} dado que se encarga de decirle a kruskal, de manera eficiente, si tiene que poner la arista o no. El constructor crea dos arreglos y utiliza un \emph{for} para inicializarlos, el cual tiene un invariante simple que asegura que cuando se cumple que \texttt{\{$i >= n$\}} termina. Al crear estas estructuras definimos un bosque que no tiene ninguna arista y cada nodo es su propio padre. También definimos un \emph{rank} que nos va a servir para comparar los tamaños de las componentes conexas que vaya creando kruskal.\\
+
+En \textit{isSameSet} no hay nada que analizar ya que solo llama a \textit{findSet} con los parámetros de entrada y devuelve true si dio el mismo resultado para $i$ y para $j$. \textit{findSet} se encarga de averiguar cual es la raíz del árbol\footnote{Definimos \emph{raíz} al nodo que se tiene como padre a si mismo y que un árbol tiene una sola raíz.} al que pertenece el nodo que le llega por parámetro y lo hace de la siguiente manera:
+\begin{itemize}
+	\item obtiene el padre directo del nodo.
+	\item copia el nodo en una nueva variable $elemento$.
+	\item cicla mientras el padre del elemento no sea si mismo.
+	\item Dentro del ciclo el elemento pasa a ser el padre y se obtiene el padre de este nuevo elemento, de esta manera se van actualizando las variables obteniendo los ancestros hasta que eventualmente se llega a la raíz, la cual es la condición de terminación del ciclo ya que todo árbol tiene raíz, y por lo tanto termina.
+	\item Comprime el árbol modificando al nodo para que su padre directo se la raíz, salteando a todos los ancestros que hubiera en el medio.
+	\item Por último devuelve al nodo raíz.
+\end{itemize}
+
+Por último tenemos a \textit{unionSet} que se encarga de encontrar la mejor manera de unir dos componentes conexas. Para eso obtiene las raíces de los dos nodos a unir y los respectivos ranks de las raíces. Luego une el árbol de menor rango al de mayor ya que es menos costoso unir el mas chico al mas grande que al revés. La unión es simplemente definir a la raíz de árbol mas grande, como el padre de la raíz del mas chico, agregando así una nueva rama. En el caso que los dos tuvieran el mismo rango se le suma uno a la nueva raíz para constatar que el árbol que se formó es mas grande que los dos que se tenía anteriormente.\\
+
+En conclusión, podemos asegurar que en cada paso de kruskal agregamos una arista al árbol generador o sumamos la longitud, del pasillo a clausurar, a la solución del problema y como el AG que se genera es máximo, entonces se cumple que la suma de los metros a clausurar es mínima.
+%\footnote{Para corroborar la correctitud también se corrieron los tests entregados por la cátedra y se agregaron algunos casos en el archivo \emph{Tp2Ej3.in}}.
+
 \subsection{Análisis de la complejidad}
-Nuestra solución tiene una complejidad temporal de $\mathcal{O}(m\log{}m)$ siendo $m$ la cantidad de aristas del grafo. \\
+Nuestra solución tiene una complejidad temporal de $\mathcal{O}(m\log{}m)$ siendo $m$ la cantidad de aristas del grafo. En el análisis también se va a utilizar $n$ como la cantidad de nodos.\\
+
+Para empezar, al crear el grafo, lo primero que hacemos es ordenar la lista, lo que tiene una complejidad de $\mathcal{O}(m\log{}m)$ por la documentación de \textit{sort}\footnote{http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html$\#$sort(java.util.List,\%20java.util.Comparator)}. Luego se crea una nueva instancia de \textit{UnionFind} dentro de la cual se ejecuta un \emph{for} $n$ veces por lo que podríamos decir que la complejidad es $\mathcal{O}(n)$, pero como el enunciado asegura que las instancias del problema siempre son conexas, entonces $m = n-1$ como mínimo y como estamos buscando sacar ciclos, la mayoría de las instancias van a tener $m > n$ por lo tanto se puede asumir como cota superior, que tarda $\mathcal{O}(m)$.\\
+
+La función \textit{kruskal( )} se basa en un ciclo que recorre todas las aristas de la lista una sola vez, con lo cual ejecuta $\mathcal{O}(m)$ iteraciones. Dentro del mismo se utilizan las funciones de \textit{UnionFind}. A continuación pasamos a detallar las mismas:
+
+\begin{itemize}
+	\item \textit{isSameSet} se utiliza como máximo una sola vez dentro del ciclo y esta llama a \textit{findSet} la cual ejecuta un \emph{while} que en teoría itera $\mathcal{O}(altura\_del\_arbol)$ en el peor caso, pero por los teoremas demostrados en clase y como estamos utilizando la \emph{representación con bosques}, \emph{path compression} y \emph{union by rank} se puede decir que la complejidad de este paso queda acotada por $\mathcal{O}(m)$ y puede ser despreciada.
+	\item \textit{unionSet} también se ejecuta a lo sumo una vez. Dentro de la función se llama dos veces a \textit{findSet} pero como necesariamente (en esta implementación) se llamó antes a \textit{isSameSet} para los mismos argumentos, entonces se puede afirmar que ya se realizó el \emph{path compression} para esos nodos, por lo tanto se obtiene la raíz en $\mathcal{O}(1)$. Obtener el rank, setear al nuevo padre e incrementar un rank también toman tiempo constante.  
+\end{itemize}
+
+En la implementación de \textit{kruskal} se hizo una pequeña optimización que consiste en contar la cantidad de aristas que se agregan al AG para que una vez que se llegue al máximo ($n-1$) no se intente agregar mas al árbol y solo se sumen las distancias. Sin embargo esto no modifica la complejidad final ya que de todos modos se van a tener que recorrer todas las aristas.\\
+
+Analizando las complejidades de las distintas partes se puede ver que la que mas pesa es la de ordenar las aristas y por lo tanto la cota final es la que afirmamos al principio:
+
+\begin{center}
+	$\mathcal{O}(m\log{}m) + \mathcal{O}(c*m) = \mathcal{O}(m\log{}m)$ Con $c$ una constante.
+\end{center}
+
 \subsection{Código fuente}
 
+A continuación se incluyen las partes más relevantes del código.\\
+La clase \emph{Main.java} se basa en crear el grafo con la lista $ps$ y llamar a \textit{kruskal}:
+\lstinputlisting[name=pp, numbers=left, frame=lines, firstline=33, lastline=35]{../src/ej3/src/Main.java}
+Los métodos que manipulan al grafo que se encuentran en la clase \emph{Grafo.java}
+\lstinputlisting[name=gr, numbers=left, frame=lines, firstline=11, lastline=46]{../src/ej3/src/Grafo.java}
+\newpage
+Por último la clase \emph{UnionFind.java}
+\lstinputlisting[name=uf, numbers=left, frame=lines, firstline=8, lastline=59]{../src/ej3/src/UnionFind.java}
+
+
 \subsection{Experimentación}
-\textcolor{blue}{Pensar casos borde}
+
+Para analizar la performance del algoritmo creamos dos scripts: uno que se encarga de generar casos de test pseudoaletorios\footnote{genTest.sh}, el cual utiliza un script de python\footnote{random_connected_graph.py; Source: https://gist.github.com/bwbaugh/4602818$\#$file-random$\_$connected$\_$graph-py} que se encarga de generar grafos conexos con un $n$ y un $m$ dados. Combinando estos dos fijamos el $n$, luego generamos grafos conexos con aristas elegidas al azar y con $m$ que empieza valiendo $n-1$ y se va incrementando con un cierto espaciado. El otro script\footnote{testPerformance.sh} se encarga de correr el programa una cierta cantidad de veces para cada instancia generada por el primer script, luego descarta los outliers y calcula el tiempo promedio entre todas las corridas. Estos promedios se guardan en el archivo \emph{resultados-$N$.out} con $N$ la cantidad de nodos que se fijó para generar los grafos.
+
+\newpage
 
 \subsubsection{Constrastación Empírica de la complejidad}
+
+A continuación presentamos tres gráficos que muestran el comportamiento en la práctica del algoritmo. Para obtener estos resultados fijamos tres valores de $n$ y luego se fueron modificando los valores de $m$. Las instancias fueron corridas varias veces para minimizar el error de medición.\\
+
+El primer gáfico presenta grafos de 1000 nodos, el segundo grafos de 5000 y el tercero de 10000.
+
+\begin{figure}[h!]
+	\centering
+ 	\includegraphics[scale=0.8]{imagenes/ej3/tiempos1000.png}
+	%\caption{Medición de tiempo promedio entre 100 corridas}
+	%\label{tiemposprom}
+ \end{figure}
+
+ \begin{figure}[h!]
+	\centering
+ 	\includegraphics[scale=0.8]{imagenes/ej3/tiempos5000.png}
+	%\caption{Medición de tiempo promedio entre 100 corridas}
+	%\label{tiemposprom}
+ \end{figure}
+
+ \begin{figure}[h!]
+	\centering
+ 	\includegraphics[scale=0.8]{imagenes/ej3/tiempos10000.png}
+	%\caption{Medición de tiempo promedio entre 100 corridas}
+	%\label{tiemposprom}
+ \end{figure}
+
+ Se hicieron estos gráficos fijando el $n$ a modo de mostrar que efectivamente la cantidad de nodos no influye en la complejidad final del algoritmo y como se puede observar las curvas son similares. Los dos últimos grafos tienen menos instancias dado que generar grafos mas grandes y luego correr el programa resultaba en un problema de falta de poder de procesamiento y de memoria física que soportara las estructuras de datos de mas de 200 MB.
+
+\newpage
+
+ \begin{figure}[h!]
+	\centering
+ 	\includegraphics[scale=0.8]{imagenes/ej3/mlogm1000.png}
+	%\caption{Medición de tiempo promedio entre 100 corridas}
+	%\label{tiemposprom}
+ \end{figure}
+
+ Para finalizar con este análisis tomamos las muestras de los grafos de 1000 nodos y las dividimos por $m\log{}m$ para corroborar que la complejidad teórica se condice con la realidad y concluímos dadas estas muestras, el gráfico parece tender a una constante por lo que decimos que nuestro algoritmo cumple con la cota de complejidad propuesta.

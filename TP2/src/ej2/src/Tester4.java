@@ -11,9 +11,9 @@ public class Tester4 {
 	}
 	
 	@Test
-	public static void testear(String parametros,String datos,ArrayList<Long> lista,int cantidad_de_veces) throws Exception{
+	public static void testear(String parametros,String datos,ArrayList<Long> lista) throws Exception{
 		Lector recuperar_nodos = new Lector(parametros,datos);
-		for(int i = 0;i<cantidad_de_veces;i++){
+		for(int i = 0;i<2;i++){
 			long inicio = System.nanoTime();
 			recuperar_nodos.procesar_entrada();
 			Solucion sol = new Solucion(recuperar_nodos.primer_nodo(),recuperar_nodos.ultimo_nodo());
@@ -24,19 +24,20 @@ public class Tester4 {
 	}
 	public static void main (String [] entrada) throws Exception{
 		int cantidad_de_veces = Integer.parseInt(entrada[2]);
-		//int cant = 0;
+		int cant = 1;
 		GeneradorRandomDeEntradas gen = new GeneradorRandomDeEntradas(0,0,0);
 		for(int j = 0;j<Integer.parseInt(entrada[0]);j++){
 			gen.generar_lineas_rectas_pisos_movimiento();
 		}
 		for(int j = Integer.parseInt(entrada[0]);j<Integer.parseInt(entrada[1]); j++){
-			ArrayList<Long> lista = new ArrayList<Long>(cantidad_de_veces);
-			//for(int i = 1;i<=cantidad_de_veces;i++){
-			String parametros = "";
-			parametros += Integer.toString(j+1);
-			parametros += " 0";
-			Tester4.testear(parametros,gen.generar_lineas_rectas_pisos_movimiento().substring(1),lista,cantidad_de_veces);
-			//}
+			ArrayList<Long> lista = new ArrayList<Long>(cantidad_de_veces*2);
+			for(int i = 1;i<=cantidad_de_veces;i++){
+				String parametros = "";
+				parametros += Integer.toString(cant);
+				parametros += " 0";
+				gen.generar_lineas_rectas_pisos_movimiento();
+				Tester4.testear(parametros,gen.generar_lineas_rectas_pisos_movimiento(),lista);
+			}
 			System.out.printf("%d %d\n",j, Tester4.promediar(lista,cantidad_de_veces));
 		}
 	}

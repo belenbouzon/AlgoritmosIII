@@ -4,7 +4,6 @@ import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.Set;
 import java.util.LinkedHashSet;
-
 import java.util.Iterator;
 
 public class Lector{
@@ -13,8 +12,26 @@ public class Lector{
 	private BufferedReader is;
 	private int n;
 	private int L;
+	public int cantPortales;
 	private String formato;
 	private String entrada;
+	private static String path;
+
+	public String GetLine()
+	{
+		try 
+		{
+			return is.readLine();
+		}
+		catch (IOException e) 
+		{ 
+			hasEnded = true;
+			return null;
+		}
+	}
+	
+	public boolean hasEnded = false;
+	
 	public int cantidad_pisos(){
 		return n;
 	}
@@ -27,30 +44,23 @@ public class Lector{
 	public Nodo ultimo_nodo(){
 		return this.ult_nodo;
 	}
+	public static String Path()
+	{
+		return path;
+	}
 	private static void iniciar_diccionario(BoundedIntegerMap<BoundedIntegerMap<Nodo>> map,int n, int l){
 		for(int i = 0;i<=n;i++){
 			BoundedIntegerMap<Nodo> piso = new BoundedIntegerMap<Nodo>(l);
 			map.put(i, piso);
 		}
 	}
-	/*private Nodo incluir_nodo(int n_piso,int n_distancia,Integer nodo_iesimo,BoundedIntegerMap<BoundedIntegerMap<Nodo>> mapas_de_piso){
-		BoundedIntegerMap<Nodo> piso = mapas_de_piso.get(n_piso);
-		Nodo n;
-		if(!piso.containsKey(n_distancia)){
-			n = new Nodo(nodo_iesimo,n_distancia);
-			nodo_iesimo = nodo_iesimo + 1;
-			piso.put(n_distancia,n);
-			System.out.printf("nodo: %d\n",nodo_iesimo);
-		}else{
-			n = piso.get(n_distancia);
-		}
-		return n;
-	}*/
+
 	public void procesar_entrada(){
 		String parametros [] = formato.split(" "); //O(1)
 		this.n = Integer.parseInt(parametros[0]);
 		this.L = Integer.parseInt(parametros[1]);
 		String portales [] = entrada.split(";"); //O(1)
+		this.cantPortales = portales.length;
 		BoundedIntegerMap<BoundedIntegerMap<Nodo>> mapas_de_piso = new BoundedIntegerMap<BoundedIntegerMap<Nodo>>(n);
 		iniciar_diccionario(mapas_de_piso,n,L);
 		this.prim_nodo = new Nodo(0,0);
@@ -115,6 +125,7 @@ public class Lector{
 			}
 		}
 	}
+	
 	public String leer_palabra() throws IOException{
         try{
             return this.is.readLine();
@@ -122,13 +133,26 @@ public class Lector{
             return null;
         }
 	}
-	public Lector(String archivo) throws Exception{
+	
+	public Lector(String archivo) throws Exception
+	{
 		try { this.is = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archivo)));}
-		catch (RuntimeException e) {throw new Exception ("No pudo hallarse el archivo especificado.");}
+		catch (RuntimeException e) {throw new Exception ("No pudo hallarse el archivo especificado." + archivo);}
 		this.formato = this.leer_palabra();
 		this.entrada = this.leer_palabra();
+		this.path = getClass().getResource( "" ).getPath();
 	}
-	public Lector(String form, String entr){
+	
+
+	public Lector(String archivo, boolean EsDeMedicion) throws Exception
+	{
+		try { this.is = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archivo)));}
+		catch (RuntimeException e) {throw new Exception ("No pudo hallarse el archivo especificado." + archivo);}
+		this.path = getClass().getResource( "" ).getPath();
+	}
+	
+	public Lector(String form, String entr)
+	{
 		this.formato = form;
 		this.entrada = entr;
 	}
