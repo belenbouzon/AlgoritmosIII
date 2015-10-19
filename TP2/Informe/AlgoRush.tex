@@ -46,3 +46,49 @@ En la entrada de este test se presentan dos ciclos en el grafo; dentro del camin
 En esta ocación se prueba el uso intensivo de nodos fantasma. En este test solo existen portales que comunican el principio de un piso con el final del piso anterior.
 
 \subsubsection{Constrastación Empírica de la complejidad}
+
+Para poner a prueba de manera empirica la complejidad algorítmica calculada para nuestra resolución, diseñamos tres casos distintos de pruebas:
+\begin{itemize}
+\item{Caso en el que se incrementa la cantidad de portales, dejando fijos los valores de la cantidad de pisos y la longitud de los pasillos.}
+\item{Caso en el que se incrementa la cantidad de pisos, dejando fijos los valores de la cantidad de portales y la longitud de los pasillos.}
+\item{Caso en el que se incrementa la longtud de los pasillos, dejando fijos los valores de la cantidad de pisos y la cantidad de portales.}
+\end{itemize}
+
+Estos casos fueron diseñados partiendo del análisis de la complejidad dada. Siendo la misma O(NL+P), dedujimos que tomando como variable sólo una de ellas de manera alternada en tres casos distintos, se podrían obtener las funciones \textit{ f(N) = a*N + b},  \textit {f(L) = a*L + b} y \textit{f(P) = b + P}, todas ellas lineales. \\
+
+A continuación se pueden ver, en las figuras \ref{pisos}, \ref{pasillos} y \ref{portales} los resultados de las mediciones de tiempos obtenidas a partir de grafos válidos  generados de forma automática para cada caso en particular.
+
+
+\begin{figure}[h!]
+   \begin{center}
+ 	\includegraphics[width=18cm]{imagenes/ej2/f(pisos).png}
+	\caption{Medición de tiempos en función de la cantidad de pisos}
+	\label{pisos}
+   \end{center}
+ \end{figure}
+
+ \begin{figure}[h!]
+   \begin{center}
+ 	\includegraphics[width=18cm]{imagenes/ej2/f(pasillos).png}
+	\caption{Medición de tiempos en función de la longitud de los pasillos}
+	\label{pasillos}
+   \end{center}
+ \end{figure}
+
+\begin{figure}[h!]
+   \begin{center}
+ 	\includegraphics[width=18cm]{imagenes/ej2/f(portales).png}
+	\caption{Medición de tiempos en función de la cantidad de portales}
+	\label{portales}
+   \end{center}
+ \end{figure}
+
+
+Como es posible observar, los tiempos medidos en cada uno de los casos parecen comportarse de forma tal que su crecimiento fuera lineal en función de la variable escogida.\\
+
+Si bien tenemos presente que hacer estas pruebas no garantiza la reconstrucción de la complejidad O(NL+P) (del mismo modo que ninguna prueba empírica de este estilo \textit{prueba} de ninguna manera una determinada complejidad temporal) consideramos que las experimentaciones expuestas ayudan a reforzar en cierta medida los resultados teóricos deducidos a priori. \\
+
+\subsubsection{Peor caso}
+Como mencionamos anteriormente, el grafico generado a partir de la entrada no puede tener más de NL+P nodos. Sin embargo, en algunas ocaciones este máximo no es alcanzado, ya que, si existen pisos que no posean nodos en los extremos, dicho piso aportará menos de L nodos al grafico. Entonces, la entrada generada como peor caso solo tiene portales en los extremos de los pisos, de forma tal que se comunique el final de un piso i con el principio del piso i+1. De esta forma el grafico siempre tiene NL + P nodos. Para mantener estas proporciones, en este test varian dos variables a la vez: cada vez que se añade un piso se añade un nuevo portal desde el final de dicho piso al principio del siguiente. La longitud de kis pasillos se ha dejado fija en 400.
+
+\newpage
