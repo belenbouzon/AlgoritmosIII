@@ -22,13 +22,13 @@ Finalmente, el costo de construir el grafo y hallar el camino mínimo entre sus 
 
 \subsection{Experimentación}
 \subsubsection{Piensa con portales}
-En este test existe un portal que lleva directamente desde la entrada al aula. El algoritmo deberia utilizarlo y llegar al aula en dos segundos.
+En este test existe un portal que lleva diréctamente desde la entrada al aula. El algoritmo debería utilizarlo y llegar al aula en dos segundos.
 
 \subsubsection{Encontre un atajo}
 En este test existen dos portales en el primer piso con una longitud considerable. El primero de ellos toma un camino largo hacia el aula y el otro uno más corto. Como debido a la distancia entre el origen de ambos caminos, el algoritmo comenzará a adentrarse en el camino largo antes del corto. Se pretende testear si el algoritmo finalmente devuelve la solución correcta a pesar de esto.
 
 \subsubsection{¿y_como_llegue_aqui?}
-En esta oportunidad se introduce un ciclo en el grafico. Existen dos portales en el piso cero, uno de los cuales entra al ciclo y otro que lleva a la dirección correcta.
+En esta oportunidad se introduce un ciclo en el grafo. Existen dos portales en el piso cero, uno de los cuales entra al ciclo y otro que lleva a la dirección correcta.
 
 \subsubsection{Linea recta}
 Este test se basa en probar la correctitud algoritmo cuando existen portales superpuestos. Existe un único camino entre el inicio y el aula, en donde todos los portales intermedios tienen otro superpuesto que lleva a otro piso, por lo que no es necesario camninar, excepto en el primer y el último piso.
@@ -37,13 +37,13 @@ Este test se basa en probar la correctitud algoritmo cuando existen portales sup
 Este test tambíen esta centrado en probar el algoritmo cuando existen portales superpuestos. En este caso, existen muchos portales con un extremo en un mismo punto.
 
 \subsubsection{No quiero caminar}
-Este test se centra en explotar la posibilidad de utilizar un portal que comunica dos puntos del mismo piso. En el mismo, existen dos pisos con un portal en cada extremo y se necesita llegar de uno a otro dentro de cualquier camino existente; sin embargo, otro portal que cuyos extremos son muy cercanos a cada uno de los portales, por lo cual el camino mínimo deberia utilizar estos portales intermedios.
+Este test se centra en explotar la posibilidad de utilizar un portal que comunica dos puntos del mismo piso. En él, existen dos pisos con un portal en cada extremo y se necesita llegar de uno a otro dentro de cualquier camino existente; sin embargo, otro portal que cuyos extremos son muy cercanos a cada uno de los portales, por lo cual el camino mínimo deberia utilizar estos portales intermedios.
 
 \subsubsection{la_venganza_de_los_ciclos}
-En la entrada de este test se presentan dos ciclos en el grafo; dentro del camino mínimo se incluyen algunos nodos pertenecientes a los mismos. Nuevamente se pretende evaluar el comportamiento del algoritmo frente a los ciclos, pero en esta ocacion incluyendolos dentro de un camino simple hasta el aula.
+En la entrada de este test se presentan dos ciclos en el grafo; dentro del camino mínimo se incluyen algunos nodos pertenecientes a los mismos. Nuevamente se pretende evaluar el comportamiento del algoritmo frente a los ciclos, pero en esta ocasión incluyéndolos dentro de un camino simple hasta el aula.
 
 \subsubsection{salidas_de_emergencia}
-En esta ocación se prueba el uso intensivo de nodos fantasma. En este test solo existen portales que comunican el principio de un piso con el final del piso anterior.
+En esta oportunidad se prueba el uso intensivo de nodos fantasma. En este test sólo existen portales que comunican el principio de un piso con el final del piso anterior.
 
 \subsubsection{Constrastación Empírica de la complejidad}
 Para poner a prueba de manera empirica la complejidad algorítmica calculada para nuestra resolución, diseñamos tres casos distintos de pruebas:
@@ -88,7 +88,11 @@ Como es posible observar, los tiempos medidos en cada uno de los casos parecen c
 Si bien tenemos presente que hacer estas pruebas no garantiza la reconstrucción de la complejidad O(NL+P) (del mismo modo que ninguna prueba empírica de este estilo \textit{prueba} de ninguna manera una determinada complejidad temporal) consideramos que las experimentaciones expuestas ayudan a reforzar en cierta medida los resultados teóricos deducidos a priori. \\
 
 \subsubsection{Peor caso}
+<<<<<<< HEAD
 Como mencionamos anteriormente, el gráfico generado a partir de la entrada no puede tener más de NL+P nodos. Sin embargo, en algunas ocasiones este máximo no es alcanzado, ya que, si existen pisos que no posean nodos en los extremos, dicho piso aportará menos de L nodos al gráfico. Entonces, la entrada generada como peor caso sólo tiene portales en los extremos de los pisos, de forma tal que se comunique el final de un piso i con el principio del piso i+1. De esta forma el grafo siempre tiene NL + P nodos. Para mantener estas proporciones, en este test cambian dos variables a la vez: cada vez que se añade un piso se agrega también un nuevo portal desde el final de dicho piso al principio del siguiente. La longitud de los pasillos se ha dejado fija en 400.
 
+=======
+Como mencionamos anteriormente, el grafo generado a partir de la entrada no puede tener más de NL+P nodos. Sin embargo, en algunas ocasiones este máximo no es alcanzado, ya que, si existen pisos que no posean nodos en los extremos, dicho piso aportará menos de L nodos al gráfico. Entonces, la entrada generada como peor caso sólo tiene portales en los extremos de los pisos, de forma tal que se comunique el final de un piso i con el principio del piso i+1. De esta forma el grafo siempre tiene NL + P nodos. Para mantener estas proporciones, en este test se modifican dos variables a la vez: cada vez que se añade un piso, se incorpora también un nuevo portal desde el final de dicho piso al principio del siguiente. La longitud de los pasillos se ha dejado fija en 400.
+>>>>>>> origin/master
 
 \newpage
