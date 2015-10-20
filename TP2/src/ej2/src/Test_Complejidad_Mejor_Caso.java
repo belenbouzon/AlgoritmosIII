@@ -20,7 +20,7 @@ public class Test_Complejidad_Mejor_Caso {
 			portales += Integer.toString(N);
 			portales += " ";
 			portales += Integer.toString(longitud_pasillos);
-			portales += ";";
+			//portales += ";";
 			
 			Lector lec = new Lector(parametros,portales);
 			for(int i = 0;i<cantidad_iteraciones;i++){
