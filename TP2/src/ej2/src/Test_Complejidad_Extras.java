@@ -34,9 +34,6 @@ public class Test_Complejidad_Extras {
 		while(N<=pisos_maximo){
 			String parametros = Integer.toString(N);
 			parametros += fin_parametros;
-			String cop = portales;
-			portales = agregar_portales(cop,escala,N,longitud_pasillos);
-			System.out.printf("%s\n", portales);
 			Lector lec = new Lector(parametros,portales);
 			for(int i = 0;i<cantidad_iteraciones;i++){
 				long inicio = System.nanoTime();
@@ -51,6 +48,8 @@ public class Test_Complejidad_Extras {
 				
 				resultados[i_esimo] += (fin-inicio)/100;
 			}
+			String cop = portales;
+			portales = agregar_portales(cop,escala,N,longitud_pasillos);
 			i_esimo++;
 			N+= escala;
 		}
