@@ -1,5 +1,15 @@
 
 public class Test_Complejidad_Extras {
+	private static void agregar_portales(String s,int escala,int N){
+		for(int i = N;i<=N+escala;i++){
+			s += Integer.toString(i-1);
+			s += " ";
+			s += Integer.toString(longitud_pasillos);
+			s += " ";
+			s += Integer.toString(i);
+			s += " 0;";
+		}
+	}
 	public static long[] peor_caso(int longitud_pasillos, int pisos_minimos,int pisos_maximo,int escala, int cantidad_iteraciones){
 		long[] resultados = new long [(pisos_maximo-pisos_minimos)/escala + 1];
 		for(int i = 0;i<resultados.length;i++){
@@ -24,12 +34,13 @@ public class Test_Complejidad_Extras {
 			String parametros = Integer.toString(N);
 			parametros += fin_parametros;
 			
-			portales += Integer.toString(N-1);
+			/*portales += Integer.toString(N-1);
 			portales += " ";
 			portales += Integer.toString(longitud_pasillos);
 			portales += " ";
 			portales += Integer.toString(N);
-			portales += " 0;";
+			portales += " 0;";*/
+			agregar_portales(portales,escala,N);
 			
 			Lector lec = new Lector(parametros,portales);
 			for(int i = 0;i<cantidad_iteraciones;i++){
