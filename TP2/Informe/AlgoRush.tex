@@ -46,7 +46,6 @@ En la entrada de este test se presentan dos ciclos en el grafo; dentro del camin
 En esta oportunidad se prueba el uso intensivo de nodos fantasma. En este test sólo existen portales que comunican el principio de un piso con el final del piso anterior.
 
 \subsubsection{Constrastación Empírica de la complejidad}
-
 Para poner a prueba de manera empirica la complejidad algorítmica calculada para nuestra resolución, diseñamos tres casos distintos de pruebas:
 \begin{itemize}
 \item{Caso en el que se incrementa la cantidad de portales, dejando fijos los valores de la cantidad de pisos y la longitud de los pasillos.}
@@ -89,7 +88,12 @@ Como es posible observar, los tiempos medidos en cada uno de los casos parecen c
 Si bien tenemos presente que hacer estas pruebas no garantiza la reconstrucción de la complejidad O(NL+P) (del mismo modo que ninguna prueba empírica de este estilo \textit{prueba} de ninguna manera una determinada complejidad temporal) consideramos que las experimentaciones expuestas ayudan a reforzar en cierta medida los resultados teóricos deducidos a priori. \\
 
 \subsubsection{Peor caso}
+<<<<<<< HEAD
+Como mencionamos anteriormente, el gráfico generado a partir de la entrada no puede tener más de NL+P nodos. Sin embargo, en algunas ocasiones este máximo no es alcanzado, ya que, si existen pisos que no posean nodos en los extremos, dicho piso aportará menos de L nodos al gráfico. Entonces, la entrada generada como peor caso sólo tiene portales en los extremos de los pisos, de forma tal que se comunique el final de un piso i con el principio del piso i+1. De esta forma el grafo siempre tiene NL + P nodos. Para mantener estas proporciones, en este test cambian dos variables a la vez: cada vez que se añade un piso se agrega también un nuevo portal desde el final de dicho piso al principio del siguiente. La longitud de los pasillos se ha dejado fija en 400.
+
+=======
 Como mencionamos anteriormente, el grafo generado a partir de la entrada no puede tener más de NL+P nodos. Sin embargo, en algunas ocasiones este máximo no es alcanzado, ya que, si existen pisos que no posean nodos en los extremos, dicho piso aportará menos de L nodos al gráfico. Entonces, la entrada generada como peor caso sólo tiene portales en los extremos de los pisos, de forma tal que se comunique el final de un piso i con el principio del piso i+1. De esta forma el grafo siempre tiene NL + P nodos. Para mantener estas proporciones, en este test se modifican dos variables a la vez: cada vez que se añade un piso, se incorpora también un nuevo portal desde el final de dicho piso al principio del siguiente. La longitud de los pasillos se ha dejado fija en 400.
+>>>>>>> origin/master
 
 \subsubsection{Mejor caso}
 En este caso solo existe un portal entre el principio del primer piso hasta el final del último (es decir, el aula). En cada iteración la cantidad de pisos se incrementa. En este caso, la mayoría de los pisos están vacios y no aportarán nodos al mapa. Además, como los nodos del portal están superpuestos con los nodos de la entrada y del aula, el primer y el último piso tampoco aportarán nodos fantasma que dependan de la longitud. Sin embargo, al procesar la infomación de entrada, el Lector necesita chequear todos los pisos, por lo que, en el mejor caso, el tiempo de computo del Lector depende de N, aunque encontrar la solución al grafo no lo haga.
