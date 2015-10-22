@@ -25,7 +25,14 @@ La clase \emph{Lector.java} se encarga de tomar los datos del archivo de entrada
 La clase \emph{Solucion.java} contiene los métodos que calculan el camino mínimo del grafo entre los dos puntos señalados.
 \lstinputlisting[name=pp, numbers=left, frame=lines, firstline=14, lastline=76]{../src/ej2/src/Solucion.java}
 
+
+?
+
+
+
+
 \subsection{Experimentación}
+
 \subsubsection{Piensa con portales}
 En este test existe un portal que lleva diréctamente desde la entrada al aula. El algoritmo debería utilizarlo y llegar al aula en dos segundos.
 
@@ -55,7 +62,7 @@ Para poner a prueba de manera empirica la complejidad algorítmica calculada par
 \begin{itemize}
 \item{Caso en el que se incrementa la cantidad de portales, dejando fijos los valores de la cantidad de pisos y la longitud de los pasillos.}
 \item{Caso en el que se incrementa la cantidad de pisos, dejando fijos los valores de la cantidad de portales y la longitud de los pasillos.}
-\item{Caso en el que se incrementa la longtud de los pasillos, dejando fijos los valores de la cantidad de pisos y la cantidad de portales.}
+\item{Caso en el que se incrementa la longitud de los pasillos, dejando fijos los valores de la cantidad de pisos y la cantidad de portales.}
 \end{itemize}
 
 Estos casos fueron diseñados partiendo del análisis de la complejidad dada. Siendo la misma O(NL+P), dedujimos que tomando como variable sólo una de ellas de manera alternada en tres casos distintos, se podrían obtener las funciones \textit{ f(N) = a*N + b},  \textit {f(L) = a*L + b} y \textit{f(P) = b + P}, todas ellas lineales. \\
@@ -93,14 +100,31 @@ Como es posible observar, los tiempos medidos en cada uno de los casos parecen c
 Si bien tenemos presente que hacer estas pruebas no garantiza la reconstrucción de la complejidad O(NL+P) (del mismo modo que ninguna prueba empírica de este estilo \textit{prueba} de ninguna manera una determinada complejidad temporal) consideramos que las experimentaciones expuestas ayudan a reforzar en cierta medida los resultados teóricos deducidos a priori. \\
 
 \subsubsection{Peor caso}
-<<<<<<< HEAD
-Como mencionamos anteriormente, el gráfico generado a partir de la entrada no puede tener más de NL+P nodos. Sin embargo, en algunas ocasiones este máximo no es alcanzado, ya que, si existen pisos que no posean nodos en los extremos, dicho piso aportará menos de L nodos al gráfico. Entonces, la entrada generada como peor caso sólo tiene portales en los extremos de los pisos, de forma tal que se comunique el final de un piso i con el principio del piso i+1. De esta forma el grafo siempre tiene NL + P nodos. Para mantener estas proporciones, en este test cambian dos variables a la vez: cada vez que se añade un piso se agrega también un nuevo portal desde el final de dicho piso al principio del siguiente. La longitud de los pasillos se ha dejado fija en 400.
+Como mencionamos anteriormente, el grafo generado a partir de la entrada no puede tener más de NL+P nodos. Sin embargo, en algunas ocasiones este máximo no es alcanzado, ya que, aquellos pisos que no posean nodos en los extremos aportarán menos de L nodos al grafo. Entonces, la entrada generada como peor caso sólo tiene portales en los extremos de los pisos, de forma tal que se comunique el final de un piso i con el principio del piso i+1. De esta forma el grafo siempre tiene NL + P nodos. Para mantener estas proporciones, en este test cambian dos variables a la vez: cada vez que se añade un piso se agrega también un nuevo portal desde el final de dicho piso al principio del siguiente. La longitud de los pasillos se ha dejado fija en 400.\\
+En la figura \ref{peorCaso} se pueden ver los resultados obtenidos luego de medir los tiempos de cómputo de una serie de grafos generados de manera tal que respeten la estructura descripta en este apartado.
 
-=======
-Como mencionamos anteriormente, el grafo generado a partir de la entrada no puede tener más de NL+P nodos. Sin embargo, en algunas ocasiones este máximo no es alcanzado, ya que, si existen pisos que no posean nodos en los extremos, dicho piso aportará menos de L nodos al gráfico. Entonces, la entrada generada como peor caso sólo tiene portales en los extremos de los pisos, de forma tal que se comunique el final de un piso i con el principio del piso i+1. De esta forma el grafo siempre tiene NL + P nodos. Para mantener estas proporciones, en este test se modifican dos variables a la vez: cada vez que se añade un piso, se incorpora también un nuevo portal desde el final de dicho piso al principio del siguiente. La longitud de los pasillos se ha dejado fija en 400.
->>>>>>> origin/master
+\begin{figure}[h!]
+   \begin{center}
+ 	\includegraphics[width=18cm]{imagenes/ej2/peorCaso.png}
+	%\caption{}
+	\label{peorCaso}
+   \end{center}
+ \end{figure}
+
 
 \subsubsection{Mejor caso}
-En este caso solo existe un portal entre el principio del primer piso hasta el final del último (es decir, el aula). En cada iteración la cantidad de pisos se incrementa. En este caso, la mayoría de los pisos están vacios y no aportarán nodos al mapa. Además, como los nodos del portal están superpuestos con los nodos de la entrada y del aula, el primer y el último piso tampoco aportarán nodos fantasma que dependan de la longitud. Sin embargo, al procesar la infomación de entrada, el Lector necesita chequear todos los pisos, por lo que, en el mejor caso, el tiempo de computo del Lector depende de N, aunque encontrar la solución al grafo no lo haga.
+En este caso sólo existe un portal entre el principio del primer piso hasta el final del último (es decir, el aula). En cada iteración la cantidad de pisos se incrementa. En este caso, la mayoría de los pisos están vacios y no aportarán nodos al mapa. Además, como los nodos del portal están superpuestos con los nodos de la entrada y del aula, el primer y el último piso tampoco aportarán nodos fantasma que dependan de la longitud. Sin embargo, al procesar la infomación de entrada, el Lector necesita chequear todos los pisos, por lo que, en el mejor caso, el tiempo de computo del Lector depende de N, aunque encontrar la solución al grafo no lo haga.\\
+En la figura \ref{mejorCaso} se pueden observar los resultados obtenidos a través de la medición de tiempos para grafos de distinta cantidad de pisos que respetan la estructura descripta en este apartado.
+
+\begin{figure}[h!]
+   \begin{center}
+ 	\includegraphics[width=18cm]{imagenes/ej2/mejorCaso.png}
+	%\caption{}
+	\label{mejorCaso}
+   \end{center}
+ \end{figure}
+
+ Finalmente, en la figura \ref{comparativa} se puede apreciar la notoria diferencia entre los tiempos conseguidos por los peores casos respecto de los alcanzados por los mejores casos frente a la misma cantidad de pisos.
+
 
 \newpage

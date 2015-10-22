@@ -4,7 +4,8 @@
 \subsection{Descripción de la problemática}
 
 En este ejercicio se nos presenta un pabellón con M pasillos de longitudes -potencialmente- distintas, representados por las aristas de un grafo y un conjunto vértices que pueden ser tanto intersecciones en las cuales dos o más de ellos convergen, o extremos incididos por un sólo corredor. 
-A partir de este contexto se nos pide desarrollar un algoritmo que elimine cualquier ciclo del grafo dado, logrando crear un árbol generador cuyo peso (dado por la sumatoria de los pesos de cada arista) sea mayor o igual al de cualquier otro árbol generador posible (conocido como árbol generador máximo). Cabe destacar que queremos encontrar el árbol generador máximo ya que de esta manera nos aseguramos de que los pasillos a clausurar sean los de menor longitud en el ciclo y por lo tanto los que tienen menor costo de clausura.\\
+A partir de este contexto se nos pide desarrollar un algoritmo que elimine cualquier ciclo del edificio dado, procurando a su vez que los pasillos que persistan se escojan de forma tal que resulte un pabellón conexo y acíclico cuyo peso (dado por la sumatoria de las longitudes de cada pasillo que lo componga) sea mayor a cualquier otro que pueda formarse con estas propiedades.\\
+Esto se lo puede pensar como la elaboración de un árbol generador cuyo peso  sea mayor o igual al de cualquier otro árbol generador posible. Es decir, que queremos encontrar el árbol generador máximo, dado que de esta manera nos aseguraremos de que los pasillos a clausurar sean los de menor longitud en el ciclo y por lo tanto los que tienen menor costo de clausura.\\
 
 \emph{Nota:} Para correr el programa con un input específico ya sea para obtener el output y/o las mediciones de tiempo, utilizar la clase Main.java. En el caso que se quieran correr los tests, utilizar la clase TestEj3.java la cual utiliza la clase Ejercicio3.java. Main y Ejercicio3 hacen exactamente lo mismo salvo que la primera implementa las mediciones de tiempo y los métodos para leer y escribir archivos que no son necesarios para correr los tests. 
 
@@ -98,21 +99,21 @@ El primer gáfico presenta grafos de 1000 nodos, el segundo grafos de 5000 y el 
 
 \begin{figure}[h!]
 	\centering
- 	\includegraphics[scale=0.8]{imagenes/ej3/tiempos1000.png}
+ 	\includegraphics[scale=0.7]{imagenes/ej3/tiempos1000B.png}
 	%\caption{Medición de tiempo promedio entre 100 corridas}
 	%\label{tiemposprom}
  \end{figure}
 
  \begin{figure}[h!]
 	\centering
- 	\includegraphics[scale=0.8]{imagenes/ej3/tiempos5000.png}
+ 	\includegraphics[scale=0.7]{imagenes/ej3/tiempos5000B.png}
 	%\caption{Medición de tiempo promedio entre 100 corridas}
 	%\label{tiemposprom}
  \end{figure}
 
  \begin{figure}[h!]
 	\centering
- 	\includegraphics[scale=0.8]{imagenes/ej3/tiempos10000.png}
+ 	\includegraphics[scale=0.7]{imagenes/ej3/tiempos10000B.png}
 	%\caption{Medición de tiempo promedio entre 100 corridas}
 	%\label{tiemposprom}
  \end{figure}
@@ -123,7 +124,7 @@ El primer gáfico presenta grafos de 1000 nodos, el segundo grafos de 5000 y el 
 
  \begin{figure}[h!]
 	\centering
- 	\includegraphics[scale=0.8]{imagenes/ej3/mlogm1000.png}
+ 	\includegraphics[scale=0.7]{imagenes/ej3/mlogm1000B.png}
 	%\caption{Medición de tiempo promedio entre 100 corridas}
 	%\label{tiemposprom}
  \end{figure}
