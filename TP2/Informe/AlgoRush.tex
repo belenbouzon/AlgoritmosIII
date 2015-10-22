@@ -123,9 +123,17 @@ En la figura \ref{mejorCaso} se pueden observar los resultados obtenidos a trav�
    \end{center}
  \end{figure}
  
-Otro conjunto de instancias consideradas un mejor caso más relajado es un pabellón donde existen portales desde el principio del primer piso hasta el final de cada piso. En cada iteración se añade un piso y un portal desde el punto de entrada hasta el final de dicho piso. Nuevamente, se deben crear N BoundedIntegerMap de L elementos cada uno, por lo cual sí se alcanzan la complejidad de NL en el lector, pero al calcular el camino mínimo, al existir solamente un portal por piso, estos no aportarán nodos fantasma aparte de los creados para las aristas por teletransporte, por lo cual el algoritmo de camino mínimo no aumenta su complejidad al incrementarse el L.\\
+Otro conjunto de instancias consideradas un mejor caso más \textit{relajado} es un pabellón donde existen portales desde el principio del primer piso hasta el final de cada piso. En cada iteración se añade un piso y un portal desde el punto de entrada hasta el final de dicho piso. Nuevamente, se deben crear N BoundedIntegerMap de L elementos cada uno, por lo cual sí se alcanza la complejidad de NL en el lector, pero al calcular el camino mínimo, al existir solamente un portal por piso, estos no aportarán nodos fantasma aparte de los creados para las aristas por teletransporte, por lo cual el algoritmo de camino mínimo no aumenta su complejidad al incrementarse el L.\\
 
- Finalmente, en la figura \ref{comparativa} se puede apreciar la notoria diferencia entre los tiempos conseguidos por los peores casos respecto de los alcanzados por los mejores casos frente a la misma cantidad de pisos.
+ Finalmente, en la figura \ref{comparativa} se puede apreciar la notoria diferencia entre los tiempos conseguidos por los peores casos respecto de los alcanzados por los mejores casos.
+
+\begin{figure}[H]
+   \begin{center}
+ 	\includegraphics[width=18cm]{imagenes/ej2/comparativa.png}
+	%\caption{}
+	\label{comparativa}
+   \end{center}
+ \end{figure}
 
 
 \newpage
