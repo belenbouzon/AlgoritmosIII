@@ -64,7 +64,7 @@ Estos casos fueron diseñados partiendo del análisis de la complejidad dada. Si
 A continuación se pueden ver, en las figuras \ref{pisos}, \ref{pasillos} y \ref{portales} los resultados de las mediciones de tiempos obtenidas a partir de grafos válidos  generados de forma automática para cada caso en particular.
 
 
-\begin{figure}[h!]
+\begin{figure}[H]
    \begin{center}
  	\includegraphics[width=18cm]{imagenes/ej2/f(pisos).png}
 	\caption{Medición de tiempos en función de la cantidad de pisos}
@@ -72,7 +72,7 @@ A continuación se pueden ver, en las figuras \ref{pisos}, \ref{pasillos} y \ref
    \end{center}
  \end{figure}
 
- \begin{figure}[h!]
+ \begin{figure}[H]
    \begin{center}
  	\includegraphics[width=18cm]{imagenes/ej2/f(pasillos).png}
 	\caption{Medición de tiempos en función de la longitud de los pasillos}
@@ -80,7 +80,7 @@ A continuación se pueden ver, en las figuras \ref{pisos}, \ref{pasillos} y \ref
    \end{center}
  \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
    \begin{center}
  	\includegraphics[width=18cm]{imagenes/ej2/f(portales).png}
 	\caption{Medición de tiempos en función de la cantidad de portales}
@@ -93,11 +93,12 @@ Como es posible observar, los tiempos medidos en cada uno de los casos parecen c
 
 Si bien tenemos presente que hacer estas pruebas no garantiza la reconstrucción de la complejidad O(NL+P) (del mismo modo que ninguna prueba empírica de este estilo \textit{prueba} de ninguna manera una determinada complejidad temporal) consideramos que las experimentaciones expuestas ayudan a reforzar en cierta medida los resultados teóricos deducidos a priori. \\
 
+
 \subsubsection{Peor caso}
 Como mencionamos anteriormente, el grafo generado a partir de la entrada no puede tener más de NL+P nodos. Sin embargo, en algunas ocasiones este máximo no es alcanzado, ya que, aquellos pisos que no posean nodos en los extremos aportarán menos de L nodos al grafo. Entonces, la entrada generada como peor caso sólo tiene portales en los extremos de los pisos, de forma tal que se comunique el final de un piso i con el principio del piso i+1. De esta forma el grafo siempre tiene NL + P nodos. Para mantener estas proporciones, en este test cambian dos variables a la vez: cada vez que se añade un piso se agrega también un nuevo portal desde el final de dicho piso al principio del siguiente. La longitud de los pasillos se ha dejado fija en 400.\\
 En la figura \ref{peorCaso} se pueden ver los resultados obtenidos luego de medir los tiempos de cómputo de una serie de grafos generados de manera tal que respeten la estructura descripta en este apartado.
 
-\begin{figure}[h!]
+\begin{figure}[H]
    \begin{center}
  	\includegraphics[width=18cm]{imagenes/ej2/peorCaso.png}
 	%\caption{}
@@ -107,16 +108,18 @@ En la figura \ref{peorCaso} se pueden ver los resultados obtenidos luego de medi
 
 
 \subsubsection{Mejor caso}
-En este caso sólo existe un portal entre el principio del primer piso hasta el final del último (es decir, el aula). En cada iteración la cantidad de pisos se incrementa. En este caso, la mayoría de los pisos están vacios y no aportarán nodos al mapa. Además, como los nodos del portal están superpuestos con los nodos de la entrada y del aula, el primer y el último piso tampoco aportarán nodos fantasma que dependan de la longitud. Sin embargo, al procesar la infomación de entrada, el Lector necesita chequear todos los pisos, por lo que, en el mejor caso, el tiempo de computo del Lector depende de N, aunque encontrar la solución al grafo no lo haga.\\
+En este caso sólo existe un portal entre el principio del primer piso hasta el final del último (es decir, el aula). En cada iteración la cantidad de pisos se incrementa. En este caso, la mayoría de los pisos están vacios y no aportarán nodos al mapa. Además, como los nodos del portal están superpuestos con los nodos de la entrada y del aula, el primer y el último piso tampoco aportarán nodos fantasma que dependan de la longitud. Sin embargo, al procesar la infomación de entrada, el Lector necesita chequear todos los pisos, por lo que, en el mejor caso, el tiempo de computo del Lector depende de N, aunque encontrar la solución al grafo no lo haga. Además se deben crear los N BoundedIntegerMap de L elementos, lo cual tiene una costo de NL, pero esto ocurre una sola vez. Nuevamente, la longitud de los pasillos se ha dejado fija en 400.\\
 En la figura \ref{mejorCaso} se pueden observar los resultados obtenidos a través de la medición de tiempos para grafos de distinta cantidad de pisos que respetan la estructura descripta en este apartado.
 
-\begin{figure}[h!]
+\begin{figure}[H]
    \begin{center}
  	\includegraphics[width=18cm]{imagenes/ej2/mejorCaso.png}
 	%\caption{}
 	\label{mejorCaso}
    \end{center}
  \end{figure}
+ 
+Otro conjunto de instancias consideradas un mejor caso más relajado es un pabellón donde existen portales desde el principio del primer piso hasta el final de cada piso. En cada iteración se añade un piso y un portal desde el punto de entrada hasta el final de dicho piso. Nuevamente, se deben crear N BoundedIntegerMap de L elementos cada uno, por lo cual sí se alcanzan la complejidad de NL en el lector, pero al calcular el camino mínimo, al existir solamente un portal por piso, estos no aportarán nodos fantasma aparte de los creados para las aristas por teletransporte, por lo cual el algoritmo de camino mínimo no aumenta su complejidad al incrementarse el L.\\
 
  Finalmente, en la figura \ref{comparativa} se puede apreciar la notoria diferencia entre los tiempos conseguidos por los peores casos respecto de los alcanzados por los mejores casos frente a la misma cantidad de pisos.
 
