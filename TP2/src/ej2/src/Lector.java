@@ -56,22 +56,22 @@ public class Lector{
 	}
 
 	public void procesar_entrada(){
-		String parametros [] = formato.split(" "); //O(1)
+		String parametros [] = formato.split(" "); //O(1) la longitud de los parametros que determinan el N y el L es finita
 		this.n = Integer.parseInt(parametros[0]);
 		this.L = Integer.parseInt(parametros[1]);
-		String portales [] = entrada.split(";"); //O(1)
+		String portales [] = entrada.split(";"); //O(P)
 		this.cantPortales = portales.length;
-		BoundedIntegerMap<BoundedIntegerMap<Nodo>> mapas_de_piso = new BoundedIntegerMap<BoundedIntegerMap<Nodo>>(n);
-		iniciar_diccionario(mapas_de_piso,n,L);
+		BoundedIntegerMap<BoundedIntegerMap<Nodo>> mapas_de_piso = new BoundedIntegerMap<BoundedIntegerMap<Nodo>>(n); //O(N)
+		iniciar_diccionario(mapas_de_piso,n,L); //O(NL)
 		this.prim_nodo = new Nodo(0,0);
 		this.ult_nodo = new Nodo(1,L);
-		mapas_de_piso.get(0).put(0, prim_nodo);
-		mapas_de_piso.get(n).put(L, ult_nodo);
+		mapas_de_piso.get(0).put(0, prim_nodo); //O(1)
+		mapas_de_piso.get(n).put(L, ult_nodo); //O(1)
 		
 		
 		Integer nodo_iesimo = 2;
 		for(int i = 0;i<portales.length;i++){
-			String coordenadas [] = portales[i].split(" "); //O(1)
+			String coordenadas [] = portales[i].split(" "); //O(1) la cantidad de parametros que definen un portal es finita
 			int k = 0;
 			if(coordenadas[0].length()==0){
 				k = 1;
@@ -81,50 +81,52 @@ public class Lector{
 			int piso_2 = Integer.parseInt(coordenadas[2+k]);
 			int distancia_2 = Integer.parseInt(coordenadas[3+k]);
 			Nodo nodo;
-			BoundedIntegerMap<Nodo> dicc_piso_1 = mapas_de_piso.get(piso_1);
-			if(!dicc_piso_1.containsKey(distancia_1)){
+			BoundedIntegerMap<Nodo> dicc_piso_1 = mapas_de_piso.get(piso_1); //O(1) (*)
+			if(!dicc_piso_1.containsKey(distancia_1)){ //O(1) (*)
 				nodo = new Nodo(nodo_iesimo,distancia_1);
 				nodo_iesimo++;
-				dicc_piso_1.put(distancia_1,nodo);
+				dicc_piso_1.put(distancia_1,nodo); //O(1) (*)
 			}else{
-				nodo = dicc_piso_1.get(distancia_1);
+				nodo = dicc_piso_1.get(distancia_1); //O(1) (*)
 			}
 			Nodo nodo2;
-			BoundedIntegerMap<Nodo> dicc_piso_2 = mapas_de_piso.get(piso_2);
-			if(!dicc_piso_2.containsKey(distancia_2)){ //O(1)
+			BoundedIntegerMap<Nodo> dicc_piso_2 = mapas_de_piso.get(piso_2); //O(1) (*)
+			if(!dicc_piso_2.containsKey(distancia_2)){ //O(1) (*)
 				nodo2 = new Nodo(nodo_iesimo,distancia_2);
 				nodo_iesimo++;
-				dicc_piso_2.put(distancia_2,nodo2);
+				dicc_piso_2.put(distancia_2,nodo2); //O(1) (*)
 			}else{
-				nodo2 = dicc_piso_2.get(distancia_2);
+				nodo2 = dicc_piso_2.get(distancia_2); //O(1) (*)
 			}
 			
-			nodo.agregar_punto_teletransporte(nodo2);
-			nodo2.agregar_punto_teletransporte(nodo);
+			nodo.agregar_punto_teletransporte(nodo2);//O(1)
+			nodo2.agregar_punto_teletransporte(nodo);//O(1)
 		}
 
-		Collection<BoundedIntegerMap<Nodo>> conjunto = mapas_de_piso.values();
-		Iterator<BoundedIntegerMap<Nodo>> it_principal = conjunto.iterator();
-		while(it_principal.hasNext()){ //O(nL) para todos los pisos se recorren todos los puntos del piso 
-			BoundedIntegerMap<Nodo> sub_dicc = it_principal.next();
-			Collection<Nodo> subconjunto = sub_dicc.values();
-			Iterator<Nodo> it_secundario = subconjunto.iterator();
-			Set<Nodo> conjunto_aristas_caminando = null;
+		Collection<BoundedIntegerMap<Nodo>> conjunto = mapas_de_piso.values(); //O(1)
+		Iterator<BoundedIntegerMap<Nodo>> it_principal = conjunto.iterator();//O(1)
+		while(it_principal.hasNext()){ //O(NL) para todos los pisos se recorren todos los puntos del piso 
+			BoundedIntegerMap<Nodo> sub_dicc = it_principal.next(); //O(1)
+			Collection<Nodo> subconjunto = sub_dicc.values();//O(1)
+			Iterator<Nodo> it_secundario = subconjunto.iterator();//O(1)
+			Set<Nodo> conjunto_aristas_caminando = null;//O(1)
 			Nodo anterior = null;
 			while(it_secundario.hasNext()){ //O(L) no existen más de L puntos de portal
 				Nodo actual = it_secundario.next();
 				if(conjunto_aristas_caminando!=null){
-					conjunto_aristas_caminando.add(actual);
+					conjunto_aristas_caminando.add(actual);//O(1)
 				}
 				conjunto_aristas_caminando = new LinkedHashSet<Nodo>();
 				actual.aristas_caminado = conjunto_aristas_caminando;
 				if(anterior!=null){
-					conjunto_aristas_caminando.add(anterior);
+					conjunto_aristas_caminando.add(anterior);//O(1)
 				}
 				anterior = actual;
 			}
 		}
 	}
+	
+	//(*) los accesos al BounedIntegerMap son accesos a un array
 	
 	public String leer_palabra() throws IOException{
         try{
