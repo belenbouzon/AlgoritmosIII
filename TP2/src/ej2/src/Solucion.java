@@ -72,5 +72,8 @@ public class Solucion{
 		this.fin = f;
 	}
 }
-//(*) ti: cantidad de portales que poseen uno de sus origenes en la posición representada por el nodo. La sumatoria de todos los ti equivale a 2P, ya que cada portal equivale a una arista entre dos nodos.
-//(**)el algoritmo itera a traves de todos los nodos del grafico. Se crean nodos fantasma por cada portal, y cada piso, a lo sumo se completa los L nodos. En cada iteración se revisan los destinos de teletransporte desde un nodo.
+//(*) ti: cantidad de portales que poseen uno de sus origenes en la posicion representada por el nodo. La sumatoria de todos los ti 
+//equivale a 2P, ya que cada portal equivale a una arista entre dos nodos.
+//(**)el algoritmo itera a traves de todos los nodos del grafo. 
+//Se crean nodos fantasma por cada portal, y cada piso, a lo sumo se completa los L nodos. En cada iteracion se revisan
+//los destinos de teletransporte desde un nodo.
