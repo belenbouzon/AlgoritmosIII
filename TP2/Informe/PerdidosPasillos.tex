@@ -97,36 +97,36 @@ A continuación presentamos tres gráficos que muestran el comportamiento en la 
 
 El primer gáfico presenta grafos de 1000 nodos, el segundo grafos de 5000 y el tercero de 10000.
 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
  	\includegraphics[scale=0.6]{imagenes/ej3/tiempos1000B.png}
-	%\caption{Medición de tiempo promedio entre 100 corridas}
+	\caption{Medición de tiempo promedio con $n$ fijo en 1000}
 	%\label{tiemposprom}
  \end{figure}
 
- \begin{figure}[h!]
+ \begin{figure}[H]
 	\centering
  	\includegraphics[scale=0.6]{imagenes/ej3/tiempos5000B.png}
-	%\caption{Medición de tiempo promedio entre 100 corridas}
+	\caption{Medición de tiempo promedio con $n$ fijo en 5000}
 	%\label{tiemposprom}
  \end{figure}
 
- \begin{figure}[h!]
+ \begin{figure}[H]
 	\centering
  	\includegraphics[scale=0.6]{imagenes/ej3/tiempos10000B.png}
-	%\caption{Medición de tiempo promedio entre 100 corridas}
+	\caption{Medición de tiempo promedio con $n$ fijo en 10000}
 	%\label{tiemposprom}
  \end{figure}
 
- Se hicieron estos gráficos fijando el $n$ a modo de mostrar que efectivamente la cantidad de nodos no influye en la complejidad final del algoritmo y como se puede observar las curvas son similares. Los dos últimos grafos tienen menos instancias dado que generar grafos mas grandes y luego correr el programa resultaba en un problema de falta de poder de procesamiento y de memoria física que soportara las estructuras de datos de mas de 200 MB.
+ Se hicieron estos gráficos fijando el $n$ a modo de mostrar que efectivamente la cantidad de nodos no influye en la complejidad final del algoritmo y como se puede observar las curvas son similares. Los dos últimos grafos tienen menos instancias dado que generar grafos mas grandes y luego correr el programa resultaba en un problema de falta de poder de procesamiento y de memoria física que soportara las estructuras de datos de mas de 200 MB ya que para llegar a correr las instancias graficadas se tuvo que aumentar bastante la memoria de la VM de java. \label{gfTres}
 
 \newpage
 
- \begin{figure}[h!]
+ \begin{figure}[H]
 	\centering
  	\includegraphics[scale=0.6]{imagenes/ej3/mlogm1000B.png}
-	%\caption{Medición de tiempo promedio entre 100 corridas}
-	%\label{tiemposprom}
+	\caption{Tiempo promedio dividido por la cota de complejidad}
+	\label{mlogm}
  \end{figure}
 
- Para finalizar con este análisis tomamos las muestras de los grafos de 1000 nodos y las dividimos por $m\log{}m$ para corroborar que la complejidad teórica se condice con la realidad y concluímos dadas estas muestras, el gráfico parece tender a una constante por lo que decimos que nuestro algoritmo cumple con la cota de complejidad propuesta.
+ Para finalizar con este análisis tomamos sólo las muestras de los grafos de 1000 nodos ya que los resultados son mas precisos al ser mayor la cantidad de muestras y  las de 5000 y 10000 daban resultados similares y luego las dividimos por $(m\log{}m)$ para corroborar que la complejidad teórica propuesta se condice con la realidad y concluimos que dadas estas muestras, el gráfico de la figura \ref{mlogm} parece tender a una constante que es a lo que queríamos llegar. Por lo que podemos decir que nuestro algoritmo cumple con la cota de complejidad analizada.
