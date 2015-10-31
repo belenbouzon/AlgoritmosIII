@@ -1,0 +1,36 @@
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+public class Lector {
+	
+	private BufferedReader archivo;
+	private String path;
+	
+	public Lector(String archivo) throws Exception
+	{
+		this.archivo = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archivo)));
+		this.path = getClass().getResource( "" ).getPath();
+	}
+	
+	public Grafo MakeGraph() {
+		
+		Grafo grafo = new Grafo();
+		grafo.setCantidadDeNodos(this.LeerCantidadDeNodos());
+		grafo.setMatrizDeAdyacencia(this.GenerarMatrizDeAdyacencia());
+		grafo.setNodos(this.ObtenerListaDeNodos());
+		return grafo;
+	}
+	
+	
+	public String GetLine()
+	{
+		try { return is.readLine();}
+		catch (IOException e) 
+		{ 
+			hasEnded = true;
+			return null;
+		}
+	}
+
+}

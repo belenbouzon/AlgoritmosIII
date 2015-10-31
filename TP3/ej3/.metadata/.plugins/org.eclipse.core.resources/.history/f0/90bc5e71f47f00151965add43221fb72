@@ -1,0 +1,50 @@
+
+public class Nodo 
+{
+	private int id;
+	private boolean estado;
+	private int padre;
+	private int color;
+	private int[] coloresPosibles;
+	private int cantidadDeColoresPosibles;
+	
+
+	public boolean isEstado() {
+		return estado;
+	}
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getPadre() {
+		return padre;
+	}
+	public void setPadre(int padre) {
+		this.padre = padre;
+	}
+	public int getColor() {
+		return color;
+	}
+	public void setColor(int color) {
+		this.color = color;
+	}
+	public int[] getColoresPosibles() {
+		return coloresPosibles;
+	}
+	public void setColoresPosibles(int[] coloresPosibles) {
+		this.coloresPosibles = coloresPosibles;
+	}
+	public int getCantidadDeColoresPosibles() {
+		return cantidadDeColoresPosibles;
+	}
+	public void setCantidadDeColoresPosibles(int cantidadDeColoresPosibles) {
+		this.cantidadDeColoresPosibles = cantidadDeColoresPosibles;
+	}
+	
+	
+}

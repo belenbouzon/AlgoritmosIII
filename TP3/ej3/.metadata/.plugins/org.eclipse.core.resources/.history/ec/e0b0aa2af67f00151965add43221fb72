@@ -1,0 +1,12 @@
+
+public class Main 
+{
+	public static void main(String[] args) 
+	{
+		Grafo grafo = Lector.MakeGraph(args [0]);
+		Coloring.MakeRainbow(grafo);
+		
+		
+	}
+
+}
