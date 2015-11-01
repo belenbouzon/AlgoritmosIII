@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Stack;
 import java.util.TreeSet;
 
@@ -14,8 +13,7 @@ public class Calculador_de_Coloracion_Ej1 {
 	public int cantidad_nodos;
 	public int cantidad_aristas;
 	private Nodo_Grafo_Dirigido nodo_dirigido_de_color(Nodo nodo,int color,TreeSet<Nodo_Grafo_Dirigido> ya_creados){
-		Nodo_Grafo_Dirigido buscado = new Nodo_Grafo_Dirigido(nodo.identidad);
-		buscado.color = color;
+		Nodo_Grafo_Dirigido buscado = new Nodo_Grafo_Dirigido(nodo.identidad,color);
 		if(ya_creados.contains(buscado)){
 			buscado = ya_creados.ceiling(buscado);
 		}
@@ -87,9 +85,9 @@ public class Calculador_de_Coloracion_Ej1 {
 			Iterator<Nodo_Grafo_Dirigido> it = nodo.adyacentes.iterator();
 			while(it.hasNext()){
 				Nodo_Grafo_Dirigido nuevo = it.next();
-				if(!esta_en_pila.contains(nuevo)){
-					auxiliar_DFS_original(nuevo,pila,esta_en_pila);
-				}
+				//if(!esta_en_pila.contains(nuevo)){
+				auxiliar_DFS_original(nuevo,pila,esta_en_pila);
+				//}
 			}
 			pila.add(nodo);
 			esta_en_pila.add(nodo);
@@ -110,4 +108,6 @@ public class Calculador_de_Coloracion_Ej1 {
 		}
 		
 	}
+	
+	
 }
