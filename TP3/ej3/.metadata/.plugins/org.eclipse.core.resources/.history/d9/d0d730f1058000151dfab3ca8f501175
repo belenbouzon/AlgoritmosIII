@@ -6,10 +6,11 @@ public class Main
 		Grafo grafo = lector.MakeGraph();
 		DibujarMatrizDeAdyacencia(grafo);
 		//Coloring.MakeRainbow(grafo);
+		
+		
 	}
 
-	private static void DibujarMatrizDeAdyacencia(Grafo grafo) 
-	{
+	private static void DibujarMatrizDeAdyacencia(Grafo grafo) {
 		boolean[][] matrix = grafo.getMatrizDeAdyacencia();
 		int n = matrix.length;
 		
@@ -22,4 +23,5 @@ public class Main
 		    System.out.print("\n");
 		}
 	}
+
 }
