@@ -2,19 +2,34 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class Nodo_Grafo_Dirigido extends Comparable {
+public class Nodo_Grafo_Dirigido implements Comparable {
 	public int identidad;
 	public int color;
 	public boolean valor_fijado;
 	public boolean valor_de_verdad;
 	public Nodo_Grafo_Dirigido hermano;
 	public Set<Nodo_Grafo_Dirigido> adyacentes;
+	public Set<Nodo_Grafo_Dirigido> adyacentes_inverso;
+	public void agregar_adyacentes(Nodo_Grafo_Dirigido otro){
+		this.adyacentes.add(otro);
+		otro.adyacentes_inverso.add(this);
+	}
 	public Nodo_Grafo_Dirigido(int id){
 		this.identidad = id;
-		this.adyacentes = new HashSet<Nodo>();
+		this.adyacentes = new HashSet<Nodo_Grafo_Dirigido>();
+		this.adyacentes_inverso = new HashSet<Nodo_Grafo_Dirigido>();
 		this.valor_fijado = false;
 	}
-	public int compareTo(Nodo_Grafo_Dirigido otro){
+	public Nodo_Grafo_Dirigido(int id,int color){
+		this.identidad = id;
+		this.adyacentes = new HashSet<Nodo_Grafo_Dirigido>();
+		this.adyacentes_inverso = new HashSet<Nodo_Grafo_Dirigido>();
+		this.valor_fijado = false;
+		this.color = color;
+	}
+	@Override
+	public int compareTo(Object arg0){
+		Nodo_Grafo_Dirigido otro = (Nodo_Grafo_Dirigido) arg0;
 		if(this.identidad < otro.identidad){
 			return -1;
 		}else if(this.identidad > otro.identidad){
@@ -39,6 +54,7 @@ public class Nodo_Grafo_Dirigido extends Comparable {
 		}
 	}
 	public int hashCode(){
-		return (this.identidad*21 + this.color*37);
+		return (this.identidad*17 + this.color*37);
 	}
+	
 }

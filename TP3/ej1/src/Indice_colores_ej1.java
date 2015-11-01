@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 
 public class Indice_colores_ej1 extends Indice_colores{
@@ -76,6 +78,10 @@ public class Indice_colores_ej1 extends Indice_colores{
 	@Override
 	Iterator<Integer> iterador_de_colores() {
 		return this.colores.iterator();
+	}
+	@Override
+	List<Integer> conjunto_de_colores(){
+		return this.colores;
 	}
 	public Indice_colores_ej1 (){
 		this.colores = new ArrayList<Integer>(2);

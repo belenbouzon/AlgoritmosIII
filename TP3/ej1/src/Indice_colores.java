@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.List;
 
 
 public abstract class Indice_colores {
@@ -10,4 +11,5 @@ public abstract class Indice_colores {
 	abstract int cantidad_colores();
 	abstract void calcular_coliciones(Indice_colores otro);
 	abstract Iterator<Integer> iterador_de_colores();
+	abstract List<Integer> conjunto_de_colores();
 }
