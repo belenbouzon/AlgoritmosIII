@@ -13,6 +13,7 @@ public class Calculador_de_Coloracion_Ej1 {
 	private int cantidad_nodos;
 	private int cantidad_aristas;
 	public LinkedList<TreeSet<Nodo_Grafo_Dirigido>> componentes_fuertemente_conexas;
+	private int [] salida_ints;
 	private Nodo_Grafo_Dirigido nodo_dirigido_de_color(Nodo nodo,int color,TreeSet<Nodo_Grafo_Dirigido> ya_creados){
 		Nodo_Grafo_Dirigido buscado = new Nodo_Grafo_Dirigido(nodo.identidad,color);
 		if(ya_creados.contains(buscado)){
@@ -48,6 +49,7 @@ public class Calculador_de_Coloracion_Ej1 {
 		this.cantidad_nodos = cant_nodos;
 		this.cantidad_aristas = cant_aristas;
 		this.grafo_original = nodos_de_grafo;
+		this.salida_ints = new int [cantidad_nodos];
 	}
 	public void relacionar_nodos(Nodo nodo,TreeSet<Nodo_Grafo_Dirigido> ya_creados){
 		Iterator<Nodo> it = nodo.adyacentes.iterator();
@@ -236,6 +238,36 @@ public class Calculador_de_Coloracion_Ej1 {
 				}
 			}
 			return true;
+		}
+	}
+	private boolean intentar_fijar_valores(){
+		Iterator<Nodo_Grafo_Dirigido_2> it = this.grafo_dirigido_compacto.iterator();
+		while(it.hasNext()){
+			Nodo_Grafo_Dirigido_2 nodo = it.next();
+			if(!nodo.valor_esta_fijado){
+				nodo.fijar_valores_de_verdad(false);
+				if(!marcar(nodo)){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	private String imprimir_valores(){
+		Iterator<Nodo_Grafo_Dirigido_2> it = this.grafo_dirigido_compacto.iterator();
+		while(it.hasNext()){
+			Nodo_Grafo_Dirigido_2 nodo = it.next();
+			if(nodo.valor_esta_fijado() && nodo.valor_de_verdad()){
+				Iterator<Nodo_Grafo_Dirigido_2> it_interno = nodo.componente_conexa.iterator();
+				while(it_interno.hasNext()){
+					Nodo_Grafo_Dirigido nodo_dirigido = it_interno.next();
+					this.salida_ints[nodo_dirigido.identidad] = nodo_dirigido.color;
+				}
+			}
+		}
+		String res = "";
+		for(int i = 0;i<this.salida_ints.lenght;i++){
+			res += Integer.toString(this.salida_ints[i]);
 		}
 	}
 	private static void test_grafos_dirigidos(){
