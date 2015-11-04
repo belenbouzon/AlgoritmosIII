@@ -1,4 +1,4 @@
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class Nodo {
@@ -11,7 +11,7 @@ public class Nodo {
 	public Nodo(int id){
 		this.identidad = id;
 		this.cantidad_colores = 0;
-		this.adyacentes = new HashSet<Nodo>();
+		this.adyacentes = new LinkedHashSet<Nodo>();
 		colores = new Indice_colores_ej1();
 		this.pintado = false;
 		this.color_fijado = -1;
