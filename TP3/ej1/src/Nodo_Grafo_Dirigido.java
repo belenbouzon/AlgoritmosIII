@@ -15,6 +15,13 @@ public class Nodo_Grafo_Dirigido implements Comparable<Nodo_Grafo_Dirigido>{
 		this.adyacentes.add(otro);
 		otro.adyacentes_inverso.add(this);
 	}
+	public void print(){
+		char signo = ' ';
+		if(!this.formula_afirmativa){
+			signo = '¬';
+		}
+		System.out.printf("nodo: %c%d color: %d comp.conexa:%d\n", signo,this.identidad,this.color,this.id_componente_conexa);
+	}
 	/*public Nodo_Grafo_Dirigido(int id){
 		this.identidad = id;
 		this.adyacentes = new HashSet<Nodo_Grafo_Dirigido>();
