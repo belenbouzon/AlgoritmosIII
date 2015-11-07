@@ -5,6 +5,7 @@ import java.util.Set;
 public class Nodo_Grafo_Dirigido implements Comparable<Nodo_Grafo_Dirigido>{
 	public int identidad;
 	public int color;
+	public int otro;
 	public boolean valor_fijado;
 	public boolean formula_afirmativa;
 	public Nodo_Grafo_Dirigido hermano;
@@ -30,13 +31,13 @@ public class Nodo_Grafo_Dirigido implements Comparable<Nodo_Grafo_Dirigido>{
 		this.formula_afirmativa = true;
 		this.id_componente_conexa = -1;
 	}*/
-	public Nodo_Grafo_Dirigido(int id,int color){
+	public Nodo_Grafo_Dirigido(int id,int color,boolean formula){
 		this.identidad = id;
 		this.adyacentes = new LinkedHashSet<Nodo_Grafo_Dirigido>();
 		this.adyacentes_inverso = new LinkedHashSet<Nodo_Grafo_Dirigido>();
 		this.valor_fijado = false;
 		this.color = color;
-		this.formula_afirmativa = true;
+		this.formula_afirmativa = formula;
 		this.id_componente_conexa = -2;
 	}
 	

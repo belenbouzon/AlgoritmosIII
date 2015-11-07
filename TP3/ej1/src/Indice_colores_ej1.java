@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 
 public class Indice_colores_ej1 extends Indice_colores{
@@ -11,9 +10,11 @@ public class Indice_colores_ej1 extends Indice_colores{
 	Indice_colores colores_en_comun(Indice_colores otro) {
 		Indice_colores_ej1 res = new Indice_colores_ej1();
 		Iterator<Integer> it = otro.iterador_de_colores();
+		//System.out.printf("holaaaaaaaaaa\n");
 		while(it.hasNext()){
-			Integer nuevo = it.next();
+			int nuevo = it.next();
 			if(this.colores.contains(nuevo)){
+				//System.out.printf("holaaaaaaaaaa\n");
 				res.agregar_color(nuevo);
 			}
 		}

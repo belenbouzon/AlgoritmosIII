@@ -12,7 +12,7 @@ public class Nodo {
 		this.identidad = id;
 		this.cantidad_colores = 0;
 		this.adyacentes = new LinkedHashSet<Nodo>();
-		colores = new Indice_colores_ej1();
+		this.colores = new Indice_colores_ej1();
 		this.pintado = false;
 		this.color_fijado = -1;
 	}

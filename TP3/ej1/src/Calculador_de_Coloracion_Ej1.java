@@ -15,39 +15,48 @@ public class Calculador_de_Coloracion_Ej1 {
 	public LinkedList<TreeSet<Nodo_Grafo_Dirigido>> componentes_fuertemente_conexas;
 	private int [] salida_ints;
 	private Nodo_Grafo_Dirigido nodo_dirigido_de_color(Nodo nodo,int color,TreeSet<Nodo_Grafo_Dirigido> ya_creados){
-		Nodo_Grafo_Dirigido buscado = new Nodo_Grafo_Dirigido(nodo.identidad,color);
+		Nodo_Grafo_Dirigido buscado = new Nodo_Grafo_Dirigido(nodo.identidad,color,true);
 		if(ya_creados.contains(buscado)){
+			//System.out.printf("hola\n");
 			buscado = ya_creados.ceiling(buscado);
 		}else{
-			buscado.hermano = new Nodo_Grafo_Dirigido(nodo.identidad,color);
-			buscado.hermano.formula_afirmativa = false;
+			System.out.printf("problema!!\n");
+			buscado.hermano = new Nodo_Grafo_Dirigido(nodo.identidad,color,false);
 		}
 		return buscado;
 	}
 	private void crear_nodo_dirigido(Nodo nodo,TreeSet<Nodo_Grafo_Dirigido> ya_creados){
 		Iterator<Integer> it = nodo.colores.iterador_de_colores();
 		int color = it.next(); 
-		Nodo_Grafo_Dirigido nuevo_afirmacion = new Nodo_Grafo_Dirigido(nodo.identidad,color);
-		Nodo_Grafo_Dirigido nuevo_negacion = new Nodo_Grafo_Dirigido(nodo.identidad,color);
+		Nodo_Grafo_Dirigido nuevo_afirmacion = new Nodo_Grafo_Dirigido(nodo.identidad,color,true);
+		Nodo_Grafo_Dirigido nuevo_negacion = new Nodo_Grafo_Dirigido(nodo.identidad,color,false);
+		
 		nuevo_afirmacion.hermano = nuevo_negacion;
 		nuevo_negacion.hermano = nuevo_afirmacion;
-		nuevo_negacion.formula_afirmativa = false;
-		nuevo_afirmacion.hermano = nuevo_negacion;
+		
 		ya_creados.add(nuevo_afirmacion);
+		
 		this.grafo_dirigido.add(nuevo_afirmacion);
+		
 		if(!it.hasNext()){
 			nuevo_negacion.agregar_adyacentes(nuevo_afirmacion);
 		}else{
 			color = it.next();
-			Nodo_Grafo_Dirigido nuevo_afirmacion_B = new Nodo_Grafo_Dirigido(nodo.identidad,color);
-			Nodo_Grafo_Dirigido nuevo_negacion_B = new Nodo_Grafo_Dirigido(nodo.identidad,color);
+			Nodo_Grafo_Dirigido nuevo_afirmacion_B = new Nodo_Grafo_Dirigido(nodo.identidad,color,true);
+			Nodo_Grafo_Dirigido nuevo_negacion_B = new Nodo_Grafo_Dirigido(nodo.identidad,color,false);
 			nuevo_afirmacion.agregar_adyacentes(nuevo_negacion_B);
 			nuevo_afirmacion_B.agregar_adyacentes(nuevo_negacion);
 			nuevo_negacion.agregar_adyacentes(nuevo_afirmacion_B);
 			nuevo_negacion_B.agregar_adyacentes(nuevo_afirmacion);
-			nuevo_negacion_B.formula_afirmativa = false;
 			nuevo_afirmacion_B.hermano = nuevo_negacion_B;
 			nuevo_negacion_B.hermano = nuevo_afirmacion_B;
+			
+			
+			nuevo_afirmacion.otro = nuevo_afirmacion_B.color;
+			nuevo_negacion.otro = nuevo_negacion_B.color;
+			nuevo_afirmacion_B.otro = nuevo_afirmacion.color;
+			nuevo_negacion_B.otro = nuevo_negacion.color;
+			
 			ya_creados.add(nuevo_afirmacion_B);
 			this.grafo_dirigido.add(nuevo_afirmacion_B);
 		}
@@ -61,6 +70,7 @@ public class Calculador_de_Coloracion_Ej1 {
 	}
 	public void relacionar_nodos(Nodo nodo,TreeSet<Nodo_Grafo_Dirigido> ya_creados){
 		Iterator<Nodo> it = nodo.adyacentes.iterator();
+		//System.out.print("I'm here\n");
 		while(it.hasNext()){
 			Nodo vecino = it.next();
 			Indice_colores colores_en_comun = nodo.colores.colores_en_comun(vecino.colores);
@@ -196,11 +206,14 @@ public class Calculador_de_Coloracion_Ej1 {
 		return true;
 	}
 	private boolean marcar(Nodo_Grafo_Dirigido_2 nodo){
-		if(nodo.valor_de_verdad()){
+		if(!nodo.valor_fijado){
+			return false;
+		}
+		if(nodo.valor_de_verdad){
 			Iterator<Nodo_Grafo_Dirigido_2> it = nodo.hermanos.iterator();
 			while(it.hasNext()){
 				Nodo_Grafo_Dirigido_2 hermano = it.next();
-				if(!(hermano.valor_esta_fijado() && !hermano.valor_de_verdad())){
+				if(!(hermano.valor_fijado && !hermano.valor_de_verdad)){
 					if(!hermano.fijar_valores_de_verdad(false)){
 						return false;
 					}
@@ -212,10 +225,10 @@ public class Calculador_de_Coloracion_Ej1 {
 			it = nodo.adyacentes.iterator();
 			while(it.hasNext()){
 				Nodo_Grafo_Dirigido_2 vecino = it.next();
-				/*if(vecino.valor_esta_fijado() && !vecino.valor_de_verdad()){
+				/*if(vecino.valor_fijado && !vecino.valor_de_verdad){
 					return false;
 				}*/
-				if(!(vecino.valor_esta_fijado() && vecino.valor_de_verdad())){
+				if(!(vecino.valor_fijado && vecino.valor_de_verdad)){
 					if(!vecino.fijar_valores_de_verdad(true)){
 						return false;
 					}
@@ -229,7 +242,7 @@ public class Calculador_de_Coloracion_Ej1 {
 			Iterator<Nodo_Grafo_Dirigido_2> it = nodo.hermanos.iterator();
 			while(it.hasNext()){
 				Nodo_Grafo_Dirigido_2 hermano = it.next();
-				if(!(hermano.valor_esta_fijado() && hermano.valor_de_verdad())){
+				if(!(hermano.valor_fijado && hermano.valor_de_verdad)){
 					if(!hermano.fijar_valores_de_verdad(true)){
 						return false;
 					}
@@ -242,10 +255,10 @@ public class Calculador_de_Coloracion_Ej1 {
 			it = nodo.adyacentes_inverso.iterator();
 			while(it.hasNext()){
 				Nodo_Grafo_Dirigido_2 vecino = it.next();
-				/*if(vecino.valor_esta_fijado() && vecino.valor_de_verdad()){
+				/*if(vecino.valor_fijado && vecino.valor_de_verdad){
 					return false;
 				}*/
-				if(!(vecino.valor_esta_fijado() && !vecino.valor_de_verdad())){
+				if(!(vecino.valor_fijado && !vecino.valor_de_verdad)){
 					if(!vecino.fijar_valores_de_verdad(false)){
 						return false;
 					}
@@ -261,24 +274,30 @@ public class Calculador_de_Coloracion_Ej1 {
 		Iterator<Nodo_Grafo_Dirigido_2> it = this.grafo_dirigido_compacto.iterator();
 		while(it.hasNext()){
 			Nodo_Grafo_Dirigido_2 nodo = it.next();
-			if(!nodo.valor_esta_fijado()){
+			if(!nodo.valor_fijado){
 				nodo.fijar_valores_de_verdad(false);
 				if(!marcar(nodo)){
+					//System.out.print("eeeeeeeee");
 					return false;
 				}
 			}
 		}
+		
 		return true;
 	}
 	private String imprimir_valores(){
 		Iterator<Nodo_Grafo_Dirigido_2> it = this.grafo_dirigido_compacto.iterator();
 		while(it.hasNext()){
 			Nodo_Grafo_Dirigido_2 nodo = it.next();
-			if(nodo.valor_esta_fijado() && nodo.valor_de_verdad()){
+			if(nodo.valor_fijado && nodo.valor_de_verdad){
 				Iterator<Nodo_Grafo_Dirigido> it_interno = nodo.componente_conexa.iterator();
 				while(it_interno.hasNext()){
 					Nodo_Grafo_Dirigido nodo_dirigido = it_interno.next();
-					this.salida_ints[nodo_dirigido.identidad] = nodo_dirigido.color;
+					if(nodo_dirigido.formula_afirmativa){
+						this.salida_ints[nodo_dirigido.identidad] = nodo_dirigido.color;
+					}else{
+						this.salida_ints[nodo_dirigido.identidad] = nodo_dirigido.otro;
+					}
 				}
 			}
 		}
@@ -291,12 +310,12 @@ public class Calculador_de_Coloracion_Ej1 {
 		return res;
 	}
 	private static void test_grafos_dirigidos(){
-		Nodo_Grafo_Dirigido n1 = new Nodo_Grafo_Dirigido(0,0);
-		Nodo_Grafo_Dirigido n2 = new Nodo_Grafo_Dirigido(1,0);
-		Nodo_Grafo_Dirigido n3 = new Nodo_Grafo_Dirigido(2,0);
-		Nodo_Grafo_Dirigido n4 = new Nodo_Grafo_Dirigido(3,0);
-		Nodo_Grafo_Dirigido n5 = new Nodo_Grafo_Dirigido(4,0);
-		Nodo_Grafo_Dirigido n6 = new Nodo_Grafo_Dirigido(5,0);
+		Nodo_Grafo_Dirigido n1 = new Nodo_Grafo_Dirigido(0,0,true);
+		Nodo_Grafo_Dirigido n2 = new Nodo_Grafo_Dirigido(1,0,true);
+		Nodo_Grafo_Dirigido n3 = new Nodo_Grafo_Dirigido(2,0,true);
+		Nodo_Grafo_Dirigido n4 = new Nodo_Grafo_Dirigido(3,0,true);
+		Nodo_Grafo_Dirigido n5 = new Nodo_Grafo_Dirigido(4,0,true);
+		Nodo_Grafo_Dirigido n6 = new Nodo_Grafo_Dirigido(5,0,true);
 		
 		n1.agregar_adyacentes(n2);
 		n2.agregar_adyacentes(n3);
@@ -337,12 +356,12 @@ public class Calculador_de_Coloracion_Ej1 {
 			System.out.printf("%s\n",this.imprimir_valores());
 		}
 		
-		int nodo_imprimido = 0;
+		/*int nodo_imprimido = 0;
 		this.grafo_dirigido.get(nodo_imprimido).print();
 		Iterator<Nodo_Grafo_Dirigido> it = this.grafo_dirigido.get(nodo_imprimido).adyacentes.iterator();
 		while(it.hasNext()){
 			it.next().print();
-		}
+		}*/
 	}
 	private static void test_colores(){
 		ArrayList<Nodo> entrada = new ArrayList<Nodo>(3);
@@ -360,6 +379,15 @@ public class Calculador_de_Coloracion_Ej1 {
 		n3.colores.agregar_color(2);
 		n3.colores.agregar_color(3);
 		n3.cantidad_colores = 2;
+		
+		n1.adyacentes.add(n2);
+		n1.adyacentes.add(n3);
+		
+		n2.adyacentes.add(n1);
+		n2.adyacentes.add(n3);
+		
+		n3.adyacentes.add(n2);
+		n3.adyacentes.add(n1);
 		
 		entrada.add(n1);
 		entrada.add(n2);
