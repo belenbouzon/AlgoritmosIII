@@ -1,27 +1,22 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Grafo {
 	
-	private int cantidadDeNodos;
-	private boolean[][] matrizDeAdyacencia; //pago una vez n^2 para construirla para q al preguntar si un nodo es adyacente a otro
+	public int cantidadDeNodos;
+	//private boolean[][] matrizDeAdyacencia; //pago una vez n^2 para construirla para q al preguntar si un nodo es adyacente a otro
 											//no tenga que recorrer toda la lista de nodos vecinos.
 	private ArrayList<Nodo> nodos;
 	private int cantidadDeAristas;
 	private int cantidadDeColores;
+	ArrayList<List<Nodo>> listaDeAdyacencia;
 	
-	
-	public int getCantidadDeNodos() {
-		return cantidadDeNodos;
-	}
-	public void setCantidadDeNodos(int cantidadDeNodos) {
-		this.cantidadDeNodos = cantidadDeNodos;
-	}
-	public boolean[][] getMatrizDeAdyacencia() {
+/*	public boolean[][] getMatrizDeAdyacencia() {
 		return matrizDeAdyacencia;
 	}
 	public void setMatrizDeAdyacencia(boolean[][] matrizDeAdyacencia) {
 		this.matrizDeAdyacencia = matrizDeAdyacencia;
-	}
+	}*/
 	public ArrayList<Nodo> getNodos() {
 		return nodos;
 	}
@@ -40,5 +35,14 @@ public class Grafo {
 	public void setCantidadDeColores(int cantidadDeColores) {
 		this.cantidadDeColores = cantidadDeColores;
 	}
-
+	public List<Nodo> getVecinosDe(Nodo nodo)
+	{
+		return this.listaDeAdyacencia.get(nodo.getId());
+	}
+	public int getCantidadDeNodos() {
+		return this.cantidadDeNodos;
+	}
+	public void setListaDeAdyacencia(ArrayList<List<Nodo>> listaDeAdyacencia) {
+		this.listaDeAdyacencia = listaDeAdyacencia;
+	}
 }

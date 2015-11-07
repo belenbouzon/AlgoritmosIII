@@ -3,6 +3,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Lector {
 	
@@ -17,17 +19,16 @@ public class Lector {
 	public Grafo MakeGraph() throws IOException 
 	{
 		Grafo grafo = new Grafo();
-		int[] nodosAristasColores = ToIntegerArray(this.archivo.readLine().split(" "));
-
-		grafo.setCantidadDeNodos(nodosAristasColores[0]);
+		int[] nodosAristasColores = Ej3Utils.ToIntegerArray(this.archivo.readLine().split(" "));
+		grafo.cantidadDeNodos = nodosAristasColores[0];
 		grafo.setCantidadDeAristas(nodosAristasColores[1]);
 		grafo.setCantidadDeColores(nodosAristasColores[2]);
 		
-		try { grafo.setNodos(this.ObtenerListaDeNodos(grafo.getCantidadDeNodos()));} 
+		try { grafo.setNodos(this.ObtenerListaDeNodos(grafo.cantidadDeNodos, grafo.getCantidadDeColores()));} 
 		catch (IOException e) { System.out.println("Se produjo un error al generar los nodos del grafo.");}
+		boolean[][] matrizDeAdyacencia = GenerarMatrizDeAdyacencia(grafo.getCantidadDeNodos(), grafo.getCantidadDeAristas());
+		grafo.setListaDeAdyacencia(matrizDeAdyacenciaToListDeAdyacencia(matrizDeAdyacencia, grafo.getNodos()));
 		
-		grafo.setMatrizDeAdyacencia(this.GenerarMatrizDeAdyacencia(grafo.getCantidadDeNodos(), grafo.getCantidadDeAristas()));
-
 		return grafo;
 	}
 		
@@ -51,36 +52,35 @@ public class Lector {
 		matriz[destino][inicio] = true;
 	}
 
-	private ArrayList<Nodo> ObtenerListaDeNodos(int cantidadDeNodos) throws IOException 
+	private ArrayList<Nodo> ObtenerListaDeNodos(int cantidadDeNodos, int cantidadTotalDeColores) throws IOException 
 	{
 		ArrayList<Nodo> res = new ArrayList<Nodo>();
-		
 		for(int j = 0; j < cantidadDeNodos; j++)
-			res.add(CrearNodo(j));
-
+		{
+			String[] linea = this.archivo.readLine().split(" ");
+			res.add(new Nodo(j, cantidadTotalDeColores, Ej3Utils.ToIntegerArray(Arrays.copyOfRange(linea, 1, linea.length-1))));
+		}
 		return res;
 	}
 
-	private Nodo CrearNodo(int j) throws IOException {
-		String[] linea = this.archivo.readLine().split(" ");
-		Nodo nodo = new Nodo();
-		nodo.setCantidadDeColoresPosibles(Integer.valueOf(linea[0]));
-		nodo.setColoresPosibles(ToIntegerArray(Arrays.copyOfRange(linea, 1, linea.length)));
-		nodo.setId(j);
-		nodo.setColor(-1);
-		//nodo.setPadre(-1);
-		//nodo.setVisitado(false);
-		return nodo;
-	}
 
-	private int[] ToIntegerArray(String[] split) 
+
+
+private ArrayList<List<Nodo>> matrizDeAdyacenciaToListDeAdyacencia(boolean[][] matriz, ArrayList<Nodo> nodos)
+{
+	ArrayList<List<Nodo>> res = new ArrayList<List<Nodo>>(nodos.size());
+	for (int i = 0; i < nodos.size(); i++)
+		res.add(i, new LinkedList<Nodo>());
+	
+    for (Nodo nodo: nodos)  
 	{
-		int[] res = new int[split.length];
-		for (int i = 0; i < split.length; i ++)
-			res[i] = Integer.parseInt(split[i]);
-		return res;
+    	for (int j = 0; j < nodos.size(); j++)
+    	{
+    		if (matriz[j][nodo.getId()])
+    			res.get(j).add(nodo);
+    	}
 	}
-
-
+    return res;
+}
 
 }
