@@ -1,0 +1,61 @@
+import java.util.LinkedList;
+
+public abstract class Coloring 
+{
+	//public abstract Nodo PicFirstNode(); //lo hago abstracto, asi despues cada uno lo implementa distinto
+	
+	private int cantidadDeConflictos = 0;
+	private static int nodosPintados = 0;
+	private static LinkedList<Nodo> colaNodos = new LinkedList<Nodo>();
+	
+	public static void MakeRainbow(Grafo grafo) 
+	{
+		//Setear en no visitado cada uno de los nodos
+		colaNodos.add(PicFirstNode());
+		
+		while (!colaNodos.isEmpty())
+		{
+		Nodo nodoActual = colaNodos.removeFirst();
+		colaNodos.addAll(grafo.getVecinosDe(nodoActual));
+
+		LinkedList<Integer> coloresRestantes = nodoActual.getColoresRestantes();
+		int cantColoresRestantes = nodoActual.getColoresRestantes().size();
+		if(cantColoresRestantes == 1) //llego con uno solo
+		{
+			nodo.setColor(coloresRestantes.getFirst());
+			nodosPintados ++;
+		}
+		else
+		{
+			int colorMenosImportante = CalcularColorMenosImportante(nodoActual); //otra abstracta. A decidir como implementarla
+			nodoActual.TacharColor(colorMenosImportante);
+			
+			if (nodoActual.getColoresRestantes().size() == 1)
+			{
+				nodoActual.setColor(nodoActual.getColoresRestantes().getFirst());
+				nodosPintados ++;
+			}
+
+		}
+
+		nodoActual.setVisitado(true);
+		}
+		/*
+		 * tomo un nodo
+		 * colores = sus colores
+		 * if (colores.count == 1)
+		 * {
+		 *  nodos pintados ++;
+		 * 	nodo.color = color[0]
+		 * }
+		 * else
+		 * 	colorMenosImportante = CalcularColorDeMenorPeso(nodo)
+		 * 	nodo.tacharColor(colorMenosImportante)
+		 * 
+		 * 
+		 * para cada color, recorro todos sus vecinos*/
+		
+	}
+	
+
+}
