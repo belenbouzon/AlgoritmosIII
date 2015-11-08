@@ -5,17 +5,22 @@ import java.util.Set;
 public class Nodo_Grafo_Dirigido implements Comparable<Nodo_Grafo_Dirigido>{
 	public int identidad;
 	public int color;
-	public int otro;
+	public int color_alternativo;
+	public Nodo_Grafo_Dirigido hermano;
+	public int id_componente_conexa;
+	
 	public boolean valor_fijado;
 	public boolean formula_afirmativa;
-	public Nodo_Grafo_Dirigido hermano;
 	public Set<Nodo_Grafo_Dirigido> adyacentes;
 	public Set<Nodo_Grafo_Dirigido> adyacentes_inverso;
-	public int id_componente_conexa;
+	
+	
 	public void agregar_adyacentes(Nodo_Grafo_Dirigido otro){
 		this.adyacentes.add(otro);
 		otro.adyacentes_inverso.add(this);
 	}
+	
+	
 	public void print(){
 		char signo = ' ';
 		if(!this.formula_afirmativa){
@@ -23,14 +28,7 @@ public class Nodo_Grafo_Dirigido implements Comparable<Nodo_Grafo_Dirigido>{
 		}
 		System.out.printf("nodo: %c%d color: %d comp.conexa:%d\n", signo,this.identidad,this.color,this.id_componente_conexa);
 	}
-	/*public Nodo_Grafo_Dirigido(int id){
-		this.identidad = id;
-		this.adyacentes = new HashSet<Nodo_Grafo_Dirigido>();
-		this.adyacentes_inverso = new HashSet<Nodo_Grafo_Dirigido>();
-		this.valor_fijado = false;
-		this.formula_afirmativa = true;
-		this.id_componente_conexa = -1;
-	}*/
+	
 	public Nodo_Grafo_Dirigido(int id,int color,boolean formula){
 		this.identidad = id;
 		this.adyacentes = new LinkedHashSet<Nodo_Grafo_Dirigido>();
