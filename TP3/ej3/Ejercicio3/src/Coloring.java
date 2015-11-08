@@ -7,52 +7,78 @@ public class Coloring
 	private static int nodosPintados = 0;
 	private static LinkedList<Nodo> colaNodos = new LinkedList<Nodo>();
 	
-	public static void MakeRainbow(Grafo grafo) 
+	public static Grafo MakeRainbow(Grafo grafo) 
 	{
-		
-		//Setear en no visitado cada uno de los nodos
-		colaNodos.add(PicFirstNode(grafo));
-		
-		while (!colaNodos.isEmpty())
+		int iteraciones = 0;
+		while(nodosPintados < grafo.cantidadDeNodos && iteraciones < 5)
 		{
-				Nodo nodoActual = colaNodos.removeFirst();
-				if (!nodoActual.isVisitado())
-				{
-					colaNodos.addAll(grafo.getVecinosDe(nodoActual));
+			boolean rondaPar = iteraciones % 2 == 0;
+			colaNodos.add(PicFirstNode(grafo));
 			
-					LinkedList<Integer> coloresRestantes = nodoActual.getColoresRestantes();
-					int cantColoresRestantes = coloresRestantes.size();
+			while (!colaNodos.isEmpty())
+			{
+					Nodo nodoActual = colaNodos.removeFirst();
 					
-					if(cantColoresRestantes == 1)
+					if (rondaPar == nodoActual.isVisitado())
 					{
-						nodoActual.setColor(coloresRestantes.removeFirst());
-						nodosPintados ++;
+						colaNodos.addAll(grafo.getVecinosDe(nodoActual));
+						if (nodoActual.getColor() == -1)
+						{
+							LinkedList<Integer> coloresRestantes = nodoActual.getColoresRestantes();
+							int cantColoresRestantes = coloresRestantes.size();
+							
+							if(cantColoresRestantes == 1)
+							{
+								PintarNodo(nodoActual, coloresRestantes);
+							}
+							else
+							{
+								DescartarColorParaElNodo(grafo, nodoActual);
+							}
+						}
+				
+						nodoActual.setVisitado(!nodoActual.isVisitado());
 					}
-					else
-					{
-						int colorMenosImportante = CalcularColorMenosImportante(nodoActual, grafo); 
-						nodoActual.TacharColor(colorMenosImportante);
-					}
-			
-					nodoActual.setVisitado(true);
 			}
+			Ej3Utils.PrintGraph(grafo, iteraciones);
+
+			iteraciones++;
 		}
+
+		return grafo;
 	}
 
+	private static void DescartarColorParaElNodo(Grafo grafo, Nodo nodoActual) {
+		int colorMenosImportante = CalcularColorMenosImportante(nodoActual, grafo); 
+		nodoActual.TacharColor(colorMenosImportante);
+	}
+
+	private static void PintarNodo(Nodo nodoActual, LinkedList<Integer> coloresRestantes) {
+		System.out.print("Id: " + String.valueOf(nodoActual.getId()) + " Color pintado: " + String.valueOf(coloresRestantes.getFirst() + "\n"));
+		nodoActual.setColor(coloresRestantes.getFirst());
+		nodosPintados ++;
+	}
+	
+	/*modificar de acuerdo a las heuristicas. Pasar a abstracto.*/
 	private static int CalcularColorMenosImportante(Nodo nodoActual, Grafo grafo) 
-	{//modificar de acuerdo a las heuristicas. Pasar a abstracto.
+	{
 		Double pesoColor = 0.0;
 		int colorAEliminar = -1;
 		for (int color : nodoActual.getColoresRestantes())
 		{
 			Double peso = CalcularPeso(color, grafo.getVecinosDe(nodoActual));
-			if (peso > pesoColor)
+			if (peso >= pesoColor)
 			{
 				pesoColor = peso;
 				colorAEliminar = color;
 			}	
 		}	
-		return nodoActual.getColoresRestantes().getFirst(); //BORRAR esta implementacion. Ojo que ese metodo saca el primer elemento.
+		
+		if (colorAEliminar == -1)
+			colorAEliminar = nodoActual.getColoresRestantes().getFirst();
+		
+		System.out.print("Id: " + String.valueOf(nodoActual.getId()) + " Color a eliminar: " + String.valueOf(colorAEliminar) + "\n");
+		return colorAEliminar;
 	}
 
 	private static Double CalcularPeso(int color, List<Nodo> vecinos) 
@@ -71,11 +97,10 @@ public class Coloring
 		
 		return pesoTotal;
 	}
-
+	
+	/*modificar de acuerdo a las heuristicas. Pasar a abstracto.*/
 	private static Nodo PicFirstNode(Grafo grafo) 
-	{ //modificar de acuerdo a las heuristicas. Pasar a abstracto.
+	{
 		return grafo.getNodos().get(0);
 	}
-	
-
 }

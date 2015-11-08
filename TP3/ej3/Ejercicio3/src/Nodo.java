@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Nodo 
@@ -7,7 +6,6 @@ public class Nodo
 	private boolean visitado;
 	private int color;
 	private boolean[] seguimientoColoresTotales; //Almacena todos los colores seteando un bool para los que tiene.
-	//private LinkedList<Integer> coloresPosibles; //almacena solo los colores que ese nodo puede tener.
 	private LinkedList<Integer> coloresDescartados;
 	private LinkedList<Integer> coloresRestantes;
 	
@@ -71,13 +69,16 @@ public class Nodo
 	{
 		return seguimientoColoresTotales;
 	}
-	public LinkedList<Integer> getColoresDescartados() {
+	public LinkedList<Integer> getColoresDescartados()
+{
 		return coloresDescartados;
 	}
-	public void setColoresDescartados(LinkedList<Integer> coloresDescartados) {
+	public void setColoresDescartados(LinkedList<Integer> coloresDescartados) 
+	{
 		this.coloresDescartados = coloresDescartados;
 	}
-	public LinkedList<Integer> getColoresRestantes() {
+	public LinkedList<Integer> getColoresRestantes() 
+	{
 		return coloresRestantes;
 	}
 

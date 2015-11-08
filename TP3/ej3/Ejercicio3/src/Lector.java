@@ -3,8 +3,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 public class Lector {
 	
@@ -13,7 +11,6 @@ public class Lector {
 	public Lector(String archivo) throws Exception
 	{
 		this.archivo = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archivo)));
-		//this.path = getClass().getResource( "" ).getPath();
 	}
 	
 	public Grafo MakeGraph() throws IOException 
@@ -27,7 +24,7 @@ public class Lector {
 		try { grafo.setNodos(this.ObtenerListaDeNodos(grafo.cantidadDeNodos, grafo.getCantidadDeColores()));} 
 		catch (IOException e) { System.out.println("Se produjo un error al generar los nodos del grafo.");}
 		boolean[][] matrizDeAdyacencia = GenerarMatrizDeAdyacencia(grafo.getCantidadDeNodos(), grafo.getCantidadDeAristas());
-		grafo.setListaDeAdyacencia(matrizDeAdyacenciaToListDeAdyacencia(matrizDeAdyacencia, grafo.getNodos()));
+		grafo.setListaDeAdyacencia(Ej3Utils.matrizDeAdyacenciaToListDeAdyacencia(matrizDeAdyacencia, grafo.getNodos()));
 		
 		return grafo;
 	}
@@ -35,8 +32,10 @@ public class Lector {
 	private boolean[][] GenerarMatrizDeAdyacencia(int cantidadDeNodos, int cantidadDeAristas) 
 	{
 		boolean[][] res = new boolean[cantidadDeNodos][cantidadDeNodos];
-		for (int i = 0; i < cantidadDeAristas; i++)
+		System.out.print("Aristas [");
+		for (int i = 0; i <= cantidadDeAristas; i++)
 			CompletarDatosDeArista(res);
+		System.out.print("] \n");
 		return res;
 	}
 
@@ -50,6 +49,10 @@ public class Lector {
 		int destino = Integer.parseInt(linea[1]);
 		matriz[inicio][destino] = true;
 		matriz[destino][inicio] = true;
+		
+		System.out.print("(" + inicio + "," + destino + "),");
+		
+		
 	}
 
 	private ArrayList<Nodo> ObtenerListaDeNodos(int cantidadDeNodos, int cantidadTotalDeColores) throws IOException 
@@ -58,7 +61,7 @@ public class Lector {
 		for(int j = 0; j < cantidadDeNodos; j++)
 		{
 			String[] linea = this.archivo.readLine().split(" ");
-			res.add(new Nodo(j, cantidadTotalDeColores, Ej3Utils.ToIntegerArray(Arrays.copyOfRange(linea, 1, linea.length-1))));
+			res.add(new Nodo(j, cantidadTotalDeColores, Ej3Utils.ToIntegerArray(Arrays.copyOfRange(linea, 1, linea.length))));
 		}
 		return res;
 	}
@@ -66,21 +69,7 @@ public class Lector {
 
 
 
-private ArrayList<List<Nodo>> matrizDeAdyacenciaToListDeAdyacencia(boolean[][] matriz, ArrayList<Nodo> nodos)
-{
-	ArrayList<List<Nodo>> res = new ArrayList<List<Nodo>>(nodos.size());
-	for (int i = 0; i < nodos.size(); i++)
-		res.add(i, new LinkedList<Nodo>());
-	
-    for (Nodo nodo: nodos)  
-	{
-    	for (int j = 0; j < nodos.size(); j++)
-    	{
-    		if (matriz[j][nodo.getId()])
-    			res.get(j).add(nodo);
-    	}
-	}
-    return res;
-}
+
+
 
 }

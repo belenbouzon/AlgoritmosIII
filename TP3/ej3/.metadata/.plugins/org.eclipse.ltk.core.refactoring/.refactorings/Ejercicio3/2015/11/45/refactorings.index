@@ -2,3 +2,5 @@
 1446901908831	Encapsulate field 'coloresTotales'
 1446904399247	Encapsulate field 'coloresDescartados'
 1446907358032	Encapsulate field 'coloresRestantes'
+1446992305931	Extract method 'PintarNodo'
+1446992328449	Extract method 'DescartarColorParaElNodo'
