@@ -4,11 +4,11 @@ public class Main
 	{	
 		Lector lector = new Lector(args [0]);	
 		Grafo grafo = lector.MakeGraph();
-		DibujarMatrizDeAdyacencia(grafo);
-		//Coloring.MakeRainbow(grafo);
+		
+		Coloring.MakeRainbow(grafo);
 	}
 
-	private static void DibujarMatrizDeAdyacencia(Grafo grafo) 
+	/*private static void DibujarMatrizDeAdyacencia(Grafo grafo) 
 	{
 		boolean[][] matrix = grafo.getMatrizDeAdyacencia();
 		int n = matrix.length;
@@ -21,5 +21,5 @@ public class Main
 		    }
 		    System.out.print("\n");
 		}
-	}
+	}*/
 }

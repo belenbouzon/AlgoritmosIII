@@ -1,0 +1,25 @@
+
+public class Ej3Utils {
+
+	public static int[] ToIntegerArray(String[] split) 
+	{
+		int[] res = new int[split.length];
+		for (int i = 0; i < split.length; i ++)
+			res[i] = Integer.parseInt(split[i]);
+		return res;
+	}
+	
+	public static void DibujarMatrizDeAdyacencia(boolean[][] matrix) 
+	{
+		int n = matrix.length;
+		
+		for (int i = 0; i < n; i++) 
+		{
+		    for (int j = 0; j < n; j++) 
+		    {
+		        System.out.print(matrix[i][j]? 1 + " " : 0  + " ");
+		    }
+		    System.out.print("\n");
+		}
+	}
+}

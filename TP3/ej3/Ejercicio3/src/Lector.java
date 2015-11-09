@@ -10,13 +10,13 @@ public class Lector {
 	
 	public Lector(String archivo) throws Exception
 	{
-		this.archivo = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archivo)));
+		this.setArchivo(new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archivo))));
 	}
 	
 	public Grafo MakeGraph() throws IOException 
 	{
 		Grafo grafo = new Grafo();
-		int[] nodosAristasColores = Ej3Utils.ToIntegerArray(this.archivo.readLine().split(" "));
+		int[] nodosAristasColores = Ej3Utils.ToIntegerArray(this.getArchivo().readLine().split(" "));
 		grafo.cantidadDeNodos = nodosAristasColores[0];
 		grafo.setCantidadDeAristas(nodosAristasColores[1]);
 		grafo.setCantidadDeColores(nodosAristasColores[2]);
@@ -29,41 +29,50 @@ public class Lector {
 		return grafo;
 	}
 		
-	private boolean[][] GenerarMatrizDeAdyacencia(int cantidadDeNodos, int cantidadDeAristas) 
+	public boolean[][] GenerarMatrizDeAdyacencia(int cantidadDeNodos, int cantidadDeAristas) 
 	{
 		boolean[][] res = new boolean[cantidadDeNodos][cantidadDeNodos];
-		System.out.print("Aristas [");
-		for (int i = 0; i <= cantidadDeAristas; i++)
-			CompletarDatosDeArista(res);
-		System.out.print("] \n");
+		StringBuilder aristasDescripcion = new StringBuilder();
+		aristasDescripcion.append("Aristas [");
+		for (int i = 0; i < cantidadDeAristas; i++)
+			CompletarDatosDeArista(res, aristasDescripcion);
+		aristasDescripcion.append("] \n");
+		System.out.print(aristasDescripcion.toString().replace(",]", "]"));
+		
 		return res;
 	}
+	
 
-	private void CompletarDatosDeArista(boolean [][] matriz) {
+	private void CompletarDatosDeArista(boolean [][] matriz, StringBuilder aristasDescripcion) {
 		String[] linea = new String[2];
 		
-		try { linea = this.archivo.readLine().split(" ");}
+		try { linea = this.getArchivo().readLine().split(" ");}
 		catch (IOException e) {System.out.println("Ocurrió un error al intentar completar la matriz de adyacencia.");}
 		
 		int inicio = Integer.parseInt(linea[0]);
 		int destino = Integer.parseInt(linea[1]);
 		matriz[inicio][destino] = true;
 		matriz[destino][inicio] = true;
-		
-		System.out.print("(" + inicio + "," + destino + "),");
-		
-		
+		aristasDescripcion.append("(" + inicio + "," + destino + "),");
 	}
 
-	private ArrayList<Nodo> ObtenerListaDeNodos(int cantidadDeNodos, int cantidadTotalDeColores) throws IOException 
+	ArrayList<Nodo> ObtenerListaDeNodos(int cantidadDeNodos, int cantidadTotalDeColores) throws IOException 
 	{
 		ArrayList<Nodo> res = new ArrayList<Nodo>();
 		for(int j = 0; j < cantidadDeNodos; j++)
 		{
-			String[] linea = this.archivo.readLine().split(" ");
+			String[] linea = this.getArchivo().readLine().split(" ");
 			res.add(new Nodo(j, cantidadTotalDeColores, Ej3Utils.ToIntegerArray(Arrays.copyOfRange(linea, 1, linea.length))));
 		}
 		return res;
+	}
+
+	public BufferedReader getArchivo() {
+		return archivo;
+	}
+
+	public void setArchivo(BufferedReader archivo) {
+		this.archivo = archivo;
 	}
 
 
