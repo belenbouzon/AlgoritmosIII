@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 
 public class Lector {
-	public ArrayList<Nodo> nodos_del_grafo;
+	public ArrayList<Nodo_Coloreable> nodos_del_grafo;
 	private BufferedReader is;
 	//private static String path;
 	public int cantidad_colores;
@@ -34,7 +34,7 @@ public class Lector {
 		for(int i = 0;i<this.cantidad_nodos;i++){
 			String nodo_string = this.leer_palabra();
 			String [] nodo_string_procesado = nodo_string.split(" ");
-			Nodo nuevo = new Nodo(i);
+			Nodo_Coloreable nuevo = new Nodo_Coloreable(i);
 			nuevo.cantidad_colores = Integer.parseInt(nodo_string_procesado[0]);
 			for(int j=1;j<=nuevo.cantidad_colores;j++){
 				nuevo.colores.agregar_color(Integer.parseInt(nodo_string_procesado[j]));
@@ -46,8 +46,8 @@ public class Lector {
 			String [] arista_string_procesada = arista_string.split(" ");
 			int nodo_1 = Integer.parseInt(arista_string_procesada[0]);
 			int nodo_2 = Integer.parseInt(arista_string_procesada[1]);
-			Nodo n_1 = this.nodos_del_grafo.get(nodo_1);
-			Nodo n_2 = this.nodos_del_grafo.get(nodo_2);
+			Nodo_Coloreable n_1 = this.nodos_del_grafo.get(nodo_1);
+			Nodo_Coloreable n_2 = this.nodos_del_grafo.get(nodo_2);
 			n_1.adyacentes.add(n_2);
 			n_2.adyacentes.add(n_1);
 		}
