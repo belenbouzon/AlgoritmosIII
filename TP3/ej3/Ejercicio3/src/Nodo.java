@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Nodo 
@@ -10,7 +11,6 @@ public class Nodo
 	private LinkedList<Integer> coloresRestantes;
 	
 	public Nodo(int j, int cantidadDeColoresDelGrafo, int[] colores)  {
-		//int cantidadDeColoresPosibles = Integer.valueOf(linea[0]);
 		this.setColores(colores, cantidadDeColoresDelGrafo);
 		this.setId(j);
 		this.setColor(-1);
@@ -34,8 +34,9 @@ public class Nodo
 	}
 	public void TacharColor(int color)
 	{
-		coloresRestantes.removeFirstOccurrence(color);
-		coloresDescartados.add(color);
+		coloresRestantes.removeFirstOccurrence(color); //O(c)
+		coloresDescartados.add(color); //O(1)
+		seguimientoColoresTotales[color] = false; //O(1)
 	}
 	
 	/*El nodo lleva seguimiento de 4 estructuras de colores: una de una lista con los colores habilitados para él, para iterar facilmente. La otra,
@@ -46,15 +47,13 @@ public class Nodo
 	{
 		this.coloresDescartados = new LinkedList<Integer>();
 		this.coloresRestantes = new LinkedList<Integer>();
-		/*
-		this.seguimientoColoresTotales = new boolean[cantidadDeColoresDelGrafo];
-		Arrays.fill(this.seguimientoColoresTotales, false);
-		 */
+		this.seguimientoColoresTotales = new boolean[cantidadDeColoresDelGrafo+1]; //O(n)
+		Arrays.fill(this.seguimientoColoresTotales, false);//O(n)
+
 		for (int i = 0; i < coloresPosibles.length; i++)
 		{
-			//this.coloresPosibles.add(coloresPosibles[i]);
 			this.coloresRestantes.add(coloresPosibles[i]);
-		//	this.seguimientoColoresTotales[i] = true;
+			this.seguimientoColoresTotales[i] = true;
 		}
 	}
 	public boolean isVisitado() 
@@ -70,7 +69,7 @@ public class Nodo
 		return seguimientoColoresTotales;
 	}
 	public LinkedList<Integer> getColoresDescartados()
-{
+	{
 		return coloresDescartados;
 	}
 	public void setColoresDescartados(LinkedList<Integer> coloresDescartados) 
@@ -81,6 +80,4 @@ public class Nodo
 	{
 		return coloresRestantes;
 	}
-
-
 }
