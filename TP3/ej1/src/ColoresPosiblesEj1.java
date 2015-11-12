@@ -84,6 +84,10 @@ public class ColoresPosiblesEj1 extends ColoresPosibles{
 	List<Integer> lista_de_colores(){
 		return this.colores;
 	}
+	@Override
+	void set_color(int index, int color){
+		this.colores.set(index, color);
+	}
 	public ColoresPosiblesEj1 (){
 		this.colores = new ArrayList<Integer>(2);
 	}

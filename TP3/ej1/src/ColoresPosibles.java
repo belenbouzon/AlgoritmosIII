@@ -12,4 +12,5 @@ public abstract class ColoresPosibles {
 	abstract void calcular_coliciones(ColoresPosibles otro);
 	abstract Iterator<Integer> iterador_de_colores();
 	abstract List<Integer> lista_de_colores();
+	abstract void set_color(int index, int color);
 }
