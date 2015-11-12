@@ -48,6 +48,9 @@ public class Lector {
 		this.cantidad_nodos = Integer.parseInt(parametros_procesados[0]);
 		this.cantidad_aristas = Integer.parseInt(parametros_procesados[1]);
 		this.cantidad_colores = Integer.parseInt(parametros_procesados[2]);
+		
+		this.nodos_del_grafo = new ArrayList<Nodo_Coloreable_ej2>(cantidad_nodos);
+		this.grafo_2colores = new ArrayList<Nodo_Coloreable>(cantidad_nodos);
 
 		for(int i = 0; i < this.cantidad_nodos; i++){
 			String nodo_string = this.leer_palabra();
@@ -64,9 +67,11 @@ public class Lector {
 
 			//creo nodo de 2 colores
 			Nodo_Coloreable nodo2color = new Nodo_Coloreable(i);
-			nodo2color.cantidad_colores = 2;
-			if (cantidad_colores_nodo < 2) {
-				nodo2color.cantidad_colores = 1;
+			nodo2color.cantidad_colores = 1;
+			nodo2color.colores.agregar_color(nuevo.colores.get(0));
+			if (cantidad_colores_nodo > 1) {
+				nodo2color.cantidad_colores = 2;
+				nodo2color.colores.agregar_color(nuevo.colores.get(1));
 			}
 			this.grafo_2colores.add(nodo2color);
 		}

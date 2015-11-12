@@ -49,20 +49,24 @@ public class Main {
 		Nodo_Coloreable_ej2 nodo = grafo.get(id);
 		ListIterator<Integer> it = nodo.colores.listIterator();
 		ColoresPosibles coloresSeleccionados = grafo2colores.get(id).colores;
+		id++; //aumento el id para llamar al proximo nodo.
 
-		while(it.hasNext()){
-			int color1 = it.next();
-			ListIterator<Integer> it2 = nodo.colores.listIterator(it.nextIndex());
-			//Agrego color1 a la lista de colores
-			coloresSeleccionados.set_color(0, color1);
-
-			while(it2.hasNext()){
-				int color2 = it2.next();
-				//if (color1 != color2) {
+		if(nodo.cantidad_colores < 2){
+			//si hay un solo color directamente llamo a listColoring.
+			coloresSeleccionados.set_color(0, it.next());
+			listColoring(id);
+		}else{		
+			while(it.hasNext()){
+				int color1 = it.next();
+				ListIterator<Integer> it2 = nodo.colores.listIterator(it.nextIndex());
+				//Agrego color1 a la lista de colores
+				coloresSeleccionados.set_color(0, color1);
+				while(it2.hasNext()){
+					int color2 = it2.next();
 					//Agrego color2
 					coloresSeleccionados.set_color(1, color2);
-					listColoring(id++);
-				//}
+					listColoring(id);
+				}
 			}
 		}
 		return;
