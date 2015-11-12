@@ -15,6 +15,10 @@ public class Lector {
 	public int cantNodos(){
 		return cantidad_nodos;
 	}
+	
+	public int cantColores(){
+		return cantidad_colores;
+	}
 
 	public ArrayList<Nodo_Coloreable_ej2> getGrafo(){
 		return nodos_del_grafo;
@@ -66,7 +70,7 @@ public class Lector {
 			}
 			this.grafo_2colores.add(nodo2color);
 		}
-		for(i = 0; i < this.cantidad_aristas; i++){
+		for(int i = 0; i < this.cantidad_aristas; i++){
 			String arista_string = this.leer_palabra();
 			String [] arista_string_procesada = arista_string.split(" ");
 			int nodo_1 = Integer.parseInt(arista_string_procesada[0]);

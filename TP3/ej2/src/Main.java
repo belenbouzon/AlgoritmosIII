@@ -1,12 +1,11 @@
-import ../../ej1/Nodo_Coloreable;
-import ../../ej1/Nodo_Abstracto;
-import ../../ej1/Colores*;
+import java.util.ArrayList;
+import java.util.ListIterator;
 
 public class Main {
 
-	private int cantNodos;
-	private ArrayList<Nodo_coloreable_ej2> grafo;
-	private ArrayList<Nodo_coloreable> grafo2colores;
+	private static int cantNodos;
+	private static ArrayList<Nodo_Coloreable_ej2> grafo;
+	private static ArrayList<Nodo_Coloreable> grafo2colores;
 
 	public static void main(String[] args) throws Exception{
 		long time0;
@@ -41,9 +40,9 @@ public class Main {
 			return;
 		}
 
-		Nodo_coloreable_ej2 nodo = grafo[id];
+		Nodo_Coloreable_ej2 nodo = grafo.get(id);
 		ListIterator<Integer> it = nodo.colores.listIterator();
-		ColoresPosiblesEj1 coloresSeleccionados = grafo2colores[id].colores;
+		ColoresPosibles coloresSeleccionados = grafo2colores.get(id).colores;
 
 		while(it.hasNext()){
 			int color1 = it.next();
@@ -55,7 +54,7 @@ public class Main {
 				int color2 = it2.next();
 				//if (color1 != color2) {
 					//Agrego color2
-					coloresSeleccionados.set_color(1, color2)
+					coloresSeleccionados.set_color(1, color2);
 					listColoring(id++);
 				//}
 			}
