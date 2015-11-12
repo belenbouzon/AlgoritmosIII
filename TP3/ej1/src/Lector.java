@@ -19,10 +19,10 @@ public class Lector {
             return null;
         }
 	}
-	public Lector(String archivo) throws Exception
+	public Lector(String archivo) throws IOException
 	{
 		try { this.is = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archivo)));}
-		catch (RuntimeException e) {throw new Exception ("No pudo hallarse el archivo especificado." + archivo);}
+		catch (RuntimeException e) {throw new IOException ("No pudo hallarse el archivo especificado." + archivo);}
 		//this.path = getClass().getResource( "" ).getPath();
 	}
 	public void inicializar_lector() throws IOException{
@@ -31,6 +31,7 @@ public class Lector {
 		this.cantidad_nodos = Integer.parseInt(parametros_procesados[0]);
 		this.cantidad_aristas = Integer.parseInt(parametros_procesados[1]);
 		this.cantidad_colores = Integer.parseInt(parametros_procesados[2]);
+		this.nodos_del_grafo = new ArrayList<Nodo_Coloreable>(cantidad_nodos);
 		for(int i = 0;i<this.cantidad_nodos;i++){
 			String nodo_string = this.leer_palabra();
 			String [] nodo_string_procesado = nodo_string.split(" ");
