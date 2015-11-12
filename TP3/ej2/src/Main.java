@@ -24,12 +24,18 @@ public class Main {
 		// Escritor esc = new Escritor(args[0]);
 
 		//while para mas de una instancia?
+		time0 = System.nanoTime();
 		reader.inicializar_lector();
 		cantNodos = reader.cantNodos();
 		grafo = reader.getGrafo();
 		grafo2colores = reader.getGrafo2colores();
 
 		listColoring(0);
+		if(mideTiempos){
+			time1 = System.nanoTime();
+			time1 = time1-time0;
+			System.out.printf("%d-%s\n", cantNodos, Long.toString(time1));
+		}
 		//imprimir solucion
 		return;
 	}
