@@ -271,7 +271,7 @@ public class Calculador_de_Coloracion_Ej1 {
 		}else{
 			res = "X";
 		}
-		System.out.printf("%s\n", res);
+		//System.out.printf("%s\n", res);
 		return res;
 	}
 	private static void test_grafos_dirigidos(){
@@ -335,7 +335,7 @@ public class Calculador_de_Coloracion_Ej1 {
 		}else if(!this.intentar_fijar_valores()){
 			return "X";
 		}else{
-			System.out.print("empiezan valores de conjuntos\n");
+			/*System.out.print("empiezan valores de conjuntos\n");
 			int i = 0;
 			System.out.printf("longitudes: %d %d\n",this.grafo_dirigido_compacto.size(),this.componentes_fuertemente_conexas.size());
 			for(TreeSet<Nodo_Dirigido_SAT> conj: this.componentes_fuertemente_conexas){
@@ -350,7 +350,7 @@ public class Calculador_de_Coloracion_Ej1 {
 				i++;
 				System.out.print("\n");
 			}
-			System.out.print("fin valores de conjuntos\n");
+			System.out.print("fin valores de conjuntos\n");*/
 			return this.imprimir_valores();
 		}
 	}
