@@ -16,6 +16,10 @@ public class Lector {
 		return cantidad_nodos;
 	}
 	
+	public int cantAristas(){
+		return cantidad_aristas;
+	}
+	
 	public int cantColores(){
 		return cantidad_colores;
 	}

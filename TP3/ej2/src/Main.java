@@ -4,8 +4,11 @@ import java.util.ListIterator;
 public class Main {
 
 	private static int cantNodos;
+	private static int cantAristas;
+	private static int cantColores;
 	private static ArrayList<Nodo_Coloreable_ej2> grafo;
 	private static ArrayList<Nodo_Coloreable> grafo2colores;
+	private static String solucion;
 
 	public static void main(String[] args) throws Exception{
 		long time0;
@@ -27,23 +30,28 @@ public class Main {
 		time0 = System.nanoTime();
 		reader.inicializar_lector();
 		cantNodos = reader.cantNodos();
+		cantAristas = reader.cantAristas();
+		cantColores = reader.cantColores();
 		grafo = reader.getGrafo();
 		grafo2colores = reader.getGrafo2colores();
 
 		listColoring(0);
+		
 		if(mideTiempos){
 			time1 = System.nanoTime();
 			time1 = time1-time0;
 			System.out.printf("%d-%s\n", cantNodos, Long.toString(time1));
 		}
 		//imprimir solucion
+		//System.out.printf("%s\n", solucion);
 		return;
 	}
 
-	private static void listColoring(int id){
+	private static boolean listColoring(int id){
 		if (id == cantNodos) {
-			//llamar a 2listColoring(grafo2colores)
-			return;
+			//llamo a 2listColoring
+			solucion = new Calculador_de_Coloracion_Ej1(cantColores, cantNodos, cantAristas, grafo2colores).obtener_resolucion();
+			return solucion != "X";
 		}
 
 		Nodo_Coloreable_ej2 nodo = grafo.get(id);
@@ -54,7 +62,7 @@ public class Main {
 		if(nodo.cantidad_colores < 2){
 			//si hay un solo color directamente llamo a listColoring.
 			coloresSeleccionados.set_color(0, it.next());
-			listColoring(id);
+			return listColoring(id);
 		}else{		
 			while(it.hasNext()){
 				int color1 = it.next();
@@ -65,11 +73,13 @@ public class Main {
 					int color2 = it2.next();
 					//Agrego color2
 					coloresSeleccionados.set_color(1, color2);
-					listColoring(id);
+					if(listColoring(id)){
+						return true;
+					}
 				}
 			}
 		}
-		return;
+		return false;
 	}
 
 	private static void MostrarIndicaciones(int length) throws Exception{
