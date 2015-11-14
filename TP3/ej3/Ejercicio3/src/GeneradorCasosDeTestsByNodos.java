@@ -21,8 +21,8 @@ public class GeneradorCasosDeTestsByNodos
 	{
 		CrearArchivoDeGrafo();
 
-		while (!EsConexo(String.valueOf(cantNodos) + "Nodos.out"))
-			CrearArchivoDeGrafo();
+		//while (!EsConexo(String.valueOf(cantNodos) + "Nodos.out"))
+			//CrearArchivoDeGrafo();
 	}
 
 	private void CrearArchivoDeGrafo() throws Exception 
