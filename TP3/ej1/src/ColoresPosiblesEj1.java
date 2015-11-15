@@ -6,15 +6,22 @@ import java.util.List;
 public class ColoresPosiblesEj1 extends ColoresPosibles{
 
 	private ArrayList<Integer> colores;
+	
+	public ColoresPosiblesEj1 (){
+		this.colores = new ArrayList<Integer>(2);
+	}
+	
+	public ColoresPosiblesEj1(List<Integer> colores){
+		this.colores = new ArrayList<Integer>(colores);
+	}
+	
 	@Override
 	ColoresPosibles colores_en_comun(ColoresPosibles otro) {
 		ColoresPosiblesEj1 res = new ColoresPosiblesEj1();
 		Iterator<Integer> it = otro.iterador_de_colores();
-		//System.out.printf("holaaaaaaaaaa\n");
 		while(it.hasNext()){
 			int nuevo = it.next();
 			if(this.colores.contains(nuevo)){
-				//System.out.printf("holaaaaaaaaaa\n");
 				res.agregar_color(nuevo);
 			}
 		}
@@ -40,15 +47,11 @@ public class ColoresPosiblesEj1 extends ColoresPosibles{
 		}
 		return res;
 	}
-	protected ColoresPosiblesEj1 clone(){
-		ColoresPosiblesEj1 res = new ColoresPosiblesEj1();
-		res.colores = (ArrayList<Integer>) this.colores.clone();
-		return res;
-	}
+	
 
 	@Override
 	ColoresPosibles descartar_colores_en_comun(int color) {
-		ColoresPosiblesEj1 res = new ColoresPosiblesEj1().clone();
+		ColoresPosiblesEj1 res = new ColoresPosiblesEj1(this.colores);
 		if(res.colores.contains(color)){
 			res.colores.remove(color);
 		}
@@ -80,16 +83,16 @@ public class ColoresPosiblesEj1 extends ColoresPosibles{
 	Iterator<Integer> iterador_de_colores() {
 		return this.colores.iterator();
 	}
+	
 	@Override
 	List<Integer> lista_de_colores(){
 		return this.colores;
 	}
+	
 	@Override
 	void set_color(int index, int color){
 		this.colores.set(index, color);
 	}
-	public ColoresPosiblesEj1 (){
-		this.colores = new ArrayList<Integer>(2);
-	}
+	
 
 }

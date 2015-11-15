@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public class Lector {
 	public ArrayList<Nodo_Coloreable> nodos_del_grafo;
 	private BufferedReader is;
-	//private static String path;
 	public int cantidad_colores;
 	public int cantidad_nodos;
 	public int cantidad_aristas;
@@ -24,24 +23,29 @@ public class Lector {
 		this.nodos_sin_procesar = nodos;
 		this.aristas_sin_procesar = aristas;
 		this.nodos_del_grafo = new ArrayList<Nodo_Coloreable>(this.cantidad_nodos);
+		this.is = null;
 	}
 
 	//.....................
 	
 	public String leer_palabra() throws IOException{
-        try{
-            return this.is.readLine();
-        } catch(IOException e){
-            return null;
-        }
+         return this.is.readLine();
 	}
+	
 	public Lector(String archivo) throws IOException
 	{
-		try { this.is = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archivo)));}
-		catch (RuntimeException e) {throw new IOException ("No pudo hallarse el archivo especificado." + archivo);}
-		//this.path = getClass().getResource( "" ).getPath();
+		try { 
+			this.is = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archivo)));
+		} catch (RuntimeException e){
+			throw new IOException ("No pudo hallarse el archivo especificado." + archivo, e);
+		}
 	}
+	
 	public void inicializar_lector() throws IOException{
+		if(this.is==null){
+			throw new IOException("error, lector no vinculado a archivo");
+		}
+		
 		String parametros = this.leer_palabra();
 		String [] parametros_procesados = parametros.split(" ");
 		this.cantidad_nodos = Integer.parseInt(parametros_procesados[0]);
@@ -72,6 +76,10 @@ public class Lector {
 
 
 	public void cargar_archivo() throws IOException{
+		if(this.is==null){
+			throw new IOException("error, lector no vinculado a archivo");
+		}
+		
 		String parametros = this.leer_palabra();
 		String [] parametros_procesados = parametros.split(" ");
 		this.cantidad_nodos = Integer.parseInt(parametros_procesados[0]);
