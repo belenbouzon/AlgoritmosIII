@@ -27,10 +27,9 @@ public class Coloring
 					nodoActual.setVisitado(true); //O(1)
 				}
 			}
-			Ej3Utils.PrintGraph(grafo, iteraciones);
 			iteraciones++;
 		}
-
+		Ej3Utils.PrintGraph(grafo, iteraciones);
 		return grafo;
 	}
 
@@ -49,7 +48,7 @@ public class Coloring
 		for (int color : nodoActual.getColoresRestantes()) //O(c)
 		{
 			Double peso = CalcularPeso(color, grafo.getVecinosDe(nodoActual)); //O(nlog(n))
-			if (peso <= pesoColor)
+			if (peso >= pesoColor)
 			{
 				pesoColor = peso;
 				colorAPintar = color;
