@@ -9,7 +9,7 @@ public class Nodo
 	private boolean[] seguimientoColoresTotales; //Almacena todos los colores seteando un bool para los que tiene.
 	private LinkedList<Integer> coloresDescartados;
 	private LinkedList<Integer> coloresRestantes;
-	
+	public Nodo(){}
 	public Nodo(int j, int cantidadDeColoresDelGrafo, int[] colores)  {
 		this.setColores(colores, cantidadDeColoresDelGrafo);
 		this.setId(j);
