@@ -80,4 +80,11 @@ public class Nodo
 	{
 		return coloresRestantes;
 	}
+	public boolean LeImportaQueSuVecinoSePinteDelColor(int color2) // Si ya esta pintado, le importa si es que su vecino pretende usar el mismo.
+	{
+		if (this.getColor() != -1)
+			return this.getColor() == color2;
+		else 
+			return this.getSeguimientoColoresTotales()[color2];
+	}
 }

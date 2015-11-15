@@ -4,29 +4,43 @@ import matplotlib.pyplot as plt
 import colorsys
 
 #Recibo <numero de nodo, su numero de color>
-#Obs: nunca un numero de color puede ser mayor a la cantidad de nodos.
-nodes = [(0,-1),(1,-1),(2,-1),(3,-1),(4,-1),(5,52),(6,-1),(7,-1),(8,-1),(9,-1),(10,-1),(11,60),(12,-1),(13,-1),(14,-1),(15,-1),(16,-1),(17,-1),(18,-1),(19,60),(20,-1),(21,-1),(22,-1),(23,-1),(24,-1),(25,-1),(26,-1),(27,-1),(28,-1),(29,-1),(30,-1),(31,-1),(32,58),(33,-1),(34,-1),(35,-1),(36,-1),(37,-1),(38,-1),(39,57),(40,-1),(41,58),(42,-1),(43,-1),(44,-1),(45,52),(46,-1),(47,54),(48,-1),(49,-1)]
+iteracionesColores = open("iteraciones.txt",'r')
+nodes = eval(iteracionesColores.readline())
+cantColores = 60
+
 #Recibo las aristas
-aristas = [(19,9),(23,48),(48,14),(41,35),(36,12),(29,37),(49,42),(23,39),(4,40),(39,39),(25,47),(42,28),(0,6),(33,22),(30,4),(16,35),(49,45),(45,38),(22,32),(42,5),(12,44),(26,33),(13,46),(28,35),(32,17),(26,45),(49,18),(38,37),(22,7),(38,34),(48,12),(7,10),(5,37),(37,6),(37,7),(37,16),(3,35),(8,29),(48,1),(2,38),(3,4),(9,40),(16,23),(2,10),(38,5),(23,8),(29,4),(10,49),(20,41),(33,22),(18,29),(10,23),(38,1),(14,28),(39,6),(16,19),(2,15),(15,14),(27,24),(31,10),(34,11),(30,5),(0,18),(48,23),(31,12),(21,9),(12,0),(15,25),(10,37),(12,3),(28,5),(33,41),(2,25),(14,42),(46,20),(5,23),(32,37),(12,18),(16,17),(15,22),(1,0),(44,25),(7,6),(3,42),(33,15),(22,46),(29,16),(48,1),(29,1),(43,33),(1,31),(41,21),(6,5),(32,48),(35,34),(16,46),(4,42),(36,3),(40,28),(7,40),(22,30),(29,0),(45,43),(4,29),(25,26),(2,37),(46,24),(24,23),(39,26),(15,14),(9,36),(26,8),(29,17),(1,42),(25,15),(31,27),(31,28),(28,33),(2,35),(2,9),(47,20),(24,30),(47,29),(9,7),(26,48),(19,13),(10,43),(2,40),(11,49),(8,22),(39,33),(49,17),(15,11),(36,48),(1,11),(23,42),(21,8),(15,12),(32,44),(27,19),(25,47),(23,12),(30,28),(8,30),(3,11),(41,14),(46,10),(6,19),(19,29),(29,4),(33,23),(9,24),(30,29),(15,43),(39,33),(28,37),(6,17),(15,35),(4,13),(12,27),(45,46),(10,12),(32,29),(16,6),(23,36),(44,13),(42,16),(1,21),(38,26),(29,10),(35,22),(28,12),(45,30),(32,33),(48,29),(11,9),(14,34),(7,16),(31,44),(33,3),(13,38),(10,19),(47,33),(30,21),(41,12),(3,4),(35,35),(16,13),(21,37),(7,34),(49,46),(49,31),(25,22),(42,11),(16,35),(18,1),(45,16),(41,25),(49,45),(47,40),(43,12),(25,4),(48,22),(37,39),(36,21),(20,3),(9,0),(24,0),(1,38),(32,0),(41,14),(21,46),(38,18),(15,48),(19,9),(22,26),(47,3),(34,4),(13,7),(22,31),(33,39),(18,28),(31,34),(22,19),(22,40),(29,49),(41,36),(34,1),(10,33),(3,46),(23,14),(10,26),(16,33),(35,18),(31,26),(1,29),(43,41),(33,38),(16,3),(29,36),(22,6),(49,41),(20,18),(7,47),(1,34)]
+aristas = [(3,14),(6,8),(1,14),(11,0),(2,13),(11,11),(6,3),(5,11),(8,12),(2,5),(1,3),(1,13),(8,11),(7,10),(12,6),(9,10),(11,14),(1,9),(10,0),(13,0),(2,4)]
+
 cantidadDeNodos = len(nodes)
 
- #Hago un array con tantos colores como cantidad de nodos tengo
-HSV_tuples = [(x*1.0/(cantidadDeNodos*0.7), 0.3, 0.9) for x in range(cantidadDeNodos)]
-#RGB_tuples = map(lambda x: colorsys.hsv_to_rgb(*x), HSV_tuples)
+#Hago un array con tantos colores como cantidad de nodos tengo
+HSV_tuples = [(x/(cantidadDeNodos*0.1555555555555), 0.3, 0.9) for x in range(cantColores+2)]
 RGB_tuples = map(lambda x: colorsys.hsv_to_rgb(*x), HSV_tuples)
-print len(RGB_tuples)
 
-#Armo un array con los colores ordenados en el orden natural de los nodos
-nodeColors = []
-for i in range (0, cantidadDeNodos):
-    color =  [nodo[1] for nodo in nodes if nodo[0] == i][0]
-    nodeColors.insert(i,RGB_tuples[color])
+index = 0
+while nodes != []:
+    #Armo un array con los colores ordenados en el orden natural de los nodos
+    nodeColors = []
 
-G=nx.Graph()
-G.add_nodes_from([x[0] for x in nodes])
-G.add_edges_from(aristas)
-pos=nx.fruchterman_reingold_layout(G,iterations=50)
-plt.figure(figsize=(10,10))
-nx.draw(G,pos,node_color = nodeColors ,node_size=800, with_labels= True)
-plt.axis('equal')
-plt.show()
+    for i in range (0, cantidadDeNodos):
+        color =  [nodo[1] for nodo in nodes if nodo[0] == i][0]
+        nodeColors.insert(i,RGB_tuples[color])
+    G=nx.Graph()
+    G.add_nodes_from([x[0] for x in nodes])
+    G.add_edges_from(aristas)
+    pos=nx.circular_layout(G)
+    plt.figure(figsize=(8,8))
+    #nx.draw_graphviz(G,prog='neato',node_color = nodeColors, node_size=700, with_labels = True)
+    nx.draw(G,pos,node_color = nodeColors ,node_size=700, with_labels= True, alpha=0.7, node_shape="h", linewidths=0.5, width= 0.5,style= 'solid', font_size =10)
+    plt.axis('equal')
+    plt.savefig(str(index).zfill(3) + "Iteracion.png", transparent = False)
+    plt.close()
+    index += 1
+    var = iteracionesColores.readline()
+    if var != "":
+        nodes= eval(var)
+    else:
+        nodes = []
+
+iteracionesColores.close()
+#h = hexagono
