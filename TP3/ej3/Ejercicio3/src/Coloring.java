@@ -47,7 +47,7 @@ public class Coloring
 		int colorAPintar = -1;
 		for (int color : nodoActual.getColoresRestantes()) //O(c)
 		{
-			Double peso = CalcularPeso(color, grafo.getVecinosDe(nodoActual)); //O(nlog(n))
+			Double peso = 1 - CalcularPeso(color, grafo.getVecinosDe(nodoActual)); //O(nlog(n))
 			if (peso >= pesoColor)
 			{
 				pesoColor = peso;
@@ -58,14 +58,14 @@ public class Coloring
 	}
 
 
-	private static Double CalcularPeso(int color, List<Nodo> vecinos) 
+	private static Double CalcularPeso(int color, List<Nodo> vecinos) //da mayor valor cuanto mas riesgoso es pintar del color pasado por parametro
 	{
 		ArrayList<Double> pesos = new ArrayList<Double>();
 		
 		for (Nodo nodo : vecinos) //O(n)
 		{
-			if (nodo.getSeguimientoColoresTotales()[color]) //O(1)
-					pesos.add((1.0/nodo.getColoresRestantes().size()));//O(1)(amortizado)
+			if (nodo.LeImportaQueSuVecinoSePinteDelColor(color)) //O(1)
+					pesos.add((1.0/(nodo.getColoresRestantes().size())));//O(1)(amortizado)
 					
 		}
 		Collections.sort(pesos); //O(nlog(n))
