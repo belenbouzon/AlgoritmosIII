@@ -472,8 +472,52 @@ public class Tester {
 			long fin = System.nanoTime();
 			return fin-inicio;
 	}
+	
+	public static long ejecutar_sin_archivo_B(ArrayList<Nodo_Tester> lista, int cant_nodos,int cant_aristas,int cant_colores){
+		String[][] entrada_de_lector = imprimir_a_string(lista,cant_nodos,cant_aristas,cant_colores);
+
+		Lector lec = new Lector(cant_nodos,cant_aristas,cant_colores,entrada_de_lector[0],entrada_de_lector[1]);
+		long inicio = System.nanoTime();
+		lec.procesar_datos();
+		Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores,lec.cantidad_nodos,lec.cantidad_aristas,lec.nodos_del_grafo);
+		res.obtener_resolucion();
+		long fin = System.nanoTime();
+		return fin-inicio;
+	}
+	
+	public static ArrayList<Nodo_Tester> peor_caso_iniciar(int cantidad_inicial,int cantidad_final){
+		ArrayList<Nodo_Tester> res = new ArrayList<Nodo_Tester>(cantidad_final);
+		for(int i = 0;i<cantidad_inicial;i++){
+			res.add(new Nodo_Tester(i,0,i+1));
+		}
+		for(int i = 0;i<cantidad_inicial;i++){
+			for(int j=i+1;j<cantidad_inicial;j++){
+				vincular_nodos(res,i,j);
+			}
+		}
+		return res;
+	}
+	
+	public static void peor_caso_expandir(ArrayList<Nodo_Tester> lista,int escala){
+		int tamanio_anterior = lista.size();
+		for(int i = 0;i<escala;i++){
+			lista.add(new Nodo_Tester(i+tamanio_anterior,0,i+tamanio_anterior+1));
+		}
+		for(int i = 0;i<escala;i++){
+			for(int j=0;j<tamanio_anterior;j++){
+				vincular_nodos(lista,j,i+tamanio_anterior);
+			}
+			for(int j=i+1;j<escala;j++){
+				vincular_nodos(lista,j+tamanio_anterior,i+tamanio_anterior);
+			}
+		}
+	}
 
 	public static void main(String [] entrada) {
+		if(entrada.length==0){
+			System.out.print("0: generar y comprobar\n1:variación nodos <archivo> <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones> <escala>\n2:variación aristas <archivo> <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones> <escala>\n3:variación nodos sin archivo <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones> <escala>\n4:variación aristas sin archivo <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones> <escala>\n5:variación nodos y aristas <archivo> <nodos minimo> <nodos maximo> <aristas_minimo> <variacion segundo color> <cantidad iteraciones> <escala>\n6:variación nodos y aristas sin archivo <nodos_minimo> <nodos_maximo> <aristas minimo> <variacion segundo color> <cantidad iteraciones> <escala>\n 7: <nodos_minimo> <nodos_maximo> <cantidad iteraciones> <escala>\n");
+			return;
+		}
 		int primer_parametro = Integer.parseInt(entrada[0]);
 		if(primer_parametro==0){
 			generar_y_comprobar(entrada[1],Integer.parseInt(entrada[2]),Integer.parseInt(entrada[3]),Integer.parseInt(entrada[4]));
@@ -481,15 +525,19 @@ public class Tester {
 			int nodos_minimo = Integer.parseInt(entrada[2]);
 			int nodos_maximo = Integer.parseInt(entrada[3]);
 			int cant_iteraciones = Integer.parseInt(entrada[6]);
+			int escala = Integer.parseInt(entrada[7]);
 
 			double [] soluciones = new double[nodos_maximo-nodos_minimo+1];
 			for(int i=0;i<nodos_maximo-nodos_minimo+1;i++){
 				soluciones[i] = 0;
 			}
-
-			for(int nodos = nodos_minimo;nodos<=nodos_maximo;nodos++){
+			
+			int aristas = Integer.parseInt(entrada[4]);
+			int cant_valor_secundario = Integer.parseInt(entrada[5]);
+			
+			for(int nodos = nodos_minimo;nodos<=nodos_maximo;nodos+=escala){
 				for(int i = 0;i<cant_iteraciones;i++){
-					ArrayList<Nodo_Tester> lista = generar_grafo_1(entrada[1],nodos,Integer.parseInt(entrada[4]),Integer.parseInt(entrada[5]));
+					generar_grafo_1(entrada[1],nodos,aristas,cant_valor_secundario);
 					soluciones[nodos-nodos_minimo] += ((double)ejecutar_para_test(entrada[1]))/100000;
 				}
 				System.out.printf("%d %f\n",nodos,soluciones[nodos-nodos_minimo]);
@@ -498,16 +546,19 @@ public class Tester {
 			int aristas_minimo = Integer.parseInt(entrada[3]);
 			int aristas_maximo = Integer.parseInt(entrada[4]);
 			int cant_iteraciones = Integer.parseInt(entrada[6]);
+			int escala = Integer.parseInt(entrada[7]);
 
 			double [] soluciones = new double[aristas_maximo-aristas_minimo+1];
 			for(int i=0;i<aristas_maximo-aristas_minimo+1;i++){
 				soluciones[i] = 0;
 			}
 
-
-			for(int aristas = aristas_minimo;aristas<=aristas_maximo;aristas++){
+			int nodos = Integer.parseInt(entrada[2]);
+			int cant_valor_secundario = Integer.parseInt(entrada[5]);
+			
+			for(int aristas = aristas_minimo;aristas<=aristas_maximo;aristas+=escala){
 				for(int i = 0;i<cant_iteraciones;i++){
-					ArrayList<Nodo_Tester> lista = generar_grafo_1(entrada[1],Integer.parseInt(entrada[2]),aristas,Integer.parseInt(entrada[5]));
+					generar_grafo_1(entrada[1],nodos,aristas,cant_valor_secundario);
 					soluciones[aristas-aristas_minimo] += ((double)ejecutar_para_test(entrada[1]))/100000;
 				}
 				System.out.printf("%d %f\n",aristas,soluciones[aristas-aristas_minimo]);
@@ -516,6 +567,7 @@ public class Tester {
 			int nodos_minimo = Integer.parseInt(entrada[1]);
 			int nodos_maximo = Integer.parseInt(entrada[2]);
 			int cant_iteraciones = Integer.parseInt(entrada[5]);
+			int escala = Integer.parseInt(entrada[6]);
 
 
 			double [] soluciones = new double[nodos_maximo-nodos_minimo+1];
@@ -523,10 +575,11 @@ public class Tester {
 				soluciones[i] = 0;
 			}
 
-
-			for(int nodos = nodos_minimo;nodos<=nodos_maximo;nodos++){
+			int aristas = Integer.parseInt(entrada[3]);
+			int cant_valor_secundario = Integer.parseInt(entrada[4]);
+			for(int nodos = nodos_minimo;nodos<=nodos_maximo;nodos+=escala){
 				for(int i = 0;i<cant_iteraciones;i++){
-					soluciones[nodos-nodos_minimo] += ((double)ejecutar_sin_archivo(nodos,Integer.parseInt(entrada[3]),Integer.parseInt(entrada[4])))/100000;
+					soluciones[nodos-nodos_minimo] += ((double)ejecutar_sin_archivo(nodos,aristas,cant_valor_secundario))/100000;
 				}
 				System.out.printf("%d %f\n",nodos,soluciones[nodos-nodos_minimo]);
 			}
@@ -534,6 +587,7 @@ public class Tester {
 			int aristas_minimo = Integer.parseInt(entrada[2]);
 			int aristas_maximo = Integer.parseInt(entrada[3]);
 			int cant_iteraciones = Integer.parseInt(entrada[5]);
+			int escala = Integer.parseInt(entrada[6]);
 
 
 
@@ -544,15 +598,77 @@ public class Tester {
 
 
 
-			for(int aristas = aristas_minimo;aristas<=aristas_maximo;aristas++){
+			for(int aristas = aristas_minimo;aristas<=aristas_maximo;aristas+=escala){
 				for(int i = 0;i<cant_iteraciones;i++){
 					soluciones[aristas-aristas_minimo] += ((double) ejecutar_sin_archivo(Integer.parseInt(entrada[1]),aristas,Integer.parseInt(entrada[4])))/100000;
 				}
 				System.out.printf("%d %f\n",aristas,soluciones[aristas-aristas_minimo]);
 			}
+		}else if(primer_parametro==5){
+			int nodos_minimo = Integer.parseInt(entrada[2]);
+			int nodos_maximo = Integer.parseInt(entrada[3]);
+			int cant_iteraciones = Integer.parseInt(entrada[6]);
+			int aristas_minimo = Integer.parseInt(entrada[4]);
+			int escala = Integer.parseInt(entrada[7]);
+
+			double [] soluciones = new double[nodos_maximo-nodos_minimo+1];
+			for(int i=0;i<nodos_maximo-nodos_minimo+1;i++){
+				soluciones[i] = 0;
+			}
+			int iteraciones = nodos_maximo - nodos_minimo;
+			int cant_valor_secundario = Integer.parseInt(entrada[5]);
+			for(int it = 0;it<=iteraciones;it+=escala){
+				for(int i = 0;i<cant_iteraciones;i++){
+					generar_grafo_1(entrada[1],it+nodos_minimo,aristas_minimo+it,cant_valor_secundario);
+					soluciones[it] += ((double)ejecutar_para_test(entrada[1]))/100000;
+				}
+				System.out.printf("%d %f\n",it+nodos_minimo,soluciones[it]);
+			}
+		}else if(primer_parametro==6){
+			int nodos_minimo = Integer.parseInt(entrada[1]);
+			int nodos_maximo = Integer.parseInt(entrada[2]);
+			int cant_iteraciones = Integer.parseInt(entrada[5]);
+			int escala = Integer.parseInt(entrada[6]);
+
+
+			double [] soluciones = new double[nodos_maximo-nodos_minimo+1];
+			for(int i=0;i<nodos_maximo-nodos_minimo+1;i++){
+				soluciones[i] = 0;
+			}
+
+			int iteraciones = nodos_maximo - nodos_minimo;
+			int aristas_minimo = Integer.parseInt(entrada[3]);
+			int cant_valor_secundario = Integer.parseInt(entrada[4]);
+			for(int it = 0;it<=iteraciones;it+=escala){
+				for(int i = 0;i<cant_iteraciones;i++){
+					soluciones[it] += ((double)ejecutar_sin_archivo(it+nodos_minimo,aristas_minimo+it,cant_valor_secundario))/100000;
+				}
+				System.out.printf("%d %f\n",nodos_minimo+it,soluciones[it]);
+			}
+		}else if(primer_parametro==7){
+			int nodos_minimo = Integer.parseInt(entrada[1]);
+			int nodos_maximo = Integer.parseInt(entrada[2]);
+			int cant_iteraciones = Integer.parseInt(entrada[3]);
+			int escala = Integer.parseInt(entrada[4]);
+			ArrayList<Nodo_Tester> lista = peor_caso_iniciar(nodos_minimo,nodos_maximo);
+			for(int n = nodos_minimo;n<=nodos_maximo;n+=escala){
+				double tiempo = 0;
+				for(int i=0;i<cant_iteraciones;i++){
+					tiempo += ((double)ejecutar_sin_archivo_B(lista,n,sumatoria(n),n+1))/cant_iteraciones;
+				}
+				peor_caso_expandir(lista,escala);
+				System.out.printf("%d %f\n",n,tiempo);
+			}
 		}else{
-			System.out.print("0: generar y comprobar\n1:variación nodos <archivo> <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones>\n2:variación aristas <archivo> <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones>\n3:variación nodos sin archivo <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones>\n4:variación aristas sin archivo <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones>\n");
+			System.out.print("0: generar y comprobar\n1:variación nodos <archivo> <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones> <escala>\n2:variación aristas <archivo> <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones> <escala>\n3:variación nodos sin archivo <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones> <escala>\n4:variación aristas sin archivo <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones> <escala>\n5:variación nodos y aristas <archivo> <nodos minimo> <nodos maximo> <aristas_minimo> <variacion segundo color> <cantidad iteraciones> <escala>\n6:variación nodos y aristas sin archivo <nodos_minimo> <nodos_maximo> <aristas minimo> <variacion segundo color> <cantidad iteraciones> <escala>\n 7: <nodos_minimo> <nodos_maximo> <cantidad iteraciones> <escala>\n");
 		}
 
+	}
+	private static int sumatoria(int n){
+		int res = 0;
+		for(int i = 1;i<n;i++){
+			res += i;
+		}
+		return res;
 	}
 }
