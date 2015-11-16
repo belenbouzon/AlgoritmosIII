@@ -8,9 +8,9 @@ import java.util.TreeSet;
 
 
 public class Calculador_de_Coloracion_Ej1 {
-	public ArrayList<Nodo_Coloreable> grafo_original;
-	public ArrayList<Nodo_Dirigido_SAT> grafo_dirigido;
-	public ArrayList<Nodo_Dirigido_Compacto> grafo_dirigido_compacto;
+	private ArrayList<Nodo_Coloreable> grafo_original;
+	private ArrayList<Nodo_Dirigido_SAT> grafo_dirigido;
+	private ArrayList<Nodo_Dirigido_Compacto> grafo_dirigido_compacto;
 	private int cantidad_colores;
 	private int cantidad_nodos;
 	private int cantidad_aristas;

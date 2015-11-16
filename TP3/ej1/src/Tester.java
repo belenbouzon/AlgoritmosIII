@@ -151,7 +151,7 @@ public class Tester {
 		try {
 			Lector lec = new Lector("los_unicos.txt");
 			lec.inicializar_lector();
-			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores,lec.cantidad_nodos,lec.cantidad_aristas,lec.nodos_del_grafo);
+			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores(),lec.cantidad_nodos(),lec.cantidad_aristas(),lec.nodos_del_grafo());
 			String solucion = res.obtener_resolucion();
 			System.out.print(solucion);
 			System.out.print("\n");
@@ -243,7 +243,7 @@ public class Tester {
 		try {
 			Lector lec = new Lector(entrada);
 			lec.inicializar_lector();
-			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores,lec.cantidad_nodos,lec.cantidad_aristas,lec.nodos_del_grafo);
+			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores(),lec.cantidad_nodos(),lec.cantidad_aristas(),lec.nodos_del_grafo());
 			String solucion = res.obtener_resolucion();
 			System.out.print(solucion);
 			System.out.print("\n");
@@ -262,7 +262,7 @@ public class Tester {
 			lec.cargar_archivo();
 			long inicio = System.nanoTime();
 			lec.procesar_datos();
-			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores,lec.cantidad_nodos,lec.cantidad_aristas,lec.nodos_del_grafo);
+			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores(),lec.cantidad_nodos(),lec.cantidad_aristas(),lec.nodos_del_grafo());
 			res.obtener_resolucion();
 			long fin = System.nanoTime();
 			return fin - inicio;
@@ -413,7 +413,7 @@ public class Tester {
 			Lector lec = new Lector(cant_nodos,cant_aristas,cant_colores,entrada_de_lector[0],entrada_de_lector[1]);
 			long inicio = System.nanoTime();
 			lec.procesar_datos();
-			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores,lec.cantidad_nodos,lec.cantidad_aristas,lec.nodos_del_grafo);
+			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores(),lec.cantidad_nodos(),lec.cantidad_aristas(),lec.nodos_del_grafo());
 			res.obtener_resolucion();
 			long fin = System.nanoTime();
 			return fin-inicio;
@@ -425,7 +425,7 @@ public class Tester {
 		Lector lec = new Lector(cant_nodos,cant_aristas,cant_colores,entrada_de_lector[0],entrada_de_lector[1]);
 		long inicio = System.nanoTime();
 		lec.procesar_datos();
-		Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores,lec.cantidad_nodos,lec.cantidad_aristas,lec.nodos_del_grafo);
+		Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores(),lec.cantidad_nodos(),lec.cantidad_aristas(),lec.nodos_del_grafo());
 		res.obtener_resolucion();
 		long fin = System.nanoTime();
 		return fin-inicio;

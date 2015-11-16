@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 
 public class Lector {
-	public ArrayList<Nodo_Coloreable> nodos_del_grafo;
+	private ArrayList<Nodo_Coloreable> _nodos_del_grafo;
 	private BufferedReader is;
-	public int cantidad_colores;
-	public int cantidad_nodos;
-	public int cantidad_aristas;
+	private int _cantidad_colores;
+	private int _cantidad_nodos;
+	private int _cantidad_aristas;
 
 	//para testeos de tiempo
 
@@ -17,16 +17,32 @@ public class Lector {
 	String [] aristas_sin_procesar;
 
 	public Lector(int cant_nodos,int cant_aristas,int cant_colores,String[] nodos,String[] aristas){
-		this.cantidad_colores = cant_colores;
-		this.cantidad_aristas = cant_aristas;
-		this.cantidad_nodos = cant_nodos;
+		this._cantidad_colores = cant_colores;
+		this._cantidad_aristas = cant_aristas;
+		this._cantidad_nodos = cant_nodos;
 		this.nodos_sin_procesar = nodos;
 		this.aristas_sin_procesar = aristas;
-		this.nodos_del_grafo = new ArrayList<Nodo_Coloreable>(this.cantidad_nodos);
+		this._nodos_del_grafo = new ArrayList<Nodo_Coloreable>(this._cantidad_nodos);
 		this.is = null;
 	}
 
 	//.....................
+	
+	public int cantidad_nodos(){
+		return this._cantidad_nodos;
+	}
+	
+	public int cantidad_colores(){
+		return this._cantidad_aristas;
+	}
+	
+	public int cantidad_aristas(){
+		return this._cantidad_colores;
+	}
+	
+	public ArrayList<Nodo_Coloreable> nodos_del_grafo(){
+		return this._nodos_del_grafo;
+	}
 	
 	public String leer_palabra() throws IOException{
          return this.is.readLine();
@@ -48,11 +64,11 @@ public class Lector {
 		
 		String parametros = this.leer_palabra();
 		String [] parametros_procesados = parametros.split(" ");
-		this.cantidad_nodos = Integer.parseInt(parametros_procesados[0]);
-		this.cantidad_aristas = Integer.parseInt(parametros_procesados[1]);
-		this.cantidad_colores = Integer.parseInt(parametros_procesados[2]);
-		this.nodos_del_grafo = new ArrayList<Nodo_Coloreable>(cantidad_nodos);
-		for(int i = 0;i<this.cantidad_nodos;i++){
+		this._cantidad_nodos = Integer.parseInt(parametros_procesados[0]);
+		this._cantidad_aristas = Integer.parseInt(parametros_procesados[1]);
+		this._cantidad_colores = Integer.parseInt(parametros_procesados[2]);
+		this._nodos_del_grafo = new ArrayList<Nodo_Coloreable>(_cantidad_nodos);
+		for(int i = 0;i<this._cantidad_nodos;i++){
 			String nodo_string = this.leer_palabra();
 			String [] nodo_string_procesado = nodo_string.split(" ");
 			Nodo_Coloreable nuevo = new Nodo_Coloreable(i);
@@ -60,15 +76,15 @@ public class Lector {
 			for(int j=1;j<=nuevo.cantidad_colores;j++){
 				nuevo.colores.agregar_color(Integer.parseInt(nodo_string_procesado[j]));
 			}
-			this.nodos_del_grafo.add(nuevo);
+			this._nodos_del_grafo.add(nuevo);
 		}
-		for(int i = 0;i<this.cantidad_aristas;i++){
+		for(int i = 0;i<this._cantidad_aristas;i++){
 			String arista_string = this.leer_palabra();
 			String [] arista_string_procesada = arista_string.split(" ");
 			int nodo_1 = Integer.parseInt(arista_string_procesada[0]);
 			int nodo_2 = Integer.parseInt(arista_string_procesada[1]);
-			Nodo_Coloreable n_1 = this.nodos_del_grafo.get(nodo_1);
-			Nodo_Coloreable n_2 = this.nodos_del_grafo.get(nodo_2);
+			Nodo_Coloreable n_1 = this._nodos_del_grafo.get(nodo_1);
+			Nodo_Coloreable n_2 = this._nodos_del_grafo.get(nodo_2);
 			n_1.adyacentes.add(n_2);
 			n_2.adyacentes.add(n_1);
 		}
@@ -82,24 +98,24 @@ public class Lector {
 		
 		String parametros = this.leer_palabra();
 		String [] parametros_procesados = parametros.split(" ");
-		this.cantidad_nodos = Integer.parseInt(parametros_procesados[0]);
-		this.cantidad_aristas = Integer.parseInt(parametros_procesados[1]);
-		this.cantidad_colores = Integer.parseInt(parametros_procesados[2]);
-		this.nodos_del_grafo = new ArrayList<Nodo_Coloreable>(cantidad_nodos);
+		this._cantidad_nodos = Integer.parseInt(parametros_procesados[0]);
+		this._cantidad_aristas = Integer.parseInt(parametros_procesados[1]);
+		this._cantidad_colores = Integer.parseInt(parametros_procesados[2]);
+		this._nodos_del_grafo = new ArrayList<Nodo_Coloreable>(_cantidad_nodos);
 
-		this.nodos_sin_procesar = new String [this.cantidad_nodos];
-		this.aristas_sin_procesar = new String [this.cantidad_aristas];
+		this.nodos_sin_procesar = new String [this._cantidad_nodos];
+		this.aristas_sin_procesar = new String [this._cantidad_aristas];
 
-		for(int i = 0;i<this.cantidad_nodos;i++){
+		for(int i = 0;i<this._cantidad_nodos;i++){
 			this.nodos_sin_procesar[i] = this.leer_palabra();
 		}
-		for(int i = 0;i<this.cantidad_aristas;i++){
+		for(int i = 0;i<this._cantidad_aristas;i++){
 			this.aristas_sin_procesar[i] = this.leer_palabra();
 		}
 	}
 
 	public void procesar_datos(){
-		for(int i = 0;i<this.cantidad_nodos;i++){
+		for(int i = 0;i<this._cantidad_nodos;i++){
 			String nodo_string = this.nodos_sin_procesar[i];
 			String [] nodo_string_procesado = nodo_string.split(" ");
 			Nodo_Coloreable nuevo = new Nodo_Coloreable(i);
@@ -107,15 +123,15 @@ public class Lector {
 			for(int j=1;j<=nuevo.cantidad_colores;j++){
 				nuevo.colores.agregar_color(Integer.parseInt(nodo_string_procesado[j]));
 			}
-			this.nodos_del_grafo.add(nuevo);
+			this._nodos_del_grafo.add(nuevo);
 		}
-		for(int i = 0;i<this.cantidad_aristas;i++){
+		for(int i = 0;i<this._cantidad_aristas;i++){
 			String arista_string = this.aristas_sin_procesar[i];
 			String [] arista_string_procesada = arista_string.split(" ");
 			int nodo_1 = Integer.parseInt(arista_string_procesada[0]);
 			int nodo_2 = Integer.parseInt(arista_string_procesada[1]);
-			Nodo_Coloreable n_1 = this.nodos_del_grafo.get(nodo_1);
-			Nodo_Coloreable n_2 = this.nodos_del_grafo.get(nodo_2);
+			Nodo_Coloreable n_1 = this._nodos_del_grafo.get(nodo_1);
+			Nodo_Coloreable n_2 = this._nodos_del_grafo.get(nodo_2);
 			n_1.adyacentes.add(n_2);
 			n_2.adyacentes.add(n_1);
 		}
