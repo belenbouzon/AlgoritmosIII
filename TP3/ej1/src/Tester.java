@@ -123,7 +123,7 @@ public class Tester {
 	}
 
 	private static boolean vincular_nodos(List<Nodo_Tester> l,int nodo_1,int nodo_2){
-		if(l.get(nodo_1).adyacentes.contains(nodo_2)){
+		if(l.get(nodo_1).adyacentes.contains(l.get(nodo_2))){
 			return false;
 		}
 		
@@ -325,7 +325,7 @@ public class Tester {
 
 		int i = 0;
 		int aristas_desechadas = 0;
-		while(i<cant_aristas){
+		while(i<=cant_aristas){
 			Nodo_Tester nodo_1 = lista.get(recuperar_indice(indices,rand.nextInt(cant_nodos)));
 			Nodo_Tester nodo_2 = lista.get(recuperar_indice(indices,rand.nextInt(cant_nodos)));
 			if(nodo_1!=nodo_2 && vincular_nodos(lista,nodo_1.id,nodo_2.id)){
@@ -458,12 +458,36 @@ public class Tester {
 			}
 		}
 	}
+	
+	public static void testear_grafo_bipartito_completo(int cant_nodos){
+		ArrayList<Nodo_Tester> list = new ArrayList<Nodo_Tester>(cant_nodos);
+		for(int i = 0;i<cant_nodos;i++){
+			list.add(new Nodo_Tester(i,0,1));
+		}
+		for(int i = 0;i<cant_nodos;i+=2){
+			for(int j=1;j<cant_nodos;j+=2){
+				vincular_nodos(list,i,j);
+			}
+		}
+		int cant_aristas;
+		if(cant_nodos%2==1){
+			cant_aristas = (cant_nodos/2)*(cant_nodos/2 +1);
+		}else{
+			cant_aristas = (cant_nodos/2)*(cant_nodos/2);
+		}
+		imprimir_a_archivo("grafo_bipartito.txt", list, cant_nodos, cant_aristas, 2);
+		demostrar_correctitud("grafo bipartito",list,ejecutar("grafo_bipartito.txt"));
+		/*Random numero = new Random();
+		int nodo_brecha_1 = numero.nextInt(cant_nodos/2)*2;
+		int nodo_brecha_2 = (numero.nextInt(cant_nodos/2) +1)*2;
+		vincular_nodos(list,nodo_brecha_1,nodo_brecha_2);*/
+		vincular_nodos(list,0,2);
+		imprimir_a_archivo("grafo_casi_bipartito.txt", list, cant_nodos, cant_aristas, 2);
+		demostrar_correctitud_no_coloreable("grafo casi bipartito", ejecutar("grafo_casi_bipartito.txt"));
+	}
 
 	public static void main(String [] entrada) {
 		if(entrada.length==0){
-			color_comun();
-			el_triangulo();
-			el_senior_de_los_anillos();
 			System.out.print("0: generar y comprobar\n1:variación nodos <archivo> <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones> <escala>\n2:variación aristas <archivo> <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones> <escala>\n3:variación nodos sin archivo <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones> <escala>\n4:variación aristas sin archivo <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones> <escala>\n5:variación nodos y aristas <archivo> <nodos minimo> <nodos maximo> <aristas_minimo> <variacion segundo color> <cantidad iteraciones> <escala>\n6:variación nodos y aristas sin archivo <nodos_minimo> <nodos_maximo> <aristas minimo> <variacion segundo color> <cantidad iteraciones> <escala>\n 7: <nodos_minimo> <nodos_maximo> <cantidad iteraciones> <escala>\n");
 			return;
 		}
@@ -608,6 +632,9 @@ public class Tester {
 				expandir_grafo_completo(lista,escala);
 				System.out.printf("%d %f\n",n,tiempo);
 			}
+		}else if(primer_parametro==8){
+			int cantidad_nodos = Integer.parseInt(entrada[1]);
+			testear_grafo_bipartito_completo(cantidad_nodos);
 		}else{
 			System.out.print("0: generar y comprobar\n1:variación nodos <archivo> <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones> <escala>\n2:variación aristas <archivo> <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones> <escala>\n3:variación nodos sin archivo <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones> <escala>\n4:variación aristas sin archivo <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones> <escala>\n5:variación nodos y aristas <archivo> <nodos minimo> <nodos maximo> <aristas_minimo> <variacion segundo color> <cantidad iteraciones> <escala>\n6:variación nodos y aristas sin archivo <nodos_minimo> <nodos_maximo> <aristas minimo> <variacion segundo color> <cantidad iteraciones> <escala>\n 7: <nodos_minimo> <nodos_maximo> <cantidad iteraciones> <escala>\n");
 		}
