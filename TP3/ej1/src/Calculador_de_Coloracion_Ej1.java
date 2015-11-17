@@ -8,14 +8,15 @@ import java.util.TreeSet;
 
 
 public class Calculador_de_Coloracion_Ej1 {
-	public ArrayList<Nodo_Coloreable> grafo_original;
-	public ArrayList<Nodo_Dirigido_SAT> grafo_dirigido;
-	public ArrayList<Nodo_Dirigido_Compacto> grafo_dirigido_compacto;
+	private ArrayList<Nodo_Coloreable> grafo_original;
+	private ArrayList<Nodo_Dirigido_SAT> grafo_dirigido;
+	private ArrayList<Nodo_Dirigido_Compacto> grafo_dirigido_compacto;
 	private int cantidad_colores;
 	private int cantidad_nodos;
 	private int cantidad_aristas;
 	public LinkedList<TreeSet<Nodo_Dirigido_SAT>> componentes_fuertemente_conexas;
 	private int [] salida_ints;
+	
 	private Nodo_Dirigido_SAT nodo_dirigido_de_color(Nodo_Coloreable nodo,int color,TreeSet<Nodo_Dirigido_SAT> ya_creados){
 		Nodo_Dirigido_SAT buscado = new Nodo_Dirigido_SAT(nodo.identidad,color,true);
 		if(ya_creados.contains(buscado)){
@@ -85,10 +86,8 @@ public class Calculador_de_Coloracion_Ej1 {
 				Nodo_Dirigido_SAT nodo_color_1 = this.nodo_dirigido_de_color(nodo, color, ya_creados);
 				Nodo_Dirigido_SAT nodo_color_2 = this.nodo_dirigido_de_color(vecino, color, ya_creados);
 				nodo_color_1.agregar_adyacentes(nodo_color_2.hermano);
-				//nodo_color_2.hermano.agregar_adyacentes(nodo_color_1);
 				
 				nodo_color_2.agregar_adyacentes(nodo_color_1.hermano);
-				//nodo_color_1.hermano.agregar_adyacentes(nodo_color_2);
 			}
 		}
 	}
@@ -146,19 +145,7 @@ public class Calculador_de_Coloracion_Ej1 {
 			}
 			if(nodo.id_componente_conexa==-1){
 				TreeSet<Nodo_Dirigido_SAT> nuevo = new TreeSet<Nodo_Dirigido_SAT>(); 
-				//Iterator<Nodo_Dirigido_SAT> it = nodo.adyacentes_inverso.iterator();
-				//nuevo.add(nodo);
-				//nodo.id_componente_conexa = id_componente_conexa_actual;
 				this.DFS_inverso_auxiliar(nodo, nuevo, id_componente_conexa_actual);
-				/*while(it.hasNext()){
-					Nodo_Dirigido_SAT vecino = it.next();
-					if(vecino.id_componente_conexa==-2){
-						System.out.printf("error! 3\n");
-					}
-					if(vecino.id_componente_conexa==-1){
-						this.DFS_inverso_auxiliar(vecino, nuevo, id_componente_conexa_actual);
-					}
-				}*/
 				this.componentes_fuertemente_conexas.add(nuevo);
 				id_componente_conexa_actual++;
 			}
@@ -203,28 +190,38 @@ public class Calculador_de_Coloracion_Ej1 {
 		return true;
 	}
 	
-	private boolean marcar(Nodo_Dirigido_Compacto nodo,boolean valor_de_verdad){
+	//si el metodos retorna false
+	
+	/**
+	 * @param nodo
+	 * @param valor_de_verdad
+	 * @return false cuando determina que el coloreo no es posible para la entrada, true en caso contrario 
+	 */
+	private boolean marcar(Nodo_Dirigido_Compacto nodo,boolean valor_de_verdad){ 
 		if(!nodo.fijar_valores_de_verdad(valor_de_verdad)){
 			return false;
 		}
 		
-		for(Nodo_Dirigido_Compacto hermano:nodo.hermanos){
+		/*for(Nodo_Dirigido_Compacto hermano:nodo.hermanos){
 			if(!(hermano.valor_fijado_en(!valor_de_verdad))){
 				if(!marcar(hermano,!valor_de_verdad)){
 					return false;
 				}
 			}
+		}*/
+		if(!marcar_nodos(!valor_de_verdad,nodo.hermanos)){
+			return false;
 		}
 		
 		if(valor_de_verdad){
-			return marcar_adyacentes(valor_de_verdad, nodo.adyacentes);
+			return marcar_nodos(valor_de_verdad, nodo.adyacentes);
 		}else{
-			return marcar_adyacentes(valor_de_verdad, nodo.adyacentes_inverso);
+			return marcar_nodos(valor_de_verdad, nodo.adyacentes_inverso);
 		}
 	}
 	
 	
-	private boolean marcar_adyacentes(boolean valor_de_verdad, Set<Nodo_Dirigido_Compacto> nodos_adyacentes) {
+	private boolean marcar_nodos(boolean valor_de_verdad, Set<Nodo_Dirigido_Compacto> nodos_adyacentes) {
 		for(Nodo_Dirigido_Compacto vecino: nodos_adyacentes){
 			if(!vecino.valor_fijado_en(valor_de_verdad)){
 				if(!marcar(vecino,valor_de_verdad)){
@@ -262,18 +259,18 @@ public class Calculador_de_Coloracion_Ej1 {
 				}
 			}
 		}
-		String res = "";
+		StringBuilder res = new StringBuilder(); 
 		if(uno_verdadero){
 			for(int i = 0;i<this.salida_ints.length;i++){
-				res += Integer.toString(this.salida_ints[i]);
-				res += " ";
+				res.append(this.salida_ints[i]);
+				res.append(" ");
 			}
 		}else{
-			res = "X";
+			res.append("X");
 		}
-		//System.out.printf("%s\n", res);
-		return res;
+		return res.toString();
 	}
+	
 	private static void test_grafos_dirigidos(){
 		Nodo_Dirigido_SAT n1 = new Nodo_Dirigido_SAT(0,0,true);
 		Nodo_Dirigido_SAT n2 = new Nodo_Dirigido_SAT(1,0,true);
@@ -319,13 +316,6 @@ public class Calculador_de_Coloracion_Ej1 {
 		}else{
 			System.out.printf("%s\n",this.imprimir_valores());
 		}
-		
-		/*int nodo_imprimido = 0;
-		this.grafo_dirigido.get(nodo_imprimido).print();
-		Iterator<Nodo_Grafo_Dirigido> it = this.grafo_dirigido.get(nodo_imprimido).adyacentes.iterator();
-		while(it.hasNext()){
-			it.next().print();
-		}*/
 	}
 	public String obtener_resolucion(){
 		this.generar_grafo_dirigido();
@@ -335,6 +325,7 @@ public class Calculador_de_Coloracion_Ej1 {
 		}else if(!this.intentar_fijar_valores()){
 			return "X";
 		}else{
+			//TODO -------------------BORRAR------------
 			/*System.out.print("empiezan valores de conjuntos\n");
 			int i = 0;
 			System.out.printf("longitudes: %d %d\n",this.grafo_dirigido_compacto.size(),this.componentes_fuertemente_conexas.size());
@@ -351,6 +342,7 @@ public class Calculador_de_Coloracion_Ej1 {
 				System.out.print("\n");
 			}
 			System.out.print("fin valores de conjuntos\n");*/
+			//---------------------------------------------
 			return this.imprimir_valores();
 		}
 	}
