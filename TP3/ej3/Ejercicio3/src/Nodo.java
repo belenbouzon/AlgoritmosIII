@@ -45,16 +45,15 @@ public class Nodo
 	 que todavia no fueron descartados*/
 	public void setColores(int[] coloresPosibles, int cantidadDeColoresDelGrafo) 
 	{
-		this.coloresDescartados = new LinkedList<Integer>();
 		this.coloresRestantes = new LinkedList<Integer>();
 		this.seguimientoColoresTotales = new boolean[cantidadDeColoresDelGrafo+1]; //O(n)
 		Arrays.fill(this.seguimientoColoresTotales, false);//O(n)
-
-		for (int i = 0; i < coloresPosibles.length; i++)
+		for (int color : coloresPosibles)
 		{
-			this.coloresRestantes.add(coloresPosibles[i]);
-			this.seguimientoColoresTotales[i] = true;
+			this.coloresRestantes.add(color);
+			this.seguimientoColoresTotales[color] = true;
 		}
+
 	}
 	public boolean isVisitado() 
 	{
@@ -86,5 +85,12 @@ public class Nodo
 			return this.getColor() == color2;
 		else 
 			return this.getSeguimientoColoresTotales()[color2];
+	}
+	public Double PeligroDePintarUnVecinoDelColor(int color2) 
+	{
+		if (this.getColor() == color2)
+			return 1.0;
+		else 
+			return 1.0/(this.getColoresRestantes().size());
 	}
 }

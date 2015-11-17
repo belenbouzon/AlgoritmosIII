@@ -44,7 +44,7 @@ public class Ej3Utils {
 	    return res;
 	}
 	
-	public static void PrintGraph(Grafo grafo, int iteracion)
+	public static void PrintGraph(Grafo grafo)
 	{
 		StringBuilder res = new StringBuilder();
 		res.append("[");

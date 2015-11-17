@@ -23,27 +23,49 @@ public class Lector {
 		
 		try { grafo.setNodos(this.ObtenerListaDeNodos(grafo.cantidadDeNodos, grafo.getCantidadDeColores()));} 
 		catch (IOException e) { System.out.println("Se produjo un error al generar los nodos del grafo.");}
-		boolean[][] matrizDeAdyacencia = GenerarMatrizDeAdyacencia(grafo.getCantidadDeNodos(), grafo.getCantidadDeAristas());
+		boolean[][] matrizDeAdyacencia = GenerarMatrizDeAdyacencia(grafo.getCantidadDeNodos(), grafo.getCantidadDeAristas(), true);
 		grafo.setListaDeAdyacencia(Ej3Utils.matrizDeAdyacenciaToListDeAdyacencia(matrizDeAdyacencia, grafo.getNodos()));
 		
 		return grafo;
 	}
 		
-	public boolean[][] GenerarMatrizDeAdyacencia(int cantidadDeNodos, int cantidadDeAristas) 
+	public boolean[][] GenerarMatrizDeAdyacencia(int cantidadDeNodos, int cantidadDeAristas, boolean imprimirAristas) 
 	{
 		boolean[][] res = new boolean[cantidadDeNodos][cantidadDeNodos];
-		StringBuilder aristasDescripcion = new StringBuilder();
-		aristasDescripcion.append("Aristas [");
-		for (int i = 0; i < cantidadDeAristas; i++)
-			CompletarDatosDeArista(res, aristasDescripcion);
-		aristasDescripcion.append("] \n");
-		System.out.print(aristasDescripcion.toString().replace(",]", "]"));
+
+		if (imprimirAristas)
+		{
+			StringBuilder aristasDescripcion = new StringBuilder();
+			aristasDescripcion.append("Aristas [");
+			for (int i = 0; i < cantidadDeAristas; i++)
+				CompletarDatosDeArista(res, aristasDescripcion);
+			aristasDescripcion.append("] \n");
+			System.out.print(aristasDescripcion.toString().replace(",]", "]"));
+		}
+		else
+		{
+			for (int i = 0; i < cantidadDeAristas; i++)
+				CompletarDatosDeArista(res);
+		}
 		
 		return res;
 	}
 	
+	private void CompletarDatosDeArista(boolean [][] matriz) 
+	{
+		String[] linea = new String[2];
+		
+		try { linea = this.getArchivo().readLine().split(" ");}
+		catch (IOException e) {System.out.println("Ocurrió un error al intentar completar la matriz de adyacencia.");}
+		
+		int inicio = Integer.parseInt(linea[0]);
+		int destino = Integer.parseInt(linea[1]);
+		matriz[inicio][destino] = true;
+		matriz[destino][inicio] = true;
+	}
 
-	private void CompletarDatosDeArista(boolean [][] matriz, StringBuilder aristasDescripcion) {
+	private void CompletarDatosDeArista(boolean [][] matriz, StringBuilder aristasDescripcion) 
+	{
 		String[] linea = new String[2];
 		
 		try { linea = this.getArchivo().readLine().split(" ");}
@@ -55,6 +77,7 @@ public class Lector {
 		matriz[destino][inicio] = true;
 		aristasDescripcion.append("(" + inicio + "," + destino + "),");
 	}
+
 
 	ArrayList<Nodo> ObtenerListaDeNodos(int cantidadDeNodos, int cantidadTotalDeColores) throws IOException 
 	{

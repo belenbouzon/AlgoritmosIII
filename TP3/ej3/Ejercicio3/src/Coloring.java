@@ -10,7 +10,6 @@ public class Coloring
 	
 	public static Grafo MakeRainbow(Grafo grafo) 
 	{
-		int iteraciones = 0;
 		while(nodosPintados < grafo.cantidadDeNodos)
 		{
 			colaNodos.add(PicANode(grafo)); //O(1)
@@ -27,9 +26,8 @@ public class Coloring
 					nodoActual.setVisitado(true); //O(1)
 				}
 			}
-			iteraciones++;
 		}
-		Ej3Utils.PrintGraph(grafo, iteraciones);
+		Ej3Utils.PrintGraph(grafo);
 		return grafo;
 	}
 
@@ -43,12 +41,12 @@ public class Coloring
 
 	private static int CalcularColorMenosPerjudicial(Nodo nodoActual, Grafo grafo) 
 	{
-		Double pesoColor = 0.0;
+		Double pesoColor = 1.0;
 		int colorAPintar = -1;
 		for (int color : nodoActual.getColoresRestantes()) //O(c)
 		{
-			Double peso = 1 - CalcularPeso(color, grafo.getVecinosDe(nodoActual)); //O(nlog(n))
-			if (peso >= pesoColor)
+			Double peso = CalcularPeso(color, grafo.getVecinosDe(nodoActual)); //O(nlog(n))
+			if (peso <= pesoColor)
 			{
 				pesoColor = peso;
 				colorAPintar = color;
@@ -65,7 +63,7 @@ public class Coloring
 		for (Nodo nodo : vecinos) //O(n)
 		{
 			if (nodo.LeImportaQueSuVecinoSePinteDelColor(color)) //O(1)
-					pesos.add((1.0/(nodo.getColoresRestantes().size())));//O(1)(amortizado)
+					pesos.add(nodo.PeligroDePintarUnVecinoDelColor(color));//O(1)(amortizado)
 					
 		}
 		Collections.sort(pesos); //O(nlog(n))

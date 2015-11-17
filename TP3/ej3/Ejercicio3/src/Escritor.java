@@ -44,25 +44,7 @@ public class Escritor {
 		try {this.os.write(s);}
 		catch (IOException e) {throw new Exception ("No se pudo escribir el valor");}
 	}
-	/*
-	public void NuevaLinea() throws Exception
-	{
-		try {this.os.newLine();}
-		catch (IOException e) {throw new Exception ("No se pudo escribir una nueva linea");}
-	}
-	
-	public void Append(String stuff) throws Exception
-	{
-		try {this.os.append(stuff);}
-		catch (IOException e) {throw new Exception ("No se pudo escribir");}
-	}
-	
-	public void Append(int num) throws Exception
-	{
-		try {this.os.append(Integer.toString(num) + " ");}
-		catch (IOException e) {throw new Exception ("No se pudo escribir el numero");}
-	}
-    */
+
 	public void Fin() throws IOException
 	{
 		this.os.close();
@@ -97,7 +79,12 @@ public class Escritor {
 		HashSet<Arista> aristas = new HashSet<Arista>();
 		Random random = new Random();
 		while (aristas.size() < cantAristas)
-			aristas.add(new Arista(random.nextInt(cantNodos),random.nextInt(cantNodos)));
+		{
+			int inicio = random.nextInt(cantNodos);
+			int destino = random.nextInt(cantNodos);
+			if (inicio != destino)
+				aristas.add(new Arista(inicio,destino));
+		}
 		return aristas;
 	}
 }

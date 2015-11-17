@@ -9,7 +9,7 @@ nodes = eval(iteracionesColores.readline())
 cantColores = 60
 
 #Recibo las aristas
-aristas = [(3,14),(6,8),(1,14),(11,0),(2,13),(11,11),(6,3),(5,11),(8,12),(2,5),(1,3),(1,13),(8,11),(7,10),(12,6),(9,10),(11,14),(1,9),(10,0),(13,0),(2,4)]
+aristas = [(6,3),(4,5),(5,5),(6,6)]
 
 cantidadDeNodos = len(nodes)
 
@@ -33,7 +33,7 @@ while nodes != []:
     #nx.draw_graphviz(G,prog='neato',node_color = nodeColors, node_size=700, with_labels = True)
     nx.draw(G,pos,node_color = nodeColors ,node_size=700, with_labels= True, alpha=0.7, node_shape="h", linewidths=0.5, width= 0.5,style= 'solid', font_size =10)
     plt.axis('equal')
-    plt.savefig(str(index).zfill(3) + "Iteracion.png", transparent = False)
+    plt.savefig(str(cantidadDeNodos).zfill(3) + "Nodos.png", transparent = False)
     plt.close()
     index += 1
     var = iteracionesColores.readline()
