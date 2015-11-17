@@ -6,10 +6,11 @@ import java.util.List;
 public class Coloring 
 {
 	private static int nodosPintados = 0;
-	private static LinkedList<Nodo> colaNodos = new LinkedList<Nodo>();
 	
-	public static Grafo MakeRainbow(Grafo grafo) 
+
+	public static void MakeRainbow(Grafo grafo) 
 	{
+		LinkedList<Nodo> colaNodos = new LinkedList<Nodo>();
 		while(nodosPintados < grafo.cantidadDeNodos)
 		{
 			colaNodos.add(PicANode(grafo)); //O(1)
@@ -28,7 +29,6 @@ public class Coloring
 			}
 		}
 		Ej3Utils.PrintGraph(grafo);
-		return grafo;
 	}
 
 

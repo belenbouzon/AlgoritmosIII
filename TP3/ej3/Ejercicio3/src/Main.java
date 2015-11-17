@@ -8,24 +8,34 @@ public class Main
 		int cantDeNodos = 1000;
 		int escala = 1000;
 		int cantMaximaDeNodos = 100000;
+		int cantIteraciones = 3;
 		
 		while (cantDeNodos < cantMaximaDeNodos)
 		{
 			GeneradorCasosDeTestsByNodos generador = new GeneradorCasosDeTestsByNodos();
 			String nombreArchivo = generador.GenerarGrafoByCantNodos(cantDeNodos);
-			Grafo grafoResultante = new Grafo();
+		
+			Grafo grafo = new Grafo();
+			int index = 0;
+			long elapsed = 0;
 			
-			Lector lector = new Lector(nombreArchivo);	
-			long time0 = System.nanoTime();
-			grafoResultante = lector.MakeGraph();
-			grafoResultante = Coloring.MakeRainbow(grafoResultante);
-			long time1 = System.nanoTime();
-			
-			long elapsed = time1-time0;
+			while(index < cantIteraciones)
+			{
+				Lector lector = new Lector(nombreArchivo);	
+				long time0 = System.nanoTime();
+				Grafo grafoResultante = lector.MakeGraph();
+				grafoResultante.MakeRainbow();
+				
+				long time1 = System.nanoTime();
+				
+				elapsed += (time1-time0);
+				grafo = grafoResultante;
+				index ++;
+			}
 
 			
-			archivoDeTiempos.EscribirLinea(String.valueOf(cantDeNodos) + " " + String.valueOf(elapsed)+ "\n");
-			int cantidadDeConflictos = CalcularConflictos(grafoResultante);
+			archivoDeTiempos.EscribirLinea(String.valueOf(cantDeNodos) + " " + String.valueOf(elapsed/cantIteraciones)+ "\n");
+			int cantidadDeConflictos = CalcularConflictos(grafo);
 			archivoDeConflictos.EscribirLinea(String.valueOf(cantDeNodos) + " " + String.valueOf(cantidadDeConflictos)+ "\n");
 			cantDeNodos += escala;
 		}
