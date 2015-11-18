@@ -17,7 +17,7 @@ Finalmente comienzan a fijarse los valores de verdad. Cuando se fija un valor pa
 \subsection{Análisis de la complejidad}
 El grafo dirigido contiene a los sumo cuatro veces más nodos que el grafo de entrada, y el grafo compacto tiene a los sumo tantos nodos como el grafo dirigido. Por lo tanto, podemos afirmar que, sea n la cantidad de nodos inicial, n' la cantidad de nodos del grafo dirigido y n'' la cantidad de nodos del grafo compacto, O(f(n)) =  O(f(n')) = O(f(n'')) (si no se conocen datos adicionales para la entrada).
 
-Generar el grafo dirigido a partir del grafo de entrada tiene una complejidad de O(n ln n), ya que para cada nodo del grafo, es necesario crear los nodos dirigidos que lo representan, guardarlos en el TreeSet y 
+Generar el grafo dirigido a partir del grafo de entrada tiene una complejidad de O(n² ln n), ya que para cada nodo del grafo, es necesario crear los nodos dirigidos que lo representan y definir sus aristas con otros nodos. A medida que se van creando, los nodos se guardan y se buscan en un TreeSet.
 
 El algoritmo utilizado para encontrar las componentes fuertemente conexas no recorre más de dos veces todos los nodos, por lo cual su complejidad es lineal, al igual que el algoritmo que determina el valor de verdad de los nodos compactos.
 
