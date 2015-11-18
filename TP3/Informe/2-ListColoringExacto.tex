@@ -1,0 +1,50 @@
+\newpage
+\section{Problema 2: Algoritmo Exacto para List Coloring}
+
+\subsection{Descripción de la problemática}
+Este ejericicio está centrado en la resolución de un problema particular de coloreo, 2-listColoring. En este caso, cada nodo se puede colorear solo con uno o dos colores específicos. El algoritmo debe determinar si existe o no un coloreo en donde no existen dos nodos consecutivos del mismo color y, en caso afirmativo, encontrar una solución.
+Este problema es facilmente reducible a 2-SAT, por lo cual existen algortmos polinomiales que lo resuelven.
+
+\subsection{Resolución propuesta y justificación}
+Como mencionamos antes, el problema del 2-ListColoring es facilmente reducible a un problema de 2-SAT, y en esto se basa el algoritmo implementado. Si existe una coloración posible, entonces el hecho de que un determinado nodo esté pintado de un color implica que ninguno de sus vecinos esta pintado del mismo. Además, si un color tenía dos opciones posibles, el nodo esta pintado de un color A si y solo si no esta pintado del color B.
+El 2-SAT se representa con un grafo dirigido en donde un nodo A (que representa una premisa) apunta a un nodo B si y solo si A implica B.
+
+Una vez construido el grafo dirigido que representa el problema, lo primero que hace el algoritmo es encontrar componentes fuertemente conexas en el grafo. En este contexto, una componente fuertemente conexa representa un conjunto de propociones de las cuales se puede afirmar que todas son válidas o todas son falsas. Consecuentemente, se construye un grafo dirigido en donde cada nodo representa una componente fuertemente dirigida del grafo anterior; logicamente, este segundo grafo no contiene ninguna componente fuertemente conexa. 
+El algoritmo debe chequear, además, si se incluye en una misma componente conexa una propoción (asignación de un color a un nodo) y su negación, en cuyo caso el nodo que representa dicha componente debe tener un valor de verdad negativo. Además, el algoritmo registra, para cada componente, cual es la componente que representa su negación, es decir, que contiene la negación de las variables de la primera.
+Finalmente comienzan a fijarse los valores de verdad. Cuando se fija un valor para un nodo determinado, el nodo que contiene los valores contrarios se fija en el valor opuesto. Además, si un nodo se fija en false, todos los nodos que implican al mismo deben fijarse en false (igual recursivamente) y si se fija en true, todos los que son implicados por el mismo deven fijarse en true. Si el algoritmo encuentra una contradicción (es decir, un nodo que debía setearse en false fue seteado en true o viceversa), determina que el problema no teiene una solución válida.
+
+
+\subsection{Análisis de la complejidad}
+El grafo dirigido contiene a los sumo cuatro veces más nodos que el grafo de entrada, y el grafo compacto tiene a los sumo tantos nodos como el grafo dirigido. Por lo tanto, podemos afirmar que, sea n la cantidad de nodos inicial, n' la cantidad de nodos del grafo dirigido y n'' la cantidad de nodos del grafo compacto, O(f(n)) =  O(f(n')) = O(f(n'')) (si no se conocen datos adicionales para la entrada).
+
+Generar el grafo dirigido a partir del grafo de entrada tiene una complejidad de O(n ln n), ya que para cada nodo del grafo, es necesario crear los nodos dirigidos que lo representan, guardarlos en el TreeSet y 
+
+El algoritmo utilizado para encontrar las componentes fuertemente conexas no recorre más de dos veces todos los nodos, por lo cual su complejidad es lineal, al igual que el algoritmo que determina el valor de verdad de los nodos compactos.
+
+\subsection{Código fuente}
+
+% A continuación se incluyen las partes más relevantes del código.\\
+% La clase \emph{Main.java} se basa en crear el grafo con la lista $ps$ y llamar a \textit{kruskal}:
+% \lstinputlisting[name=pp, numbers=left, frame=lines, firstline=33, lastline=35]{../src/ej3/src/Main.java}
+% Los métodos que manipulan al grafo que se encuentran en la clase \emph{Grafo.java}
+% \lstinputlisting[name=gr, numbers=left, frame=lines, firstline=11, lastline=46]{../src/ej3/src/Grafo.java}
+% %\newpage
+% Por último la clase \emph{UnionFind.java}
+% \lstinputlisting[name=uf, numbers=left, frame=lines, firstline=8, lastline=59]{../src/ej3/src/UnionFind.java}
+
+\subsection{Experimentación}
+
+
+Otro de los casos se basa en generar grafos bipartitos completos. En este caso, se les asigna a todos los nodos 0 y 1. Como un grafo bipartito (en particular, uno completo) puede colorearse con dos colores, el algoritmo deberia encontrar una solución para el mismo. Posteriormente, se le añade al grafico una arista que une dos nodos que no estaban conectados, con lo que el grafo deja de ser bipartito y se necesitan 3 colores para colorearlo. En este caso, el algoritmo debería determinar que no existe solución.
+Para testear la complejidad, se generan grafos al azar en donde todos los nodos poseen como opciones de coloreo a un color que no se repite en los demás nodos y otro que es seleccionado al azar. En una de las estrrategias se deja fija la cantidad de aristas, en otra se fija la cantidad de nodos, y en la otro se incrementan las aristas y los nodos en igual proporción.
+
+
+\subsubsection{Constrastación Empírica de la complejidad}
+
+
+% \begin{figure}[H]
+% 	\centering
+%  	\includegraphics[scale=0.6]{imagenes/ej3/tiempos1000B.png}
+% 	\caption{Medición de tiempo promedio con $n$ fijo en 1000}
+% 	%\label{tiemposprom}
+%  \end{figure}

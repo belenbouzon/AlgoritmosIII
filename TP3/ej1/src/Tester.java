@@ -150,7 +150,7 @@ public class Tester {
 		
 		try {
 			Lector lec = new Lector("los_unicos.txt");
-			lec.inicializar_lector();
+			lec.procesar_datos();
 			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores(),lec.cantidad_nodos(),lec.cantidad_aristas(),lec.nodos_del_grafo());
 			String solucion = res.obtener_resolucion();
 			System.out.print(solucion);
@@ -242,7 +242,7 @@ public class Tester {
 	public static String ejecutar(String entrada){
 		try {
 			Lector lec = new Lector(entrada);
-			lec.inicializar_lector();
+			lec.procesar_datos();
 			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores(),lec.cantidad_nodos(),lec.cantidad_aristas(),lec.nodos_del_grafo());
 			String solucion = res.obtener_resolucion();
 			System.out.print(solucion);
@@ -258,8 +258,7 @@ public class Tester {
 	@Test
 	public static long ejecutar_para_test(String entrada){
 		try {
-			Lector lec = new Lector(entrada);
-			lec.cargar_archivo();
+			Lector lec = Lector.crear_lector_cargado(entrada);
 			long inicio = System.nanoTime();
 			lec.procesar_datos();
 			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores(),lec.cantidad_nodos(),lec.cantidad_aristas(),lec.nodos_del_grafo());
@@ -412,7 +411,11 @@ public class Tester {
 
 			Lector lec = new Lector(cant_nodos,cant_aristas,cant_colores,entrada_de_lector[0],entrada_de_lector[1]);
 			long inicio = System.nanoTime();
-			lec.procesar_datos();
+			try {
+				lec.procesar_datos();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores(),lec.cantidad_nodos(),lec.cantidad_aristas(),lec.nodos_del_grafo());
 			res.obtener_resolucion();
 			long fin = System.nanoTime();
@@ -424,7 +427,11 @@ public class Tester {
 
 		Lector lec = new Lector(cant_nodos,cant_aristas,cant_colores,entrada_de_lector[0],entrada_de_lector[1]);
 		long inicio = System.nanoTime();
-		lec.procesar_datos();
+		try {
+			lec.procesar_datos();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores(),lec.cantidad_nodos(),lec.cantidad_aristas(),lec.nodos_del_grafo());
 		res.obtener_resolucion();
 		long fin = System.nanoTime();
@@ -486,7 +493,7 @@ public class Tester {
 		demostrar_correctitud_no_coloreable("grafo casi bipartito", ejecutar("grafo_casi_bipartito.txt"));
 	}
 
-	public static void main(String [] entrada) {
+	public static void main(String [] entrada){
 		if(entrada.length==0){
 			System.out.print("0: generar y comprobar\n1:variación nodos <archivo> <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones> <escala>\n2:variación aristas <archivo> <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones> <escala>\n3:variación nodos sin archivo <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones> <escala>\n4:variación aristas sin archivo <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones> <escala>\n5:variación nodos y aristas <archivo> <nodos minimo> <nodos maximo> <aristas_minimo> <variacion segundo color> <cantidad iteraciones> <escala>\n6:variación nodos y aristas sin archivo <nodos_minimo> <nodos_maximo> <aristas minimo> <variacion segundo color> <cantidad iteraciones> <escala>\n 7: <nodos_minimo> <nodos_maximo> <cantidad iteraciones> <escala>\n");
 			return;

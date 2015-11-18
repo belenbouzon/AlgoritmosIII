@@ -10,6 +10,7 @@ public class Lector {
 	private int _cantidad_colores;
 	private int _cantidad_nodos;
 	private int _cantidad_aristas;
+	private boolean cargado;
 
 	//para testeos de tiempo
 
@@ -24,6 +25,7 @@ public class Lector {
 		this.aristas_sin_procesar = aristas;
 		this._nodos_del_grafo = new ArrayList<Nodo_Coloreable>(this._cantidad_nodos);
 		this.is = null;
+		this.cargado = true;
 	}
 
 	//.....................
@@ -55,9 +57,10 @@ public class Lector {
 		} catch (RuntimeException e){
 			throw new IOException ("No pudo hallarse el archivo especificado." + archivo, e);
 		}
+		this.cargado = false;
 	}
 	
-	public void inicializar_lector() throws IOException{
+	private void inicializar_lector() throws IOException{
 		if(this.is==null){
 			throw new IOException("error, lector no vinculado a archivo");
 		}
@@ -88,10 +91,18 @@ public class Lector {
 			n_1.adyacentes.add(n_2);
 			n_2.adyacentes.add(n_1);
 		}
+		this.is.close();
+	}
+	
+	public static Lector crear_lector_cargado (String entrada) throws IOException{
+		Lector res = new Lector(entrada);
+		res.cargar_archivo();
+		res.cargado = true;
+		return res;
 	}
 
 
-	public void cargar_archivo() throws IOException{
+	private void cargar_archivo() throws IOException{
 		if(this.is==null){
 			throw new IOException("error, lector no vinculado a archivo");
 		}
@@ -112,9 +123,13 @@ public class Lector {
 		for(int i = 0;i<this._cantidad_aristas;i++){
 			this.aristas_sin_procesar[i] = this.leer_palabra();
 		}
+		this.is.close();
 	}
 
-	public void procesar_datos(){
+	public void procesar_datos() throws IOException{
+		if(!this.cargado){
+			this.inicializar_lector();
+		}
 		for(int i = 0;i<this._cantidad_nodos;i++){
 			String nodo_string = this.nodos_sin_procesar[i];
 			String [] nodo_string_procesado = nodo_string.split(" ");
