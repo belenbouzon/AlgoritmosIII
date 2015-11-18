@@ -55,7 +55,7 @@ public class Grafo {
 
 		while(nodosPintados < this.cantidadDeNodos)
 		{
-			colaNodos.add(PicANode(this)); //O(1)
+			colaNodos.add(PicANode(this)); //O(n)
 			
 			while (!colaNodos.isEmpty()) //O(n)
 			{
@@ -65,13 +65,13 @@ public class Grafo {
 				{
 					colaNodos.addAll(this.getVecinosDe(nodoActual)); //O(n)
 					LinkedList<Integer> coloresRestantes = nodoActual.getColoresRestantes(); //O(1)
-					PintarNodo(nodoActual, coloresRestantes, this); //O(1)
+					PintarNodo(nodoActual, coloresRestantes, this); //O(c*n*log(n))
 					nodosPintados ++;
 					nodoActual.setVisitado(true); //O(1)
 				}
 			}
 		}
-		Ej3Utils.PrintGraph(this);
+		//Ej3Utils.PrintGraph(this);
 	}
 	
 	private static Nodo PicANode(Grafo grafo) 
@@ -88,13 +88,13 @@ public class Grafo {
 		return next;
 	}
 	
-	private static void PintarNodo(Nodo nodoActual, LinkedList<Integer> coloresRestantes, Grafo grafo) //O(1)
+	private static void PintarNodo(Nodo nodoActual, LinkedList<Integer> coloresRestantes, Grafo grafo) //O(c*n*log(n))
 	{
-		int colorAPintar = CalcularColorMenosPerjudicial(nodoActual, grafo);
+		int colorAPintar = CalcularColorMenosPerjudicial(nodoActual, grafo); //O(c*n*log(n))
 		nodoActual.setColor(colorAPintar); 
 	}
 
-	private static int CalcularColorMenosPerjudicial(Nodo nodoActual, Grafo grafo) 
+	private static int CalcularColorMenosPerjudicial(Nodo nodoActual, Grafo grafo) //O(c*n*log(n))
 	{
 		Double pesoColor = 1.0;
 		int colorAPintar = -1;
@@ -111,7 +111,7 @@ public class Grafo {
 	}
 
 
-	private static Double CalcularPeso(int color, List<Nodo> vecinos) //da mayor valor cuanto mas riesgoso es pintar del color pasado por parametro
+	private static Double CalcularPeso(int color, List<Nodo> vecinos) 
 	{
 		ArrayList<Double> pesos = new ArrayList<Double>();
 		

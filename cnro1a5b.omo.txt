@@ -1,0 +1,75 @@
+﻿"mas cambios ej 3"
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	modified:   TP3/ej3/.metadata/.mylyn/.tasks.xml.zip
+#	modified:   TP3/ej3/.metadata/.mylyn/tasks.xml.zip
+#	modified:   TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
+#	modified:   TP3/ej3/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.jdt.ui.prefs
+#	modified:   TP3/ej3/.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+#	modified:   TP3/ej3/.metadata/.plugins/org.eclipse.jdt.core/1650688248.index
+#	modified:   TP3/ej3/Ejercicio3/src/Coloring.java
+#	modified:   TP3/ej3/Ejercicio3/src/Nodo.java
+#	modified:   TP3/ej3/GraphPlotter.py
+#
+# Untracked files:
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/17/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/1f/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/22/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/24/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/32/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/35/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/36/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/38/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/41/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/4f/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/5/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/5c/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/69/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/6b/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/6e/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/72/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/7d/20a89d20b68b001510d98b213afecbb1
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/a1/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/a2/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/af/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/c5/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/c9/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/d2/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/d4/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.history/e1/
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.projects/Ejercicio3/.markers.snap
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.projects/Ejercicio3/.syncinfo.snap
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/.root/.markers.snap
+#	TP3/ej3/.metadata/.plugins/org.eclipse.core.resources/11.snap
+#	TP3/ej3/.metadata/.plugins/org.eclipse.epp.logging.aeri.ui/history/write.lock
+#	TP3/ej3/.metadata/.plugins/org.eclipse.jdt.core/1115467115.index
+#	TP3/ej3/.metadata/.plugins/org.eclipse.jdt.core/1299022128.index
+#	TP3/ej3/.metadata/.plugins/org.eclipse.jdt.core/1498219845.index
+#	TP3/ej3/.metadata/.plugins/org.eclipse.jdt.core/163172794.index
+#	TP3/ej3/.metadata/.plugins/org.eclipse.jdt.core/1697886153.index
+#	TP3/ej3/.metadata/.plugins/org.eclipse.jdt.core/1995173708.index
+#	TP3/ej3/.metadata/.plugins/org.eclipse.jdt.core/305854171.index
+#	TP3/ej3/.metadata/.plugins/org.eclipse.jdt.core/3065916431.index
+#	TP3/ej3/.metadata/.plugins/org.eclipse.jdt.core/30765161.index
+#	TP3/ej3/.metadata/.plugins/org.eclipse.jdt.core/3133528496.index
+#	TP3/ej3/.metadata/.plugins/org.eclipse.jdt.core/3974580528.index
+#	TP3/ej3/.metadata/.plugins/org.eclipse.jdt.core/4041092966.index
+#	TP3/ej3/.metadata/.plugins/org.eclipse.jdt.core/4108727661.index
+#	TP3/ej3/.metadata/.plugins/org.eclipse.jdt.core/4155206848.index
+#	TP3/ej3/.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_a.fdt
+#	TP3/ej3/.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_a.fdx
+#	TP3/ej3/.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_a.fnm
+#	TP3/ej3/.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_a.frq
+#	TP3/ej3/.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_a.nrm
+#	TP3/ej3/.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_a.prx
+#	TP3/ej3/.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_a.tii
+#	TP3/ej3/.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_a.tis
+#	TP3/ej3/.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/segments_b
+#	TP3/ej3/.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/write.lock
+#	TP3/ej3/iteraciones.txt
+#
+

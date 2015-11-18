@@ -20,6 +20,12 @@ public class Escritor {
 		catch (IOException e) {throw new Exception ("No se pudo escribir linea");}
 
 	}
+	public void Append (String linea) throws Exception
+	{
+		try {this.os.append(linea);}
+		catch (IOException e) {throw new Exception ("No se pudo escribir linea");}
+
+	}
 	
 	BufferedWriter os;
 	
