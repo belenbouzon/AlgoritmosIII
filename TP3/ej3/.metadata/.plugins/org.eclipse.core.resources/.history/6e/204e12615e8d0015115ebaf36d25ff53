@@ -1,0 +1,47 @@
+
+public abstract class Solucion {
+	
+	Solucion(){}
+	void GenerarSolucion(int cotaMinima, int cotaMaxima)
+	{
+		Escritor archivoDeTiempos = new Escritor("resultadosDeTiempos.out");
+		archivoDeTiempos.Fin();
+
+		Escritor archivoDeConflictos = new Escritor("resultadosDeConflictos.out");
+		archivoDeConflictos.Fin();
+		
+		int cantDeNodos = 1000;
+		int escala = 500;
+		int cantMaximaDeNodos = 5500;
+		
+		while (cantDeNodos <= cantMaximaDeNodos)
+		{
+			
+			GeneradorCasosDeTestsByNodos generador = new GeneradorCasosDeTestsByNodos();
+			String nombreArchivo = generador.GenerarGrafoByCantNodos(cantDeNodos);
+			Lector lector = new Lector(nombreArchivo);	
+
+			
+			Grafo grafo = new Grafo();
+
+			long elapsed = 0;
+			
+		
+			long time0 = System.nanoTime();
+			Grafo grafoResultante = lector.MakeGraph();
+			grafoResultante.MakeRainbow();
+			
+			long time1 = System.nanoTime();
+			
+			elapsed += (time1-time0);
+			grafo = grafoResultante;
+
+
+			EscribirArchivoTiempos(cantDeNodos, elapsed);
+			EscribirArchivoTiempos(cantDeNodos, grafo);
+			
+			cantDeNodos += escala;
+		}
+	}
+
+}
