@@ -60,39 +60,6 @@ public class Lector {
 		this.cargado = false;
 	}
 	
-	private void inicializar_lector() throws IOException{
-		if(this.is==null){
-			throw new IOException("error, lector no vinculado a archivo");
-		}
-		
-		String parametros = this.leer_palabra();
-		String [] parametros_procesados = parametros.split(" ");
-		this._cantidad_nodos = Integer.parseInt(parametros_procesados[0]);
-		this._cantidad_aristas = Integer.parseInt(parametros_procesados[1]);
-		this._cantidad_colores = Integer.parseInt(parametros_procesados[2]);
-		this._nodos_del_grafo = new ArrayList<Nodo_Coloreable>(_cantidad_nodos);
-		for(int i = 0;i<this._cantidad_nodos;i++){
-			String nodo_string = this.leer_palabra();
-			String [] nodo_string_procesado = nodo_string.split(" ");
-			Nodo_Coloreable nuevo = new Nodo_Coloreable(i);
-			nuevo.cantidad_colores = Integer.parseInt(nodo_string_procesado[0]);
-			for(int j=1;j<=nuevo.cantidad_colores;j++){
-				nuevo.colores.agregar_color(Integer.parseInt(nodo_string_procesado[j]));
-			}
-			this._nodos_del_grafo.add(nuevo);
-		}
-		for(int i = 0;i<this._cantidad_aristas;i++){
-			String arista_string = this.leer_palabra();
-			String [] arista_string_procesada = arista_string.split(" ");
-			int nodo_1 = Integer.parseInt(arista_string_procesada[0]);
-			int nodo_2 = Integer.parseInt(arista_string_procesada[1]);
-			Nodo_Coloreable n_1 = this._nodos_del_grafo.get(nodo_1);
-			Nodo_Coloreable n_2 = this._nodos_del_grafo.get(nodo_2);
-			n_1.adyacentes.add(n_2);
-			n_2.adyacentes.add(n_1);
-		}
-		this.is.close();
-	}
 	
 	public static Lector crear_lector_cargado (String entrada) throws IOException{
 		Lector res = new Lector(entrada);
@@ -126,10 +93,50 @@ public class Lector {
 		this.is.close();
 	}
 
-	public void procesar_datos() throws IOException{
+	public void inicializar_lector() throws IOException{
 		if(!this.cargado){
-			this.inicializar_lector();
+			this.cargar_y_procesar();
+		}else{
+			this.procesar_informacion_cargada();
 		}
+		
+	}
+	
+	private void cargar_y_procesar() throws IOException{
+		if(this.is==null){
+			throw new IOException("error, lector no vinculado a archivo");
+		}
+		
+		String parametros = this.leer_palabra();
+		String [] parametros_procesados = parametros.split(" ");
+		this._cantidad_nodos = Integer.parseInt(parametros_procesados[0]);
+		this._cantidad_aristas = Integer.parseInt(parametros_procesados[1]);
+		this._cantidad_colores = Integer.parseInt(parametros_procesados[2]);
+		this._nodos_del_grafo = new ArrayList<Nodo_Coloreable>(_cantidad_nodos);
+		for(int i = 0;i<this._cantidad_nodos;i++){
+			String nodo_string = this.leer_palabra();
+			String [] nodo_string_procesado = nodo_string.split(" ");
+			Nodo_Coloreable nuevo = new Nodo_Coloreable(i);
+			nuevo.cantidad_colores = Integer.parseInt(nodo_string_procesado[0]);
+			for(int j=1;j<=nuevo.cantidad_colores;j++){
+				nuevo.colores.agregar_color(Integer.parseInt(nodo_string_procesado[j]));
+			}
+			this._nodos_del_grafo.add(nuevo);
+		}
+		for(int i = 0;i<this._cantidad_aristas;i++){
+			String arista_string = this.leer_palabra();
+			String [] arista_string_procesada = arista_string.split(" ");
+			int nodo_1 = Integer.parseInt(arista_string_procesada[0]);
+			int nodo_2 = Integer.parseInt(arista_string_procesada[1]);
+			Nodo_Coloreable n_1 = this._nodos_del_grafo.get(nodo_1);
+			Nodo_Coloreable n_2 = this._nodos_del_grafo.get(nodo_2);
+			n_1.adyacentes.add(n_2);
+			n_2.adyacentes.add(n_1);
+		}
+		this.is.close();
+	}
+	
+	private void procesar_informacion_cargada(){
 		for(int i = 0;i<this._cantidad_nodos;i++){
 			String nodo_string = this.nodos_sin_procesar[i];
 			String [] nodo_string_procesado = nodo_string.split(" ");

@@ -9,7 +9,6 @@ public abstract class ColoresPosibles {
 	abstract void agregar_color(int color);
 	abstract boolean color_pertenece(int color);
 	abstract int cantidad_colores();
-	abstract void calcular_coliciones(ColoresPosibles otro);
 	abstract Iterator<Integer> iterador_de_colores();
 	abstract List<Integer> lista_de_colores();
 	abstract void set_color(int index, int color);

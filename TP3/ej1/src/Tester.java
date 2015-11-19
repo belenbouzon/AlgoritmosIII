@@ -28,15 +28,6 @@ public class Tester {
 			this.adyacentes = new LinkedHashSet<Nodo_Tester>();
 		}
 
-
-		public void iniciar_indices(int cant_nodos){
-			/*this.indices = new int[cant_nodos];
-			for(int i = 0;i<cant_nodos;i++){
-				this.indices[i] = i;
-			}
-			this.indices[this.id] = (this.id+1)%cant_nodos;*/
-		}
-
 		public Nodo_Tester(int ident,int color){
 			this.id = ident;
 			this.adyacentes = new LinkedHashSet<Nodo_Tester>();
@@ -150,7 +141,7 @@ public class Tester {
 		
 		try {
 			Lector lec = new Lector("los_unicos.txt");
-			lec.procesar_datos();
+			lec.inicializar_lector();
 			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores(),lec.cantidad_nodos(),lec.cantidad_aristas(),lec.nodos_del_grafo());
 			String solucion = res.obtener_resolucion();
 			System.out.print(solucion);
@@ -199,14 +190,13 @@ public class Tester {
 		vincular_nodos(lista,0,1);
 		vincular_nodos(lista,0,2);
 		vincular_nodos(lista,1,2);
-		imprimir_a_archivo("el triangulo",lista,3,3,3);
+		imprimir_a_archivo("el_triangulo.txt",lista,3,3,3);
 		demostrar_correctitud("el triangulo",lista,ejecutar("el_triangulo.txt"));
 		
 		lista.add(new Nodo_Tester(3,1));
 		vincular_nodos(lista,3,0);
-		imprimir_a_archivo("el triangulo_2",lista,4,4,3);
-		//demostrar_correctitud("el triangulo_2",lista,ejecutar("el_triangulo_2.txt"));
-		ejecutar("el_triangulo_2.txt");
+		imprimir_a_archivo("el_triangulo_2.txt",lista,4,4,3);
+		Tester.demostrar_correctitud_no_coloreable("triangulo con punta",ejecutar("el_triangulo_2.txt"));
 		
 	}
 
@@ -242,7 +232,7 @@ public class Tester {
 	public static String ejecutar(String entrada){
 		try {
 			Lector lec = new Lector(entrada);
-			lec.procesar_datos();
+			lec.inicializar_lector();
 			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores(),lec.cantidad_nodos(),lec.cantidad_aristas(),lec.nodos_del_grafo());
 			String solucion = res.obtener_resolucion();
 			System.out.print(solucion);
@@ -260,7 +250,7 @@ public class Tester {
 		try {
 			Lector lec = Lector.crear_lector_cargado(entrada);
 			long inicio = System.nanoTime();
-			lec.procesar_datos();
+			lec.inicializar_lector();
 			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores(),lec.cantidad_nodos(),lec.cantidad_aristas(),lec.nodos_del_grafo());
 			res.obtener_resolucion();
 			long fin = System.nanoTime();
@@ -317,28 +307,24 @@ public class Tester {
 		int[] indices = new int[cant_nodos];
 		for(int i = 0;i<cant_nodos;i++){
 			Nodo_Tester nuevo = new Nodo_Tester(i,rand.nextInt(variacion_segundo_color),i);
-			nuevo.iniciar_indices(cant_nodos);
 			lista.add(nuevo);
 			indices[i] = i;
 		}
 
 		int i = 0;
-		int aristas_desechadas = 0;
 		while(i<=cant_aristas){
 			Nodo_Tester nodo_1 = lista.get(recuperar_indice(indices,rand.nextInt(cant_nodos)));
 			Nodo_Tester nodo_2 = lista.get(recuperar_indice(indices,rand.nextInt(cant_nodos)));
 			if(nodo_1!=nodo_2 && vincular_nodos(lista,nodo_1.id,nodo_2.id)){
 				i++;
 				
-				//Si el nodo alcanzo grado maximo no puede salir 
+				//Si el nodo alcanzo grado maximo no puede salir seleccionado
 				if(nodo_1.adyacentes.size()>= cant_nodos-1){
 					indices[nodo_1.id] = indices[(nodo_1.id+1)%cant_nodos];
 				}
 				if(nodo_2.adyacentes.size()>= cant_nodos-1){
 					indices[nodo_2.id] = indices[(nodo_2.id+1)%cant_nodos];
 				}
-			} else{
-				aristas_desechadas ++;
 			}
 		}
 		int color_maximo;
@@ -350,8 +336,6 @@ public class Tester {
 		if(salida_de_archivo!=null){
 			imprimir_a_archivo(salida_de_archivo, lista,cant_nodos,cant_aristas,color_maximo);
 		}
-		//TODO borrar siguiente linea
-		System.err.printf("aristas desechadas: %d\n", aristas_desechadas);
 		return lista;
 	}
 
@@ -412,7 +396,7 @@ public class Tester {
 			Lector lec = new Lector(cant_nodos,cant_aristas,cant_colores,entrada_de_lector[0],entrada_de_lector[1]);
 			long inicio = System.nanoTime();
 			try {
-				lec.procesar_datos();
+				lec.inicializar_lector();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -428,7 +412,7 @@ public class Tester {
 		Lector lec = new Lector(cant_nodos,cant_aristas,cant_colores,entrada_de_lector[0],entrada_de_lector[1]);
 		long inicio = System.nanoTime();
 		try {
-			lec.procesar_datos();
+			lec.inicializar_lector();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -484,10 +468,6 @@ public class Tester {
 		}
 		imprimir_a_archivo("grafo_bipartito.txt", list, cant_nodos, cant_aristas, 2);
 		demostrar_correctitud("grafo bipartito",list,ejecutar("grafo_bipartito.txt"));
-		/*Random numero = new Random();
-		int nodo_brecha_1 = numero.nextInt(cant_nodos/2)*2;
-		int nodo_brecha_2 = (numero.nextInt(cant_nodos/2) +1)*2;
-		vincular_nodos(list,nodo_brecha_1,nodo_brecha_2);*/
 		vincular_nodos(list,0,2);
 		imprimir_a_archivo("grafo_casi_bipartito.txt", list, cant_nodos, cant_aristas, 2);
 		demostrar_correctitud_no_coloreable("grafo casi bipartito", ejecutar("grafo_casi_bipartito.txt"));
@@ -495,7 +475,7 @@ public class Tester {
 
 	public static void main(String [] entrada){
 		if(entrada.length==0){
-			System.out.print("0: generar y comprobar\n1:variación nodos <archivo> <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones> <escala>\n2:variación aristas <archivo> <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones> <escala>\n3:variación nodos sin archivo <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones> <escala>\n4:variación aristas sin archivo <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones> <escala>\n5:variación nodos y aristas <archivo> <nodos minimo> <nodos maximo> <aristas_minimo> <variacion segundo color> <cantidad iteraciones> <escala>\n6:variación nodos y aristas sin archivo <nodos_minimo> <nodos_maximo> <aristas minimo> <variacion segundo color> <cantidad iteraciones> <escala>\n 7: <nodos_minimo> <nodos_maximo> <cantidad iteraciones> <escala>\n");
+			System.out.print("0: generar y comprobar\n1:variación nodos <archivo> <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones> <escala>\n2:variación aristas <archivo> <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones> <escala>\n3:variación nodos sin archivo <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones> <escala>\n4:variación aristas sin archivo <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones> <escala>\n5:variación nodos y aristas <archivo> <nodos minimo> <nodos maximo> <aristas_minimo> <variacion segundo color> <cantidad iteraciones> <escala>\n6:variación nodos y aristas sin archivo <nodos_minimo> <nodos_maximo> <aristas minimo> <variacion segundo color> <cantidad iteraciones> <escala>\n 7: grafo completo: <nodos_minimo> <nodos_maximo> <cantidad iteraciones> <escala>\n8: Testar grafo bipartito completo: <cantidad_nodos>\n");
 			return;
 		}
 		int primer_parametro = Integer.parseInt(entrada[0]);
@@ -643,7 +623,7 @@ public class Tester {
 			int cantidad_nodos = Integer.parseInt(entrada[1]);
 			testear_grafo_bipartito_completo(cantidad_nodos);
 		}else{
-			System.out.print("0: generar y comprobar\n1:variación nodos <archivo> <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones> <escala>\n2:variación aristas <archivo> <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones> <escala>\n3:variación nodos sin archivo <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones> <escala>\n4:variación aristas sin archivo <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones> <escala>\n5:variación nodos y aristas <archivo> <nodos minimo> <nodos maximo> <aristas_minimo> <variacion segundo color> <cantidad iteraciones> <escala>\n6:variación nodos y aristas sin archivo <nodos_minimo> <nodos_maximo> <aristas minimo> <variacion segundo color> <cantidad iteraciones> <escala>\n 7: <nodos_minimo> <nodos_maximo> <cantidad iteraciones> <escala>\n");
+			System.out.print("0: generar y comprobar\n1:variación nodos <archivo> <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones> <escala>\n2:variación aristas <archivo> <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones> <escala>\n3:variación nodos sin archivo <nodos minimo> <nodos maximo> <aristas> <variacion segundo color> <cantidad iteraciones> <escala>\n4:variación aristas sin archivo <nodos> <aristas minimo> <aristas maximo> <variacion segundo color> <cantidad iteraciones> <escala>\n5:variación nodos y aristas <archivo> <nodos minimo> <nodos maximo> <aristas_minimo> <variacion segundo color> <cantidad iteraciones> <escala>\n6:variación nodos y aristas sin archivo <nodos_minimo> <nodos_maximo> <aristas minimo> <variacion segundo color> <cantidad iteraciones> <escala>\n 7: grafo completo: <nodos_minimo> <nodos_maximo> <cantidad iteraciones> <escala>\n8: Testar grafo bipartito completo: <cantidad_nodos>\n");
 		}
 
 	}

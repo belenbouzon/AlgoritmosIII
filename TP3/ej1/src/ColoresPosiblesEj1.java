@@ -74,12 +74,6 @@ public class ColoresPosiblesEj1 extends ColoresPosibles{
 	}
 
 	@Override
-	void calcular_coliciones(ColoresPosibles otro) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	Iterator<Integer> iterador_de_colores() {
 		return this.colores.iterator();
 	}

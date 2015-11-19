@@ -23,21 +23,29 @@ El algoritmo utilizado para encontrar las componentes fuertemente conexas no rec
 
 \subsection{Código fuente}
 
-% A continuación se incluyen las partes más relevantes del código.\\
-% La clase \emph{Main.java} se basa en crear el grafo con la lista $ps$ y llamar a \textit{kruskal}:
-% \lstinputlisting[name=pp, numbers=left, frame=lines, firstline=33, lastline=35]{../src/ej3/src/Main.java}
-% Los métodos que manipulan al grafo que se encuentran en la clase \emph{Grafo.java}
-% \lstinputlisting[name=gr, numbers=left, frame=lines, firstline=11, lastline=46]{../src/ej3/src/Grafo.java}
-% %\newpage
-% Por último la clase \emph{UnionFind.java}
-% \lstinputlisting[name=uf, numbers=left, frame=lines, firstline=8, lastline=59]{../src/ej3/src/UnionFind.java}
+A continuación se incluyen las partes más relevantes del código.\\
+La clase lector se encarga de leer la entrada y transforla en un grafo. Como en los test de complejidad es importante no medir el tiempo que se tarda en cargar el archivo en memoria, el Lector posee funciones para cargar la información sin procesar.
+\lstinputlisting[name=pp, numbers=left, frame=lines, firstline=105, lastline=161]{../ej1/src/Lector.java}
+Los metodos que construyen el coloreo se encuentran en Calculador_de_Coloracion_Ej1 \\
+\lstinputlisting[name=gr, numbers=left, frame=lines, firstline=114, lastline=128]{../ej1/src/Calculador_de_Coloracion_Ej1.java}
 
 \subsection{Experimentación}
-
-
+Casos de test:
+\subsubsection{El triángulo}
+En este test existen tres nodos interconextados en donde cada nodo comparte un color con uno de sus vecinos. El algoritmo debería encontrar la única solución posible.
+Posteriormente, se le añade al triangulo un nodo extra vecino del primero con el color con el cual estaba pintado el primero, con lo cual no existe solución.
+\subsubsection{El pentagono}
+En esta oportunidad, se dibuja un k5. Cada nodo tiene como opción un color que no se repite en sus compañeros y otro que es compartido por más de uno. El algoritmo debería encontrar una solución
+\subsubsection{El señor de los anillos}
+En este caso se prueba un ciclo de seis nodos. A los pares se les asigna 0 y a los impares uno, y además todos poseen un segundo color que comparten con uno de sus vecinos. Como el grafo es bipartito, el algoritmo debería hallar una solución.
+\subsubsection{Grafos bipartitos completos}
 Otro de los casos se basa en generar grafos bipartitos completos. En este caso, se les asigna a todos los nodos 0 y 1. Como un grafo bipartito (en particular, uno completo) puede colorearse con dos colores, el algoritmo deberia encontrar una solución para el mismo. Posteriormente, se le añade al grafico una arista que une dos nodos que no estaban conectados, con lo que el grafo deja de ser bipartito y se necesitan 3 colores para colorearlo. En este caso, el algoritmo debería determinar que no existe solución.
+
+\subsubsection{Testeos de complejidad}
 Para testear la complejidad, se generan grafos al azar en donde todos los nodos poseen como opciones de coloreo a un color que no se repite en los demás nodos y otro que es seleccionado al azar. En una de las estrrategias se deja fija la cantidad de aristas, en otra se fija la cantidad de nodos, y en la otro se incrementan las aristas y los nodos en igual proporción.
 
+\subsubsection{Complejidad en grafos completos}
+En un último caso se generan grafos completos en donde se a incrementando la cantidad de nodos (y, logicamente, de aristas). Debido al consumo de memoria, este último caso se ha testeado con valores inferiores que al resto de los test.
 
 \subsubsection{Constrastación Empírica de la complejidad}
 
