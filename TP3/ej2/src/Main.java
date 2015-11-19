@@ -4,8 +4,6 @@ import java.util.ListIterator;
 public class Main {
 
 	private static int cantNodos;
-	private static int cantAristas;
-	private static int cantColores;
 	private static ArrayList<Nodo_Coloreable_ej2> grafo;
 	private static ArrayList<Nodo_Coloreable> grafo2colores;
 	private static String solucion;
@@ -30,8 +28,6 @@ public class Main {
 		time0 = System.nanoTime();
 		reader.inicializar_lector();
 		cantNodos = reader.cantNodos();
-		cantAristas = reader.cantAristas();
-		cantColores = reader.cantColores();
 		grafo = reader.getGrafo();
 		grafo2colores = reader.getGrafo2colores();
 
@@ -43,15 +39,18 @@ public class Main {
 			System.out.printf("%d-%s\n", cantNodos, Long.toString(time1));
 		}
 		//imprimir solucion
-		//System.out.printf("%s\n", solucion);
+		System.out.printf("%s\n", solucion);
 		return;
 	}
 
 	private static boolean listColoring(int id){
+		System.out.printf("id %s\n", id);
 		if (id == cantNodos) {
 			//llamo a 2listColoring
-			solucion = new Calculador_de_Coloracion_Ej1(cantColores, cantNodos, cantAristas, grafo2colores).obtener_resolucion();
-			return solucion != "X";
+			solucion = new Calculador_de_Coloracion_Ej1(cantNodos, grafo2colores).obtener_resolucion();
+			System.out.printf("p %s\n", solucion);
+			boolean res = solucion.equals("X");
+			return !res;
 		}
 
 		Nodo_Coloreable_ej2 nodo = grafo.get(id);
@@ -73,7 +72,8 @@ public class Main {
 					int color2 = it2.next();
 					//Agrego color2
 					coloresSeleccionados.set_color(1, color2);
-					if(listColoring(id)){
+					boolean esSolucion = listColoring(id);
+					if(esSolucion){
 						return true;
 					}
 				}

@@ -8,20 +8,11 @@ public class Lector {
 	private ArrayList<Nodo_Coloreable_ej2> nodos_del_grafo;
 	private ArrayList<Nodo_Coloreable> grafo_2colores;
 	private BufferedReader is;
-	private int cantidad_colores;
 	private int cantidad_nodos;
 	private int cantidad_aristas;
 
 	public int cantNodos(){
 		return cantidad_nodos;
-	}
-	
-	public int cantAristas(){
-		return cantidad_aristas;
-	}
-	
-	public int cantColores(){
-		return cantidad_colores;
 	}
 
 	public ArrayList<Nodo_Coloreable_ej2> getGrafo(){
@@ -51,7 +42,6 @@ public class Lector {
 		String [] parametros_procesados = parametros.split(" ");
 		this.cantidad_nodos = Integer.parseInt(parametros_procesados[0]);
 		this.cantidad_aristas = Integer.parseInt(parametros_procesados[1]);
-		this.cantidad_colores = Integer.parseInt(parametros_procesados[2]);
 		
 		this.nodos_del_grafo = new ArrayList<Nodo_Coloreable_ej2>(cantidad_nodos);
 		this.grafo_2colores = new ArrayList<Nodo_Coloreable>(cantidad_nodos);
