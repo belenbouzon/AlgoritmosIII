@@ -142,7 +142,7 @@ public class Tester {
 		try {
 			Lector lec = new Lector("los_unicos.txt");
 			lec.inicializar_lector();
-			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores(),lec.cantidad_nodos(),lec.cantidad_aristas(),lec.nodos_del_grafo());
+			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_nodos(),lec.nodos_del_grafo());
 			String solucion = res.obtener_resolucion();
 			System.out.print(solucion);
 			System.out.print("\n");
@@ -233,7 +233,7 @@ public class Tester {
 		try {
 			Lector lec = new Lector(entrada);
 			lec.inicializar_lector();
-			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores(),lec.cantidad_nodos(),lec.cantidad_aristas(),lec.nodos_del_grafo());
+			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_nodos(),lec.nodos_del_grafo());
 			String solucion = res.obtener_resolucion();
 			System.out.print(solucion);
 			System.out.print("\n");
@@ -251,7 +251,7 @@ public class Tester {
 			Lector lec = Lector.crear_lector_cargado(entrada);
 			long inicio = System.nanoTime();
 			lec.inicializar_lector();
-			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores(),lec.cantidad_nodos(),lec.cantidad_aristas(),lec.nodos_del_grafo());
+			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_nodos(),lec.nodos_del_grafo());
 			res.obtener_resolucion();
 			long fin = System.nanoTime();
 			return fin - inicio;
@@ -358,6 +358,7 @@ public class Tester {
 			System.out.print("correcto\n");
 		}else{
 			System.out.print("fallo\n");
+			System.out.printf("solución fallida: %s\n", solucion);
 		}
 	}
 
@@ -400,7 +401,7 @@ public class Tester {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores(),lec.cantidad_nodos(),lec.cantidad_aristas(),lec.nodos_del_grafo());
+			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_nodos(),lec.nodos_del_grafo());
 			res.obtener_resolucion();
 			long fin = System.nanoTime();
 			return fin-inicio;
@@ -416,7 +417,7 @@ public class Tester {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_colores(),lec.cantidad_nodos(),lec.cantidad_aristas(),lec.nodos_del_grafo());
+		Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_nodos(),lec.nodos_del_grafo());
 		res.obtener_resolucion();
 		long fin = System.nanoTime();
 		return fin-inicio;
@@ -633,5 +634,19 @@ public class Tester {
 			res += i;
 		}
 		return res;
+	}
+	
+	private static void prueba_especifica(){
+		ArrayList<Nodo_Tester> l = new ArrayList<Nodo_Tester>(3);
+		l.add(new Nodo_Tester(0,0));
+		l.add(new Nodo_Tester(1,1));
+		l.add(new Nodo_Tester(2,0));
+		vincular_nodos(l,0,1);
+		vincular_nodos(l,0,2);
+		vincular_nodos(l,1,2);
+		
+		imprimir_a_archivo("renegado.txt",l,3,3,2);
+		
+		demostrar_correctitud_no_coloreable("renegado",ejecutar("renegado.txt"));
 	}
 }
