@@ -21,8 +21,6 @@ public class Main {
 		}
 
 		Lector reader = new Lector(args[0]);
-		// genera el .out con el mismo nombre que la entrada.
-		// Escritor esc = new Escritor(args[0]);
 
 		//while para mas de una instancia?
 		time0 = System.nanoTime();
@@ -39,7 +37,10 @@ public class Main {
 			System.out.printf("%d-%s\n", cantNodos, Long.toString(time1));
 		}
 		//imprimir solucion
-		System.out.printf("%s\n", solucion);
+		// genera el .out con el mismo nombre que la entrada.
+		Escritor writer = new Escritor(args[0]);
+		writer.EscribirSolucion(solucion);
+		//System.out.printf("%s\n", solucion);
 		return;
 	}
 
