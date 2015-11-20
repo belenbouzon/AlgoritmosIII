@@ -44,13 +44,10 @@ public class Main {
 	}
 
 	private static boolean listColoring(int id){
-		System.out.printf("id %s\n", id);
 		if (id == cantNodos) {
 			//llamo a 2listColoring
 			solucion = new Calculador_de_Coloracion_Ej1(cantNodos, grafo2colores).obtener_resolucion();
-			System.out.printf("p %s\n", solucion);
-			boolean res = solucion.equals("X");
-			return !res;
+			return !solucion.equals("X");
 		}
 
 		Nodo_Coloreable_ej2 nodo = grafo.get(id);
@@ -72,8 +69,7 @@ public class Main {
 					int color2 = it2.next();
 					//Agrego color2
 					coloresSeleccionados.set_color(1, color2);
-					boolean esSolucion = listColoring(id);
-					if(esSolucion){
+					if(listColoring(id)){
 						return true;
 					}
 				}
