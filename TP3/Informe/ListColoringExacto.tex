@@ -2,10 +2,17 @@
 \section{Problema 2: Algoritmo Exacto para List Coloring}
 
 \subsection{Descripción de la problemática}
+En esta oportunidad se nos pide resolver el problema List Coloring que consiste en (si es posible) colorear un grafo de forma que ningún nodo tenga el mismo color que un nodo adyacente, respetando la lista de colores de cada nodo, lo cual quiere decir que no se le puede asignar un color a un nodo si este no pertenecía a su lista de colores posibles. 
 
 \subsection{Resolución propuesta y justificación}
 
-El pseudocódigo de nuestro algoritmo es el siguiente:
+Para desarrollar un algoritmo exacto para este problema decidimos usar backtracking y de esta forma recorrer todas las opciones de colores y poder encontrar la solución si esta existe.\\
+
+Como el enunciado pide que al llegar a un caso de 2-List Coloring se utilice el algoritmo del primer punto, decidimos cambiar el enfoque de la resolución para poder adaptarlo a instancias del ejercicio 1. Por lo tanto en lugar de usar el enfoque convencional que sería fijar un color para cada nodo y ver si es solución, optamos por recorrer todos los nodos del grafo fijando dos colores por cada uno y al llegar al último nodo llamar a 2-list Coloring para que chequee si con esa configuración de colores hay solución. Si la respuesta es $"X"$ entonces se selecciona el siguiente color del último nodo y se vuelve a probar. Cuando se acaban los colores del último, se elije el próximo color del ante último y se vuelve a empezar de cero con los colores del siguiente y así hasta que se prueben todos los colores de todos los nodos. De esta forma siempre se llega a un caso base que es resoluble por 2-List Coloring.\\
+
+Para evitar repetir colores se utilizan dos iteradores, el primero (\emph{it}) siempre arranca desde el primer color de la lista y el segundo (\emph{it2}) arranca desde el índice siguiente al de \emph{it}. De esta forma se generan todas las permutaciones de dos colores sin repeticiones ni omisiones.
+
+% El pseudocódigo de nuestro algoritmo es el siguiente:
 
 % \begin{algorithmic} 
 
@@ -21,24 +28,31 @@ El pseudocódigo de nuestro algoritmo es el siguiente:
 % \STATE \texttt{devolver $suma$}
 % \end{algorithmic} 
 
-\subsection{Análisis de la complejidad}
+\subsubsection{Podas}
+
+\begin{itemize}
+	\item Una forma de poda sería no llamar a 2-List Coloring con un nodo que tenga los colores $\{0, 1\}$ y luego volverlo a llamar con el mismo nodo con los colores $\{1, 0\}$ por ese motivo se recorren las listas de colores de la forma que explicamos antes.
+	\item También se evitan varios chequeos al llamar directamente a 2-List Coloring si el nodo original tiene un solo color.
+	\item Si se llega a una solución, se corta el backtracking y se devuelve esa. De esta forma en el caso promedio y mejor, no se recorrería todo el árbol de soluciones ya que no necesita encontrar todas las posibles.
+\end{itemize}
+
+% \subsection{Análisis de la complejidad}
 
 \subsection{Código fuente}
 
-% A continuación se incluyen las partes más relevantes del código.\\
-% La clase \emph{Main.java} se basa en crear el grafo con la lista $ps$ y llamar a \textit{kruskal}:
-% \lstinputlisting[name=pp, numbers=left, frame=lines, firstline=33, lastline=35]{../src/ej3/src/Main.java}
-% Los métodos que manipulan al grafo que se encuentran en la clase \emph{Grafo.java}
-% \lstinputlisting[name=gr, numbers=left, frame=lines, firstline=11, lastline=46]{../src/ej3/src/Grafo.java}
-% %\newpage
-% Por último la clase \emph{UnionFind.java}
-% \lstinputlisting[name=uf, numbers=left, frame=lines, firstline=8, lastline=59]{../src/ej3/src/UnionFind.java}
+A continuación se incluyen las partes más relevantes del código.\\
+La clase \emph{Main.java} se encarga de hacer el backtracking para recorrer todos los nodos fijando de a dos colores:
+\lstinputlisting[name=main, numbers=left, frame=lines, firstline=47, lastline=80]{../ej2/src/Main.java}
+La clase \emph{Lector.java} se encarga de leer el input y transformarlo en dos grafos, uno que contiene todos los colores y el otro que tiene un máximo de dos colores para poder pasarselo como parámetro a \emph{2ListColoring}.
+\lstinputlisting[name=lec, numbers=left, frame=lines, firstline=40, lastline=83]{../ej2/src/Lector.java}
+La clase \emph{Nodo_Coloreable_ej2} es muy similar a la clase \emph{Nodo_Coloreable_ej1}, lo único que cambia es que esta acepta una lista de mas de dos colores.
+\lstinputlisting[name=nc, numbers=left, frame=lines, firstline=12, lastline=16]{../ej2/src/Nodo\string_Coloreable\string_ej2.java}
 
-\subsection{Experimentación}
+% \subsection{Experimentación}
 
-\subsubsection{Constrastación Empírica de la complejidad}
-\subsubsection{Mejor Caso}
-\subsubsection{Peor caso}
+% \subsubsection{Constrastación Empírica de la complejidad}
+% \subsubsection{Mejor Caso}
+% \subsubsection{Peor caso}
 
 % \begin{figure}[H]
 % 	\centering
