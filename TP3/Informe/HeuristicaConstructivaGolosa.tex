@@ -309,7 +309,7 @@ Por otro lado, generamos grafos que diferían entre sí únicamente en su cantid
     \end{center}
   \end{figure}
 
-Así mismo, reaizamos una serie de experimentos en los que modificamos para cada grafo la cantidad de colores máxima que cada uno de ellos podía tener. Con los resultados obtenidos se generó la ilustración \ref{colorestiempo}
+Así mismo, realizamos una serie de experimentos en los que modificamos para cada grafo la cantidad máxima de colores que cada uno de ellos podía tener. Con los resultados obtenidos se generó la ilustración \ref{colorestiempo}
 
  \begin{figure}[H]
     \begin{center}
@@ -319,9 +319,10 @@ Así mismo, reaizamos una serie de experimentos en los que modificamos para cada
     \end{center}
   \end{figure}
 
-La misma parece indicar que el tiempo de cómputo dependiera linealmente de la cantidad de colores máxima del grafo \textcolor{red}{COMPLETAR POR QUE TIENE SENTIDO}\\
+La misma parece indicar que el tiempo de cómputo dependiera linealmente de la cantidad de colores máxima del grafo. Para entenderlo, hay que considerar que la elección de un color para cada vértice implica haber recorrido cada uno de sus colores. Es decir, es necesario hacer N veces C (a lo sumo). De esta forma, al incrementar la cantidad de colores se realiza una iteración más costosa por cada nodo que no deja de ser lineal.\\
 
-Por último analizamos que ocurre con la cantidad de conflictos presentes luego del coloreo en función de la cantidad de colores disponibles para realizarlo. Tal como esperábamos a medida que se incrementa el módulo del conjunto de colores, disminuye la cantidad de conflictos. \textcolor{red}{COMPLETAR POR QUE TIENE SENTIDO}\\ 
+Por último analizamos qué ocurre con la cantidad de conflictos presentes luego del coloreo en función de la cantidad de colores disponibles para realizarlo. Tal como esperábamos a medida que se incrementa el módulo del conjunto de colores, disminuye la cantidad de conflictos. \\
+En este caso los resultados resultan intuitivos, puesto que si se dispone de un único color entonces todos aquellos nodos que tengan adyacentes generarán conflictos, puesto que todos ellos tienen una única opción para colorearse. En contrapartida, sabemos que cualquier grafo requiere para ser coloreado a lo sumo tantos colores como cantidad de vértices contenga. En un punto intermedio, como cada nodo tiene potencialmente una cantidad de restricciones intermedia, también la cantidad de conflictos se espera que sea media (es decir, si dos nodos adyacentes comparten colores, siempre existe la posibilidad de que elijan uno distinto cada uno)  \\
 Los resultados se pueden observar en la imagen \ref{coloresconflicto}
 
 
@@ -336,12 +337,12 @@ Los resultados se pueden observar en la imagen \ref{coloresconflicto}
 \subsubsection{Peor caso}
 Considerando la heurística propuesta, el peor caso a considerar es aquel en que todos los nodos tienen n - 1 nodos adyacentes (es decir un grafo completo). En esta situación el método PintarNodo() - que  se encarga de decidir qué color de los disponibles parecería el apropiado para cada vértice - cumple la cota teórica propuesta, pues debe hacer tantas operaciones como cantidad de vecinos del nodo que  se examina.\\
 
-Además se debe considerar la relación entre la cantidad de colores y la de nodos, puesto que al estar la complejidad fuertemente influida por ambos valores, el que determine finalmente los tiempos de ejecución en el peor caso será aquel cuya cota inferior sea la mayor entre ambas. En otras palabras, si el valor de C fuese equivalente en cada caso a $N^{N}$  (un caso irrisorio pero posible) entonces la cota superior estaría determinada en última instancia por el valor de C, disolviendo en el infinito la complejidad aportada por N\\\textcolor{red}{EXPLICAR COMO CONCUERDA CON EL ALGORITMO}
+Además se debe considerar la relación entre la cantidad de colores y la de nodos, puesto que al estar la complejidad fuertemente influida por ambos valores, el que determine finalmente los tiempos de ejecución en el peor caso será aquel cuya cota inferior sea la mayor entre ambas. En otras palabras, si el valor de C fuese equivalente en cada caso a $N^{N}$  (un caso irrisorio - dado que cualquier grafo necesita a lo sumo N colores para colorearse - pero posible) entonces la cota superior estaría determinada en última instancia por el valor de C, absorbiendo asintóticamente la complejidad aportada por N. \\
 Por el contrario, si C fuese menor que la cantidad de vértices entonces la cota superior de la heurística propuesta pertenecería a O( $N^{3}$ * log (N) )
 
 
 \subsubsection{Mejor caso}
-Por lo antedicho, el mejor caso se constituye tomando un grafo donde todos sus vértices sean aislados. De esta manera, todos y cada uno de ellos podría ser coloreado indistintamente con cualquiera de sus colores disponibles. Sin embargo el conjunto de colores seguiría siendo iterado en su totalidad.
+Por lo antedicho, el mejor caso se constituye tomando un grafo donde todos sus vértices son aislados. De esta manera, todos y cada uno de ellos podría ser coloreado indistintamente con cualquiera de sus colores disponibles. Sin embargo el conjunto de colores seguiría siendo iterado en su totalidad.
 
 
 
