@@ -4,3 +4,7 @@
 1447760924798	Extract method 'EscribirArchivoTiempos'
 1447787219974	Delete element
 1447808898605	Delete element
+1447958632106	Extract method 'GenerarTestEnFuncionDeColores'
+1447958728600	Extract method 'CrearArchivosDeSalida'
+1447958913351	Rename method 'GenerarGrafoByCantColores'
+1447958952981	Rename method 'GenerarGrafoByCantAristas'

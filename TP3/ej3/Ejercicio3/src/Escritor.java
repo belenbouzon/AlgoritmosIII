@@ -80,7 +80,7 @@ public class Escritor {
 			this.escribirArista(iterator.next());
 	}
 
-	private HashSet<Arista> GenerarAristas(int cantAristas, int cantNodos) 
+	public HashSet<Arista> GenerarAristas(int cantAristas, int cantNodos) 
 	{
 		HashSet<Arista> aristas = new HashSet<Arista>();
 		Random random = new Random();

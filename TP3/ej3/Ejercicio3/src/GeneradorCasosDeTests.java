@@ -32,7 +32,7 @@ public class GeneradorCasosDeTests
 		escritor.Fin();	
 	}
 
-	public String GenerarGrafoByCantAristas(int cantDeNodos, int cantDeAristas) throws Exception 
+	public String GenerarArchivoDeGrafoByCantAristas(int cantDeNodos, int cantDeAristas) throws Exception 
 	{
 		this.cantNodos        = cantDeNodos;
 		this.cantAristas      = cantDeAristas;
@@ -44,7 +44,7 @@ public class GeneradorCasosDeTests
 		return nombreDeArchivo;
 	}
 
-	public String GenerarGrafoByCantColores(int cantDeNodos, int cantDeAristas, int cantColores) throws Exception 
+	public String GenerarArchivoDeGrafoByCantColores(int cantDeNodos, int cantDeAristas, int cantColores) throws Exception 
 	{
 		this.cantNodos        = cantDeNodos;
 		this.cantAristas      = cantDeAristas;
@@ -54,5 +54,11 @@ public class GeneradorCasosDeTests
 		CrearArchivoDeGrafo(nombreDeArchivo);
 		
 		return nombreDeArchivo;
+	}
+
+	public String GenerarArchivoDeGrafoSinAristas(int cantDeNodos) throws Exception 
+	{
+		return GenerarArchivoDeGrafoByCantAristas(cantDeNodos,0);
+		
 	}	    	
 }

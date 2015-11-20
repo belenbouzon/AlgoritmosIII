@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class Ej3Utils {
 
@@ -57,5 +59,19 @@ public class Ej3Utils {
 		System.out.print(stringIteracion);
 		
 
+	}
+	
+	public static HashSet<Arista> GenerarAristas(int cantAristas, int cantNodos) 
+	{
+		HashSet<Arista> aristas = new HashSet<Arista>();
+		Random random = new Random();
+		while (aristas.size() < cantAristas)
+		{
+			int inicio = random.nextInt(cantNodos);
+			int destino = random.nextInt(cantNodos);
+			if (inicio != destino)
+				aristas.add(new Arista(inicio,destino));
+		}
+		return aristas;
 	}
 }

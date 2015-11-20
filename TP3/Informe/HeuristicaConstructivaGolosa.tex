@@ -268,7 +268,7 @@ La clase \emph{Grafo.java} contiene el método \textit{MakeRainbow()} que colore
 A continuación se presenta el pseudocódigo del coloreo implementado:
 
 \begin{algorithmic} 
-\WHILE{nodos pintados < cantidad de nodos //O(n)} 
+\WHILE{nodos pintados $\leq$ cantidad de nodos //O(n)} 
 	\STATE {Elegir un nodo no visitado del grafo // O(n)}
 	\STATE {Encolarlo //O(1)}
 	\WHILE{hay elementos en la cola}  
@@ -282,17 +282,66 @@ A continuación se presenta el pseudocódigo del coloreo implementado:
 \end{algorithmic}
 
 
-El ciclo principal se ejecuta porque dentro del bucle anidado sólo se colorea una componente conexa por vez. Verificando que el algoritmo funcione hasta que la cantidad de nodos pintados sea efectivamente la cantidad de nodos total, y escogiendo cada vez un nodo de una componente no visitada podemos asegurarnos de que el coloreo se realiza sobre la totalidad del grafo.\\
-El método \textit{PintarNodo()} tiene como cota superior O(n*c*log(n)). Como se puede ver en el código, dicha complejidad la alcanza al calcular el color menos perjudicial (método \textit{CalcularColorMenosPerjudicial(nodo,grafo)}). En él para cada color C del nodo examinado calcula su peso chequeando si C pertenece al conjunto de colores posibles de cada uno de sus nodos adyacentes. Gracias a que cada nodo lleva un array de booleanos que responde a dicha operación en O(1) la cota no es mayor.\\
-Como la condición de que el nodo no haya sido visitado se valida exactamente n veces y cada vez se agregan a lo sumo n-1 elementos a la cola (con un costo O(1) cada uno), dicha parte del algoritmo cuesta O(n$^{2}$). Sin embargo un costo mayor se paga al ejecutar el método \textit{PintarNodo()} - de costo O(n*c*log(n)) - n veces. Esto hace que la complejidad final del algoritmo ascienda a O(n$^{2}$*c*log(n)).
+El ciclo principal (el externo) tiene razón de ser porque dentro del bucle anidado sólo se colorea una componente conexa por el grafo que recibimos puede ser no conexo, por lo tanto debemos iterar sobre las distintas componentes. Verificando que el algoritmo funcione hasta que la cantidad de nodos pintados sea efectivamente la cantidad de nodos total, y escogiendo cada vez un nodo de una componente no visitada podemos asegurarnos de que el coloreo se realiza sobre la totalidad del grafo.\\
+El método \textit{PintarNodo()} tiene como cota superior O(n*c*log(n)). Como se puede ver en el código, dicha complejidad la alcanza al calcular el color menos perjudicial (método \textit{CalcularColorMenosPerjudicial(nodo V,grafo G)}). Mediante el mismo, se calcula el peso de cada color posible C de V mediante la verificación de la existencia de C entre el conjunto de los colores posibles de cada uno de sus nodos adyacentes a V. Gracias a que cada nodo lleva un array de booleanos que responde a dicha operación en O(1), la cota no es mayor.\\
+Como la condición de que el nodo no haya sido visitado se valida exactamente n veces y cada vez se agregan a lo sumo n-1 elementos a la cola (con un costo O(1) cada uno), dicha parte del algoritmo cuesta O(n$^{2}$). Sin embargo un costo mayor se paga al ejecutar el método \textit{PintarNodo()}: n veces O(n*c*log(n)) . Esto hace que la complejidad final del algoritmo ascienda a O(n$^{2}$*c*log(n)).
 
 \subsection{Experimentación}
+Nos interesa analizar cómo se comporta nuestro algoritmo en función de ciertas características del grafo a ser coloreado: su cantidad de nodos, su cantidad de aristas y el número máximo de colores que puede llegar a tener como opción cada uno de sus nodos.\\
+ Es por ello que nuestro primer experimento consistió en evaluar el tiempo necesario para el cómputo de distintos grafos en los cuales se incrementó paulatinamente la cantidad de nodos. Los resultados se pueden observar en la figura \ref{nodostiempo}
 
- 
+ \begin{figure}[H]
+    \begin{center}
+  	\includegraphics[width=18cm]{imagenes/ej3/nodostiempo.png}
+ 	\caption{Tiempos de cómputo en función de la cantidad de nodos}
+ 	\label{nodostiempo}
+    \end{center}
+  \end{figure}
 
-%\subsubsection{Peor caso}
+Como se puede observar, la función que permite acotar los resultados obtenidos se aproxima asintóticamente a los calculados previamente en forma teórica para estas instancias.\\
+Por otro lado, generamos grafos que diferían entre sí únicamente en su cantidad de aristas. Al medir los tiempos obtuvimos los resultados que se exponen en la figura \ref{aristastiempo}
 
-%\subsubsection{Mejor caso}
+ \begin{figure}[H]
+    \begin{center}
+  	\includegraphics[width=18cm]{imagenes/ej3/aristastiempo.png}
+ 	\caption{Tiempos de cómputo en función de la cantidad de aristas}
+ 	\label{aristastiempo}
+    \end{center}
+  \end{figure}
+
+Así mismo, reaizamos una serie de experimentos en los que modificamos para cada grafo la cantidad de colores máxima que cada uno de ellos podía tener. Con los resultados obtenidos se generó la ilustración \ref{colorestiempo}
+
+ \begin{figure}[H]
+    \begin{center}
+  	\includegraphics[width=18cm]{imagenes/ej3/colorestiempo.png}
+ 	\caption{Tiempos de cómputo en función de la cantidad de colores}
+ 	\label{colorestiempo}
+    \end{center}
+  \end{figure}
+
+La misma parece indicar que el tiempo de cómputo dependiera linealmente de la cantidad de colores máxima del grafo \textcolor{red}{COMPLETAR POR QUE TIENE SENTIDO}\\
+
+Por último analizamos que ocurre con la cantidad de conflictos presentes luego del coloreo en función de la cantidad de colores disponibles para realizarlo. Tal como esperábamos a medida que se incrementa el módulo del conjunto de colores, disminuye la cantidad de conflictos. \textcolor{red}{COMPLETAR POR QUE TIENE SENTIDO}\\ 
+Los resultados se pueden observar en la imagen \ref{coloresconflicto}
+
+
+ \begin{figure}[H]
+    \begin{center}
+  	\includegraphics[width=18cm]{imagenes/ej3/coloresconflicto.png}
+ 	\caption{Total de conflictos en función de la cantidad de colores máxima}
+ 	\label{coloresconflicto}
+    \end{center}
+  \end{figure}
+
+\subsubsection{Peor caso}
+Considerando la heurística propuesta, el peor caso a considerar es aquel en que todos los nodos tienen n - 1 nodos adyacentes (es decir un grafo completo). En esta situación el método PintarNodo() - que  se encarga de decidir qué color de los disponibles parecería el apropiado para cada vértice - cumple la cota teórica propuesta, pues debe hacer tantas operaciones como cantidad de vecinos del nodo que  se examina.\\
+
+Además se debe considerar la relación entre la cantidad de colores y la de nodos, puesto que al estar la complejidad fuertemente influida por ambos valores, el que determine finalmente los tiempos de ejecución en el peor caso será aquel cuya cota inferior sea la mayor entre ambas. En otras palabras, si el valor de C fuese equivalente en cada caso a $N^{N}$  (un caso irrisorio pero posible) entonces la cota superior estaría determinada en última instancia por el valor de C, disolviendo en el infinito la complejidad aportada por N\\\textcolor{red}{EXPLICAR COMO CONCUERDA CON EL ALGORITMO}
+Por el contrario, si C fuese menor que la cantidad de vértices entonces la cota superior de la heurística propuesta pertenecería a O( $N^{3}$ * log (N) )
+
+
+\subsubsection{Mejor caso}
+Por lo antedicho, el mejor caso se constituye tomando un grafo donde todos sus vértices sean aislados. De esta manera, todos y cada uno de ellos podría ser coloreado indistintamente con cualquiera de sus colores disponibles. Sin embargo el conjunto de colores seguiría siendo iterado en su totalidad.
 
 
 

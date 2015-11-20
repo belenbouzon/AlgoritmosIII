@@ -13,12 +13,15 @@ public class Lector {
 		this.setArchivo(new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archivo))));
 	}
 	
-	public Grafo MakeGraph() throws IOException 
+	public Grafo MakeGraph(int cantAristas ) throws IOException 
 	{
 		Grafo grafo = new Grafo();
 		int[] nodosAristasColores = Ej3Utils.ToIntegerArray(this.getArchivo().readLine().split(" "));
 		grafo.cantidadDeNodos = nodosAristasColores[0];
-		grafo.setCantidadDeAristas(nodosAristasColores[1]);
+		if (cantAristas == -1)
+			grafo.setCantidadDeAristas(nodosAristasColores[1]);
+		else
+			grafo.setCantidadDeAristas(cantAristas);
 		grafo.setCantidadDeColores(nodosAristasColores[2]);
 		
 		try { grafo.setNodos(this.ObtenerListaDeNodos(grafo.cantidadDeNodos, grafo.getCantidadDeColores()));} 
