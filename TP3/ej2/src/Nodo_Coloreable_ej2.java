@@ -12,7 +12,6 @@ public class Nodo_Coloreable_ej2 extends Nodo_Abstracto {
 	public Nodo_Coloreable_ej2(int id, int cantColores){
 		this.identidad = id;
 		this.cantidad_colores = cantColores;
-		//this.adyacentes = new LinkedHashSet<Nodo_Coloreable>();
 		this.colores = new ArrayList<Integer>(cantColores);
 	}
 	
