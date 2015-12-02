@@ -59,7 +59,7 @@ public class Lector {
 		String[] linea = new String[2];
 		
 		try { linea = this.getArchivo().readLine().split(" ");}
-		catch (IOException e) {System.out.println("Ocurrió un error al intentar completar la matriz de adyacencia.");}
+		catch (IOException e) {System.out.println("OcurriÃ³ un error al intentar completar la matriz de adyacencia.");}
 		
 		int inicio = Integer.parseInt(linea[0]);
 		int destino = Integer.parseInt(linea[1]);
@@ -72,7 +72,7 @@ public class Lector {
 		String[] linea = new String[2];
 		
 		try { linea = this.getArchivo().readLine().split(" ");}
-		catch (IOException e) {System.out.println("Ocurrió un error al intentar completar la matriz de adyacencia.");}
+		catch (IOException e) {System.out.println("OcurriÃ³ un error al intentar completar la matriz de adyacencia.");}
 		
 		int inicio = Integer.parseInt(linea[0]);
 		int destino = Integer.parseInt(linea[1]);

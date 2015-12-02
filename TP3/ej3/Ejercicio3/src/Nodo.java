@@ -39,7 +39,7 @@ public class Nodo
 		seguimientoColoresTotales[color] = false; //O(1)
 	}
 	
-	/*El nodo lleva seguimiento de 4 estructuras de colores: una de una lista con los colores habilitados para él, para iterar facilmente. La otra,
+	/*El nodo lleva seguimiento de 4 estructuras de colores: una de una lista con los colores habilitados para Ã©l, para iterar facilmente. La otra,
 	 con todos los colores que tenga el grafo, seteada en true en aquellas posiciones que respondan a colores propios, permite preguntar en O(1) si el nodo
 	 permite ser pintado de determinado color. Por ultimo, coloresDescartados almacena los que se decidio no utilizar de sus colores posible y coloresRestantes, aquellos
 	 que todavia no fueron descartados*/
