@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ListIterator;
 
 public class Main {
@@ -28,6 +29,8 @@ public class Main {
 		cantNodos = reader.cantNodos();
 		grafo = reader.getGrafo();
 		grafo2colores = reader.getGrafo2colores();
+		//Ordenamos los nodos para que queden primero los de menor cantidad de colores.
+		Collections.sort(grafo, new ColorComparator());
 
 		listColoring(0);
 		
@@ -44,22 +47,23 @@ public class Main {
 		return;
 	}
 
-	private static boolean listColoring(int id){
-		if (id == cantNodos) {
+	private static boolean listColoring(int count){
+		if (count == cantNodos) {
 			//llamo a 2listColoring
 			solucion = new Calculador_de_Coloracion_Ej1(cantNodos, grafo2colores).obtener_resolucion();
 			return !solucion.equals("X");
 		}
-
-		Nodo_Coloreable_ej2 nodo = grafo.get(id);
+		//Count se utiliza para recorrer la lista en orden.
+		Nodo_Coloreable_ej2 nodo = grafo.get(count);
 		ListIterator<Integer> it = nodo.colores.listIterator();
-		ColoresPosibles coloresSeleccionados = grafo2colores.get(id).colores;
-		id++; //aumento el id para llamar al proximo nodo.
+		//uso nodo.identidad porque las listas no estan en el mismo orden.
+		ColoresPosibles coloresSeleccionados = grafo2colores.get(nodo.identidad).colores;
+		count++; //aumento el count para llamar al proximo nodo.
 
 		if(nodo.cantidad_colores < 2){
 			//si hay un solo color directamente llamo a listColoring.
 			coloresSeleccionados.set_color(0, it.next());
-			return listColoring(id);
+			return listColoring(count);
 		}else{		
 			while(it.hasNext()){
 				int color1 = it.next();
@@ -70,7 +74,7 @@ public class Main {
 					int color2 = it2.next();
 					//Agrego color2
 					coloresSeleccionados.set_color(1, color2);
-					if(listColoring(id)){
+					if(listColoring(count)){
 						return true;
 					}
 				}
