@@ -7,6 +7,14 @@ import java.util.Set;
 
 public class NodoConVecinos extends Nodo {
 	private Set<NodoConVecinos> _vecinos;
+	/* no vamos a usar en este ejercicio las siguientes estructuras de datos:
+	 * seguimientoColoresTotales
+	 * coloresDescartados
+	 * coloresRestantes
+	 * visitado
+	*/
+	
+	
 	public Set<NodoConVecinos> vecinos(){
 		return this._vecinos;
 	}
@@ -21,15 +29,14 @@ public class NodoConVecinos extends Nodo {
 		this.setVisitado(false);
 		this._vecinos = new LinkedHashSet<NodoConVecinos>();
 	}
-	public NodoConVecinos(Nodo nodo){
-		this.setId(nodo.getId());
-	/*	private boolean visitado;
-		this.setColor(nodo.getColor());
-		private boolean[] seguimientoColoresTotales; //Almacena todos los colores seteando un bool para los que tiene.
-		this.coloresDescartados = null;
-		List<NodoConVecinos> nueva_lista = new LinkedList(nodo.getColoresRestantes());
-		this.se
-		*/
+	public NodoConVecinos(Nodo otro){
+		// creamos el NodoConVecinos a partir de uno del ej3.
+		// OJO: no le marcamos los vecinos. Es lo hacemos con agregarVecinos.
+		this.setId(otro.getId());
+		this.visitado = false;  // no lo usamos
+		this.color = otro.getColor();
+		
+		
 	}
 	
 	/*
