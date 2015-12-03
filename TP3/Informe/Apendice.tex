@@ -1,0 +1,133 @@
+\newpage
+\section{Apéndice: Código fuente}
+
+A continuación se incluyen las partes más relevantes del código.\\
+
+\subsection{2-List Coloring}
+
+La clase lector se encarga de leer la entrada y transforla en un grafo. Como en los test de complejidad es importante no medir el tiempo que se tarda en cargar el archivo en memoria, el Lector posee funciones para cargar la información sin procesar.
+\lstinputlisting[name=pp, numbers=left, frame=lines, firstline=105, lastline=161]{../ej1/src/Lector.java}
+Los metodos que construyen el coloreo se encuentran en Calculador_de_Coloracion_Ej1 \\
+\lstinputlisting[name=gr, numbers=left, frame=lines, firstline=114, lastline=220]{../ej1/src/Calculador\string_de\string_Coloracion\string_Ej1.java}
+
+
+\subsection{List Coloring}
+
+La clase \emph{Main.java} se encarga de hacer el backtracking para recorrer todos los nodos fijando de a dos colores:
+\lstinputlisting[name=main, numbers=left, frame=lines, firstline=50, lastline=84]{../ej2/src/Main.java}
+La clase \emph{Lector.java} se encarga de leer el input y transformarlo en dos grafos, uno que contiene todos los colores y el otro que tiene un máximo de dos colores para poder pasarselo como parámetro a \emph{2ListColoring}.
+\lstinputlisting[name=lec, numbers=left, frame=lines, firstline=40, lastline=83]{../ej2/src/Lector.java}
+La clase \emph{Nodo_Coloreable_ej2} es muy similar a la clase \emph{Nodo_Coloreable_ej1}, lo único que cambia es que esta acepta una lista de mas de dos colores.
+\lstinputlisting[name=nc, numbers=left, frame=lines, firstline=12, lastline=16]{../ej2/src/Nodo\string_Coloreable\string_ej2.java}
+
+
+\subsection{Heurística Constructiva Golosa}
+
+La clase \emph{Lector.java} se encarga de tomar los datos del archivo de entrada y procesarlos para construir el grafo mediante el método \textit{MakeGraph()}:\\
+
+\begin{lstlisting}
+	public Grafo MakeGraph() throws IOException 
+	{
+		Grafo grafo = new Grafo();
+		int[] nodosAristasColores = Ej3Utils.ToIntegerArray(this.getArchivo().readLine().split(" "));
+		grafo.cantidadDeNodos = nodosAristasColores[0];
+		grafo.setCantidadDeAristas(nodosAristasColores[1]);
+		grafo.setCantidadDeColores(nodosAristasColores[2]);
+		
+		try { grafo.setNodos(this.ObtenerListaDeNodos(grafo.cantidadDeNodos, grafo.getCantidadDeColores()));} 
+		catch (IOException e) { System.out.println("Se produjo un error al generar los nodos del grafo.");}
+		boolean[][] matrizDeAdyacencia = GenerarMatrizDeAdyacencia(grafo.getCantidadDeNodos(), grafo.getCantidadDeAristas(), false);
+		grafo.setListaDeAdyacencia(Ej3Utils.matrizDeAdyacenciaToListDeAdyacencia(matrizDeAdyacencia, grafo.getNodos()));
+		
+		return grafo;
+	}
+		
+\end{lstlisting}
+
+
+La clase \emph{Grafo.java} contiene el método \textit{MakeRainbow()} que colorea el grafo con la heurística \newline propuesta: \\
+
+\begin{lstlisting}
+	public void MakeRainbow() // O(n^2*c*log(n))
+	{
+		int nodosPintados = 0;
+		LinkedList<Nodo> colaNodos = new LinkedList<Nodo>();
+
+		while(nodosPintados < this.cantidadDeNodos)
+		{
+			colaNodos.add(PicANode(this)); //O(1)
+			
+			while (!colaNodos.isEmpty()) //O(n)
+			{
+				Nodo nodoActual = colaNodos.removeFirst(); //O(1)
+				
+				if (!nodoActual.isVisitado())
+				{
+					colaNodos.addAll(this.getVecinosDe(nodoActual)); //O(n)
+					LinkedList<Integer> coloresRestantes = nodoActual.getColoresRestantes(); //O(1)
+					PintarNodo(nodoActual, coloresRestantes, this); //O(c*n*log(n))
+					nodosPintados ++;
+					nodoActual.setVisitado(true); //O(1)
+				}
+			}
+		}
+	}
+	
+	private static Nodo PicANode(Grafo grafo) 
+	{
+		Nodo next = new Nodo();
+		for(Nodo nodo : grafo.getNodos())
+		{
+			if (!nodo.isVisitado())
+			{
+				next = nodo;
+				break;
+			}
+		}
+		return next;
+	}
+	
+	private static void PintarNodo(Nodo nodoActual, LinkedList<Integer> coloresRestantes, Grafo grafo) //O(c*n*log(n))
+	{
+		int colorAPintar = CalcularColorMenosPerjudicial(nodoActual, grafo); //O(c*n*log(n))
+		nodoActual.setColor(colorAPintar); 
+	}
+
+	private static int CalcularColorMenosPerjudicial(Nodo nodoActual, Grafo grafo) //O(c*n*log(n))
+	{
+		Double pesoColor = 1.0;
+		int colorAPintar = -1;
+		for (int color : nodoActual.getColoresRestantes()) //O(c)
+		{
+			Double peso = CalcularPeso(color, grafo.getVecinosDe(nodoActual)); //O(nlog(n))
+			if (peso <= pesoColor)
+			{
+				pesoColor = peso;
+				colorAPintar = color;
+			}	
+		}	
+		return colorAPintar;
+	}
+
+
+	private static Double CalcularPeso(int color, List<Nodo> vecinos) 
+	{
+		ArrayList<Double> pesos = new ArrayList<Double>();
+		for (Nodo nodo : vecinos) //O(n)
+		{
+			if (nodo.LeImportaQueSuVecinoSePinteDelColor(color)) //O(1)
+					pesos.add(nodo.PeligroDePintarUnVecinoDelColor(color));//O(1)(amortizado)
+					
+		}
+		Collections.sort(pesos); //O(nlog(n))
+		Double pesoTotal = 0.0;
+		for (int k = 0; k < pesos.size(); k++) //O(n)
+			pesoTotal += pesos.get(k)/(k+2); //O(1)
+		
+		return pesoTotal;
+	}
+		
+\end{lstlisting}
+
+
+\subsection{Búsqueda Local}
