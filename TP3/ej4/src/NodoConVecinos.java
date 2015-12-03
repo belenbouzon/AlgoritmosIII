@@ -1,8 +1,6 @@
 
 
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 public class NodoConVecinos extends Nodo {
@@ -33,9 +31,8 @@ public class NodoConVecinos extends Nodo {
 		// creamos el NodoConVecinos a partir de uno del ej3.
 		// OJO: no le marcamos los vecinos. Es lo hacemos con agregarVecinos.
 		this.setId(otro.getId());
-		this.visitado = false;  // no lo usamos
-		this.color = otro.getColor();
-		
+		this.setVisitado(false);  // no lo usamos
+		this.setColor(otro.getColor());
 		
 	}
 	

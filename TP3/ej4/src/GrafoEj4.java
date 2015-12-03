@@ -4,7 +4,7 @@ import java.util.Set;
 public class GrafoEj4 {
 	private ArrayList<NodoConVecinos> _nodos;
 	private int _cantidadDeColores;
-	private Set<NodoConVecinos> _conflictos;
+	private Set<Arista> _conflictos;
 	
 	public int cantConflictos(){
 		return this._conflictos.size();
@@ -15,8 +15,7 @@ public class GrafoEj4 {
 	}
 	
 	
-	public ArrayList<NodoConVecinos> getNodos() 
-	{
+	public ArrayList<NodoConVecinos> getNodos() {
 		return _nodos;
 	}
 

@@ -4,8 +4,8 @@ import java.util.LinkedList;
 public class Nodo 
 {
 	private int id;
-	protected boolean visitado;
-	protected int color;
+	private boolean visitado;
+	private int color;
 	private boolean[] seguimientoColoresTotales; //Almacena todos los colores seteando un bool para los que tiene.
 	private LinkedList<Integer> coloresDescartados;
 	private LinkedList<Integer> coloresRestantes;
