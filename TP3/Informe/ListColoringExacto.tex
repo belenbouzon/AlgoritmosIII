@@ -12,21 +12,6 @@ Como el enunciado pide que al llegar a un caso de 2-List Coloring se utilice el 
 
 Para evitar repetir colores se utilizan dos iteradores, el primero (\emph{it}) siempre arranca desde el primer color de la lista y el segundo (\emph{it2}) arranca desde el índice siguiente al de \emph{it}. De esta forma se generan todas las permutaciones de dos colores sin repeticiones ni omisiones.
 
-% El pseudocódigo de nuestro algoritmo es el siguiente:
-
-% \begin{algorithmic} 
-
-% \STATE \texttt{Ordenar pasillos de mayor a menor}
-% \STATE \texttt{$suma = $ metros a clausurar (inicializada en cero)}
-% \FOR{\texttt{Cantidad de pasillos}}
-% 	\IF {\texttt{El pasillo conecta dos conjuntos disjuntos de pasillos}}
-% 		\STATE \texttt{Unir el conjunto mas chico al mas grande}
-% 	\ELSE
-% 		\STATE \texttt{$suma += $ la longitud del pasillo actual}
-% 	\ENDIF
-% \ENDFOR
-% \STATE \texttt{devolver $suma$}
-% \end{algorithmic} 
 
 \subsubsection{Podas}
 
@@ -37,7 +22,35 @@ Para evitar repetir colores se utilizan dos iteradores, el primero (\emph{it}) s
 	\item Si se llega a una solución, se corta el backtracking y se devuelve esa. De esta forma en el caso promedio y mejor, no se recorrería todo el árbol de soluciones ya que no necesita encontrar todas las posibles.
 \end{itemize}
 
-% \subsection{Análisis de la complejidad}
+\subsection{Análisis de la complejidad} 
+% explicar bien que es grafo y grafo2colores, count y solucion, ListColoring
+El pseudocódigo de nuestro algoritmo sin podas es el siguiente:
+
+\begin{algorithmic} 
+
+\STATE $count = $ índice en la lista de nodos del \texttt{grafo} (inicializada en cero, viene por parámetro) \COMMENT{$\mathcal{O}(1)$}
+
+\IF {$count =$ cantidad de nodos del \texttt{grafo}}
+	\STATE $solucion = $ llamar a \texttt{2ListColoring} para resolver \texttt{grafo2colores} \COMMENT{$\mathcal{O}(1)$}
+	\STATE Retornar 
+\ENDIF
+
+\STATE $nodo = $ Obtener el nodo a procesar del \texttt{grafo} con el índice $count$ \COMMENT{$\mathcal{O}(1)$}
+\STATE $it = $ Obtener un iterador de la lista de colores de $nodo$ \COMMENT{$\mathcal{O}(1)$}
+\STATE $coloresSeleccionados = $ Obtener la lista de colores del $nodo$ en el \texttt{grafo2colores} \COMMENT{$\mathcal{O}(1)$}
+\STATE Incrementar $count$ \COMMENT{$\mathcal{O}(1)$}
+\WHILE[$\mathcal{O}(1)$]{Haya próximo en la lista de colores}
+	\STATE $color1 = $ Próximo en la lista \COMMENT{$\mathcal{O}(1)$}
+	\STATE $it2 = $ Obtener un iterador que apunta al color que le sigue a $color1$ \COMMENT{$\mathcal{O}(1)$}
+	\STATE Asignar $color1$ en la primer posición de la lista $coloresSeleccionados$ \COMMENT{$\mathcal{O}(1)$}
+	\WHILE[$\mathcal{O}(1)$]{Haya próximo en la lista de colores a partir de $it2$}
+		\STATE $color2 = $ Próximo en la lista a partir de $it2$ \COMMENT{$\mathcal{O}(1)$}
+		\STATE Asignar $color2$ en la segunda posición de la lista $coloresSeleccionados$ \COMMENT{$\mathcal{O}(1)$}
+		\STATE Llamara a \texttt{ListColoring} con el count ya incrementado \COMMENT{$\mathcal{O}(1)$}
+	\ENDWHILE
+\ENDWHILE
+\STATE Retornar
+\end{algorithmic}
 
 % \subsection{Código fuente}
 
