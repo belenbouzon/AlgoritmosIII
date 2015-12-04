@@ -36,12 +36,6 @@ public class NodoConVecinos extends Nodo {
 		
 	}
 	
-	/*
-	 * Con estas tres lineas leemos el input, y ya en grafoResultante nos queda el grafo resuelto con goloso.
-	 	Lector lector = new Lector(nombreDeArchivo);
-		Grafo grafoResultante = lector.MakeGraph(cantidadDeAristas);
-		grafoResultante.MakeRainbow();
-			
-	  */
+
 	 
 }

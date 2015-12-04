@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 public class GrafoEj4 {
@@ -19,13 +18,6 @@ public class GrafoEj4 {
 	
 	public GrafoEj4(Grafo otro){
 		// Convierte un grafo del ej3 en un grafo del ej4
-		/*
-			public int cantidadDeNodos;
-			private ArrayList<Nodo> nodos;
-			private int cantidadDeAristas;
-			private int cantidadDeColores;
-			ArrayList<List<Nodo>> listaDeAdyacencia;
-		 */
 		this._cantidadDeColores = otro.getCantidadDeColores();
 		
 		// agrego todos los nodos (sin aristas)
