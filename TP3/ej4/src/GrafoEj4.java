@@ -1,13 +1,13 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 
 public class GrafoEj4 {
 	private ArrayList<NodoConVecinos> _nodos;
 	private int _cantidadDeColores;
-	private Set<Arista> _conflictos;
+	private HashSet<Arista> _conflictos;
 	
-	public int cantConflictos(){
+	public int getCantConflictos(){
 		return this._conflictos.size();
 	}
 	
@@ -19,6 +19,8 @@ public class GrafoEj4 {
 	public GrafoEj4(Grafo otro){
 		// Convierte un grafo del ej3 en un grafo del ej4
 		this._cantidadDeColores = otro.getCantidadDeColores();
+		this._nodos = new ArrayList<NodoConVecinos>(this._cantidadDeColores);
+		this._conflictos = new HashSet<Arista>();
 		
 		// agrego todos los nodos (sin aristas)
 		for (Iterator<Nodo> n = otro.getNodos().iterator() ; n.hasNext(); ){
@@ -71,7 +73,27 @@ public class GrafoEj4 {
 	}
 	
 	
+	public int vecindad1(Arista target){
+		/*
+		 * Intentamos alterar el grafo para reducir el conflicto que se halla en la Arista target.
+		 * Lo hacemos tratando de cambiar el color de alguno de los dos nodos sin introducir más conflictos.
+		 * El valor de retorno es la cantidad de conflictos en los que redujimos el grafo (siempre será mayor
+		 * o igual a cero).
+		 */
+		/*
+		 * 1. obtener conjunto de colores posibles para Nodo n1
+		 * 2. crear HashTable<int, int> conflictosPorColor (inicializar en 0) 
+		 * 3. para cada v en vecinos de n1
+		 *     3.1. conflictosPorColor[v.getColor()] += 1
+		 * hacer lo mismo para Nodo n2
+		 */
+		
+		return 0;
+	}
 	
+	public int vecindad2(Arista target){
+		return 0;
+	}
 
 
 	
