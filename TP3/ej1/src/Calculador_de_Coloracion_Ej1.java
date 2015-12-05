@@ -166,9 +166,7 @@ public class Calculador_de_Coloracion_Ej1 {
 			
 			for(Nodo_Dirigido_SAT nodo: conj) {
 				if(nodo.hermano.id_componente_conexa==i){
-					if(!marcar(nodo_compacto,false)){
-						return false;
-					}
+					return false;
 				}else{
 					nodo_compacto.agregar_hermano(this.grafo_dirigido_compacto.get(nodo.hermano.id_componente_conexa));
 				}
@@ -230,11 +228,9 @@ public class Calculador_de_Coloracion_Ej1 {
 		return true;
 	}
 	private String imprimir_valores(){
-		//boolean uno_verdadero= false;
 		TreeSet<Integer> calculados = new TreeSet<Integer>(); 
 		for(Nodo_Dirigido_Compacto nodo: this.grafo_dirigido_compacto){
 			if(nodo.valor_fijado_en(true)){
-				//uno_verdadero = true;
 				Iterator<Nodo_Dirigido_SAT> it_interno = nodo.componente_conexa.iterator();
 				while(it_interno.hasNext()){
 					Nodo_Dirigido_SAT nodo_dirigido = it_interno.next();
