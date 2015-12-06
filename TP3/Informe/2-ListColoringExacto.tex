@@ -165,12 +165,3 @@ En un último caso se generan grafos completos en donde se a incrementando la ca
 % 	\caption{Medición de tiempo promedio con $n$ fijo en 1000}
 % 	%\label{tiemposprom}
 %  \end{figure}
-
-\subsection{Apéndice}
-\subsubsection{Código fuente}
-
- A continuación se incluyen las partes más relevantes del código.\\
- La clase lector se encarga de leer la entrada y transforla en un grafo. Como en los test de complejidad es importante no medir el tiempo que se tarda en cargar el archivo en memoria, el Lector posee funciones para cargar la información sin procesar.
- \lstinputlisting[name=pp, numbers=left, frame=lines, firstline=105, lastline=161]{../ej1/src/Lector.java}
- Los metodos que construyen el coloreo se encuentran en Calculador_de_Coloracion_Ej1 \\
- \lstinputlisting[name=gr, numbers=left, frame=lines, firstline=114, lastline=183]{../ej1/src/Calculador\string_de\string_Coloracion\string_Ej1.java}
