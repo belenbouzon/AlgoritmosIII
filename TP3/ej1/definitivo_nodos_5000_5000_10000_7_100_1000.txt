@@ -1,3 +1,5 @@
+Primera columna cantidad de nodos, segunda columna tiempo que tardo, cantidad de aristas fijas en 10000 (grafo generado al azar, con un color distinto cada nodo)
+
 5000 44776,017830
 6000 32397,437170
 7000 33375,592480

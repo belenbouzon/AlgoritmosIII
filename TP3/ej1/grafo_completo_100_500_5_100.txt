@@ -1,3 +1,5 @@
+Grafo completo, primera columna cantidad de nodos, segunda tiempo que tardo
+
 100 78718327,400000
 200 104318849,800000
 300 140843891,000000
