@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 public class GrafoEj4 {
 	private ArrayList<NodoConVecinos> _nodos;
@@ -166,7 +167,13 @@ public class GrafoEj4 {
 	}
 	
 	public void ResolverConVecindad1(){
+		LinkedList<Arista> cola = new LinkedList<Arista>();
+		for (Arista c: this._conflictos)
+			cola.add(c);
 		
+		for (Arista c: cola){
+			this.vecindad1(c);
+		}
 	}
 	
 	
