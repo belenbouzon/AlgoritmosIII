@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Iterator;
 
 public class GrafoEj4 {
@@ -16,11 +17,27 @@ public class GrafoEj4 {
 		return this._nodos.get(id);
 	}
 	
+	public ArrayList<NodoConVecinos> getNodos() {
+		return _nodos;
+	}
+
+
+
+	public int getCantidadDeColores() 
+	{
+		return _cantidadDeColores;
+	}
+	public void setCantidadDeColores(int cantidadDeColores) 
+	{
+		this._cantidadDeColores = cantidadDeColores;
+	}
+	
 	public GrafoEj4(Grafo otro){
 		// Convierte un grafo del ej3 en un grafo del ej4
 		this._cantidadDeColores = otro.getCantidadDeColores();
 		this._nodos = new ArrayList<NodoConVecinos>(this._cantidadDeColores);
 		this._conflictos = new HashSet<Arista>();
+		
 		
 		// agrego todos los nodos (sin aristas)
 		for (Iterator<Nodo> n = otro.getNodos().iterator() ; n.hasNext(); ){
@@ -56,21 +73,7 @@ public class GrafoEj4 {
 		
 	}
 	
-	
-	public ArrayList<NodoConVecinos> getNodos() {
-		return _nodos;
-	}
 
-
-
-	public int getCantidadDeColores() 
-	{
-		return _cantidadDeColores;
-	}
-	public void setCantidadDeColores(int cantidadDeColores) 
-	{
-		this._cantidadDeColores = cantidadDeColores;
-	}
 	
 	
 	public int vecindad1(Arista target){
@@ -87,31 +90,84 @@ public class GrafoEj4 {
 		 *     3.1. conflictosPorColor[v.getColor()] += 1
 		 * hacer lo mismo para Nodo n2
 		 */
+		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN1 = new Hashtable<Integer, ArrayList<NodoConVecinos>>();
+		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN2 = new Hashtable<Integer, ArrayList<NodoConVecinos>>();
+		for (int color: target.getN1().get_coloresPosibles()){
+			ArrayList<NodoConVecinos> vacia = new ArrayList<NodoConVecinos>();
+			conflictosPorColorN1.put(color, vacia);
+		}
+		for (int color: target.getN2().get_coloresPosibles()){
+			ArrayList<NodoConVecinos> vacia = new ArrayList<NodoConVecinos>();
+			conflictosPorColorN2.put(color, vacia);
+		}
 		
-		return 0;
+		for (NodoConVecinos v: target.getN1().vecinos()){
+			if (conflictosPorColorN1.containsKey(v.getColor())){
+				ArrayList<NodoConVecinos> nuevovalor = conflictosPorColorN1.get(v.getColor());
+				nuevovalor.add(v);
+				conflictosPorColorN1.put(v.getColor(), nuevovalor);
+			}
+		}
+		for (NodoConVecinos v: target.getN2().vecinos()){
+			if (conflictosPorColorN2.containsKey(v.getColor())){
+				ArrayList<NodoConVecinos> nuevovalor = conflictosPorColorN2.get(v.getColor());
+				nuevovalor.add(v);
+				conflictosPorColorN2.put(v.getColor(), nuevovalor);
+			}
+		}
+		
+		Integer candidatoN1 = minimo(conflictosPorColorN1);
+		Integer candidatoN2 = minimo(conflictosPorColorN2);
+		
+		if (conflictosPorColorN1.get(candidatoN1).size() <= conflictosPorColorN2.get(candidatoN2).size()){
+			return this.cambiarColor(candidatoN1, conflictosPorColorN1, target.getN1());
+		} else{
+			return this.cambiarColor(candidatoN2, conflictosPorColorN2, target.getN2());
+		}
 	}
 	
 	public int vecindad2(Arista target){
 		return 0;
 	}
-
-
 	
-	/*
-	public static void AgregarAristas(String nombreDeArchivo, int cantidadDeAristas, int cantNodoConVecinoss) throws IOException 
-	{
-		File grafoModificable = new File("C:\\Users\\Bel\\Documents\\GitHub\\AlgoritmosIII\\TP3\\ej3\\Ejercicio3\\bin\\"  + nombreDeArchivo);
-		FileWriter fw1 = new FileWriter(grafoModificable, true);
-		
-		HashSet<Arista> aristas = Ej3Utils.GenerarAristas(cantidadDeAristas, cantNodoConVecinoss);
-		Iterator<Arista> iteradorArista = aristas.iterator();
-		while(iteradorArista.hasNext())
-		{
-			Arista arista = iteradorArista.next();
-			iteradorArista.remove();
-			fw1.append(String.valueOf(arista.desde) + " " + String.valueOf(arista.hasta) + "\n");
+	private Integer minimo(Hashtable<Integer, ArrayList<NodoConVecinos>> in){
+		Integer res = null;
+		for (int k: in.keySet()){
+			if (in.get(k).size() < in.get(res).size())
+				res = k;
 		}
-		fw1.close();
+		return res;
 	}
-	*/
+
+
+
+	private Integer cambiarColor(Integer nuevoColor, Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColor, NodoConVecinos target){
+		Integer diferencia = 0;
+		if (nuevoColor != target.getColor()){
+			
+			// sacamos de _conflictos los conflictos removidos
+			for (NodoConVecinos c: conflictosPorColor.get(target.getColor())){
+				Arista remover = new Arista(target, c);
+				this._conflictos.remove(remover);
+			}
+			// agregamos a _conflictos los conflictos nuevos
+			for (NodoConVecinos c: conflictosPorColor.get(nuevoColor)){
+				Arista agregar = new Arista(target, c);
+				this._conflictos.add(agregar);
+			}
+			
+			diferencia = conflictosPorColor.get(target.getColor()).size() - conflictosPorColor.get(nuevoColor).size();
+					
+			// cambiamos el color de target
+			target.setColor(nuevoColor);
+			
+		}
+		return diferencia;
+	}
+	
+	public void ResolverConVecindad1(){
+		
+	}
+	
+	
 }

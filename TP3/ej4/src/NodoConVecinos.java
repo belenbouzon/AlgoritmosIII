@@ -1,18 +1,22 @@
 
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 public class NodoConVecinos extends Nodo {
 	private HashSet<NodoConVecinos> _vecinos;
+	private HashSet<Integer> _coloresPosibles;
 	/* no vamos a usar en este ejercicio las siguientes estructuras de datos:
 	 * coloresDescartados
 	 * coloresRestantes
 	 * visitado
+	 * seguimientoColoresTotales
 	*/
 	
 	
+	public HashSet<Integer> get_coloresPosibles() {
+		return _coloresPosibles;
+	}
 	public Set<NodoConVecinos> vecinos(){
 		return this._vecinos;
 	}
@@ -34,7 +38,15 @@ public class NodoConVecinos extends Nodo {
 		// OJO: no le marcamos los vecinos. Es lo hacemos con agregarVecinos.
 		this.setId(otro.getId());
 		this.setColor(otro.getColor());
-		this.seguimientoColoresTotales = Arrays.copyOf(otro.getSeguimientoColoresTotales(), otro.getSeguimientoColoresTotales().length);
+		this._coloresPosibles = new HashSet<Integer>();
+		int color = 0;
+		for (boolean esta : otro.getSeguimientoColoresTotales()){
+			if (esta) {
+				this._coloresPosibles.add(color);
+			}
+			color++;
+		}
+		
 		this._vecinos = new HashSet<NodoConVecinos>(); 
 		
 	}

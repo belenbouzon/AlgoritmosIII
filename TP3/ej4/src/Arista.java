@@ -1,15 +1,27 @@
 
 public class Arista {
-	public NodoConVecinos n1;
-	public NodoConVecinos n2;
+	private NodoConVecinos n1;
+	private NodoConVecinos n2;
 	
-	Arista(NodoConVecinos n1, NodoConVecinos n2)
-	{
-		this.n1 = n1;
-		this.n2 = n2;
+	
+	public NodoConVecinos getN1() {
+		return n1;
+	}
+	public NodoConVecinos getN2() {
+		return n2;
+	}
+	Arista(NodoConVecinos n1, NodoConVecinos n2){
+		assert n1 != n2;
+		if (n1.getId() < n2.getId()){
+			this.n1 = n1;
+			this.n2 = n2;
+		}else{
+			this.n1 = n2;
+			this.n2 = n1;
+		}
 	}
 	
-	Arista(){};
+	//Arista(){};
 	
 	@Override
 	public boolean equals(Object otherArista){
