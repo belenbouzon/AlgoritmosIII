@@ -11,7 +11,23 @@ public class Arista
 		this.hasta = hasta;
 	}
 	
-	Arista(){};
+	Arista(){}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		if(this.desde > this.hasta){
+			result = prime * result + desde;
+			result = prime * result + hasta;
+			return result;
+		}else{
+			result = prime * result + hasta;
+			result = prime * result + desde;
+			return result;
+		}
+	}
+
 	
 	@Override
 	public boolean equals(Object otherArista){
