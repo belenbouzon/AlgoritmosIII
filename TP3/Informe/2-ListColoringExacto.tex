@@ -19,117 +19,139 @@ Finalmente comienzan a fijarse los valores de verdad, recorriendo las componente
 
 Una vez determinados los valores de verdad, se deduce la coloración de los nodos del grafo original a partir de las proposiciones que forman parte de las componentes evaluadas como verdaderas.
 
-\begin{algorithmic} 
-\newcommand{\INDSTATE}[1][1]{\STATE\hspace{#1\algorithmicindent}}
- \STATE{Algoritmo2ListColoring(grafo_original)}
-	\INDSTATE[2]{GrafoDirigido = crearGrafoDirigidoConProposiciones(grafo_original)}
-	\INDSTATE[2]{ListaComponentesConexas =  Kosaraju(GrafoDirigido)}
-	\INDSTATE[2]{GrafoCompacto = generarGrafoCompacto(ListaComponentesConexas)
-	\INDSTATE[4]{Si GrafoCompacto es INVALIDO}
-		\INDSTATE[6]{Devolver NO_HAY_SOLUCION}
+\newcommand{\pushcode}[1][1]{\hskip\dimexpr#1\algorithmicindent\relax}
+\subsection{PseudoCódigo}
 
-	\INDSTATE[4]{asignacionDeVerdad = AsignarValoresDeVerdad(ListaComponentesConexas,GrafoCompacto)}
-	\INDSTATE[4]{Si asignacionDeVerdad==INVALIDO}
-		\INDSTATE[6]{Devolver NO_HAY_SOLUCION}
+A continuación se presenta el pseudocódigo para 2-List Coloring:
 
-	\INDSTATE[4]{Devolver ObtenerColoreoParaGrafoOriginal(ListaComponentesConexas)}
- \STATE Fin
-\end{algorithmic} 
-
+\noindent \textbf{Function} {algoritmo2ListColoring($grafoOriginal$)}
 \begin{algorithmic}
-\newcommand{\INDSTATE}[1][1]{\STATE\hspace{#1\algorithmicindent}}
-\STATE crearGrafoDirigidoConProposiciones (grafo_original)
-	\INDSTATE[2]{GrafoDirigido = vacio}
-	\INDSTATE[2]{Para cada nodo del grafo_original}
-		\INDSTATE[4]{Si cantidad_colores(nodo)==1}
-			\INDSTATE[6]{GrafoDirigido.agregar(¬Acl -> Acl)}
-		\INDSTATE[4]{Sino}
-			\INDSTATE[6]{GrafoDirigido.agregar(Acl1 <-> ¬Acl2)}
-			\INDSTATE[6]{GrafoDirigido.agregar(Acl2 <-> ¬Acl1)}
-\STATE
-	\INDSTATE[2]{Para cada arista (A,B)}
-		\INDSTATE[4]{Para cada color comun c entre A y B}
-			\INDSTATE[6]{GrafoDirigido.agregar(Ac -> ¬Bc)}
-			\INDSTATE[6]{GrafoDirigido.agregar(Bc -> ¬Ac)}
-
-	Devolver GrafoDirigido
-\STATE Fin
-\end{algorithmic} 
-
-\begin{algorithmic}
-\newcommand{\INDSTATE}[1][1]{\STATE\hspace{#1\algorithmicindent}}
-\STATE Kosaraju(grafoDirigido)
-	\INDSTATE[2]{ListaComponentesConexas = vacio}
-	\INDSTATE[2]{Pila = vacio}
-	\INDSTATE[2]{Para cada nodo A de grafoDirigido}
-		\INDSTATE[4]{si (Pila.no_contiene(A))}
-			\INDSTATE[6]{apilar nodos partiendo de A utilizando BFS}
-		
-	\INDSTATE[2]{grafoDirigidoInverso = grafoDirigido.invertir_aristas()}
-
-	\INDSTATE[2]{Mientras Pila no vacia}
-		\INDSTATE[4]{A = Pila.SacarPrimero}
-		\INDSTATE[4]{Si (no_marcada(A))}
-			\INDSTATE[6]{Componente = vacio}
-			\INDSTATE[6]{agregar a Componente todos los nodos partiendo de A utilizando BFS en grafoDirigidoInverso}
-			\INDSTATE[6]{marcar(A)}
-			\INDSTATE[6]{ListaComponentesConexas.agrefarAlFinal(Componente)}
-\STATE
-	\INDSTATE[2]{Devolver ListaComponentesConexas}
-\STATE Fin
+	\STATE {$grafoDirigido$ = crearGrafoDirigidoConProposiciones($grafoOriginal$)}
+	\STATE {$listaComponentesConexas$ =  Kosaraju($grafoDirigido$)}
+	\STATE {$grafoCompacto$ = generarGrafoCompacto($listaComponentesConexas$)}
+	\IF {$grafoCompacto$ es INVALIDO}
+		\RETURN {NO_HAY_SOLUCION}
+	\ENDIF
+	\STATE {$asignacionDeVerdad$ = asignarValoresDeVerdad($listaComponentesConexas$, $grafoCompacto$)}
+	\IF {$asignacionDeVerdad==$INVALIDO}
+		\RETURN {NO_HAY_SOLUCION}
+	\ENDIF
+	\RETURN {obtenerColoreoParaGrafoOriginal($listaComponentesConexas$)}
 \end{algorithmic}
+\textbf{EndFunction}
 
+\vspace{5mm}
+
+\noindent \textbf{Function} {crearGrafoDirigidoConProposiciones($grafoOriginal$)}
 \begin{algorithmic}
-\newcommand{\INDSTATE}[1][1]{\STATE\hspace{#1\algorithmicindent}}
-\STATE generarGrafoCompacto(ListaComponentesConexas)
-	\INDSTATE[2]{GrafoCompacto = vacio}
-	\INDSTATE[2]{Para cada componente en ListaComponentesConexas}
-		\INDSTATE[4]{Para cada nodo A de componente}
-			\INDSTATE[6]{Para cada arista (A,B)}
-				\INDSTATE[8]{componente.agregarArista(componenteDe(B))}
-			\INDSTATE[6]{Para cada nodo B negado por A}
-				\INDSTATE[8]{componente.asociarComoNegacion(componenteDe(B))}
-				\INDSTATE[8]{componenteDe(B).asociarComoNegacion(componente)}
-
-				\INDSTATE[8]{Si componente==componenteDe(B)}
-					\INDSTATE[10]{Devolver INVALIDO}
-
-\STATE
-	\INDSTATE[2]{Devolver GrafoCompacto}
-\STATE Fin
+	\STATE {$grafoDirigido$ = VACIO}
+	\FOR {cada nodo $A$ del $grafoOriginal$}
+		\IF {cantidadColores($A$)$==$1}
+			\STATE {$grafoDirigido$.agregar($\lnot A$color $\rightarrow$ $A$color)}
+		\ELSE
+			\STATE {$grafoDirigido$.agregar($A$color1 $\leftrightarrow$ $\lnot A$color2)}
+			\STATE {$grafoDirigido$.agregar($A$color2 $\leftrightarrow$ $\lnot A$color1)}
+		\ENDIF
+	\ENDFOR
+	\FOR {cada arista $(A,B)$}
+		\FOR {cada color comun $c$ entre $A$ y $B$}
+			\STATE {$grafoDirigido$.agregar($Ac$ $\rightarrow$ $\lnot Bc$)}
+			\STATE {$grafoDirigido$.agregar($Bc$ $\rightarrow$ $\lnot Ac$)}
+		\ENDFOR
+	\ENDFOR
+	\RETURN {$grafoDirigido$}
 \end{algorithmic}
+\textbf{EndFunction}
 
+\vspace{5mm}
+
+\noindent \textbf{Function} {Kosaraju($grafoDirigido$)}
 \begin{algorithmic}
-\newcommand{\INDSTATE}[1][1]{\STATE\hspace{#1\algorithmicindent}}
-\STATE AsignarValoresDeVerdad(ListaComponentesConexas,GrafoCompacto)
-	\INDSTATE[2]{Para cada componente ListaComponentesConexas}
-		\INDSTATE[4]{Si no esta marcada componente}
-			\INDSTATE[6]{marcar(componente,false)}
-			\INDSTATE[6]{propagar false a todas las componentes que poseen un camino hasta esta componente en GrafoCompacto}
-			\INDSTATE[6]{Si inconsistencia al propagar}
-				\INDSTATE[8]{Devolver INVALIDO}
+	\STATE {$listaComponentesConexas$ = VACIO}
+	\STATE {$pila$ = VACIO}
+	\FOR {cada nodo $A$ de $grafoDirigido$}
+		\IF {($pila$ no contiene $A$)}
+			\STATE {apilar nodos partiendo de $A$ utilizando BFS}
+		\ENDIF
+	\ENDFOR
 
-			\INDSTATE[6]{marcar(componente.negacionAsociada,true)}
-			\INDSTATE[6]{propagar true a todas las componentes accesibles desde componente.negacionAsociada en GrafoCompacto}
-			\INDSTATE[6]{Si inconsistencia al propagar}
-				\INDSTATE[8]{Devolver INVALIDO}
-\STATE
-	\INDSTATE[2]{Devolver VALIDO}
+	\STATE {$grafoDirigidoInverso$ = $grafoDirigido$.invertirAristas()}
 
-\STATE Fin
+	\WHILE {$pila$ no vacia}
+		\STATE {$A$ = $pila$.SacarPrimero}
+		\IF {(no marcada $A$)}
+			\STATE {$componente$ = VACIO}
+			\STATE {agregar a $componente$ todos los nodos partiendo de $A$ utilizando BFS en $grafoDirigidoInverso$}
+			\STATE {marcar($A$)}
+			\STATE {$listaComponentesConexas$.agrefarAlFinal($componente$)}
+		\ENDIF
+	\ENDWHILE
+
+	\RETURN {$listaComponentesConexas$}
 \end{algorithmic}
+\textbf{EndFunction}
 
+\vspace{5mm}
+
+\noindent \textbf{Function} {generarGrafoCompacto($listaComponentesConexas$)}
 \begin{algorithmic}
-\newcommand{\INDSTATE}[1][1]{\STATE\hspace{#1\algorithmicindent}}
-\STATE ObtenerColoreoParaGrafoOriginal(ListaComponentesConexas)
-	\INDSTATE[2]{Colores = vacio}
-	\INDSTATE[2]{Para cada componente con valor true en ListaComponentesConexas}
-		\INDSTATE[4]{Para cada nodo con proposicion afirmativa de componente}
-			\INDSTATE[6]{Colores.asignar_color(nodo.nodoDeGrafoOriginal.identidad,nodo.colorPropuesto)}
-	\INDSTATE[2]{Devolver Colores}
-\STATE Fin
-\end{algorithmic}
+	\STATE {$grafoCompacto$ = VACIO}
+	\FOR {cada $componente$ en $listaComponentesConexas$}
+		\FOR {cada nodo $A$ de $componente$}
+			\FOR {cada arista $(A,B)$}
+				\STATE {$componente$.agregarArista(componenteDe($B$))}
+			\ENDFOR
+			\FOR {cada nodo $B$ negado por $A$}
+				\STATE {$componente$.asociarComoNegacion(componenteDe($B$))}
+				\STATE {componenteDe($B$).asociarComoNegacion($componente$)}
 
+				\IF {$componente$==componenteDe(B)}
+					\RETURN {INVALIDO}
+				\ENDIF
+			\ENDFOR
+		\ENDFOR
+	\ENDFOR
+	\RETURN {$grafoCompacto$}
+\end{algorithmic}
+\textbf{EndFunction}
+
+\vspace{5mm}
+
+\noindent \textbf{Function} {asignarValoresDeVerdad($listaComponentesConexas$, $grafoCompacto$)}
+\begin{algorithmic}
+	\FOR {cada $componente$ en $listaComponentesConexas$}
+		\IF {no esta marcada $componente$}
+			\STATE {marcar($componente$, FALSE)}
+			\STATE {propagar FALSE a todas las componentes que poseen un camino hasta \\
+			\pushcode[2] esta $componente$ en $grafoCompacto$}
+			\IF {inconsistencia al propagar}
+				\RETURN {INVALIDO}
+			\ENDIF
+			\STATE {marcar($componente$.negacionAsociada, TRUE)}
+			\STATE {propagar TRUE a todas las componentes accesibles desde \\
+			\pushcode[2] $componente$.negacionAsociada en $grafoCompacto$}
+			\IF {inconsistencia al propagar}
+				\RETURN {INVALIDO}
+			\ENDIF
+		\ENDIF
+	\ENDFOR
+	\RETURN {VALIDO}
+\end{algorithmic}
+\textbf{EndFunction} 
+
+\vspace{5mm}
+
+\noindent \textbf{Function} {obtenerColoreoParaGrafoOriginal($listaComponentesConexas$)}
+\begin{algorithmic}
+	\STATE {$colores$ = VACIO}
+	\FOR {cada $componente$ con valor TRUE en $listaComponentesConexas$}
+		\FOR {cada $nodo$ con proposicion afirmativa de $componente$}
+			\STATE {$colores$.asignarColor($nodo$.nodoDeGrafoOriginal.identidad, $nodo$.proposicion.colorPropuesto)}
+		\ENDFOR
+	\ENDFOR
+	\RETURN {$colores$}
+\end{algorithmic}
+\textbf{EndFunction}
 
 \subsection{Análisis de la complejidad}
 El grafo dirigido contiene a los sumo cuatro veces más nodos que el grafo de entrada, y el grafo compacto tiene a los sumo tantos nodos como el grafo dirigido. Por lo tanto, podemos afirmar que, sea n la cantidad de nodos inicial, n' la cantidad de nodos del grafo dirigido y n'' la cantidad de nodos del grafo compacto, $\mathcal{O}(f(n)) = \mathcal{O}(f(n')) = \mathcal{O}(f(n''))$ (si no se conocen datos adicionales para la entrada).
