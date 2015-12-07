@@ -12,8 +12,9 @@ public class AristaEj4 {
 	public NodoConVecinos getN2() {
 		return n2;
 	}
-	AristaEj4(NodoConVecinos n1, NodoConVecinos n2){
-		assert n1 != n2;
+	AristaEj4(NodoConVecinos n1, NodoConVecinos n2) throws Exception{
+		if ((n1 == n2) || (n1.getId() == n2.getId()))
+				throw new Exception ("No puede haber aristas que unen al nodo consigo mismo");
 		if (n1.getId() < n2.getId()){
 			this.n1 = n1;
 			this.n2 = n2;

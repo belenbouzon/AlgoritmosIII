@@ -41,7 +41,7 @@ public class GrafoEj4 {
 		this._cantidadDeColores = cantidadDeColores;
 	}
 	
-	public GrafoEj4(Grafo otro){
+	public GrafoEj4(Grafo otro) throws Exception{
 		// Convierte un grafo del ej3 en un grafo del ej4
 		this._cantidadDeColores = otro.getCantidadDeColores();
 		this._nodos = new ArrayList<NodoConVecinos>(this._cantidadDeColores);
@@ -52,8 +52,8 @@ public class GrafoEj4 {
 		for (Iterator<Nodo> n = otro.getNodos().iterator() ; n.hasNext(); ){
 			// convierto el Nodo a NodoConVecinos
 			Nodo original = n.next();
-			assert(original.getColor() >= 0);		// No podemos admitir un nodo que no esté coloreado.
-			assert(original.getColor() < this._cantidadDeColores);
+			assert(original.getColor() > 0);		// No podemos admitir un nodo que no esté coloreado.
+			assert(original.getColor() <= this._cantidadDeColores);
 			NodoConVecinos convertido = new NodoConVecinos(original);
 			
 			// Agrego el Nodo al grafo
@@ -87,7 +87,7 @@ public class GrafoEj4 {
 
 	
 	
-	public int vecindad1(AristaEj4 target){
+	public int vecindad1(AristaEj4 target) throws Exception{
 		/*
 		 * Intentamos alterar el grafo para reducir el conflicto que se halla en la Arista target.
 		 * Lo hacemos tratando de cambiar el color de alguno de los dos nodos sin introducir más conflictos.
@@ -151,8 +151,7 @@ public class GrafoEj4 {
 	}
 
 
-
-	private Integer cambiarColor(Integer nuevoColor, Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColor, NodoConVecinos target){
+	private Integer cambiarColor(Integer nuevoColor, Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColor, NodoConVecinos target) throws Exception{
 		Integer diferencia = 0;
 		if (nuevoColor != target.getColor()){
 			
@@ -176,7 +175,7 @@ public class GrafoEj4 {
 		return diferencia;
 	}
 	
-	public void ResolverConVecindad1(){
+	public void ResolverConVecindad1() throws Exception{
 		LinkedList<AristaEj4> cola = new LinkedList<AristaEj4>();
 		for (AristaEj4 c: this._conflictos)
 			cola.add(c);
@@ -190,7 +189,7 @@ public class GrafoEj4 {
 	public static void main(String[] args) throws Exception {
 		
 		GeneradorCasosDeTests generador = new algo3.tp3.ej3.GeneradorCasosDeTests();
-		String caso = generador.GenerarArchivoDeGrafoByCantColores(10, 30, 5);
+		String caso = generador.GenerarArchivoDeGrafoByCantColores(100, 3000, 15);
 
 		
 		//Con estas tres lineas leemos el input, y ya en grafoResultante nos queda el grafo resuelto con goloso.

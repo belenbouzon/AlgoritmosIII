@@ -6,7 +6,7 @@ import org.junit.Test;
 public class AristaEj4Test {
 
 	@Test
-	public void testEqualsObject() {
+	public void testEqualsObject() throws Exception {
 		NodoConVecinos n1 = new NodoConVecinos(1);
 		NodoConVecinos n2 = new NodoConVecinos(2);
 		
