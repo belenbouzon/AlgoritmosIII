@@ -138,6 +138,26 @@ public class GrafoEj4 {
 	}
 	
 	public int vecindad2(AristaEj4 target){
+		/* En esta vecindad lo que hacemos es, para cada uno de los nodos que está en 
+		 * la arista conflictiva, buscamos cuál vecino de ellos tiene más colores posibles
+		 * compartidos con el nodo. Y, para cada uno de ellos, vemos si un swap de colores
+		 * 
+		 * Para nodo 1
+		 * 1. obtener conjunto de vecinos que pueden ser pintados con el color de nodo1 y 
+		 * que no están ya pintados con ese color
+		 * 2. para cada uno de ellos, computar en cuánto cambiaría la cantidad total de conflictos
+		 * el hacer el swap
+		 * 
+		 * Hacer lo mismo para nodo 2
+		 * 
+		 * Elegir cuál de los dos swaps hacer
+		 */
+		
+		LinkedList<NodoConVecinos> candidatosN1 = target.getN1().posiblesSwaps();
+		LinkedList<NodoConVecinos> candidatosN2 = target.getN2().posiblesSwaps();
+		
+		
+		
 		return 0;
 	}
 	

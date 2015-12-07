@@ -54,6 +54,26 @@ public class NodoConVecinos extends Nodo {
 		
 	}
 	
+	public Integer conflictosColor(int color){
+		Integer res = 0;
+		for (NodoConVecinos n: this._vecinos){
+			if (n.getColor() == color)
+				res += 1;
+		}
+		return res;
+	}
+	
+	public LinkedList<NodoConVecinos> posiblesSwaps(){
+		LinkedList<NodoConVecinos> res = new LinkedList<NodoConVecinos>();
+		for (NodoConVecinos n: this._vecinos){
+			if (n.getColor() != this.getColor()){
+				if ((n.get_coloresPosibles().contains(this.getColor())) && this.get_coloresPosibles().contains(n.getColor()))
+					res.add(n);
+			}
+		}
+		return res;
+	}
+	
 
 	 
 }
