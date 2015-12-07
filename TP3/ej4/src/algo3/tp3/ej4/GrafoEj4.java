@@ -137,7 +137,7 @@ public class GrafoEj4 {
 		}
 	}
 	
-	public int vecindad2(AristaEj4 target){
+	public int vecindad2(AristaEj4 target) throws Exception{
 		/* En esta vecindad lo que hacemos es, para cada uno de los nodos que está en 
 		 * la arista conflictiva, buscamos cuál vecino de ellos tiene más colores posibles
 		 * compartidos con el nodo. Y, para cada uno de ellos, vemos si un swap de colores
@@ -156,8 +156,43 @@ public class GrafoEj4 {
 		LinkedList<NodoConVecinos> candidatosN1 = target.getN1().posiblesSwaps();
 		LinkedList<NodoConVecinos> candidatosN2 = target.getN2().posiblesSwaps();
 		
+		int mejorMejoraN1 = 0;
+		int mejorMejoraN2 = 0;
+		
+		NodoConVecinos mejorSwapN1 = null;
+		NodoConVecinos mejorSwapN2 = null;
 		
 		
+		
+		// TODO: refactorear este doble for loop
+		
+		for (NodoConVecinos v: candidatosN1){
+			int conflictosSinSwap = target.getN1().conflictosColor(target.getN1().getColor()) + v.conflictosColor(v.getColor());
+			int conflictosConSwap = target.getN1().conflictosColor(v.getColor()) + v.conflictosColor(target.getN1().getColor());
+			
+			if (conflictosConSwap > conflictosSinSwap){
+				if (conflictosConSwap > mejorMejoraN1)
+					mejorSwapN1 = v;
+			}
+		}
+		for (NodoConVecinos v: candidatosN2){
+			int conflictosSinSwap = target.getN2().conflictosColor(target.getN2().getColor()) + v.conflictosColor(v.getColor());
+			int conflictosConSwap = target.getN2().conflictosColor(v.getColor()) + v.conflictosColor(target.getN2().getColor());
+			
+			if (conflictosConSwap > conflictosSinSwap){
+				if (conflictosConSwap > mejorMejoraN2)
+					mejorSwapN2 = v;
+			}
+		}
+		
+		if (mejorMejoraN1 > mejorMejoraN2){
+			if ((mejorMejoraN1 > 0) && mejorSwapN1 != null)
+				return swapColores(target.getN1(), mejorSwapN1);
+		} else{
+			if ((mejorMejoraN2 > 0) && mejorSwapN2 != null)
+				return swapColores(target.getN2(), mejorSwapN2);
+		}
+		// No encontré un buen swap
 		return 0;
 	}
 	
@@ -167,6 +202,39 @@ public class GrafoEj4 {
 			if (in.get(k).size() < in.get(res).size())
 				res = k;
 		}
+		return res;
+	}
+	
+	private Integer swapColores(NodoConVecinos n1, NodoConVecinos n2) throws Exception{
+		// Intercambiar los colores entre n1 y n2, devolviendo la cantidad de conflictos que se resolvieron
+		
+		// TODO: se puede optimizar esto..
+		
+		Integer res = 0; // acá tendremos la cantidad total de conflictos resueltos
+		
+		// saco de _conflictos los conflictos resueltos
+		HashSet<AristaEj4> sacar = n1.conflictos();
+		res += sacar.size();
+		this._conflictos.removeAll(sacar);
+		sacar = n2.conflictos();
+		res += sacar.size();
+		this._conflictos.removeAll(sacar);
+		
+		// cambio los colores
+		
+		Integer swap = n1.getColor();
+		n1.setColor(n2.getColor());
+		n2.setColor(swap);
+		
+		// agrego a _conflictos los conflictos nuevos
+		
+		HashSet<AristaEj4> poner = n1.conflictos();
+		res -= poner.size();
+		this._conflictos.addAll(poner);
+		poner = n2.conflictos();
+		res -= poner.size();
+		this._conflictos.addAll(poner);
+		
 		return res;
 	}
 
@@ -205,11 +273,21 @@ public class GrafoEj4 {
 		}
 	}
 	
+	public void ResolverConVecindad2() throws Exception{
+		LinkedList<AristaEj4> cola = new LinkedList<AristaEj4>();
+		for (AristaEj4 c: this._conflictos)
+			cola.add(c);
+		
+		for (AristaEj4 c: cola){
+			this.vecindad2(c);
+		}
+	}
+	
 	
 	public static void main(String[] args) throws Exception {
 		
 		GeneradorCasosDeTests generador = new algo3.tp3.ej3.GeneradorCasosDeTests();
-		String caso = generador.GenerarArchivoDeGrafoByCantColores(100, 3000, 15);
+		String caso = generador.GenerarArchivoDeGrafoByCantColores(100, 3000, 20);
 
 		
 		//Con estas tres lineas leemos el input, y ya en grafoResultante nos queda el grafo resuelto con goloso.
