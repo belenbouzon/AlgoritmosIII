@@ -102,8 +102,8 @@ public class Grafo {
 
 	private static int CalcularColorMenosPerjudicial(Nodo nodoActual, Grafo grafo) //O(c*n*log(n))
 	{
-		Double pesoColor = 1.0;
-		int colorAPintar = -1;
+		int colorAPintar = nodoActual.getColoresRestantes().getFirst();
+		Double pesoColor = CalcularPeso(colorAPintar, grafo.getVecinosDe(nodoActual));
 		for (int color : nodoActual.getColoresRestantes()) //O(c)
 		{
 			Double peso = CalcularPeso(color, grafo.getVecinosDe(nodoActual)); //O(nlog(n))
