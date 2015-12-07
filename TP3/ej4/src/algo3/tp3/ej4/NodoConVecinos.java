@@ -74,6 +74,15 @@ public class NodoConVecinos extends Nodo {
 		return res;
 	}
 	
+	public HashSet<AristaEj4> conflictos() throws Exception{
+		HashSet<AristaEj4> res = new HashSet<AristaEj4>();
+		for (NodoConVecinos n: this._vecinos){
+			if (n.getColor() == this.getColor())
+				res.add(new AristaEj4(n,this));
+		}
+		return res;
+	}
+	
 
 	 
 }
