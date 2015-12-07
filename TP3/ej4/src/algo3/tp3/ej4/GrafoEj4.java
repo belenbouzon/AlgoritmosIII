@@ -190,7 +190,7 @@ public class GrafoEj4 {
 	public static void main(String[] args) throws Exception {
 		
 		GeneradorCasosDeTests generador = new algo3.tp3.ej3.GeneradorCasosDeTests();
-		String caso = generador.GenerarArchivoDeGrafoByCantColores(10, 50, 5);
+		String caso = generador.GenerarArchivoDeGrafoByCantColores(10, 30, 5);
 
 		
 		//Con estas tres lineas leemos el input, y ya en grafoResultante nos queda el grafo resuelto con goloso.

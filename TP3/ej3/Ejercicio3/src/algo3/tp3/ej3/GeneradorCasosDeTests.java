@@ -14,7 +14,9 @@ public class GeneradorCasosDeTests
 		this.cantAristas      = cantDeNodos*(cantDeNodos-1)/10;
 		this.cantTotalColores = cantDeNodos; 
 		
-		assert(this.cantAristas <= ((this.cantNodos - 1) * this.cantNodos) / 2 );
+		if (this.cantAristas > ((this.cantNodos - 1) * this.cantNodos) / 2 )
+			throw new Exception ("Hay más aristas de las que puede tener un grafo completo.");
+		
 		String nombreDeArchivo = String.valueOf(cantNodos) + "Nodos.out";
 		CrearArchivoDeGrafo(nombreDeArchivo);
 		
@@ -40,7 +42,8 @@ public class GeneradorCasosDeTests
 		this.cantAristas      = cantDeAristas;
 		this.cantTotalColores = cantDeNodos/2; 
 		
-		assert(this.cantAristas <= ((this.cantNodos - 1) * this.cantNodos) / 2 );
+		if (this.cantAristas > ((this.cantNodos - 1) * this.cantNodos) / 2 )
+			throw new Exception ("Hay más aristas de las que puede tener un grafo completo.");
 		
 		String nombreDeArchivo = String.valueOf(cantDeAristas) + "Aristas.out";
 		CrearArchivoDeGrafo(nombreDeArchivo);
@@ -54,7 +57,8 @@ public class GeneradorCasosDeTests
 		this.cantAristas      = cantDeAristas;
 		this.cantTotalColores = cantColores; 
 		
-		assert(this.cantAristas <= ((this.cantNodos - 1) * this.cantNodos) / 2 );
+		if (this.cantAristas > ((this.cantNodos - 1) * this.cantNodos) / 2 )
+			throw new Exception ("Hay más aristas de las que puede tener un grafo completo.");
 		
 		String nombreDeArchivo = String.valueOf(cantColores) + "Colores.out";
 		CrearArchivoDeGrafo(nombreDeArchivo);
