@@ -107,7 +107,7 @@ public class Main
 		fw.close();
 	}
 
-	private static int CalcularConflictos(Grafo grafo) 
+	static int CalcularConflictos(Grafo grafo) 
 	{
 		int conflictos = 0;
 		for ( Nodo nodo : grafo.getNodos() )

@@ -7,7 +7,7 @@ import java.util.LinkedList;
 public class GrafoEj4 {
 	private ArrayList<NodoConVecinos> _nodos;
 	private int _cantidadDeColores;
-	private HashSet<Arista> _conflictos;
+	private HashSet<AristaEj4> _conflictos;
 	
 	public int getCantConflictos(){
 		return this._conflictos.size();
@@ -37,13 +37,15 @@ public class GrafoEj4 {
 		// Convierte un grafo del ej3 en un grafo del ej4
 		this._cantidadDeColores = otro.getCantidadDeColores();
 		this._nodos = new ArrayList<NodoConVecinos>(this._cantidadDeColores);
-		this._conflictos = new HashSet<Arista>();
+		this._conflictos = new HashSet<AristaEj4>();
 		
 		
 		// agrego todos los nodos (sin aristas)
 		for (Iterator<Nodo> n = otro.getNodos().iterator() ; n.hasNext(); ){
 			// convierto el Nodo a NodoConVecinos
 			Nodo original = n.next();
+			assert(original.getColor() >= 0);		// No podemos admitir un nodo que no esté coloreado.
+			assert(original.getColor() < this._cantidadDeColores);
 			NodoConVecinos convertido = new NodoConVecinos(original);
 			
 			// Agrego el Nodo al grafo
@@ -65,7 +67,7 @@ public class GrafoEj4 {
 				// Chequeo si hay conflicto.
 				if (convertido.getColor() == vecinoConvertido.getColor()){
 					// Hay conflicto!
-					Arista c = new Arista(convertido,vecinoConvertido);
+					AristaEj4 c = new AristaEj4(convertido,vecinoConvertido);
 					this._conflictos.add(c);
 					// Vamos a estar agregando cada conflicto dos veces, pero como el equals de Arista chequea la igualdad, no se agrega dos veces al Set.
 				}
@@ -77,7 +79,7 @@ public class GrafoEj4 {
 
 	
 	
-	public int vecindad1(Arista target){
+	public int vecindad1(AristaEj4 target){
 		/*
 		 * Intentamos alterar el grafo para reducir el conflicto que se halla en la Arista target.
 		 * Lo hacemos tratando de cambiar el color de alguno de los dos nodos sin introducir más conflictos.
@@ -127,12 +129,12 @@ public class GrafoEj4 {
 		}
 	}
 	
-	public int vecindad2(Arista target){
+	public int vecindad2(AristaEj4 target){
 		return 0;
 	}
 	
 	private Integer minimo(Hashtable<Integer, ArrayList<NodoConVecinos>> in){
-		Integer res = null;
+		Integer res = in.keys().nextElement();
 		for (int k: in.keySet()){
 			if (in.get(k).size() < in.get(res).size())
 				res = k;
@@ -148,12 +150,12 @@ public class GrafoEj4 {
 			
 			// sacamos de _conflictos los conflictos removidos
 			for (NodoConVecinos c: conflictosPorColor.get(target.getColor())){
-				Arista remover = new Arista(target, c);
+				AristaEj4 remover = new AristaEj4(target, c);
 				this._conflictos.remove(remover);
 			}
 			// agregamos a _conflictos los conflictos nuevos
 			for (NodoConVecinos c: conflictosPorColor.get(nuevoColor)){
-				Arista agregar = new Arista(target, c);
+				AristaEj4 agregar = new AristaEj4(target, c);
 				this._conflictos.add(agregar);
 			}
 			
@@ -167,14 +169,41 @@ public class GrafoEj4 {
 	}
 	
 	public void ResolverConVecindad1(){
-		LinkedList<Arista> cola = new LinkedList<Arista>();
-		for (Arista c: this._conflictos)
+		LinkedList<AristaEj4> cola = new LinkedList<AristaEj4>();
+		for (AristaEj4 c: this._conflictos)
 			cola.add(c);
 		
-		for (Arista c: cola){
+		for (AristaEj4 c: cola){
 			this.vecindad1(c);
 		}
 	}
 	
+	
+	public static void main(String[] args) throws Exception {
+		// TODO Auto-generated method stub
+		
+		GeneradorCasosDeTests generador = new GeneradorCasosDeTests();
+		String caso = generador.GenerarArchivoDeGrafoByCantColores(10, 100, 3);
+
+		
+		//Con estas tres lineas leemos el input, y ya en grafoResultante nos queda el grafo resuelto con goloso.
+		Lector lector = new Lector(caso);
+		Grafo grafoResultante = lector.MakeGraph(-1);
+		grafoResultante.MakeRainbow();		
+		System.out.println(String.valueOf(Main.CalcularConflictos(grafoResultante)));
+
+		
+
+		
+		GrafoEj4 convertido = new GrafoEj4(grafoResultante);
+		System.out.println("Conversion finalizada");
+		
+		System.out.println(String.valueOf(convertido.getCantConflictos()));
+		convertido.ResolverConVecindad1();
+		System.out.println(String.valueOf(convertido.getCantConflictos()));
+
+		
+				
+	}
 	
 }

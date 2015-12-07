@@ -1,5 +1,5 @@
 
-public class Arista {
+public class AristaEj4 {
 	private NodoConVecinos n1;
 	private NodoConVecinos n2;
 	
@@ -10,7 +10,7 @@ public class Arista {
 	public NodoConVecinos getN2() {
 		return n2;
 	}
-	Arista(NodoConVecinos n1, NodoConVecinos n2){
+	AristaEj4(NodoConVecinos n1, NodoConVecinos n2){
 		assert n1 != n2;
 		if (n1.getId() < n2.getId()){
 			this.n1 = n1;
@@ -27,8 +27,8 @@ public class Arista {
 	public boolean equals(Object otherArista){
 	    //if (otherArista == null) return false;
 	    if (otherArista == this) return true;
-	    if (!(otherArista instanceof Arista)) return false;
-	    Arista other = (Arista)otherArista;
+	    if (!(otherArista instanceof AristaEj4)) return false;
+	    AristaEj4 other = (AristaEj4)otherArista;
 		return (this.n1 == other.n1 && 
 		this.n2 == other.n2)
 		||

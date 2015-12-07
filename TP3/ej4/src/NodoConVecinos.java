@@ -24,20 +24,19 @@ public class NodoConVecinos extends Nodo {
 		this._vecinos.add(otro);
 		otro._vecinos.add(this);
 	}
-	/*
-	public NodoConVecinos(int j, int cantidadDeColoresDelGrafo, int[] colores){
-		this.setColores(colores, cantidadDeColoresDelGrafo);
-		this.setId(j);
+	
+	public NodoConVecinos(int id){
+		this.setId(id);
 		this.setColor(-1);
-		this.setVisitado(false);
 		this._vecinos = new HashSet<NodoConVecinos>();
 	}
-	*/
+	
 	public NodoConVecinos(Nodo otro){
 		// creamos el NodoConVecinos a partir de uno del ej3.
 		// OJO: no le marcamos los vecinos. Es lo hacemos con agregarVecinos.
 		this.setId(otro.getId());
 		this.setColor(otro.getColor());
+		assert(this.getColor() >= 0);
 		this._coloresPosibles = new HashSet<Integer>();
 		int color = 0;
 		for (boolean esta : otro.getSeguimientoColoresTotales()){
