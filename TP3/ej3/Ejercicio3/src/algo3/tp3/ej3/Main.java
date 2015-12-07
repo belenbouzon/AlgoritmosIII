@@ -1,3 +1,4 @@
+package algo3.tp3.ej3;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -107,7 +108,7 @@ public class Main
 		fw.close();
 	}
 
-	static int CalcularConflictos(Grafo grafo) 
+	public static int CalcularConflictos(Grafo grafo) 
 	{
 		int conflictos = 0;
 		for ( Nodo nodo : grafo.getNodos() )

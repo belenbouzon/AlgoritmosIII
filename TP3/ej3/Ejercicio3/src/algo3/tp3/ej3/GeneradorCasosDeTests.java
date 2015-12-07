@@ -1,10 +1,11 @@
+package algo3.tp3.ej3;
 public class GeneradorCasosDeTests
 {
 	
 	private int cantNodos;
 	private int cantAristas;
 	private int cantTotalColores;
-	GeneradorCasosDeTests(){}
+	public GeneradorCasosDeTests(){}
 	
 	public String GenerarGrafoByCantNodos(int cantDeNodos) throws Exception
 	{
@@ -13,6 +14,7 @@ public class GeneradorCasosDeTests
 		this.cantAristas      = cantDeNodos*(cantDeNodos-1)/10;
 		this.cantTotalColores = cantDeNodos; 
 		
+		assert(this.cantAristas <= ((this.cantNodos - 1) * this.cantNodos) / 2 );
 		String nombreDeArchivo = String.valueOf(cantNodos) + "Nodos.out";
 		CrearArchivoDeGrafo(nombreDeArchivo);
 		
@@ -38,6 +40,8 @@ public class GeneradorCasosDeTests
 		this.cantAristas      = cantDeAristas;
 		this.cantTotalColores = cantDeNodos/2; 
 		
+		assert(this.cantAristas <= ((this.cantNodos - 1) * this.cantNodos) / 2 );
+		
 		String nombreDeArchivo = String.valueOf(cantDeAristas) + "Aristas.out";
 		CrearArchivoDeGrafo(nombreDeArchivo);
 		
@@ -49,6 +53,8 @@ public class GeneradorCasosDeTests
 		this.cantNodos        = cantDeNodos;
 		this.cantAristas      = cantDeAristas;
 		this.cantTotalColores = cantColores; 
+		
+		assert(this.cantAristas <= ((this.cantNodos - 1) * this.cantNodos) / 2 );
 		
 		String nombreDeArchivo = String.valueOf(cantColores) + "Colores.out";
 		CrearArchivoDeGrafo(nombreDeArchivo);

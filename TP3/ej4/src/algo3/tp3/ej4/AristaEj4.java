@@ -1,3 +1,5 @@
+package algo3.tp3.ej4;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class AristaEj4 {
 	private NodoConVecinos n1;
@@ -35,4 +37,16 @@ public class AristaEj4 {
 		(this.n1 == other.n2 &&
 		this.n2 == other.n1);
 	}
+	
+	// http://stackoverflow.com/questions/27581/what-issues-should-be-considered-when-overriding-equals-and-hashcode-in-java
+	
+	@Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
+            // if deriving: appendSuper(super.hashCode()).
+            append(n1).
+            append(n2).
+            toHashCode();
+    }
+    
 }

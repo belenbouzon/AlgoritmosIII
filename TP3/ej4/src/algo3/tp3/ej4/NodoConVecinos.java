@@ -1,7 +1,10 @@
+package algo3.tp3.ej4;
 
 
 import java.util.HashSet;
 import java.util.Set;
+
+import algo3.tp3.ej3.Nodo;
 
 public class NodoConVecinos extends Nodo {
 	private HashSet<NodoConVecinos> _vecinos;

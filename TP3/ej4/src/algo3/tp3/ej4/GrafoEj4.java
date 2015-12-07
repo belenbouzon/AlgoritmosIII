@@ -1,8 +1,16 @@
+package algo3.tp3.ej4;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
+
+import algo3.tp3.ej3.GeneradorCasosDeTests;
+import algo3.tp3.ej3.Grafo;
+import algo3.tp3.ej3.Lector;
+//import algo3.tp3.ej3.Main;
+import algo3.tp3.ej3.Nodo;
+
 
 public class GrafoEj4 {
 	private ArrayList<NodoConVecinos> _nodos;
@@ -180,17 +188,16 @@ public class GrafoEj4 {
 	
 	
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
 		
-		GeneradorCasosDeTests generador = new GeneradorCasosDeTests();
-		String caso = generador.GenerarArchivoDeGrafoByCantColores(10, 100, 3);
+		GeneradorCasosDeTests generador = new algo3.tp3.ej3.GeneradorCasosDeTests();
+		String caso = generador.GenerarArchivoDeGrafoByCantColores(10, 50, 5);
 
 		
 		//Con estas tres lineas leemos el input, y ya en grafoResultante nos queda el grafo resuelto con goloso.
 		Lector lector = new Lector(caso);
 		Grafo grafoResultante = lector.MakeGraph(-1);
 		grafoResultante.MakeRainbow();		
-		System.out.println(String.valueOf(Main.CalcularConflictos(grafoResultante)));
+		System.out.println(String.valueOf(algo3.tp3.ej3.Main.CalcularConflictos(grafoResultante)));
 
 		
 

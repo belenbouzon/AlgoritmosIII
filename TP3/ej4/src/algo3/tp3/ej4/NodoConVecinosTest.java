@@ -1,6 +1,9 @@
+package algo3.tp3.ej4;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import algo3.tp3.ej3.Nodo;
 
 public class NodoConVecinosTest {
 
