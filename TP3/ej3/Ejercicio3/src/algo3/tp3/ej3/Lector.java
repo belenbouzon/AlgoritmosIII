@@ -1,5 +1,6 @@
 package algo3.tp3.ej3;
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -11,7 +12,8 @@ public class Lector {
 	
 	public Lector(String archivo) throws Exception
 	{
-		this.setArchivo(new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archivo))));
+		//this.setArchivo(new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archivo))));
+		this.setArchivo(new BufferedReader(  new FileReader(getClass().getResource("").getPath() + archivo)));
 	}
 	
 	public Grafo MakeGraph(int cantAristas ) throws IOException 
