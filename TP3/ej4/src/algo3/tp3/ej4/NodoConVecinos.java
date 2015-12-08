@@ -40,7 +40,7 @@ public class NodoConVecinos extends Nodo {
 		// OJO: no le marcamos los vecinos. Es lo hacemos con agregarVecinos.
 		this.setId(otro.getId());
 		this.setColor(otro.getColor());
-		assert(this.getColor() >= 0);
+		assert(this.getColor() > 0);		// en el ej3 se usan colores entre 1 y c (en vez de entre 0 y c-1)
 		this._coloresPosibles = new HashSet<Integer>();
 		int color = 0;
 		for (boolean esta : otro.getSeguimientoColoresTotales()){
