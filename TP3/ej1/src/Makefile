@@ -11,4 +11,4 @@ all:
 	mv Lector.class ../bin1/Lector.class
 	mv Nodo_Abstracto.class ../bin1/Nodo_Abstracto.class
 	mv Tester.class ../bin1/Tester.class
-	mv 'Tester$$Nodo_Tester.class' ../bin1/'Tester$Nodo_Tester.class'
+	mv 'Tester$$Nodo_Tester.class' ../bin1/'Tester$$Nodo_Tester.class'
