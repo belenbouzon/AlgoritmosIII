@@ -60,26 +60,26 @@ public class Main {
 		ColoresPosibles coloresSeleccionados = grafo2colores.get(nodo.identidad).colores;
 		count++; //aumento el count para llamar al proximo nodo.
 
-		if(nodo.cantidad_colores < 2){
-			//si hay un solo color directamente llamo a listColoring.
-			coloresSeleccionados.set_color(0, it.next());
-			return listColoring(count);
-		}else{		
+		// if(nodo.cantidad_colores < 2){
+		// 	//si hay un solo color directamente llamo a listColoring.
+		// 	coloresSeleccionados.set_color(0, it.next());
+		// 	return listColoring(count);
+		// }else{
 			while(it.hasNext()){
 				int color1 = it.next();
-				ListIterator<Integer> it2 = nodo.colores.listIterator(it.nextIndex());
 				//Agrego color1 a la lista de colores
 				coloresSeleccionados.set_color(0, color1);
-				while(it2.hasNext()){
-					int color2 = it2.next();
+				// ListIterator<Integer> it2 = nodo.colores.listIterator(it.nextIndex());
+				if(it.hasNext()){
+					int color2 = it.next();
 					//Agrego color2
 					coloresSeleccionados.set_color(1, color2);
-					if(listColoring(count)){
-						return true;
-					}
+				}
+				if(listColoring(count)){
+					return true;
 				}
 			}
-		}
+		// }
 		return false;
 	}
 

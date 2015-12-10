@@ -17,8 +17,10 @@ Para evitar repetir colores se utilizan dos iteradores, el primero (\emph{it}) s
 
 \begin{itemize}
 	\item La primer poda que se realiza es la de ordenar la lista de nodos de forma que queden primero los nodos con menor cantidad de colores ya que de esta forma si se eligen los colores de un nodo $a$ con dos colores primero y luego se pasa a uno $b$ de cinco, se estaría recorriendo el subgrafo que no contiene a $a$ dos veces en lugar de las cinco que se recorrería si estuviera primero el nodo $b$.
-	\item Una poda también sería no llamar a 2-List Coloring con un nodo que tenga los colores $\{0, 1\}$ y luego volverlo a llamar con el mismo nodo con los colores $\{1, 0\}$ por ese motivo se recorren las listas de colores de la forma que explicamos antes.
-	\item En el caso que el nodo original tenga un solo color, se llama directamente a 2-List Coloring, evitando entrar al while.
+	
+	\item Al revisar el código de la primer entrega nos dimos cuenta que no era necesario hacer todas las permutaciones de los colores de un nodo ya que alcanzaba con seleccionar una sola vez cada color para cada nodo y llamar a 2-List Coloring dado que la recursión se encarga de que los colores se prueben todos con todos.
+	% \item Una poda también sería no llamar a 2-List Coloring con un nodo que tenga los colores $\{0, 1\}$ y luego volverlo a llamar con el mismo nodo con los colores $\{1, 0\}$ por ese motivo se recorren las listas de colores de la forma que explicamos antes.
+	% \item En el caso que el nodo original tenga un solo color, se llama directamente a 2-List Coloring, evitando entrar al while.
 	\item Si se llega a una solución, se corta el backtracking y se devuelve esa. De esta forma en el caso promedio y mejor, no se recorrería todo el árbol de soluciones ya que no necesita encontrar todas las posibles.
 \end{itemize}
 
@@ -27,11 +29,16 @@ Para evitar repetir colores se utilizan dos iteradores, el primero (\emph{it}) s
 Para analizar la complejidad utilizaremos el siguiente pseudocódigo, en el cual se utilizan los términos:
 \begin{itemize}
 	\item \texttt{grafo}: para referirse al que viene por parámetro.
+	
 	\item \texttt{grafo2colores}: para el grafo que se construye para pasarselo al algoritmo del problema 1 y que admite hasta 2 colores por nodo.
+	
 	\item \texttt{ListColoring}: es el algoritmo que estamos analizando y representa el llamado recursivo a la misma función. 
+	
 	\item \texttt{2ListColoring}: es el algoritmo del problema 1 y se usa para obtener la solución a un grafo con a lo sumo dos colores por nodo.
+	
 	\item $count$: es una variable pasada por parámetro que se utiliza para avanzar y retroceder en la lista de nodos.
-	\item $c\_original$: es la cantidad máxima de colores que puede tener un nodo y que está dada por la entrada del problema.
+	
+	\item $c/2$: es la cantidad máxima de colores que puede tener un nodo y que está dada por la entrada del problema.
 \end{itemize}
 
 % El pseudocódigo de nuestro algoritmo sin podas es el siguiente:
@@ -43,7 +50,7 @@ Para analizar la complejidad utilizaremos el siguiente pseudocódigo, en el cual
 \STATE $count = $ índice en la lista de nodos del \texttt{grafo} (inicializada en cero, viene por parámetro) \COMMENT{$\mathcal{O}(1)$}
 
 \IF {$count ==$ cantidad de nodos del \texttt{grafo}}
-	\STATE Llamar a \texttt{2ListColoring} para resolver \texttt{grafo2colores} \COMMENT{$\mathcal{O}(1)$}
+	\STATE Llamar a \texttt{2ListColoring} para resolver \texttt{grafo2colores} \COMMENT{$\mathcal{O}(n^2 \log{n})$} %complejidad del 1! revisar
 	\STATE Retornar 
 \ENDIF
 
@@ -51,15 +58,15 @@ Para analizar la complejidad utilizaremos el siguiente pseudocódigo, en el cual
 \STATE $it = $ Obtener un iterador de la lista de colores de $nodo$ \COMMENT{$\mathcal{O}(1)$}
 \STATE $coloresSeleccionados = $ Obtener la lista de colores del $nodo$ en el \texttt{grafo2colores} \COMMENT{$\mathcal{O}(1)$}
 \STATE Incrementar $count$ \COMMENT{$\mathcal{O}(1)$}
-\WHILE[$\mathcal{O}(c\_original)$ en cantidad de ejecuciones.]{Haya próximo en la lista de colores}
+
+\WHILE[$\mathcal{O}(c/2)$ en cantidad de ejecuciones.]{Haya próximo en la lista de colores}
 	\STATE $color1 = $ Próximo en la lista \COMMENT{$\mathcal{O}(1)$}
-	\STATE $it2 = $ Obtener un iterador que apunta al color que le sigue a $color1$ \COMMENT{$\mathcal{O}(1)$}
 	\STATE Asignar $color1$ en la primer posición de la lista $coloresSeleccionados$ \COMMENT{$\mathcal{O}(1)$}
-	\WHILE[$\mathcal{O}(c\_original)$ cantidad de ejecuciones]{Haya próximo en la lista de colores a partir de $it2$}
-		\STATE $color2 = $ Próximo en la lista a partir de $it2$ \COMMENT{$\mathcal{O}(1)$}
+	\IF{Hay próximo en la lista de colores}
+		\STATE $color2 = $ Próximo en la lista \COMMENT{$\mathcal{O}(1)$}
 		\STATE Asignar $color2$ en la segunda posición de la lista $coloresSeleccionados$ \COMMENT{$\mathcal{O}(1)$}
-		\STATE Llamara a \texttt{ListColoring} con el count ya incrementado %\COMMENT{$\mathcal{O}(1)$}
-	\ENDWHILE
+	\ENDIF
+	\STATE Llamara a \texttt{ListColoring} con el $count$ ya incrementado %\COMMENT{$\mathcal{O}(1)$}
 \ENDWHILE
 \STATE Retornar
 \end{algorithmic}
