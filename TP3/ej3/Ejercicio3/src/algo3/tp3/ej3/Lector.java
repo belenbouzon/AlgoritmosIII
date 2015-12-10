@@ -12,8 +12,7 @@ public class Lector {
 	
 	public Lector(String archivo) throws Exception
 	{
-		//this.setArchivo(new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archivo))));
-		this.setArchivo(new BufferedReader(  new FileReader(getClass().getResource("").getPath() + archivo)));
+		this.setArchivo(new BufferedReader(  new FileReader("./" + archivo)));
 	}
 	
 	public Grafo MakeGraph(int cantAristas ) throws IOException 

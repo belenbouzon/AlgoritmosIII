@@ -57,7 +57,8 @@ public class GeneradorCasosDeTests
 		this.cantAristas      = cantDeAristas;
 		this.cantTotalColores = cantColores; 
 		
-		if (this.cantAristas > ((this.cantNodos - 1) * this.cantNodos) / 2 )
+		long maxAristas = (((long) this.cantNodos) * ((long) this.cantNodos - 1))/2; 
+		if (this.cantAristas > maxAristas)
 			throw new Exception ("Hay más aristas de las que puede tener un grafo completo.");
 		
 		String nombreDeArchivo = String.valueOf(cantColores) + "Colores.out";
