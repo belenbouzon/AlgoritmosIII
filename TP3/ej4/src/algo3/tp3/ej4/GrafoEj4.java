@@ -312,7 +312,46 @@ public class GrafoEj4 {
 		System.out.println(String.valueOf(convertido.getCantConflictos()));
 		convertido.ResolverConVecindad1();
 		System.out.println(String.valueOf(convertido.getCantConflictos()));
-
+		*/
+		
+		// vamos aumentando la cantidad de nodos
+		System.out.println("Vamos aumentando la cantidad de nodos, manteniendo la cantidad de colores en 50. La cantidad de aristas para cada caso es máxima (grafo completo).");
+		System.out.println("===========================");
+		System.out.println("n,m,c,tiempo greedy,conflictos greedy,tiempo busqueda local v1, conflictos busqueda local v1");
+		GeneradorCasosDeTests generador = new algo3.tp3.ej3.GeneradorCasosDeTests();
+		
+		//int aristas = 4900;
+		int colores = 50;
+		for (int n = 100; n<5000 ; n = (int) (n*1.2)){
+			int aristas = (int) (((long) (n)) * ((long) (n-1))/2); 
+			String caso = generador.GenerarArchivoDeGrafoByCantColores(n, aristas, colores);
+			//Con estas tres lineas leemos el input, y ya en grafoResultante nos queda el grafo resuelto con goloso.
+			Lector lector = new Lector(caso);
+			Grafo grafoResultante = lector.MakeGraph(-1);
+			long greedyT0 = System.nanoTime();
+			grafoResultante.MakeRainbow();
+			long greedyT1 = System.nanoTime();
+			
+			int greedyConflictos = algo3.tp3.ej3.Main.CalcularConflictos(grafoResultante);
+			long tiempoGreedy = greedyT1 - greedyT0;
+			
+			GrafoEj4 convertido = new GrafoEj4(grafoResultante);
+			long busquedaLocalT0 = System.nanoTime();
+			convertido.ResolverConVecindad1();
+			long busquedaLocalT1 = System.nanoTime();
+			
+			long tiempoBusquedaLocal = busquedaLocalT1 - busquedaLocalT0;
+			int busquedaLocalConflictos = convertido.getCantConflictos();
+			
+			System.out.println(Integer.toString(n) + "," +
+					Integer.toString(aristas) + "," +
+					Integer.toString(colores) + "," +
+					Long.toString(tiempoGreedy) + "," +
+					Integer.toString(greedyConflictos) + "," +
+					Long.toString(tiempoBusquedaLocal) + "," +
+					Integer.toString(busquedaLocalConflictos));
+			
+		}
 		
 				
 	}
