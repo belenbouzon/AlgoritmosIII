@@ -2,6 +2,9 @@ package algo3.tp3.ej4;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class AristaEj4 {
+	/*
+	 * Modela una arista entre dos vértices. Son aristas NO direccionadas.
+	 */
 	private NodoConVecinos n1;
 	private NodoConVecinos n2;
 	

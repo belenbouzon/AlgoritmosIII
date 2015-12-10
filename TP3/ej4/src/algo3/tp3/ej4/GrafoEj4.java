@@ -32,12 +32,10 @@ public class GrafoEj4 {
 
 
 
-	public int getCantidadDeColores() 
-	{
+	public int getCantidadDeColores() {
 		return _cantidadDeColores;
 	}
-	public void setCantidadDeColores(int cantidadDeColores) 
-	{
+	public void setCantidadDeColores(int cantidadDeColores) {
 		this._cantidadDeColores = cantidadDeColores;
 	}
 	
@@ -192,8 +190,8 @@ public class GrafoEj4 {
 			if ((mejorMejoraN2 > 0) && mejorSwapN2 != null)
 				return swapColores(target.getN2(), mejorSwapN2);
 		}
-		// No encontré un buen swap
-		return 0;
+		
+		return 0; // No encontré un buen swap
 	}
 	
 	private Integer minimo(Hashtable<Integer, ArrayList<NodoConVecinos>> in){
@@ -209,6 +207,8 @@ public class GrafoEj4 {
 		// Intercambiar los colores entre n1 y n2, devolviendo la cantidad de conflictos que se resolvieron
 		
 		// TODO: se puede optimizar esto..
+		
+		assert(n1.getColor() != n2.getColor());
 		
 		Integer res = 0; // acá tendremos la cantidad total de conflictos resueltos
 		
@@ -240,6 +240,10 @@ public class GrafoEj4 {
 
 
 	private Integer cambiarColor(Integer nuevoColor, Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColor, NodoConVecinos target) throws Exception{
+		/*
+		 * Cambio el color del nodo target por nuevoColor. En conflictosPorColor recibo una tabla que ya tiene calculados los vecinos con los que target
+		 * va a tener conflicto para cada color posible. (Nos interesan los del color actual y los de nuevoColor).
+		 */
 		Integer diferencia = 0;
 		if (nuevoColor != target.getColor()){
 			
@@ -264,6 +268,9 @@ public class GrafoEj4 {
 	}
 	
 	public void ResolverConVecindad1() throws Exception{
+		/*
+		 * Aplicamos la vecindad 1 a todos los conflictos del grafo.
+		 */
 		LinkedList<AristaEj4> cola = new LinkedList<AristaEj4>();
 		for (AristaEj4 c: this._conflictos)
 			cola.add(c);
@@ -285,7 +292,7 @@ public class GrafoEj4 {
 	
 	
 	public static void main(String[] args) throws Exception {
-		
+		/*
 		GeneradorCasosDeTests generador = new algo3.tp3.ej3.GeneradorCasosDeTests();
 		String caso = generador.GenerarArchivoDeGrafoByCantColores(100, 3000, 20);
 
