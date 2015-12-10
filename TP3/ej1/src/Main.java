@@ -7,7 +7,7 @@ public class Main {
 			System.err.print("Integrese: <nombre_de_archivo>; si quiere una medición de tiempos ingrese --imprimirTiempos como segundo parámetro\n");
 			return;
 		}
-		if(entrada.length==1 || !entrada[1].equal("--imprimirTiempos")){
+		if(entrada.length==1 || !entrada[1].equals("--imprimirTiempos")){
 			Lector lec = new Lector(entrada[0]);
 			lec.inicializar_lector();
 			Calculador_de_Coloracion_Ej1 res = new Calculador_de_Coloracion_Ej1(lec.cantidad_nodos(),lec.nodos_del_grafo());
@@ -23,7 +23,7 @@ public class Main {
 			long fin = System.nanoTime();
 			//System.out.print(solucion);
 			//System.out.print("\n");
-			System.out.print(Integer.toString(fin-inicio));
+			System.out.print(Integer.toString((int) (fin-inicio)));
 			System.out.print("\n");
 		}
 	}
