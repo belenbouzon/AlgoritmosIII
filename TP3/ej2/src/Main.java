@@ -8,17 +8,28 @@ public class Main {
 	private static ArrayList<Nodo_Coloreable_ej2> grafo;
 	private static ArrayList<Nodo_Coloreable> grafo2colores;
 	private static String solucion;
+	private static Boolean podas = false;
 
 	public static void main(String[] args) throws Exception{
 		long time0;
 		long time1;
 		Boolean mideTiempos = false;
+		String variable = "";
 
 		MostrarIndicaciones(args.length);
 
-		if (args.length > 1 && args[1].equalsIgnoreCase("--tiempos"))
+		if (args.length > 2 && args[1].equalsIgnoreCase("--tiempos"))
 		{
 		   mideTiempos = true;
+		   // variable selecciona que se imprime: cant nodos, aristas o colores.
+		   variable = args[2];
+		   // sirve para medir performance sin podas.
+		   if (args.length > 3 && args[3].equals("-p")) {
+		   		podas = true;
+		   }
+		}else{
+			// si no mide tiempos, siempre corre con podas
+			podas = true;
 		}
 
 		Lector reader = new Lector(args[0]);
@@ -30,20 +41,28 @@ public class Main {
 		grafo = reader.getGrafo();
 		grafo2colores = reader.getGrafo2colores();
 		//Ordenamos los nodos para que queden primero los de menor cantidad de colores.
-		Collections.sort(grafo, new ColorComparator());
+		if (podas) {
+			Collections.sort(grafo, new ColorComparator());
+		}
 
 		listColoring(0);
 		
 		if(mideTiempos){
 			time1 = System.nanoTime();
 			time1 = time1-time0;
-			System.out.printf("%d-%s\n", cantNodos, Long.toString(time1));
+			int cant = cantNodos;
+			if (variable.equals("Aristas")) {
+				cant = reader.cantAristas();
+			}else if(variable.equals("Colores")){
+				cant = reader.cantColores();
+			}
+			System.out.printf("%d-%s\n", cant, Long.toString(time1));
+		}else{
+			//imprimir solucion
+			// genera el .out con el mismo nombre que la entrada.
+			Escritor writer = new Escritor(args[0]);
+			writer.EscribirSolucion(solucion);
 		}
-		//imprimir solucion
-		// genera el .out con el mismo nombre que la entrada.
-		Escritor writer = new Escritor(args[0]);
-		writer.EscribirSolucion(solucion);
-		//System.out.printf("%s\n", solucion);
 		return;
 	}
 
@@ -51,7 +70,9 @@ public class Main {
 		if (count == cantNodos) {
 			//llamo a 2listColoring
 			solucion = new Calculador_de_Coloracion_Ej1(cantNodos, grafo2colores).obtener_resolucion();
-			return !solucion.equals("X");
+			boolean x = !solucion.equals("X");
+			if (!podas) {x = false;}
+			return x;
 		}
 		//Count se utiliza para recorrer la lista en orden.
 		Nodo_Coloreable_ej2 nodo = grafo.get(count);
@@ -60,33 +81,31 @@ public class Main {
 		ColoresPosibles coloresSeleccionados = grafo2colores.get(nodo.identidad).colores;
 		count++; //aumento el count para llamar al proximo nodo.
 
-		// if(nodo.cantidad_colores < 2){
-		// 	//si hay un solo color directamente llamo a listColoring.
-		// 	coloresSeleccionados.set_color(0, it.next());
-		// 	return listColoring(count);
-		// }else{
-			while(it.hasNext()){
-				int color1 = it.next();
-				//Agrego color1 a la lista de colores
-				coloresSeleccionados.set_color(0, color1);
-				// ListIterator<Integer> it2 = nodo.colores.listIterator(it.nextIndex());
-				if(it.hasNext()){
-					int color2 = it.next();
-					//Agrego color2
-					coloresSeleccionados.set_color(1, color2);
-				}
-				if(listColoring(count)){
-					return true;
-				}
+		while(it.hasNext()){
+			int color1 = it.next();
+			//Agrego color1 a la lista de colores
+			coloresSeleccionados.set_color(0, color1);
+			// ListIterator<Integer> it2 = nodo.colores.listIterator(it.nextIndex());
+			if(it.hasNext()){
+				int color2 = it.next();
+				//Agrego color2
+				coloresSeleccionados.set_color(1, color2);
 			}
-		// }
+			// cuando no hay podas nunca entra al if y recorre todo el arbol de soluciones.
+			if(listColoring(count)){
+				return true;
+			}
+		}
 		return false;
 	}
 
 	private static void MostrarIndicaciones(int length) throws Exception{
 		if (length < 1){
 		    System.out.printf("Debe pasar el nombre del archivo de input como parametro. Ademas puede pasar el flag --tiempos despues del nombre de archivo para obtener las mediciones de tiempos\n");
-		    System.out.printf("USO: java Main INPUT [--tiempos]\n");
+		    System.out.printf("USO: java Main INPUT [--tiempos <variable> -p]\n");
+		    System.out.printf("variable: Nodos, Aristas o Colores. Se utiliza con --tiempos para que imprima la cantidad de la variable.\n");
+		    System.out.printf("-p indica que se quiere correr el algoritmo con podas\n");
+		    System.out.printf("Por default se corre con podas si no se usa el flag --tiempos\n");
 			System.exit(0);
 		}
    }
