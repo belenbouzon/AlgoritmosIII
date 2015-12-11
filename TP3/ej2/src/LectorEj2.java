@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 
-public class Lector {
+public class LectorEj2 {
 	private ArrayList<Nodo_Coloreable_ej2> nodos_del_grafo;
 	private ArrayList<Nodo_Coloreable> grafo_2colores;
 	private BufferedReader is;
@@ -40,7 +40,7 @@ public class Lector {
         }
 	}
 
-	public Lector(String archivo) throws Exception
+	public LectorEj2(String archivo) throws Exception
 	{
 		try { this.is = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archivo)));}
 		catch (RuntimeException e) {throw new Exception ("No pudo hallarse el archivo especificado." + archivo);}

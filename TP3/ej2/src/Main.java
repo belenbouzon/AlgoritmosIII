@@ -32,7 +32,7 @@ public class Main {
 			podas = true;
 		}
 
-		Lector reader = new Lector(args[0]);
+		LectorEj2 reader = new LectorEj2(args[0]);
 
 		//while para mas de una instancia?
 		time0 = System.nanoTime();
