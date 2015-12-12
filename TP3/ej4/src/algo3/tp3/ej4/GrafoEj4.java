@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import algo3.tp3.ej3.GeneradorCasosDeTests;
 import algo3.tp3.ej3.Grafo;
 import algo3.tp3.ej3.Lector;
-//import algo3.tp3.ej3.Main;
 import algo3.tp3.ej3.Nodo;
 
 
@@ -99,25 +98,26 @@ public class GrafoEj4 {
 		 *     3.1. conflictosPorColor[v.getColor()] += 1
 		 * hacer lo mismo para Nodo n2
 		 */
-		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN1 = new Hashtable<Integer, ArrayList<NodoConVecinos>>();
-		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN2 = new Hashtable<Integer, ArrayList<NodoConVecinos>>();
-		for (int color: target.getN1().get_coloresPosibles()){
+		
+		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN1 = new Hashtable<Integer, ArrayList<NodoConVecinos>>();  // O(1)
+		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN2 = new Hashtable<Integer, ArrayList<NodoConVecinos>>();	// O(1)
+		for (int color: target.getN1().get_coloresPosibles()){						// O(c)
 			ArrayList<NodoConVecinos> vacia = new ArrayList<NodoConVecinos>();
 			conflictosPorColorN1.put(color, vacia);
 		}
-		for (int color: target.getN2().get_coloresPosibles()){
+		for (int color: target.getN2().get_coloresPosibles()){						// O(c)
 			ArrayList<NodoConVecinos> vacia = new ArrayList<NodoConVecinos>();
 			conflictosPorColorN2.put(color, vacia);
 		}
 		
-		for (NodoConVecinos v: target.getN1().vecinos()){
+		for (NodoConVecinos v: target.getN1().vecinos()){							// O(n)
 			if (conflictosPorColorN1.containsKey(v.getColor())){
 				ArrayList<NodoConVecinos> nuevovalor = conflictosPorColorN1.get(v.getColor());
 				nuevovalor.add(v);
 				conflictosPorColorN1.put(v.getColor(), nuevovalor);
 			}
 		}
-		for (NodoConVecinos v: target.getN2().vecinos()){
+		for (NodoConVecinos v: target.getN2().vecinos()){							// O(n)
 			if (conflictosPorColorN2.containsKey(v.getColor())){
 				ArrayList<NodoConVecinos> nuevovalor = conflictosPorColorN2.get(v.getColor());
 				nuevovalor.add(v);
@@ -125,10 +125,10 @@ public class GrafoEj4 {
 			}
 		}
 		
-		Integer candidatoN1 = minimo(conflictosPorColorN1);
-		Integer candidatoN2 = minimo(conflictosPorColorN2);
+		Integer candidatoN1 = minimo(conflictosPorColorN1);							// O(c)
+		Integer candidatoN2 = minimo(conflictosPorColorN2);							// O(c)
 		
-		if (conflictosPorColorN1.get(candidatoN1).size() <= conflictosPorColorN2.get(candidatoN2).size()){
+		if (conflictosPorColorN1.get(candidatoN1).size() <= conflictosPorColorN2.get(candidatoN2).size()){	// O(1)
 			return this.cambiarColor(candidatoN1, conflictosPorColorN1, target.getN1());
 		} else{
 			return this.cambiarColor(candidatoN2, conflictosPorColorN2, target.getN2());
@@ -169,8 +169,10 @@ public class GrafoEj4 {
 			int conflictosConSwap = target.getN1().conflictosColor(v.getColor()) + v.conflictosColor(target.getN1().getColor());
 			
 			if (conflictosConSwap > conflictosSinSwap){
-				if (conflictosConSwap > mejorMejoraN1)
+				if (conflictosConSwap > mejorMejoraN1){
 					mejorSwapN1 = v;
+					mejorMejoraN1 = conflictosConSwap;
+				}
 			}
 		}
 		for (NodoConVecinos v: candidatosN2){
@@ -178,8 +180,10 @@ public class GrafoEj4 {
 			int conflictosConSwap = target.getN2().conflictosColor(v.getColor()) + v.conflictosColor(target.getN2().getColor());
 			
 			if (conflictosConSwap > conflictosSinSwap){
-				if (conflictosConSwap > mejorMejoraN2)
+				if (conflictosConSwap > mejorMejoraN2){
 					mejorSwapN2 = v;
+					mejorMejoraN2 = conflictosConSwap;
+				}
 			}
 		}
 		
@@ -271,12 +275,12 @@ public class GrafoEj4 {
 		/*
 		 * Aplicamos la vecindad 1 a todos los conflictos del grafo.
 		 */
-		LinkedList<AristaEj4> cola = new LinkedList<AristaEj4>();
-		for (AristaEj4 c: this._conflictos)
+		LinkedList<AristaEj4> cola = new LinkedList<AristaEj4>();  	// O(1)
+		for (AristaEj4 c: this._conflictos)							// O(m)
 			cola.add(c);
 		
-		for (AristaEj4 c: cola){
-			this.vecindad1(c);
+		for (AristaEj4 c: cola){			// El for entero termina costando O(m * (n+c))
+			this.vecindad1(c);				// O(n+c)
 		}
 	}
 	
@@ -292,6 +296,7 @@ public class GrafoEj4 {
 	
 	
 	public static void main(String[] args) throws Exception {
+
 		/*
 		GeneradorCasosDeTests generador = new algo3.tp3.ej3.GeneradorCasosDeTests();
 		String caso = generador.GenerarArchivoDeGrafoByCantColores(100, 3000, 20);
@@ -321,8 +326,14 @@ public class GrafoEj4 {
 		GeneradorCasosDeTests generador = new algo3.tp3.ej3.GeneradorCasosDeTests();
 		
 		//int aristas = 4900;
+		
+		int vecinidadUtilizada = Integer.parseInt(args[0]);
+		if(vecinidadUtilizada!=1 && vecinidadUtilizada!=2){
+			System.err.print("error, vecinidad debe ser 1 o 2");
+		}
+		
 		int colores = 50;
-		for (int n = 100; n<5000 ; n = (int) (n*1.2)){
+		for (int n = 100; n<50000 ; n = (int) (n*1.2)){
 			int aristas = (int) (((long) (n)) * ((long) (n-1))/2); 
 			String caso = generador.GenerarArchivoDeGrafoByCantColores(n, aristas, colores);
 			//Con estas tres lineas leemos el input, y ya en grafoResultante nos queda el grafo resuelto con goloso.
@@ -337,7 +348,11 @@ public class GrafoEj4 {
 			
 			GrafoEj4 convertido = new GrafoEj4(grafoResultante);
 			long busquedaLocalT0 = System.nanoTime();
-			convertido.ResolverConVecindad1();
+			if(vecinidadUtilizada==1){
+				convertido.ResolverConVecindad1();
+			}else{
+				convertido.ResolverConVecindad2();
+			}
 			long busquedaLocalT1 = System.nanoTime();
 			
 			long tiempoBusquedaLocal = busquedaLocalT1 - busquedaLocalT0;

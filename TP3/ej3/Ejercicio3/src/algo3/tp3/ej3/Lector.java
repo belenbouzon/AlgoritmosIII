@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
 public class Lector {
 	
 	private BufferedReader archivo;
@@ -15,7 +16,7 @@ public class Lector {
 		this.setArchivo(new BufferedReader(  new FileReader("./" + archivo)));
 	}
 	
-	public Grafo MakeGraph(int cantAristas ) throws IOException 
+	public Grafo MakeGraph(int cantAristas) throws IOException 
 	{
 		Grafo grafo = new Grafo();
 		int[] nodosAristasColores = Ej3Utils.ToIntegerArray(this.getArchivo().readLine().split(" "));
