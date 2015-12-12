@@ -9,8 +9,10 @@ import java.util.HashSet;
 import java.util.Random;
 
 import algo3.tp3.ej3.Escritor;
+import algo3.tp3.ej3.GeneradorCasosDeTests;
 import algo3.tp3.ej3.Grafo;
 import algo3.tp3.ej3.Lector;
+import algo3.tp3.ej3.Main;
 import algo3.tp3.ej3.Nodo;
 import algo3.tp3.ej4.GrafoEj4;
 
@@ -54,6 +56,35 @@ public class Tester {
 		}
 	}
 	
+	private static void GenerarTestCiclico(int cantDeNodosMaxima) throws Exception 
+	{
+		algo3.tp3.ej3.Main.CrearArchivosDeSalida();
+		GeneradorCasosDeTests generador = new GeneradorCasosDeTests();
+		
+		int cantDeNodos = 1000;
+		
+		while(cantDeNodos <= cantDeNodosMaxima)
+		{
+			String nombreDeArchivo = generador.GenerarArchivoDeGrafoCiclico(cantDeNodos);	
+
+			Lector lector = new Lector(nombreDeArchivo);
+		
+			long greedyTime0 = System.nanoTime();
+			Grafo grafoResultante = lector.MakeGraph(cantDeNodos);
+			grafoResultante.MakeRainbow();
+			long greedyTime1 = System.nanoTime();
+			int cantConflictosGreedy = algo3.tp3.ej3.Main.CalcularConflictos(grafoResultante);
+		
+			long localTime0 = System.nanoTime();
+			int cantConflictosLocal = Tester.resolverConLocalyDevolverCantConflictos(" ", grafoResultante, 1);
+			long localTime1  = System.nanoTime();
+		
+			algo3.tp3.ej3.Main.EscribirArchivoTiempos(cantDeNodos, greedyTime1-greedyTime0, localTime1-localTime0);
+			algo3.tp3.ej3.Main.EscribirArchivoConflictos(cantDeNodos, cantConflictosGreedy, cantConflictosLocal);
+			
+			cantDeNodos += 1000;
+		}
+	}
 	
 	public static int cantidadDeConflictos(String entrada, String salida) throws IOException{
 		BufferedReader archivoDeEntrada = new BufferedReader( new InputStreamReader( Tester.class.getResourceAsStream(entrada)));
@@ -259,7 +290,6 @@ public class Tester {
 		}
 	}
 
-	
 	private static int CantidadDeVecinosDeMiColor(Grafo grafo, Nodo nodoActual) 
 	{
 		int cantidadDeVecinosCopiones = 0;
@@ -270,7 +300,6 @@ public class Tester {
 		}
 		return cantidadDeVecinosCopiones;		
 	}
-	
 	
 	private static int golosoConBipartitoCompleto(String [] entrada) throws NumberFormatException, Exception{
 		boolean limitarCantidad;
@@ -297,7 +326,9 @@ public class Tester {
 	}
 	
 	public static void main(String[] entrada) throws NumberFormatException, Exception{
-		if(entrada.length==0){
+		GenerarTestCiclico(15000);
+		System.out.print("Finalizado");
+		/*if(entrada.length==0){
 			imprimirHelp();
 			//imprimirReporteDeErrores(4,1005,9005,1000);
 			return;
@@ -395,7 +426,7 @@ public class Tester {
 			reporte.close();
 		}else{
 			imprimirHelp();
-		}
+		}*/
 	}
 	
 	public static void imprimirColoracion(String salida,Grafo grafo) throws IOException{

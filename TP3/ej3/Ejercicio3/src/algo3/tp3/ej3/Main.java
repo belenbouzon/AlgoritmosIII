@@ -2,7 +2,6 @@ package algo3.tp3.ej3;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import algo3.tp3.ej5.Tester;
 
 public class Main 
 {
@@ -19,14 +18,14 @@ public class Main
 		//GenerarTestEnFuncionDeColores(cantColores, cantMaximaDeColores, cantDeNodos, cantDeAristas, escala);
 		
 		//GenerarTestEnFuncionDeAristas(cantDeNodos, cantColores, escala);
-		int cantDeNodosMaxima = 2000;
+/*		int cantDeNodosMaxima = 2000;
 		GenerarTestCiclico(cantDeNodosMaxima);
-
+*/
 		
 		System.out.println("Proceso finalizado");
 	}
 
-	private static void GenerarTestCiclico(int cantDeNodosMaxima) throws Exception 
+/*	private static void GenerarTestCiclico(int cantDeNodosMaxima) throws Exception 
 	{
 		CrearArchivosDeSalida();
 		GeneradorCasosDeTests generador = new GeneradorCasosDeTests();
@@ -53,10 +52,10 @@ public class Main
 			
 			cantDeNodos += 1000;
 		}
-	}
+	}*/
 
 
-	private static void EscribirArchivoConflictos(int cantDeNodos, int cantConflictosGreedy, int cantConflictosLocal) throws IOException 
+	public static void EscribirArchivoConflictos(int cantDeNodos, int cantConflictosGreedy, int cantConflictosLocal) throws IOException 
 	{
 		File archivoConflictos = new File(pathConflictos);
 		FileWriter fw1 = new FileWriter(archivoConflictos, true);
@@ -64,7 +63,7 @@ public class Main
 		fw1.close();
 	}
 
-	private static void EscribirArchivoTiempos(int cantDeNodos, long tiempoGreedy, long tiempoLocal) throws IOException 
+	public static void EscribirArchivoTiempos(int cantDeNodos, long tiempoGreedy, long tiempoLocal) throws IOException 
 	{
 		File archivoTiempos = new File(pathTiempos);
 		FileWriter fw = new FileWriter(archivoTiempos, true);
@@ -104,7 +103,7 @@ public class Main
 		}		
 	}
 
-	private static void CrearArchivosDeSalida() throws Exception, IOException 
+	public static void CrearArchivosDeSalida() throws Exception, IOException 
 	{
 		Escritor archivoDeTiempos = new Escritor("resultadosDeTiempos.out");
 		archivoDeTiempos.Fin();
@@ -176,6 +175,6 @@ public class Main
 		return cantidadDeVecinosCopiones;
 			
 	}
-	private static String pathTiempos = "C:\\Users\\Bel\\Documents\\GitHub\\AlgoritmosIII\\TP3\\ej3\\Ejercicio3\\bin\\" + "resultadosDeTiempos.out";
-	private static String pathConflictos =  "C:\\Users\\Bel\\Documents\\GitHub\\AlgoritmosIII\\TP3\\ej3\\Ejercicio3\\bin\\"  + "resultadosDeConflictos.out";
+	private static String pathTiempos = "C:\\Users\\Bel\\Documents\\GitHub\\AlgoritmosIII\\TP3\\ej5\\" + "resultadosDeTiempos.out";
+	private static String pathConflictos =  "C:\\Users\\Bel\\Documents\\GitHub\\AlgoritmosIII\\TP3\\ej5\\"  + "resultadosDeConflictos.out";
 }
