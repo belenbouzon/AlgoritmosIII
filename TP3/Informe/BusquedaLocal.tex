@@ -1,0 +1,39 @@
+\section{Problema 4: Heurística de búsqueda local}
+
+\subsection{Descripción del algoritmo}
+
+Después de aplicar la heurística de búsqueda golosa sobre el problema obtenemos un grafo en el que puede haber conflictos. Esta segunda heurística que desarrollamos se aplica sobre instancias del problema donde ya hay un color válido asignado a todos los nodos. Se trata, entonces, de reducir la cantidad de conflictos de la instancia.
+
+La heurística de búsqueda local define una "vecindad" del problema que se define como una modificación 
+
+EXPLICAR VECINDADES
+
+\subsubsection{Vecindad 1}
+
+Esta vecindad toma una arista en conflicto\footnote{Es decir que ambos nodos de la arista tienen el mismo color.} e intenta modificar el color de uno de los dos nodos, tratando de reducir la cantidad total de conflictos.
+
+% 
+% * 1. obtener conjunto de colores posibles para Nodo n1
+% 		 * 2. crear HashTable<int, int> conflictosPorColor (inicializar en 0) 
+% 		 * 3. para cada v en vecinos de n1
+% 		 *     3.1. conflictosPorColor[v.getColor()] += 1
+% 		 * hacer lo mismo para Nodo n2
+% 		 */
+
+\subsubsection{Vecindad 2}
+
+\subsection{Análisis de complejidad}
+
+
+
+
+
+
+\subsection{Experimentación}
+
+
+\subsubsection{Peor caso}
+
+
+
+\subsubsection{Mejor caso}
