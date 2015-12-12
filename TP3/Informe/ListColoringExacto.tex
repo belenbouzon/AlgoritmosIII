@@ -8,7 +8,7 @@ En esta oportunidad se nos pide resolver el problema List Coloring que consiste 
 
 Para desarrollar un algoritmo exacto para este problema decidimos usar backtracking y de esta forma recorrer todas las opciones de colores y poder encontrar la solución si esta existe.\\
 
-Como el enunciado pide que al llegar a un caso de 2-List Coloring se utilice el algoritmo del primer punto, decidimos cambiar el enfoque de la resolución para poder adaptarlo a instancias del ejercicio 1. Por lo tanto en lugar de usar el enfoque convencional que sería fijar un color para cada nodo y ver si es solución, optamos por recorrer todos los nodos del grafo fijando dos colores por cada uno y al llegar al último nodo llamar a 2-list Coloring para que chequee si con esa configuración de colores hay solución. Si la respuesta es $"X"$ entonces se selecciona el siguiente color del último nodo y se vuelve a probar. Cuando se acaban los colores del último, se elije el próximo color del ante último y se vuelve a empezar de cero con los colores del siguiente y así hasta que se prueben todos los colores de todos los nodos. De esta forma siempre se llega a un caso base que es resoluble por 2-List Coloring.\\
+Como el enunciado pide que al llegar a un caso de 2-List Coloring se utilice el algoritmo del primer punto, decidimos cambiar el enfoque de la resolución para poder adaptarlo a instancias del ejercicio 1. Por lo tanto en lugar de usar la forma mas convencional de backtracking, que sería fijar un color para cada nodo y ver si es solución, optamos por recorrer todos los nodos del grafo fijando dos colores por cada uno y al llegar al último nodo llamar a 2-list Coloring para que chequee si con esa configuración de colores hay solución. Si la respuesta es $"X"$ entonces se seleccionan los dos colores siguientes del último nodo y se vuelve a probar. Cuando se acaban los colores del último, se elije los próximos colores del ante último y se vuelve a empezar de cero con los colores del siguiente y así hasta que se prueben todos los colores de todos los nodos. De esta forma siempre se llega a un caso base que es resoluble por 2-List Coloring.\\
 
 Para evitar repetir o saltear colores se utiliza un iterador (\emph{it}) que siempre arranca desde el primer color de la lista y dentro del \texttt{while} se seleccionan dos colores consecutivos si hay o se selecciona uno solo (ver pseudocódigo de la sección \ref{sec:complj}) y luego se llama recursivamente a ListColoring para seleccionar los colores del nodo siguiente.\\
 
@@ -25,9 +25,9 @@ Cada nodo tiene la siguiente cantidad de colores: $A: 2$, $B:4$, $C:5$ y $D:6$
 [.{A:0,1}
 	[.{B:0,1}
 		[.{C:0,1}
-			[.{D:0,1} 2LC ]
-			[.{D:2,3} 2LC ]
-			[.{D:4,5} 2LC ]
+			[.{D:0,1} \texttt{2LC} ]
+			[.{D:2,3} \texttt{2LC} ]
+			[.{D:4,5} \texttt{2LC} ]
 		]
 		[.{C:2,3} {\vdots} ]
 		[.{C:4} {\vdots} ]
@@ -41,7 +41,7 @@ Cada nodo tiene la siguiente cantidad de colores: $A: 2$, $B:4$, $C:5$ y $D:6$
 \end{tikzpicture}
 \end{center}
 
-Como se puede ver en la imagen, cada nivel representa los llamados de \emph{ListColoring} para un determinado nodo y se puede ver como se seleccionan los índices de los colores de forma que en las hojas se llama se llama a \emph{2-List Coloring} (2LC) con todas las conbinaciones de colores.
+Como se puede observar en la imagen, cada nivel representa los llamados de \emph{ListColoring} para un determinado nodo y se puede ver como se seleccionan los índices de la lista de colores de a dos de forma que en las hojas se llama a \emph{2-List Coloring} (\texttt{2LC}) con todas las combinaciones de colores.
 
 \subsubsection{Podas}
 
@@ -49,10 +49,11 @@ Como se puede ver en la imagen, cada nivel representa los llamados de \emph{List
 	\item La primer poda que se realiza es la de ordenar la lista de nodos de forma que queden primero los nodos con menor cantidad de colores ya que de esta forma si se eligen los colores de un nodo $a$ con dos colores primero y luego se pasa a uno $b$ de cinco, se estaría recorriendo el subgrafo que no contiene a $a$ dos veces en lugar de las cinco que se recorrería si estuviera primero el nodo $b$.
 	
 	\item Al revisar el código de la primer entrega nos dimos cuenta que no era necesario hacer todas las permutaciones de los colores de un nodo ya que alcanzaba con seleccionar una sola vez cada color para cada nodo y llamar a 2-List Coloring dado que la recursión se encarga de que los colores se prueben todos con todos.
-	% \item Una poda también sería no llamar a 2-List Coloring con un nodo que tenga los colores $\{0, 1\}$ y luego volverlo a llamar con el mismo nodo con los colores $\{1, 0\}$ por ese motivo se recorren las listas de colores de la forma que explicamos antes.
-	% \item En el caso que el nodo original tenga un solo color, se llama directamente a 2-List Coloring, evitando entrar al while.
+	
 	\item Si se llega a una solución, se corta el backtracking y se devuelve esa. De esta forma en el caso promedio y mejor, no se recorrería todo el árbol de soluciones ya que no necesita encontrar todas las posibles.
 \end{itemize}
+
+Por lo tanto como se está generando el árbol de soluciones completo y las podas cortan ramas solo cuando se encontró un coloreo posible o cuando se determina que no existe coloreo, se puede decir que nuestro algoritmo es correcto.
 
 \subsection{Análisis de la complejidad}
 \label{sec:complj}
