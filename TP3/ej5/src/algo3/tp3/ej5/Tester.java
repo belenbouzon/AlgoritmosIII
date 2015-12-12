@@ -425,11 +425,9 @@ public class Tester {
 				double[][] res = Tester.ejecutarTest(cantidadNodos, cantidadAristas, cantidadColores, cantidadDesplazamientos, escala, cantidadIteraciones, nodosFijos, aristasFijas, coloresFijos, limitar,true);
 				res2 = res;
 			}
-			BufferedWriter reporte = new BufferedWriter( new FileWriter( Tester.class.getResource( "" ).getPath() + "temporal.txt") );
-			for(int h = 0; h<cantidadDesplazamientos;h++){
-				reporte.write(Double.toString(res2[0][h]) + " " +  Double.toString(res2[1][h]) + " " + Double.toString(res2[2][h]) +"\n");
-			}
-			reporte.close();
+			/*for(int h = 0; h<cantidadDesplazamientos;h++){
+				System.out.print(Double.toString(res2[0][h]) + " " +  Double.toString(res2[1][h]) + " " + Double.toString(res2[2][h]) +"\n");
+			}*/
 		}else if(primerParametro==3){
 			int vecinidadUtilizada = Integer.parseInt(entrada[1]);
 			int cantidadNodos = Integer.parseInt(entrada[2]);
@@ -590,6 +588,8 @@ public class Tester {
 					res[2][z] += (fin-inicio)/cantidadIteraciones;
 				}
 			}
+			
+			System.out.print(Double.toString(res[0][z]) + " " +  Double.toString(res[1][z]) + " " + Double.toString(res[2][z]) +"\n");
 			
 			z++;
 			if(!nodosFijos){
