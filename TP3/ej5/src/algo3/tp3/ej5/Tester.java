@@ -326,6 +326,7 @@ public class Tester {
 				+ "1: Testear Bipartito\n"
 				+ "2: <cantidadNodos> <cantidadAristas> <cantidadColores> <cantidadDesplazamientos> <escala> <cantidadIteraciones> --NodosFijos --AristasFijas --ColoresFijos --CantidadColoresMaximaSiempre\n"
 				+ "3: <vecinidadUtilizada> <cantidadNodos> <cantidadColores> <cantidadDesplazamientos> <escala> --ColoresFijos --limitar\n"
+				+ "4: <cantidadNodos> <cantidadAristas> <cantidadColores> <cantidadDesplazamientos> <escala> <cantidadIteraciones> --NodosFijos --AristasFijas --ColoresFijos --CantidadColoresMaximaSiempre\n"
 				+ "5: <cantidadNodos> <cantidadAristas> <cantidadColores> <cantidadDesplazamientos> <escala> <cantidadIteraciones> --NodosFijos --AristasFijas --ColoresFijos --CantidadColoresMaximaSiempre\n"
 				+ "\n<cantidadNodos>: valor inicial de cantidad de nodos\n"
 				+ "..IDEM para aristas y colores\n"
@@ -353,7 +354,7 @@ public class Tester {
 			}
 			System.out.print(res);
 			System.out.print("\n");
-		}else if(primerParametro==2 || primerParametro==5){
+		}else if(primerParametro==2 || primerParametro==5 || primerParametro==4){
 			int cantidadNodos = Integer.parseInt(entrada[1]);
 			int cantidadAristas = Integer.parseInt(entrada[2]);
 			int cantidadColores = Integer.parseInt(entrada[3]);
@@ -431,6 +432,8 @@ public class Tester {
 			if(primerParametro==2){
 				double[][] res = Tester.ejecutarTest(cantidadNodos, cantidadAristas, cantidadColores, cantidadDesplazamientos, escala, cantidadIteraciones, nodosFijos, aristasFijas, coloresFijos, limitar,false);
 				res2 = res;
+			}else if(primerParametro==4){
+				Tester.ejecutarTest_Beta(cantidadNodos, cantidadAristas, cantidadColores, cantidadDesplazamientos, escala, cantidadIteraciones, nodosFijos, aristasFijas, coloresFijos, limitar);
 			}else{
 				double[][] res = Tester.ejecutarTest(cantidadNodos, cantidadAristas, cantidadColores, cantidadDesplazamientos, escala, cantidadIteraciones, nodosFijos, aristasFijas, coloresFijos, limitar,true);
 				res2 = res;
@@ -523,7 +526,7 @@ public class Tester {
 
 	
 	
-	public static void resolverConLocal(String entrada,Grafo grafoResultante,int vecinidad) throws Exception{
+	public static GrafoEj4 resolverConLocal(String entrada,Grafo grafoResultante,int vecinidad) throws Exception{
 		
 		GrafoEj4 convertido = new GrafoEj4(grafoResultante);		
 		//System.out.println(String.valueOf(convertido.getCantConflictos()));
@@ -535,6 +538,7 @@ public class Tester {
 			convertido.ResolverConVecindad2();
 			//imprimirColoracion("L2" + entrada,grafoResultante);
 		}
+		return convertido;
 		//System.out.println(String.valueOf(convertido.getCantConflictos()));
 	}
 	
@@ -614,6 +618,66 @@ public class Tester {
 			
 		}
 		return res;
+	}
+	
+	public static void ejecutarTest_Beta(int cantidadNodos,int cantidadAristas,int cantidadColores,int cantidadDesplazamientos,int escala,int cantidadIteraciones,boolean nodosFijos,boolean aristasFijas,boolean coloresFijos,boolean limitar) throws Exception{
+		Tester.testerAlAzar(cantidadNodos, cantidadAristas, cantidadColores, cantidadDesplazamientos, escala, cantidadIteraciones, nodosFijos, aristasFijas, coloresFijos, limitar);
+		
+		System.out.print("<cantidad nodos> <cantidad aristas> <cantidad colores> <conflictosGoloso> <tiempoGoloso> <conflictosVecindad1> <tiempoVecindad1> <conflictosVecindad2> <tiempoVecindad2>");
+		
+		int cantidadActualNodos = cantidadNodos; 
+		int cantidadActualAristas = cantidadAristas;
+		int cantidadActualColores = cantidadColores;
+		
+		
+		for(int i=0;i<=cantidadDesplazamientos;i+=escala){
+			double conflictosGoloso = 0;
+			double conflictosVecindad1 = 0;
+			double conflictosVecindad2 = 0;
+			
+			double tiempoGoloso = 0;
+			double tiempoVecindad1 = 0;
+			double tiempoVecindad2 = 0;
+			
+			for(int j =0;j<cantidadIteraciones;j++){
+				
+				String entrada = Integer.toString(cantidadActualNodos) + "_" + Integer.toString(cantidadActualAristas) + "_" + Integer.toString(cantidadActualColores) + "_" + Integer.toString(j) + ".out";
+				long inicio = System.nanoTime();
+				Grafo grafo = resolverConGoloso(entrada);
+				long fin = System.nanoTime();
+				
+				conflictosGoloso += ((double)algo3.tp3.ej3.Main.CalcularConflictos(grafo))/cantidadIteraciones;
+				tiempoGoloso += ((double) (fin-inicio))/cantidadIteraciones;
+				
+				inicio = System.nanoTime();
+				GrafoEj4 vecindad1 = resolverConLocal(entrada,grafo,1);
+				fin = System.nanoTime();
+				
+				conflictosVecindad1 += ((double)vecindad1.getCantConflictos())/cantidadIteraciones;
+				tiempoVecindad1 += ((double) (fin-inicio))/cantidadIteraciones;
+				
+				inicio = System.nanoTime();
+				GrafoEj4 vecindad2 = resolverConLocal(entrada,grafo,2);
+				fin = System.nanoTime();
+				
+				conflictosVecindad1 += ((double)vecindad2.getCantConflictos())/cantidadIteraciones;
+				tiempoVecindad1 += ((double) (fin-inicio))/cantidadIteraciones;
+				
+			}
+			
+			System.out.print(Integer.toString(cantidadActualNodos) + Integer.toString(cantidadActualAristas) + Integer.toString(cantidadActualColores) + Double.toString(conflictosGoloso) + " " + Double.toString(tiempoGoloso) + " " + Double.toString(conflictosVecindad1) + " " + Double.toString(tiempoVecindad1) + " " + Double.toString(conflictosVecindad2) + " " + Double.toString(tiempoVecindad2));
+			
+			if(!nodosFijos){
+				cantidadActualNodos += escala;
+			}
+			if(!aristasFijas){
+				cantidadActualAristas += escala;
+			}
+			if(!coloresFijos){
+				cantidadActualColores += escala;
+			}
+			
+		}
 	}
 	
 	public static void grafosBipartitosEj4(int vecinidadUtilizada,int nodosIniciales,int cantColoresIniciales,int cantidadDesplazamientos,int escala,boolean coloresFijos,boolean limitar) throws Exception{
