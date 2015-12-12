@@ -322,7 +322,7 @@ public class Tester {
 	}
 	
 	private static void imprimirHelp(){
-		System.out.print("0: nombre archivo,cantidad nodos, cantidad colores,limitar color (sino ingresar VARIABLE)\n 1: Testear Bipartito\n 2: <cantidadNodos> <cantidadAristas> <cantidadColores> <cantidadDesplazamientos> <escala> <cantidadIteraciones> --nodosFijos --aristasFijas --coloresFijos --CantidadColoresMaximaSiempre\n 3: <vecinidadUtilizada> <cantidadNodos> <cantidadColores> <cantidadDesplazamientos> <escala> --ColoresFijos --limitar\n");
+		System.out.print("0: nombre archivo,cantidad nodos, cantidad colores,limitar color (sino ingresar VARIABLE)\n 1: Testear Bipartito\n 2: <cantidadNodos> <cantidadAristas> <cantidadColores> <cantidadDesplazamientos> <escala> <cantidadIteraciones> --NodosFijos --AristasFijas --ColoresFijos --CantidadColoresMaximaSiempre\n 3: <vecinidadUtilizada> <cantidadNodos> <cantidadColores> <cantidadDesplazamientos> <escala> --ColoresFijos --limitar\n");
 	}
 	
 	public static void main(String[] entrada) throws NumberFormatException, Exception{
@@ -343,7 +343,7 @@ public class Tester {
 			}
 			System.out.print(res);
 			System.out.print("\n");
-		}else if(primerParametro==2){
+		}else if(primerParametro==2 || primerParametro==5){
 			int cantidadNodos = Integer.parseInt(entrada[1]);
 			int cantidadAristas = Integer.parseInt(entrada[2]);
 			int cantidadColores = Integer.parseInt(entrada[3]);
@@ -416,10 +416,18 @@ public class Tester {
 				}
 			}
 			
-			double[][] res = Tester.ejecutarTest(cantidadNodos, cantidadAristas, cantidadColores, cantidadDesplazamientos, escala, cantidadIteraciones, nodosFijos, aristasFijas, coloresFijos, limitar);
+			double[][] res2;
+			
+			if(primerParametro==2){
+				double[][] res = Tester.ejecutarTest(cantidadNodos, cantidadAristas, cantidadColores, cantidadDesplazamientos, escala, cantidadIteraciones, nodosFijos, aristasFijas, coloresFijos, limitar,false);
+				res2 = res;
+			}else{
+				double[][] res = Tester.ejecutarTest(cantidadNodos, cantidadAristas, cantidadColores, cantidadDesplazamientos, escala, cantidadIteraciones, nodosFijos, aristasFijas, coloresFijos, limitar,true);
+				res2 = res;
+			}
 			BufferedWriter reporte = new BufferedWriter( new FileWriter( Tester.class.getResource( "" ).getPath() + "temporal.txt") );
 			for(int h = 0; h<cantidadDesplazamientos;h++){
-				reporte.write(Double.toString(res[0][h]) + " " +  Double.toString(res[1][h]) + " " + Double.toString(res[2][h]) +"\n");
+				reporte.write(Double.toString(res2[0][h]) + " " +  Double.toString(res2[1][h]) + " " + Double.toString(res2[2][h]) +"\n");
 			}
 			reporte.close();
 		}else if(primerParametro==3){
@@ -535,7 +543,7 @@ public class Tester {
 		return convertido.getCantConflictos();
 	}
 	
-	public static double[][] ejecutarTest(int cantidadNodos,int cantidadAristas,int cantidadColores,int cantidadDesplazamientos,int escala,int cantidadIteraciones,boolean nodosFijos,boolean aristasFijas,boolean coloresFijos,boolean limitar) throws Exception{
+	public static double[][] ejecutarTest(int cantidadNodos,int cantidadAristas,int cantidadColores,int cantidadDesplazamientos,int escala,int cantidadIteraciones,boolean nodosFijos,boolean aristasFijas,boolean coloresFijos,boolean limitar,boolean complejidad) throws Exception{
 		Tester.testerAlAzar(cantidadNodos, cantidadAristas, cantidadColores, cantidadDesplazamientos, escala, cantidadIteraciones, nodosFijos, aristasFijas, coloresFijos, limitar);
 		double [][] res = new double [3] [cantidadDesplazamientos];
 		
@@ -551,18 +559,36 @@ public class Tester {
 				String entrada = Integer.toString(cantidadActualNodos) + "_" + Integer.toString(cantidadActualAristas) + "_" + Integer.toString(cantidadActualColores) + "_" + Integer.toString(j) + ".out";
 				String salida = "G" + entrada;
 				
-				
+				long inicio = System.nanoTime();
 				Grafo grafo = resolverConGoloso(entrada);
+				long fin = System.nanoTime();
 				
-				res[0][z] += Tester.cantidadDeConflictos(entrada,salida)/cantidadIteraciones;
+				if(!complejidad){
+					res[0][z] += Tester.cantidadDeConflictos(entrada,salida)/cantidadIteraciones;
+				}else{
+					res[0][z] += (fin-inicio)/cantidadIteraciones;
+				}
 				
 				salida = "L1" + entrada;
+				inicio = System.nanoTime();
 				resolverConLocal(entrada,grafo,1);
-				res[1][z] += Tester.cantidadDeConflictos(entrada,salida)/cantidadIteraciones;
+				fin = System.nanoTime();
+				
+				if(!complejidad){
+					res[1][z] += Tester.cantidadDeConflictos(entrada,salida)/cantidadIteraciones;
+				}else{
+					res[1][z] += (fin-inicio)/cantidadIteraciones;
+				}
 				
 				salida = "L2" + entrada;
+				inicio = System.nanoTime();
 				resolverConLocal(entrada,grafo,2);
-				res[2][z] += Tester.cantidadDeConflictos(entrada,salida)/cantidadIteraciones;	
+				fin = System.nanoTime();
+				if(!complejidad){
+					res[2][z] += Tester.cantidadDeConflictos(entrada,salida)/cantidadIteraciones;
+				}else{
+					res[2][z] += (fin-inicio)/cantidadIteraciones;
+				}
 			}
 			
 			z++;
