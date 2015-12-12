@@ -98,25 +98,26 @@ public class GrafoEj4 {
 		 *     3.1. conflictosPorColor[v.getColor()] += 1
 		 * hacer lo mismo para Nodo n2
 		 */
-		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN1 = new Hashtable<Integer, ArrayList<NodoConVecinos>>();
-		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN2 = new Hashtable<Integer, ArrayList<NodoConVecinos>>();
-		for (int color: target.getN1().get_coloresPosibles()){
+		
+		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN1 = new Hashtable<Integer, ArrayList<NodoConVecinos>>();  // O(1)
+		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN2 = new Hashtable<Integer, ArrayList<NodoConVecinos>>();	// O(1)
+		for (int color: target.getN1().get_coloresPosibles()){						// O(c)
 			ArrayList<NodoConVecinos> vacia = new ArrayList<NodoConVecinos>();
 			conflictosPorColorN1.put(color, vacia);
 		}
-		for (int color: target.getN2().get_coloresPosibles()){
+		for (int color: target.getN2().get_coloresPosibles()){						// O(c)
 			ArrayList<NodoConVecinos> vacia = new ArrayList<NodoConVecinos>();
 			conflictosPorColorN2.put(color, vacia);
 		}
 		
-		for (NodoConVecinos v: target.getN1().vecinos()){
+		for (NodoConVecinos v: target.getN1().vecinos()){							// O(n)
 			if (conflictosPorColorN1.containsKey(v.getColor())){
 				ArrayList<NodoConVecinos> nuevovalor = conflictosPorColorN1.get(v.getColor());
 				nuevovalor.add(v);
 				conflictosPorColorN1.put(v.getColor(), nuevovalor);
 			}
 		}
-		for (NodoConVecinos v: target.getN2().vecinos()){
+		for (NodoConVecinos v: target.getN2().vecinos()){							// O(n)
 			if (conflictosPorColorN2.containsKey(v.getColor())){
 				ArrayList<NodoConVecinos> nuevovalor = conflictosPorColorN2.get(v.getColor());
 				nuevovalor.add(v);
@@ -124,10 +125,10 @@ public class GrafoEj4 {
 			}
 		}
 		
-		Integer candidatoN1 = minimo(conflictosPorColorN1);
-		Integer candidatoN2 = minimo(conflictosPorColorN2);
+		Integer candidatoN1 = minimo(conflictosPorColorN1);							// O(c)
+		Integer candidatoN2 = minimo(conflictosPorColorN2);							// O(c)
 		
-		if (conflictosPorColorN1.get(candidatoN1).size() <= conflictosPorColorN2.get(candidatoN2).size()){
+		if (conflictosPorColorN1.get(candidatoN1).size() <= conflictosPorColorN2.get(candidatoN2).size()){	// O(1)
 			return this.cambiarColor(candidatoN1, conflictosPorColorN1, target.getN1());
 		} else{
 			return this.cambiarColor(candidatoN2, conflictosPorColorN2, target.getN2());
@@ -274,12 +275,12 @@ public class GrafoEj4 {
 		/*
 		 * Aplicamos la vecindad 1 a todos los conflictos del grafo.
 		 */
-		LinkedList<AristaEj4> cola = new LinkedList<AristaEj4>();
-		for (AristaEj4 c: this._conflictos)
+		LinkedList<AristaEj4> cola = new LinkedList<AristaEj4>();  	// O(1)
+		for (AristaEj4 c: this._conflictos)							// O(m)
 			cola.add(c);
 		
-		for (AristaEj4 c: cola){
-			this.vecindad1(c);
+		for (AristaEj4 c: cola){			// El for entero termina costando O(m * (n+c))
+			this.vecindad1(c);				// O(n+c)
 		}
 	}
 	
