@@ -12,14 +12,62 @@ EXPLICAR VECINDADES
 
 Esta vecindad toma una arista en conflicto\footnote{Es decir que ambos nodos de la arista tienen el mismo color.} e intenta modificar el color de uno de los dos nodos, tratando de reducir la cantidad total de conflictos.
 
-% 
-% * 1. obtener conjunto de colores posibles para Nodo n1
+A partir de una arista que representa un conflicto (llamemos a los nodos de la arista N1 y N2):
+\begin{enumerate}
+ \item crear un diccionario para ambos nodos. El diccionario tendrá como key a los colores del nodo, y como valor una lista de vecinos del nodo que tienen asignado ese color. LLamaremos a estos diccionarios \texttt{conflictosPorColorN1} y \texttt{conflictosPorColorN2}.
+ \item tanto para N1 como para N2, iteramos sobre su lista de colores posibles y llenamos los diccionarios conflictosPorColorN1 y conflictosPorColorN2 de manera tal que para cada color posible de ambos nodos, tenemos una lista vacía de vecinos
+ \item Luego iteramos la lista de vecinos de N1. Si el color del vecino es uno de los colores posibles de N1, agregaremos este vecino a la lista de conflictosPorColorN1[color_del_vecino].
+ \item Hacemos lo mismo para los vecinos de N2.
+ \item Ahora buscamos dentro de conflictosPorColorN1 al color que genera menos conflictos (su lista es la más corta)
+ \item Hacemos lo mismo para conflictosPorColorN2.
+ \item De esos dos elegimos al menor. Si la cantidad de conflictos es menor a la que se tiene dejando todo como está, cambiamos el color del nodo. Si no, la vecindad no sirvió y no hacemos modificaciones en el grafo.
+\end{enumerate}
+
+
+
+ 
+% 		 * 1. obtener conjunto de colores posibles para Nodo n1
 % 		 * 2. crear HashTable<int, int> conflictosPorColor (inicializar en 0) 
 % 		 * 3. para cada v en vecinos de n1
 % 		 *     3.1. conflictosPorColor[v.getColor()] += 1
 % 		 * hacer lo mismo para Nodo n2
 % 		 */
 
+
+% 		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN1 = new Hashtable<Integer, ArrayList<NodoConVecinos>>();  // O(1)
+% 		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN2 = new Hashtable<Integer, ArrayList<NodoConVecinos>>();	// O(1)
+% 		for (int color: target.getN1().get_coloresPosibles()){						// O(c)
+% 			ArrayList<NodoConVecinos> vacia = new ArrayList<NodoConVecinos>();
+% 			conflictosPorColorN1.put(color, vacia);
+% 		}
+% 		for (int color: target.getN2().get_coloresPosibles()){						// O(c)
+% 			ArrayList<NodoConVecinos> vacia = new ArrayList<NodoConVecinos>();
+% 			conflictosPorColorN2.put(color, vacia);
+% 		}
+% 		
+% 		for (NodoConVecinos v: target.getN1().vecinos()){							// O(n)
+% 			if (conflictosPorColorN1.containsKey(v.getColor())){
+% 				ArrayList<NodoConVecinos> nuevovalor = conflictosPorColorN1.get(v.getColor());
+% 				nuevovalor.add(v);
+% 				conflictosPorColorN1.put(v.getColor(), nuevovalor);
+% 			}
+% 		}
+% 		for (NodoConVecinos v: target.getN2().vecinos()){							// O(n)
+% 			if (conflictosPorColorN2.containsKey(v.getColor())){
+% 				ArrayList<NodoConVecinos> nuevovalor = conflictosPorColorN2.get(v.getColor());
+% 				nuevovalor.add(v);
+% 				conflictosPorColorN2.put(v.getColor(), nuevovalor);
+% 			}
+% 		}
+% 		
+% 		Integer candidatoN1 = minimo(conflictosPorColorN1);							// O(c)
+% 		Integer candidatoN2 = minimo(conflictosPorColorN2);							// O(c)
+% 		
+% 		if (conflictosPorColorN1.get(candidatoN1).size() <= conflictosPorColorN2.get(candidatoN2).size()){	// O(1)
+% 			return this.cambiarColor(candidatoN1, conflictosPorColorN1, target.getN1());
+% 		} else{
+% 			return this.cambiarColor(candidatoN2, conflictosPorColorN2, target.getN2());
+% 		}
 \subsubsection{Vecindad 2}
 
 \subsection{Análisis de complejidad}
