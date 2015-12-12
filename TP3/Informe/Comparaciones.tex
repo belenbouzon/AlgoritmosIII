@@ -55,7 +55,8 @@ Por último, el gráfico \ref{ComparacionConflictosCiclico} nos muestra que la c
 
 \subsection {Resultados obtenidos a partir de grafos completos} 
 
-En las figuras \ref{TiempoGreedyCompleto} y \ref{TiemposLocalCompleto} muestran los tiempos medidos observados para 
+En las figuras \ref{TiempoGreedyCompleto} y \ref{TiemposLocalCompleto} muestran los tiempos (junto a sus cotas temporales) medidos observados para ambos algoritmos ejecutados sobre grafos completos de distintos tamaños.\\
+Se hace realmente visible la direfencia en cuanto a costos temporales en la figura \ref{ComparacionTiemposCompleto}, en la cual se exhiben solapadas las barras que indican el tiempo de cómputo medido para cada algoritmo.
 
  \begin{figure}[H]
     \begin{center}
@@ -78,8 +79,8 @@ En las figuras \ref{TiempoGreedyCompleto} y \ref{TiemposLocalCompleto} muestran 
     \end{center}
   \end{figure}
 
-
-
+Sin embargo, a diferencia de lo observado en la figura \ref{ComparacionConflictosCiclico}, en la ilustración \ref{ComparacionConflictosCompleto} puede apreciarse la disminución en la cantidad de conflictos resultante del posprocesamiento del grafo obtenido luego de la ejeución del algoritmo goloso.\\
+Dicho esto, pareciera ser que en los casos en que el grafo no es esparso, el algoritmo de búsqueda local si es una buena opción en términos del costo temporal y el beneficio cualitativo del resultado.
 
  \begin{figure}[H]
     \begin{center}
