@@ -200,7 +200,7 @@ public class Tester {
 			if(limitarCantidad){
 				cantidadColoresNodo = cantidadColores;
 			}else{
-				cantidadColoresNodo = 1 + numeros.nextInt(cantidadColores);
+				cantidadColoresNodo = 2 + numeros.nextInt(cantidadColores-1);
 			}
 			StringBuilder expresionDeNodo = new StringBuilder();
 			expresionDeNodo.append(cantidadColoresNodo);

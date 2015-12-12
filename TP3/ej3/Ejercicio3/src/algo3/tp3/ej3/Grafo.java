@@ -152,4 +152,56 @@ public class Grafo {
 		}
 		fw1.close();
 	}
+	
+	public static Grafo grafo_prueba_vecindad2(){
+		/*
+		 * Genera un grafo hecho "a mano" para probar la vecindad 2 del ej4.
+		 */
+		Grafo res = new Grafo();
+		res.cantidadDeNodos = 3;
+		res.cantidadDeAristas = 2;
+		res.cantidadDeColores = 2;
+		res.nodos = new ArrayList<Nodo>(3);
+		
+		int [] coloreo_1 = new int[1];
+		coloreo_1[0] = 0;
+		
+		int [] coloreo_2 = new int[2];
+		coloreo_2[0] = 0;
+		coloreo_2[1] = 1;
+		
+		int [] coloreo_3 = new int[2];
+		coloreo_3[0] = 0;
+		coloreo_3[1] = 1;
+		
+		res.nodos.add(new Nodo(0,3,coloreo_1));
+		res.nodos.add(new Nodo(1,3,coloreo_2));
+		res.nodos.add(new Nodo(2,3,coloreo_3));
+		
+		res.listaDeAdyacencia = new ArrayList<List<Nodo>>();
+		
+		List<Nodo> lista_1 = new LinkedList<Nodo>();
+		List<Nodo> lista_2 = new LinkedList<Nodo>();
+		List<Nodo> lista_3 = new LinkedList<Nodo>();
+		
+		lista_1.add(res.nodos.get(1));
+		lista_2.add(res.nodos.get(0));
+		lista_2.add(res.nodos.get(2));
+		lista_3.add(res.nodos.get(1));
+		
+		res.listaDeAdyacencia.add(lista_1);
+		res.listaDeAdyacencia.add(lista_2);
+		res.listaDeAdyacencia.add(lista_3);
+		
+		res.listaDeAdyacencia.set(0, lista_1);
+		res.listaDeAdyacencia.set(1, lista_2);
+		res.listaDeAdyacencia.set(2, lista_3);
+		
+		res.nodos.get(0).setColor(0);
+		res.nodos.get(1).setColor(0);
+		res.nodos.get(2).setColor(1);
+		
+		return res;
+		
+	}
 }

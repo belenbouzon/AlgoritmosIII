@@ -168,8 +168,10 @@ public class GrafoEj4 {
 			int conflictosConSwap = target.getN1().conflictosColor(v.getColor()) + v.conflictosColor(target.getN1().getColor());
 			
 			if (conflictosConSwap > conflictosSinSwap){
-				if (conflictosConSwap > mejorMejoraN1)
+				if (conflictosConSwap > mejorMejoraN1){
 					mejorSwapN1 = v;
+					mejorMejoraN1 = conflictosConSwap;
+				}
 			}
 		}
 		for (NodoConVecinos v: candidatosN2){
@@ -177,8 +179,10 @@ public class GrafoEj4 {
 			int conflictosConSwap = target.getN2().conflictosColor(v.getColor()) + v.conflictosColor(target.getN2().getColor());
 			
 			if (conflictosConSwap > conflictosSinSwap){
-				if (conflictosConSwap > mejorMejoraN2)
+				if (conflictosConSwap > mejorMejoraN2){
 					mejorSwapN2 = v;
+					mejorMejoraN2 = conflictosConSwap;
+				}
 			}
 		}
 		
@@ -291,6 +295,7 @@ public class GrafoEj4 {
 	
 	
 	public static void main(String[] args) throws Exception {
+
 		/*
 		GeneradorCasosDeTests generador = new algo3.tp3.ej3.GeneradorCasosDeTests();
 		String caso = generador.GenerarArchivoDeGrafoByCantColores(100, 3000, 20);
@@ -320,8 +325,14 @@ public class GrafoEj4 {
 		GeneradorCasosDeTests generador = new algo3.tp3.ej3.GeneradorCasosDeTests();
 		
 		//int aristas = 4900;
+		
+		int vecinidadUtilizada = Integer.parseInt(args[0]);
+		if(vecinidadUtilizada!=1 && vecinidadUtilizada!=2){
+			System.err.print("error, vecinidad debe ser 1 o 2");
+		}
+		
 		int colores = 50;
-		for (int n = 100; n<5000 ; n = (int) (n*1.2)){
+		for (int n = 100; n<50000 ; n = (int) (n*1.2)){
 			int aristas = (int) (((long) (n)) * ((long) (n-1))/2); 
 			String caso = generador.GenerarArchivoDeGrafoByCantColores(n, aristas, colores);
 			//Con estas tres lineas leemos el input, y ya en grafoResultante nos queda el grafo resuelto con goloso.
@@ -336,7 +347,11 @@ public class GrafoEj4 {
 			
 			GrafoEj4 convertido = new GrafoEj4(grafoResultante);
 			long busquedaLocalT0 = System.nanoTime();
-			convertido.ResolverConVecindad1();
+			if(vecinidadUtilizada==1){
+				convertido.ResolverConVecindad1();
+			}else{
+				convertido.ResolverConVecindad2();
+			}
 			long busquedaLocalT1 = System.nanoTime();
 			
 			long tiempoBusquedaLocal = busquedaLocalT1 - busquedaLocalT0;
