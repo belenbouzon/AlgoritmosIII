@@ -135,7 +135,7 @@ public class Tester {
 	
 	public static void generarAlAzar(String nombreSalida,int cantidadNodos,int cantidadAristas,int cantidadColores,boolean limitar) throws IOException{
 		//System.out.print(nombreSalida+"\n");
-		BufferedWriter grafico = new BufferedWriter( new FileWriter( Tester.class.getResource( "" ).getPath() + nombreSalida) );
+		BufferedWriter grafico = new BufferedWriter( new FileWriter( "./" + nombreSalida) );
 		grafico.write(Integer.toString(cantidadNodos) + " " + Integer.toString(cantidadAristas)+ " " +Integer.toString(cantidadColores)+ "\n");
 		Random numeros = new Random();
 		for(int i=0;i<cantidadNodos;i++){
@@ -322,7 +322,17 @@ public class Tester {
 	}
 	
 	private static void imprimirHelp(){
-		System.out.print("0: nombre archivo,cantidad nodos, cantidad colores,limitar color (sino ingresar VARIABLE)\n 1: Testear Bipartito\n 2: <cantidadNodos> <cantidadAristas> <cantidadColores> <cantidadDesplazamientos> <escala> <cantidadIteraciones> --NodosFijos --AristasFijas --ColoresFijos --CantidadColoresMaximaSiempre\n 3: <vecinidadUtilizada> <cantidadNodos> <cantidadColores> <cantidadDesplazamientos> <escala> --ColoresFijos --limitar\n");
+		System.out.print("\n0: nombre archivo,cantidad nodos, cantidad colores,limitar color (sino ingresar VARIABLE)\n"
+				+ "1: Testear Bipartito\n"
+				+ "2: <cantidadNodos> <cantidadAristas> <cantidadColores> <cantidadDesplazamientos> <escala> <cantidadIteraciones> --NodosFijos --AristasFijas --ColoresFijos --CantidadColoresMaximaSiempre\n"
+				+ "3: <vecinidadUtilizada> <cantidadNodos> <cantidadColores> <cantidadDesplazamientos> <escala> --ColoresFijos --limitar\n"
+				+ "5: <cantidadNodos> <cantidadAristas> <cantidadColores> <cantidadDesplazamientos> <escala> <cantidadIteraciones> --NodosFijos --AristasFijas --ColoresFijos --CantidadColoresMaximaSiempre\n"
+				+ "\n<cantidadNodos>: valor inicial de cantidad de nodos\n"
+				+ "..IDEM para aristas y colores\n"
+				+ "<cantidadDesplazamientos>: valor máximo al que querés que llegue cantidadNodos/Aristas/Colores + el inicial\n"
+				+ "<escala>: en cuánto incrementa los valores (de las tres cosas)\n"
+				+ "<cantidadIteraciones>: cuántas veces corre con los mismos parámetros (porque cada vez genera un grafo al azar distinto)\n"
+				+ "--XFijos: dejar ese valor fijo.");
 	}
 	
 	public static void main(String[] entrada) throws NumberFormatException, Exception{
@@ -488,7 +498,7 @@ public class Tester {
 	}
 	
 	public static void imprimirColoracion(String salida,Grafo grafo) throws IOException{
-		BufferedWriter archivoColoracion = new BufferedWriter( new FileWriter( Tester.class.getResource( "" ).getPath() + salida) );
+		BufferedWriter archivoColoracion = new BufferedWriter( new FileWriter( "./" + salida) );
 		for(Nodo nodo: grafo.getNodos()){
 			archivoColoracion.write(Integer.toString(nodo.getColor()) + " ");
 		}
@@ -496,7 +506,7 @@ public class Tester {
 	}
 	
 	public static void imprimirColoracion(String salida,ArrayList<Nodo> listaNodos) throws IOException{
-		BufferedWriter archivoColoracion = new BufferedWriter( new FileWriter( Tester.class.getResource( "" ).getPath() + salida) );
+		BufferedWriter archivoColoracion = new BufferedWriter( new FileWriter( "./" + salida) );
 		for(Nodo nodo: listaNodos){
 			archivoColoracion.write(Integer.toString(nodo.getColor()) + " ");
 		}
@@ -504,7 +514,7 @@ public class Tester {
 	}
 	
 	public static Grafo resolverConGoloso(String entrada) throws Exception{
-		Lector lector = new Lector("../../../../../../ej5/bin/" + entrada);
+		Lector lector = new Lector("./" + entrada);
 		Grafo grafoResultante = lector.MakeGraph(-1);
 		grafoResultante.MakeRainbow();
 		imprimirColoracion("G" + entrada,grafoResultante);
