@@ -333,7 +333,7 @@ public class GrafoEj4 {
 		}
 		
 		int colores = 50;
-		for (int n = 100; n<5000 ; n = (int) (n*1.2)){
+		for (int n = 100; n<50000 ; n = (int) (n*1.2)){
 			int aristas = (int) (((long) (n)) * ((long) (n-1))/2); 
 			String caso = generador.GenerarArchivoDeGrafoByCantColores(n, aristas, colores);
 			//Con estas tres lineas leemos el input, y ya en grafoResultante nos queda el grafo resuelto con goloso.
