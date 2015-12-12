@@ -57,7 +57,7 @@ Como se puede ver en la imagen, cada nivel representa los llamados de \emph{List
 \subsection{Análisis de la complejidad}
 \label{sec:complj}
 
-Para analizar la complejidad utilizaremos el siguiente pseudocódigo, en el cual se utilizan los términos:
+Para analizar la complejidad utilizaremos el siguiente pseudocódigo, en el cual se utilizan los términos definidos a continuación:
 \begin{itemize}
 	\item \texttt{grafo}: para referirse al que viene por parámetro.
 	
@@ -72,49 +72,45 @@ Para analizar la complejidad utilizaremos el siguiente pseudocódigo, en el cual
 	\item $c$: es la cantidad máxima de colores que puede tener un nodo y que está dada por la entrada del problema.
 \end{itemize}
 
-% El pseudocódigo de nuestro algoritmo sin podas es el siguiente:
-\begin{algorithm}
+Como queremos analizar el peor caso, mostraremos las complejidades para el algoritmo sin podas, ya que de esta manera nos aseguramos de que siempre se recorra todo el árbol de soluciones del backtracking.
+\newline
+
+\begin{algorithm}[H]
 \caption{ListColoring Exacto Sin Podas}
 \label{lce}
-\begin{algorithmic} 
+\begin{algorithmic}[1] 
 
-\STATE $count = $ índice en la lista de nodos del \texttt{grafo} (inicializada en cero, viene por parámetro) \COMMENT{$\mathcal{O}(1)$}
+\STATE $count = $ índice en la lista de nodos del \texttt{grafo} (inicializada en cero, viene por parámetro)
 
 \IF {$count ==$ cantidad de nodos del \texttt{grafo}}
-	\STATE Llamar a \texttt{2ListColoring} para resolver \texttt{grafo2colores} \COMMENT{$\mathcal{O}(n^2 \log{n})$} %complejidad del 1! revisar
+	\STATE Llamar a \texttt{2ListColoring} para resolver \texttt{grafo2colores} \COMMENT{$\mathcal{O}(n^2 \log{n})$} %complejidad del 1
 	\STATE Retornar 
 \ENDIF
 
-\STATE $nodo = $ Obtener el nodo a procesar del \texttt{grafo} con el índice $count$ \COMMENT{$\mathcal{O}(1)$}
-\STATE $it = $ Obtener un iterador de la lista de colores de $nodo$ \COMMENT{$\mathcal{O}(1)$}
-\STATE $coloresSeleccionados = $ Obtener la lista de colores del $nodo$ en el \texttt{grafo2colores} \COMMENT{$\mathcal{O}(1)$}
+\STATE $nodo = $ Obtener el nodo a procesar del \texttt{grafo} con el índice $count$ \COMMENT{$\mathcal{O}(1)$} \label{get1}
+\STATE $it = $ Obtener un iterador de la lista de colores de $nodo$ \COMMENT{$\mathcal{O}(1)$} \label{it}
+\STATE $coloresSeleccionados = $ Obtener la lista de colores del $nodo$ en el \texttt{grafo2colores} \COMMENT{$\mathcal{O}(1)$} \label{get2}
 \STATE Incrementar $count$ \COMMENT{$\mathcal{O}(1)$}
 
-\WHILE[$\mathcal{O}(c/2)$ en cantidad de ejecuciones.]{Haya próximo en la lista de colores}
-	\STATE $color1 = $ Próximo en la lista \COMMENT{$\mathcal{O}(1)$}
+\WHILE[$\mathcal{O}(c/2)$ en cantidad de ejecuciones.]{Haya próximo en la lista de colores} \label{hn}
+	\STATE $color1 = $ Próximo en la lista \COMMENT{$\mathcal{O}(1)$} \label{next}
 	\STATE Asignar $color1$ en la primer posición de la lista $coloresSeleccionados$ \COMMENT{$\mathcal{O}(1)$}
-	\IF{Hay próximo en la lista de colores}
-		\STATE $color2 = $ Próximo en la lista \COMMENT{$\mathcal{O}(1)$}
+	\IF{Hay próximo en la lista de colores} 
+		\STATE $color2 = $ Próximo en la lista \COMMENT{$\mathcal{O}(1)$} \label{nx}
 		\STATE Asignar $color2$ en la segunda posición de la lista $coloresSeleccionados$ \COMMENT{$\mathcal{O}(1)$}
 	\ENDIF
-	\STATE Llamara a \texttt{ListColoring} con el $count$ ya incrementado %\COMMENT{$\mathcal{O}(1)$}
+	\STATE Llamara a \texttt{ListColoring} con el $count$ ya incrementado
 \ENDWHILE
 \STATE Retornar
 \end{algorithmic}
 \end{algorithm}
+\leavevmode
+\newline
+Por la documentación de \emph{ArrayList}\footnote{https://docs.oracle.com/javase/7/docs/api/java/util/ArrayList.html} sabemos que los métodos \texttt{get()} (lineas \ref{get1} y \ref{get2}), \texttt{listIterator()} (linea \ref{it}), \texttt{hasNext()} (linea \ref{hn}) y \texttt{next()} (lineas \ref{next} y \ref{nx}) corren en tiempo constante. Luego cada vez que se llega a una hoja del árbol de soluciones se llama a \texttt{2ListColoring} el cual tiene una complejidad de $\mathcal{O}(n^2 \log{n})$ por el análisis que se hizo en el problema 1. Cada nodo tiene como máximo $c$ colores, por lo tanto al seleccionar los colores de a dos, el ciclo termina teniendo una complejidad de $\mathcal{O}(c/2)$ ya que todo lo que se hace adentro es $\mathcal{O}(1)$. Por último se recorren recursivamente todos los nodos y por cada nodo se recorren $c/2$ colores, por lo tanto queda $\mathcal{O}((c/2)^n)$. En conclusión la complejidad sería:
 
-% \subsection{Código fuente}
-
-% A continuación se incluyen las partes más relevantes del código.\\
-% La clase \emph{Main.java} se encarga de hacer el backtracking para recorrer todos los nodos fijando de a dos colores:
-% \lstinputlisting[name=main, numbers=left, frame=lines, firstline=47, lastline=80]{../ej2/src/Main.java}
-% La clase \emph{Lector.java} se encarga de leer el input y transformarlo en dos grafos, uno que contiene todos los colores y el otro que tiene un máximo de dos colores para poder pasarselo como parámetro a \emph{2ListColoring}.
-% \lstinputlisting[name=lec, numbers=left, frame=lines, firstline=40, lastline=83]{../ej2/src/Lector.java}
-% La clase \emph{Nodo_Coloreable_ej2} es muy similar a la clase \emph{Nodo_Coloreable_ej1}, lo único que cambia es que esta acepta una lista de mas de dos colores.
-
-% \newpage 
-
-% \lstinputlisting[name=nc, numbers=left, frame=lines, firstline=12, lastline=16]{../ej2/src/Nodo\string_Coloreable\string_ej2.java}
+\begin{center}
+$(k*\mathcal{O}(1) + \mathcal{O}(c/2))^n * \mathcal{O}(n^2 \log{n}) = \mathcal{O}(c^n/2^n) * \mathcal{O}(n^2 \log{n})$ con $k$ constante.
+\end{center}
 
 % \subsection{Experimentación}
 
