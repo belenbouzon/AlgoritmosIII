@@ -23,9 +23,9 @@ public class Nodo_Dirigido_SAT extends Nodo_Dirigido implements Comparable<Nodo_
 	
 	public void print(){
 		char signo = ' ';
-		if(!this.formula_afirmativa){
+/*		if(!this.formula_afirmativa){
 			signo = '¬';
-		}
+		}*/
 		System.out.printf("nodo: %c%d color: %d comp.conexa:%d\n", signo,this.identidad,this.color,this.id_componente_conexa);
 	}
 	
