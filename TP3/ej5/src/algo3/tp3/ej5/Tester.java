@@ -293,13 +293,12 @@ public class Tester {
 	}
 	
 	private static void imprimirHelp(){
-		System.out.print("0: nombre archivo,cantidad nodos, cantidad colores,limitar color (sino ingresar VARIABLE)\n 1: Testear Bipartito\n 2: <cantidadNodos> <cantidadAristas> <cantidadColores> <cantidadDesplazamientos> <escala> <cantidadIteraciones> --nodosFijos --aristasFijas --coloresFijos --CantidadColoresMaximaSiempre\n");
+		System.out.print("0: nombre archivo,cantidad nodos, cantidad colores,limitar color (sino ingresar VARIABLE)\n 1: Testear Bipartito\n 2: <cantidadNodos> <cantidadAristas> <cantidadColores> <cantidadDesplazamientos> <escala> <cantidadIteraciones> --nodosFijos --aristasFijas --coloresFijos --CantidadColoresMaximaSiempre\n 3: <vecinidadUtilizada> <cantidadNodos> <cantidadColores> <cantidadDesplazamientos> <escala> --coloresFijos --limitar\n");
 	}
 	
 	public static void main(String[] entrada) throws NumberFormatException, Exception{
 		if(entrada.length==0){
 			imprimirHelp();
-			//imprimirReporteDeErrores(4,1005,9005,1000);
 			return;
 		}
 		int primerParametro = Integer.parseInt(entrada[0]);
@@ -393,6 +392,57 @@ public class Tester {
 				reporte.write(Double.toString(res[0][h]) + " " +  Double.toString(res[1][h]) + " " + Double.toString(res[2][h]) +"\n");
 			}
 			reporte.close();
+		}else if(primerParametro==3){
+			int vecinidadUtilizada = Integer.parseInt(entrada[1]);
+			int cantidadNodos = Integer.parseInt(entrada[2]);
+			int cantidadColores = Integer.parseInt(entrada[3]);
+			int cantidadDesplazamientos = Integer.parseInt(entrada[4]);
+			int escala = Integer.parseInt(entrada[5]);
+			
+			boolean coloresFijos =  false;
+			boolean limitar = false;
+			
+			if(entrada.length>=6){
+				if(entrada[5].equals("--ColoresFijos")){
+					coloresFijos = true;
+				}
+				if(entrada[5].equals("--ColoreoMaximoSiempre")){
+					limitar = true;
+				}
+			}
+			
+			if(entrada.length>=7){
+				
+				if(entrada[6].equals("--ColoresFijos")){
+					coloresFijos = true;
+				}
+				if(entrada[6].equals("--ColoreoMaximoSiempre")){
+					limitar = true;
+				}
+			}
+			
+			if(entrada.length>=8){
+				
+				if(entrada[7].equals("--ColoresFijos")){
+					coloresFijos = true;
+				}
+				if(entrada[7].equals("--ColoreoMaximoSiempre")){
+					limitar = true;
+				}
+			}
+			
+			if(entrada.length>=9){
+				
+				if(entrada[8].equals("--ColoresFijos")){
+					coloresFijos = true;
+				}
+				if(entrada[8].equals("--ColoreoMaximoSiempre")){
+					limitar = true;
+				}
+			}
+			
+			Tester.grafosBipartitosEj4(vecinidadUtilizada, cantidadNodos, cantidadColores, cantidadDesplazamientos, escala, coloresFijos, limitar);
+			
 		}else{
 			imprimirHelp();
 		}
@@ -471,7 +521,6 @@ public class Tester {
 				
 				Grafo grafo = resolverConGoloso(entrada);
 				
-				
 				res[0][z] += Tester.cantidadDeConflictos(entrada,salida)/cantidadIteraciones;
 				
 				salida = "L1" + entrada;
@@ -496,6 +545,57 @@ public class Tester {
 			
 		}
 		return res;
+	}
+	
+	public static void grafosBipartitosEj4(int vecinidadUtilizada,int nodosIniciales,int cantColoresIniciales,int cantidadDesplazamientos,int escala,boolean coloresFijos,boolean limitar) throws Exception{
+		
+		int n = nodosIniciales ;
+		int colores = cantColoresIniciales;
+		
+		for(int i=0;i<cantidadDesplazamientos;i+=escala){
+			n = nodosIniciales + i;
+			if(!coloresFijos){
+				colores = cantColoresIniciales + i;
+			}
+			
+			String caso = "caso.txt";
+			Tester.generarGrafoBipartitoCompleto(caso,null,n, colores,limitar);
+			//Con estas tres lineas leemos el input, y ya en grafoResultante nos queda el grafo resuelto con goloso.
+			Lector lector = new Lector(caso);
+			Grafo grafoResultante = lector.MakeGraph(-1);
+			long greedyT0 = System.nanoTime();
+			grafoResultante.MakeRainbow();
+			long greedyT1 = System.nanoTime();
+			
+			int greedyConflictos = algo3.tp3.ej3.Main.CalcularConflictos(grafoResultante);
+			long tiempoGreedy = greedyT1 - greedyT0;
+			
+			GrafoEj4 convertido = new GrafoEj4(grafoResultante);
+			long busquedaLocalT0 = System.nanoTime();
+			if(vecinidadUtilizada==1){
+				convertido.ResolverConVecindad1();
+			}else{
+				convertido.ResolverConVecindad2();
+			}
+			long busquedaLocalT1 = System.nanoTime();
+			
+			long tiempoBusquedaLocal = busquedaLocalT1 - busquedaLocalT0;
+			int busquedaLocalConflictos = convertido.getCantConflictos();
+			
+			int aristas;
+			if(n%2==0){
+				aristas = (n/2)*(n/2);
+			}else{
+				aristas = (n/2)*(n/2 + 1);
+			}
+			
+			System.out.println(Integer.toString(n) + "," +Integer.toString(aristas) + "," +
+					Integer.toString(colores) + "," +
+					Long.toString(tiempoGreedy) + "," +
+					Integer.toString(greedyConflictos) + "," +
+					Long.toString(tiempoBusquedaLocal) + "," +
+					Integer.toString(busquedaLocalConflictos));
+		}
 	}
 	
 }
