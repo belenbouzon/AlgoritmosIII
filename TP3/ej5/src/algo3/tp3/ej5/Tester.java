@@ -322,13 +322,12 @@ public class Tester {
 	}
 	
 	private static void imprimirHelp(){
-		System.out.print("0: nombre archivo,cantidad nodos, cantidad colores,limitar color (sino ingresar VARIABLE)\n 1: Testear Bipartito\n 2: <cantidadNodos> <cantidadAristas> <cantidadColores> <cantidadDesplazamientos> <escala> <cantidadIteraciones> --nodosFijos --aristasFijas --coloresFijos --CantidadColoresMaximaSiempre\n 3: <vecinidadUtilizada> <cantidadNodos> <cantidadColores> <cantidadDesplazamientos> <escala> --coloresFijos --limitar\n");
+		System.out.print("0: nombre archivo,cantidad nodos, cantidad colores,limitar color (sino ingresar VARIABLE)\n 1: Testear Bipartito\n 2: <cantidadNodos> <cantidadAristas> <cantidadColores> <cantidadDesplazamientos> <escala> <cantidadIteraciones> --nodosFijos --aristasFijas --coloresFijos --CantidadColoresMaximaSiempre\n 3: <vecinidadUtilizada> <cantidadNodos> <cantidadColores> <cantidadDesplazamientos> <escala> --ColoresFijos --limitar\n");
 	}
 	
 	public static void main(String[] entrada) throws NumberFormatException, Exception{
-		GenerarTestCiclico(15000);
-		System.out.print("Finalizado");
-		/*if(entrada.length==0){
+		
+		if(entrada.length==0){
 			imprimirHelp();
 			return;
 		}
@@ -474,9 +473,12 @@ public class Tester {
 			
 			Tester.grafosBipartitosEj4(vecinidadUtilizada, cantidadNodos, cantidadColores, cantidadDesplazamientos, escala, coloresFijos, limitar);
 			
+		}else if(primerParametro==4){
+			GenerarTestCiclico(Integer.parseInt(entrada[1]));
+			System.out.print("Finalizado");
 		}else{
 			imprimirHelp();
-		}*/
+		}
 	}
 	
 	public static void imprimirColoracion(String salida,Grafo grafo) throws IOException{
