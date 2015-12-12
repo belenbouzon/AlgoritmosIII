@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-
 public class Lector {
 	private ArrayList<Nodo_Coloreable> _nodos_del_grafo;
 	private BufferedReader is;

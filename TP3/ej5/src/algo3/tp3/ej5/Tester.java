@@ -481,12 +481,25 @@ public class Tester {
 		
 		if(vecinidad==1){
 			convertido.ResolverConVecindad1();
-			imprimirColoracion("L1" + entrada,grafoResultante);
+			//imprimirColoracion("L1" + entrada,grafoResultante);
 		}else{
 			convertido.ResolverConVecindad2();
-			imprimirColoracion("L2" + entrada,grafoResultante);
+			//imprimirColoracion("L2" + entrada,grafoResultante);
 		}
 		//System.out.println(String.valueOf(convertido.getCantConflictos()));
+	}
+	
+	public static int resolverConLocalyDevolverCantConflictos(String entrada,Grafo grafoResultante,int vecinidad) throws Exception
+	{
+		
+		GrafoEj4 convertido = new GrafoEj4(grafoResultante);
+		
+		if(vecinidad==1)
+			convertido.ResolverConVecindad1();
+		else
+			convertido.ResolverConVecindad2();
+		
+		return convertido.getCantConflictos();
 	}
 	
 	public static double[][] ejecutarTest(int cantidadNodos,int cantidadAristas,int cantidadColores,int cantidadDesplazamientos,int escala,int cantidadIteraciones,boolean nodosFijos,boolean aristasFijas,boolean coloresFijos,boolean limitar) throws Exception{

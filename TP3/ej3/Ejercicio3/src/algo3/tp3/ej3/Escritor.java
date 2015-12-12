@@ -94,4 +94,18 @@ public class Escritor {
 		}
 		return aristas;
 	}
+
+	public void GenerateAndPrintAristasCiclico(int cantNodos) throws Exception 
+	{
+		HashSet<Arista> aristas = new HashSet<Arista>();
+
+		for (int i = 0; i < cantNodos-1; i ++)
+		{
+			aristas.add(new Arista(i,i+1));
+		}
+		aristas.add(new Arista(cantNodos-1, 0));
+
+		this.ImprimirAristas(aristas.iterator());
+
+	}
 }
