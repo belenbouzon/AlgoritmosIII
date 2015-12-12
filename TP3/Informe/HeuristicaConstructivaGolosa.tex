@@ -1,20 +1,12 @@
 \section{Problema 3: Heurística Constructiva Golosa}
 
 \subsection{Descripción de la problemática}
-En esta oportunidad se nos pide colaborar en la asignación de aulas con diversos recursos a un conjunto de materias (con un horario establecido e invariable) que necesitarían hacer uso de ellos durante el dictado de clase.\\
-Como en este caso nos interesa distinguir las aulas de acuerdo a sus recursos, le asignaremos a cada una un color y uniremos con aristas aquellas materias que se han querido reservar para horarios cuya intersección no es vacía.\\
-Dicho esto, nuestra tarea consiste en generar un algoritmo que implemente una heurística cuyo objetivo sea encontrar alguna forma de colorear los nodos (es decir, asignar a cada materia un aula ), minimizando en la medida de lo posible la cantidad de conflictos (entendidos estos como instancias que impiden que el coloreo generado sea válido, es decir, que verifique para toda arista que a sus nodos adyacentes se les haya asignado distinto color.) 
+En este apartado nuestra tarea consiste en generar un algoritmo que implemente una heurística cuyo objetivo sea encontrar alguna forma de colorear los nodos (es decir, asignar a cada materia un aula ), minimizando en la medida de lo posible la cantidad de conflictos (entendidos estos como instancias que impiden que el coloreo generado sea válido, es decir, que verifique para toda arista que a sus nodos adyacentes se les haya asignado distinto color.) 
 
 
 \subsection{Resolución propuesta y justificación}
-Dos ideas de peso sugieron al proponernos resolver este problema:
-\begin{itemize}
-\item{Iterar sobre el grafo (a lo sumo C-1 veces) descartando de cada uno de los nodos uno de sus colores posibles, escogido mediante una función de peso que decidiera cuál de ellos podría generar más conflictos si se utilizara para colorear al nodo examinado.  }
-\item{Realizar un barrido del grafo mediante BFS utilizando una función de peso similar a la mencionada que permitiera decidir para cada nodo cuál sería el color - potencialmente - de menor riesgo en una vecindad reducida y asignárselo. }
-\end{itemize}
+Para resolver la problemática presentada, nuestra idea fue la de realizar un barrido del grafo mediante BFS utilizando una función de peso que permitiera decidir para cada nodo cuál sería el color - potencialmente - de menor riesgo en una vecindad reducida (es decir, aquel que perjudicaría menos el coloreo de sus adyacentes) y asignárselo.
 
-Un problema emergió al analizar la primera de las ideas: el hecho de que se realizaran varias iteraciones sobre el mismo grafo hacía que al comenzar cada una de ellas cada nodo tuviese más información del grafo completo que la que podía verificar en la anterior. Dicho de otra forma: en la primera iteración cada nodo tomaba la mejor decisión posible en función de su vecindad de primer nivel, pero en las siguientes ya dicha vecindad - ahora modificada de acuerdo a su propio entorno - le proveía al nodo más datos que los alcanzables hasta entonces. Es decir, no cumplía los requisitos para ser catalogado como ``algoritmo goloso''.\\
-Es por esto que se decidió implementar la segunda opción, la cuál se explica a continuación:\\
 Supóngase que se tiene el siguiente grafo, donde los números dentro de cada nodo indican su índice y los que se encuentran fuera enumeran sus colores posibles.\\
 
  \begin{figure}[H]
@@ -26,7 +18,14 @@ Supóngase que se tiene el siguiente grafo, donde los números dentro de cada no
   \end{figure}
 
 
-Defínase Peso(N$_{c}$) como la función que determina la magnitud del perjuicio ocasionable al elegir colorear el nodo N de color c (con c $\epsilon$ \{colores de N\}), ${X}_{(c,p)}$ como el valor relativo X del color c para el nodo p. Entonces en un primer paso, los valores son los siguientes: 
+Defínase  ${X}_{(c,p)}$ como el valor relativo X del color c para el nodo p (es decir, ${X}_{(c,p)}$ =  (c $\epsilon$ \{colores de p\} ? 1 : 0) / ( \# \{colores de p\})), Peso(N$_{c}$) como la función que determina la magnitud del perjuicio ocasionable al elegir colorear el nodo N de color c 
+\footnote{Formalmente, si llamamos ValoresRelativos a una lista de ordenada que contiene un valor relativo ${X}_{(c,p)}$ para cada nodo p adyacente a N en relación al color c, entonces Peso(N$_{c}$) = \[
+\sum_{i=0}^{\# \{ ValoresRelativos \}} \frac{ValoresRelativos[i])}{i+2}
+\] }
+ (con c $\epsilon$ \{colores de N\}). Entonces en un primer paso, los valores son los siguientes: 
+
+
+
 
 \begin{itemize}
 	\item \textbf{Nodo 0}
@@ -269,7 +268,7 @@ A continuación se presenta el pseudocódigo del coloreo implementado:
 
 \begin{algorithmic} 
 \WHILE{nodos pintados $\leq$ cantidad de nodos //O(n)} 
-	\STATE {Elegir un nodo no visitado del grafo // O(n)}
+	\STATE {Elegir un nodo no visitado del grafo // O(n)} (Porque para determinar cuál no fue visitado recorre una lista de booleanos que contiene una posición por cada nodo)
 	\STATE {Encolarlo //O(1)}
 	\WHILE{hay elementos en la cola}  
 		\STATE {Tomar el primer elemento de la cola //O(1)}
@@ -329,7 +328,7 @@ Los resultados se pueden observar en la imagen \ref{coloresconflicto}
  \begin{figure}[H]
     \begin{center}
   	\includegraphics[width=18cm]{imagenes/Ej3/coloresconflicto.png}
- 	\caption{Total de conflictos en función de la cantidad de colores máxima}
+ 	\caption{Total de conflictos en función de la cantidad de colores máxima. N = 1001}
  	\label{coloresconflicto}
     \end{center}
   \end{figure}
