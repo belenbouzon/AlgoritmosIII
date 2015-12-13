@@ -1,4 +1,15 @@
 \section{Comparativas}
+Nuestro análisis de las heurísticas se centra en evaluar dos aspectos de las mismas: el tiempo requerido para ejecutarse y la cantidad promedio de conflictos que aparecen en la solución.
+
+
+Nuestros test se basan en grafos generados de distintas maneras:
+
+Por un lado generamos grafos completamente al azar, de los cuales no se conoce a priori si son coloreables o no (determinar si un grafo genérico tiene coloreo requiere un tiempo no polinomial, lo cual resulta impracticable para grafos grandes). Estos test, además de ser útiles para medir el tiempo de ejecución, también permiten analizar los resultados de las heurísticas de búsqueda local, ya que permiten detectar conflictos reportados por el goloso, que luego fueron corregidos por las otras heurísticas.
+
+Por otro lado, para nuevos tests, utilizaremos grafos bipartitos completos, de los cuales tenemos la certeza de que son coloreables (ya que esta demostrado que todo grafo bipartito es coloreable utilizando dos colores). Estos grafos bipartitos se construyeron de manera que dos colores específicos están presentes como alternativas en todos los nodos,  y adicionalmente se agregaron otros colores elegidos al azar para cada nodo. De esta forma, se esta asegurando que existe al menos una solución de coloreo válida para todos los grafos bipartitos generados. Este coloreo consistiría en seleccionar el primer color que los nodos tienen en común para uno de los subconjuntos de vértices del grafo bipartito, y el otro color para el otro subconjunto.
+
+Consideramos que las familias de test combinadas pueden ofrecer una cobertura aceptable.
+En particular, pensamos que los grafos bipartitos generados para los tests pueden resultar útiles para el análisis de la cantidad de conflictos de las heurísticas, ya que son grafos de los cuales se tiene la certeza de que son coloreables, pero que igualmente pueden contener una cantidad elevada de nodos y aristas.
 
 A continuación se exponen los gráficos generados a partir de los resultados de los experimentos que ideamos e implementamos con el fin de hacer un análisis empirico del costo temporal y la calidad de los resultados obtenidos a partir del algoritmo goloso (Ejercicio 3) y de la vecindad 1 del algoritmo de búsqueda local (Ejercicio 4). 
 
@@ -90,3 +101,5 @@ Dicho esto, pareciera ser que en los casos en que el grafo no es esparso, el alg
   \end{figure}
 
 \subsection {Resultados obtenidos a parir de grafos bipartitos completos} 
+
+\textcolor{red}{\huge{AGREGAR TODOS LOS GRAFICOS QUE ESTAN EN LA CARPETA IMAGENES/EJ5/BIPARTITOS Y COMENTARLOS}}
