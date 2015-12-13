@@ -1,0 +1,48 @@
+\section{Problema 4: Heurística de búsqueda local}
+
+\subsection{Descripción del algoritmo}
+
+Después de aplicar la heurística de búsqueda golosa sobre el problema obtenemos un grafo en el que puede haber conflictos. Esta segunda heurística que desarrollamos se aplica sobre instancias del problema donde ya hay un color válido asignado a todos los nodos. Se trata, entonces, de reducir la cantidad de conflictos de la instancia.
+
+La heurística de búsqueda local define una "vecindad" del problema que se define como una modificación 
+
+EXPLICAR VECINDADES
+
+\subsubsection{Vecindad 1}
+
+Esta vecindad toma una arista en conflicto\footnote{Es decir que ambos nodos de la arista tienen el mismo color.} e intenta modificar el color de uno de los dos nodos, tratando de reducir la cantidad total de conflictos.
+
+% 
+% * 1. obtener conjunto de colores posibles para Nodo n1
+% 		 * 2. crear HashTable<int, int> conflictosPorColor (inicializar en 0) 
+% 		 * 3. para cada v en vecinos de n1
+% 		 *     3.1. conflictosPorColor[v.getColor()] += 1
+% 		 * hacer lo mismo para Nodo n2
+% 		 */
+
+\subsubsection{Vecindad 2}
+
+\subsection{Análisis de complejidad}
+
+
+
+
+
+
+\subsection{Experimentación}
+La expermentacion de las heuristicas se centra en evaluar dos aspectos de las mismas: el tiempo requerido para ejecutarse y la cantidad de falsos conflictos que aparecen en la solución.
+
+Para evaluar la optimalidad del resultado de las heuristicas son necesarios grafos coloreables con una cantidad razonablemente alta de nodos y aristas. Si bien no es posible generar un grafo completamente al azar que cumpla con estos requisitos, por el hecho de que determinar si un grafo tiene coloreo es NP-completo, existen algunas familias de grafos
+
+Uno de los test se centra en utilizar grafos bipartitos completos, en donde existen dos colores presentes como alternativas en todos los nodos, junto a otros que son elegidos al azar en cada nodo. Los grafos bipartitos poseen la peculiaridad de que es posible colorearlos con dos colores, es decir, los grafos generados siempre van a tener un coloreo posible.
+Sin embargo, como las heuristicas implementadas solo utilizan información de los nodos adyacentes, no podrán explotar el hecho de que el grafo sea bipartito. Además, como en un grafo bipartito completo cada nodo posee muchos adyacentes, entonces, con una cantidad de colores adecuada, las heuristicas no detectarán ningun patron en estos. Por esta razón, consideramos que es una familia de grafos conveniente para provar las euristicas.
+
+
+Se utilizaron además grafos generados al azar. Estos test, además de ser utiles para medir el tiempo de ejecución, tambien ayudan son utiles en la experimentación de la busqueda local, ya que permiten detectar conflictos generados por el goloso, que luego fueron corregidos por la busqueda local.
+
+
+\subsubsection{Peor caso}
+
+
+
+\subsubsection{Mejor caso}
