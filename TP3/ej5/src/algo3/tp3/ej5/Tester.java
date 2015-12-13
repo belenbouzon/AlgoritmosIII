@@ -237,6 +237,9 @@ public class Tester {
 			expresionDeNodo.append(" ");
 			int posicionColor1 = numeros.nextInt(cantidadColoresNodo);
 			int posicionColor2 = numeros.nextInt(cantidadColoresNodo);
+			while(posicionColor1==posicionColor2){
+				posicionColor2 = numeros.nextInt(cantidadColoresNodo);
+			}
 			HashSet<Integer> coloresUsados = new HashSet<Integer>(); 
 			coloresUsados.add(posicionColor1);
 			coloresUsados.add(posicionColor2);
@@ -327,6 +330,7 @@ public class Tester {
 				+ "3: <vecinidadUtilizada> <cantidadNodos> <cantidadColores> <cantidadDesplazamientos> <escala> --ColoresFijos --limitar\n"
 				+ "4: <cantidadNodos> <cantidadAristas> <cantidadColores> <cantidadDesplazamientos> <escala> <cantidadIteraciones> --NodosFijos --AristasFijas --ColoresFijos --CantidadColoresMaximaSiempre\n"
 				+ "5: <cantidadNodos> <cantidadAristas> <cantidadColores> <cantidadDesplazamientos> <escala> <cantidadIteraciones> --NodosFijos --AristasFijas --ColoresFijos --CantidadColoresMaximaSiempre\n"
+				+ "6: <cantidadNodos> <cantidadColores> <cantidadDesplazamientos> <escala> --ColoresFijos --CantidadColoresMaximaSiempre\n"
 				+ "\n<cantidadNodos>: valor inicial de cantidad de nodos\n"
 				+ "..IDEM para aristas y colores\n"
 				+ "<cantidadDesplazamientos>: valor máximo al que querés que llegue cantidadNodos/Aristas/Colores + el inicial\n"
@@ -494,6 +498,55 @@ public class Tester {
 		}else if(primerParametro==4){
 			GenerarTestCiclico(Integer.parseInt(entrada[1]));
 			System.out.print("Finalizado");
+		}else if(primerParametro==6){
+			int cantidadNodos = Integer.parseInt(entrada[1]);
+			int cantidadColores = Integer.parseInt(entrada[2]);
+			int cantidadDesplazamientos = Integer.parseInt(entrada[3]);
+			int escala = Integer.parseInt(entrada[4]);
+			
+			boolean coloresFijos =  false;
+			boolean limitar = false;
+			
+			if(entrada.length>=5){
+				if(entrada[4].equals("--ColoresFijos")){
+					coloresFijos = true;
+				}
+				if(entrada[4].equals("--ColoreoMaximoSiempre")){
+					limitar = true;
+				}
+			}
+			
+			if(entrada.length>=6){
+				
+				if(entrada[5].equals("--ColoresFijos")){
+					coloresFijos = true;
+				}
+				if(entrada[5].equals("--ColoreoMaximoSiempre")){
+					limitar = true;
+				}
+			}
+			
+			if(entrada.length>=7){
+				
+				if(entrada[6].equals("--ColoresFijos")){
+					coloresFijos = true;
+				}
+				if(entrada[6].equals("--ColoreoMaximoSiempre")){
+					limitar = true;
+				}
+			}
+			
+			if(entrada.length>=8){
+				
+				if(entrada[7].equals("--ColoresFijos")){
+					coloresFijos = true;
+				}
+				if(entrada[7].equals("--ColoreoMaximoSiempre")){
+					limitar = true;
+				}
+			}
+			
+			Tester.grafosBipartitosEj5(cantidadNodos, cantidadColores, cantidadDesplazamientos, escala, coloresFijos, limitar);
 		}else{
 			imprimirHelp();
 		}
@@ -659,8 +712,8 @@ public class Tester {
 				GrafoEj4 vecindad2 = resolverConLocal(entrada,grafo,2);
 				fin = System.nanoTime();
 				
-				conflictosVecindad1 += ((double)vecindad2.getCantConflictos())/cantidadIteraciones;
-				tiempoVecindad1 += ((double) (fin-inicio))/cantidadIteraciones;
+				conflictosVecindad2 += ((double)vecindad2.getCantConflictos())/cantidadIteraciones;
+				tiempoVecindad2 += ((double) (fin-inicio))/cantidadIteraciones;
 				
 			}
 			
@@ -735,6 +788,64 @@ public class Tester {
 					Integer.toString(greedyConflictos) + "," +
 					Long.toString(tiempoBusquedaLocal) + "," +
 					Integer.toString(busquedaLocalConflictos));
+		}
+	}
+	
+public static void grafosBipartitosEj5(int nodosIniciales,int cantColoresIniciales,int cantidadDesplazamientos,int escala,boolean coloresFijos,boolean limitar) throws Exception{
+		
+		int n = nodosIniciales ;
+		int colores = cantColoresIniciales;
+		
+		for(int i=0;i<cantidadDesplazamientos;i+=escala){
+			n = nodosIniciales + i;
+			if(!coloresFijos){
+				colores = cantColoresIniciales + i;
+			}
+			
+			String caso = "caso.txt";
+			Tester.generarGrafoBipartitoCompleto(caso,null,n, colores,limitar);
+			//Con estas tres lineas leemos el input, y ya en grafoResultante nos queda el grafo resuelto con goloso.
+			Lector lector = new Lector(caso);
+			Grafo grafoResultante = lector.MakeGraph(-1);
+			long greedyT0 = System.nanoTime();
+			grafoResultante.MakeRainbow();
+			long greedyT1 = System.nanoTime();
+			
+			int greedyConflictos = algo3.tp3.ej3.Main.CalcularConflictos(grafoResultante);
+			long tiempoGreedy = greedyT1 - greedyT0;
+			
+			GrafoEj4 convertido = new GrafoEj4(grafoResultante);
+			long busquedaLocalVecinidad1Inicio = System.nanoTime();
+			convertido.ResolverConVecindad1();
+			long busquedaLocalVecinidad1Fin = System.nanoTime();
+			
+			int conflictosVecindad1 = convertido.getCantConflictos();
+			convertido = null;
+			
+			/*GrafoEj4 convertido2 = new GrafoEj4(grafoResultante);
+			long busquedaLocalVecinidad2Inicio = System.nanoTime();
+			convertido2.ResolverConVecindad2();
+			long busquedaLocalVecinidad2Fin = System.nanoTime();
+			
+			int conflictosVecindad2 = convertido2.getCantConflictos();*/
+			
+			int aristas;
+			if(n%2==0){
+				aristas = (n/2)*(n/2);
+			}else{
+				aristas = (n/2)*(n/2 + 1);
+			}
+			
+			System.out.print(/*"<Nodos> <Aristas> <CantidadColores> <ConflictosGoloso> <TiempoGoloso> <ConflictosVecindad1> <TiempoVecindad1> <ConflictosVecindad2> <TiempoVecindad2> \n"
+					+*/ Integer.toString(n) + "," 
+					+ Integer.toString(aristas)+ ","  
+					+ Integer.toString(colores) + "," 
+					+ Integer.toString(greedyConflictos) + "," 
+					+ Long.toString(tiempoGreedy) + "," 
+					+ Integer.toString(conflictosVecindad1) + "," 
+					+ Long.toString((busquedaLocalVecinidad1Fin - busquedaLocalVecinidad1Inicio) ) + "," 
+					/*+ Integer.toString(conflictosVecindad2) + "," 
+					+ Long.toString((busquedaLocalVecinidad2Fin - busquedaLocalVecinidad2Inicio)) */+ "\n");
 		}
 	}
 	

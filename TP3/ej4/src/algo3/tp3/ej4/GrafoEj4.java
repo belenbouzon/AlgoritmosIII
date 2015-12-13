@@ -30,7 +30,6 @@ public class GrafoEj4 {
 	}
 
 
-
 	public int getCantidadDeColores() {
 		return _cantidadDeColores;
 	}
@@ -154,8 +153,11 @@ public class GrafoEj4 {
 		LinkedList<NodoConVecinos> candidatosN1 = target.getN1().posiblesSwaps();
 		LinkedList<NodoConVecinos> candidatosN2 = target.getN2().posiblesSwaps();
 		
-		int mejorMejoraN1 = 0;
-		int mejorMejoraN2 = 0;
+		
+		int cantidadConflictosInicial = this.getCantConflictos(); 
+		
+		int mejorMejoraN1 = cantidadConflictosInicial;
+		int mejorMejoraN2 = cantidadConflictosInicial;
 		
 		NodoConVecinos mejorSwapN1 = null;
 		NodoConVecinos mejorSwapN2 = null;
@@ -166,10 +168,11 @@ public class GrafoEj4 {
 		
 		for (NodoConVecinos v: candidatosN1){
 			int conflictosSinSwap = target.getN1().conflictosColor(target.getN1().getColor()) + v.conflictosColor(v.getColor());
-			int conflictosConSwap = target.getN1().conflictosColor(v.getColor()) + v.conflictosColor(target.getN1().getColor());
+			int conflictosConSwap = target.getN1().conflictosColor(v.getColor()) + v.conflictosColor(target.getN1().getColor()) -2; //le restamos dos porque cuando pido los conflictos del nodo con el color de sus vecinos, este marcara un error extra ya que el vecino posee ese mismo color
 			
-			if (conflictosConSwap > conflictosSinSwap){
-				if (conflictosConSwap > mejorMejoraN1){
+			
+			if (conflictosConSwap < conflictosSinSwap){
+				if (conflictosConSwap < mejorMejoraN1){
 					mejorSwapN1 = v;
 					mejorMejoraN1 = conflictosConSwap;
 				}
@@ -177,21 +180,21 @@ public class GrafoEj4 {
 		}
 		for (NodoConVecinos v: candidatosN2){
 			int conflictosSinSwap = target.getN2().conflictosColor(target.getN2().getColor()) + v.conflictosColor(v.getColor());
-			int conflictosConSwap = target.getN2().conflictosColor(v.getColor()) + v.conflictosColor(target.getN2().getColor());
+			int conflictosConSwap = target.getN2().conflictosColor(v.getColor()) + v.conflictosColor(target.getN2().getColor()) -2;
 			
-			if (conflictosConSwap > conflictosSinSwap){
-				if (conflictosConSwap > mejorMejoraN2){
+			if (conflictosConSwap < conflictosSinSwap){
+				if (conflictosConSwap < mejorMejoraN2){
 					mejorSwapN2 = v;
 					mejorMejoraN2 = conflictosConSwap;
 				}
 			}
 		}
 		
-		if (mejorMejoraN1 > mejorMejoraN2){
-			if ((mejorMejoraN1 > 0) && mejorSwapN1 != null)
+		if (mejorMejoraN1 < mejorMejoraN2){
+			if ((mejorMejoraN1 < cantidadConflictosInicial) && mejorSwapN1 != null)
 				return swapColores(target.getN1(), mejorSwapN1);
 		} else{
-			if ((mejorMejoraN2 > 0) && mejorSwapN2 != null)
+			if ((mejorMejoraN2 < cantidadConflictosInicial) && mejorSwapN2 != null)
 				return swapColores(target.getN2(), mejorSwapN2);
 		}
 		
@@ -286,8 +289,9 @@ public class GrafoEj4 {
 	
 	public void ResolverConVecindad2() throws Exception{
 		LinkedList<AristaEj4> cola = new LinkedList<AristaEj4>();
-		for (AristaEj4 c: this._conflictos)
+		for (AristaEj4 c: this._conflictos){
 			cola.add(c);
+		}
 		
 		for (AristaEj4 c: cola){
 			this.vecindad2(c);
@@ -299,6 +303,7 @@ public class GrafoEj4 {
 		/*
 		 * Resuelvo el problema que me pasen como parámetro (leo de archivo)
 		 */
+		
 		
 		if (args.length < 1){
 			System.out.println("Debe pasar como parámetro el nombre de archivo del input.\n");
