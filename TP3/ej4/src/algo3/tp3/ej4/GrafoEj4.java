@@ -296,77 +296,29 @@ public class GrafoEj4 {
 	
 	
 	public static void main(String[] args) throws Exception {
-
 		/*
-		GeneradorCasosDeTests generador = new algo3.tp3.ej3.GeneradorCasosDeTests();
-		String caso = generador.GenerarArchivoDeGrafoByCantColores(100, 3000, 20);
-
+		 * Resuelvo el problema que me pasen como parámetro (leo de archivo)
+		 */
 		
-		//Con estas tres lineas leemos el input, y ya en grafoResultante nos queda el grafo resuelto con goloso.
-		Lector lector = new Lector(caso);
+		if (args.length < 1){
+			System.out.println("Debe pasar como parámetro el nombre de archivo del input.\n");
+			return;
+		}
+			
+		Lector lector = new Lector(args[0]);
 		Grafo grafoResultante = lector.MakeGraph(-1);
-		grafoResultante.MakeRainbow();		
-		System.out.println(String.valueOf(algo3.tp3.ej3.Main.CalcularConflictos(grafoResultante)));
-
-		
-
-		
+		grafoResultante.MakeRainbow();
+				
 		GrafoEj4 convertido = new GrafoEj4(grafoResultante);
-		System.out.println("Conversion finalizada");
-		
-		System.out.println(String.valueOf(convertido.getCantConflictos()));
 		convertido.ResolverConVecindad1();
-		System.out.println(String.valueOf(convertido.getCantConflictos()));
-		*/
 		
-		// vamos aumentando la cantidad de nodos
-		System.out.println("Vamos aumentando la cantidad de nodos, manteniendo la cantidad de colores en 50. La cantidad de aristas para cada caso es máxima (grafo completo).");
-		System.out.println("===========================");
-		System.out.println("n,m,c,tiempo greedy,conflictos greedy,tiempo busqueda local v1, conflictos busqueda local v1");
-		GeneradorCasosDeTests generador = new algo3.tp3.ej3.GeneradorCasosDeTests();
+		String output = new String();
 		
-		//int aristas = 4900;
+		for (NodoConVecinos n: convertido._nodos)
+			output += Integer.toString(n.getColor()) + " ";
+		output += "\n";
 		
-		int vecinidadUtilizada = Integer.parseInt(args[0]);
-		if(vecinidadUtilizada!=1 && vecinidadUtilizada!=2){
-			System.err.print("error, vecinidad debe ser 1 o 2");
-		}
-		
-		int colores = 50;
-		for (int n = 100; n<50000 ; n = (int) (n*1.2)){
-			int aristas = (int) (((long) (n)) * ((long) (n-1))/2); 
-			String caso = generador.GenerarArchivoDeGrafoByCantColores(n, aristas, colores);
-			//Con estas tres lineas leemos el input, y ya en grafoResultante nos queda el grafo resuelto con goloso.
-			Lector lector = new Lector(caso);
-			Grafo grafoResultante = lector.MakeGraph(-1);
-			long greedyT0 = System.nanoTime();
-			grafoResultante.MakeRainbow();
-			long greedyT1 = System.nanoTime();
-			
-			int greedyConflictos = algo3.tp3.ej3.Main.CalcularConflictos(grafoResultante);
-			long tiempoGreedy = greedyT1 - greedyT0;
-			
-			GrafoEj4 convertido = new GrafoEj4(grafoResultante);
-			long busquedaLocalT0 = System.nanoTime();
-			if(vecinidadUtilizada==1){
-				convertido.ResolverConVecindad1();
-			}else{
-				convertido.ResolverConVecindad2();
-			}
-			long busquedaLocalT1 = System.nanoTime();
-			
-			long tiempoBusquedaLocal = busquedaLocalT1 - busquedaLocalT0;
-			int busquedaLocalConflictos = convertido.getCantConflictos();
-			
-			System.out.println(Integer.toString(n) + "," +
-					Integer.toString(aristas) + "," +
-					Integer.toString(colores) + "," +
-					Long.toString(tiempoGreedy) + "," +
-					Integer.toString(greedyConflictos) + "," +
-					Long.toString(tiempoBusquedaLocal) + "," +
-					Integer.toString(busquedaLocalConflictos));
-			
-		}
+		System.out.println(output);
 		
 				
 	}
