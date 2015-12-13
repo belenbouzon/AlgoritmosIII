@@ -35,7 +35,7 @@ do
 	done
 
 	promedio=$(($promedio-$min-$max))
-	promedio=$(($promedio/98))
+	promedio=$(($promedio/48))
 
 	echo $n	$promedio >> $result
 	echo "done $file"
@@ -43,3 +43,6 @@ do
 done
 
 exit 0
+
+# Para compilar desde consola:
+# javac -d ../bin -cp ./:../../ej1/src/ Main.java
