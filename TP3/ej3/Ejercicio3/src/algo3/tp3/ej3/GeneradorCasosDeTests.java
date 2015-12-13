@@ -9,13 +9,19 @@ public class GeneradorCasosDeTests
 	
 	public String GenerarGrafoByCantNodos(int cantDeNodos) throws Exception
 	{
+		/*
+		 * Crea un grafo generado al azar con:
+		 * - Cantidad de nodos: cantDeNodos
+		 * - Cantidad de aristas: Un quinto de la de un grafo completo
+		 * - Cantidad total de colores: cantDeNodos
+		 * 
+		 * Los colores posibles de cada nodo se eligen al azar (qué colores y cuántos).
+		 */
 		
 		this.cantNodos        = cantDeNodos;
 		this.cantAristas      = cantDeNodos*(cantDeNodos-1)/10;
 		this.cantTotalColores = cantDeNodos; 
 		
-		if (this.cantAristas > ((this.cantNodos - 1) * this.cantNodos) / 2 )
-			throw new Exception ("Hay más aristas de las que puede tener un grafo completo.");
 		
 		String nombreDeArchivo = String.valueOf(cantNodos) + "Nodos.out";
 		CrearArchivoDeGrafo(nombreDeArchivo);
