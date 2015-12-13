@@ -32,21 +32,25 @@ public class Main {
 			podas = true;
 		}
 
-		LectorEj2 reader = new LectorEj2(args[0]);
+		LectorEj2 reader = new LectorEj2(args[0], podas);
 
 		//while para mas de una instancia?
 		time0 = System.nanoTime();
-		reader.inicializar_lector();
+		boolean puedeHaberSol = reader.inicializar_lector();
 		cantNodos = reader.cantNodos();
 		grafo = reader.getGrafo();
 		grafo2colores = reader.getGrafo2colores();
-		//Ordenamos los nodos para que queden primero los de menor cantidad de colores.
-		if (podas) {
-			Collections.sort(grafo, new ColorComparator());
+		//si no hay podas asume que siempre puede haber solucion.
+		solucion = "X";
+		if(puedeHaberSol){
+			//Ordenamos los nodos para que queden primero los de menor cantidad de colores.
+			if (podas) {
+				Collections.sort(grafo, new ColorComparator());
+			}
+			
+			listColoring(0);
 		}
-
-		listColoring(0);
-		
+				
 		if(mideTiempos){
 			time1 = System.nanoTime();
 			time1 = time1-time0;

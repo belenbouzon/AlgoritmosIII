@@ -1,7 +1,9 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class LectorEj2 {
@@ -11,6 +13,8 @@ public class LectorEj2 {
 	private int cantidad_nodos;
 	private int cantidad_aristas;
 	private int cantidad_colores;
+	private ArrayDeque<Integer> cola;
+	private boolean podas;
 
 	public int cantNodos(){
 		return cantidad_nodos;
@@ -40,13 +44,18 @@ public class LectorEj2 {
         }
 	}
 
-	public LectorEj2(String archivo) throws Exception
+	public LectorEj2(String archivo, boolean p) throws Exception
 	{
-		try { this.is = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archivo)));}
+		try {
+			this.is = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(archivo)));
+			this.cola = new ArrayDeque<Integer>();
+			this.podas = p;
+		}
 		catch (RuntimeException e) {throw new Exception ("No pudo hallarse el archivo especificado." + archivo);}
 	}
 
-	public void inicializar_lector() throws IOException{
+	public boolean inicializar_lector() throws IOException{
+		//Devuelve false si al preprocesar el grafo no tiene solucion.
 		String parametros = this.leer_palabra();
 		String [] parametros_procesados = parametros.split(" ");
 		this.cantidad_nodos = Integer.parseInt(parametros_procesados[0]);
@@ -71,9 +80,12 @@ public class LectorEj2 {
 
 			//creo nodo de 2 colores
 			Nodo_Coloreable nodo2color = new Nodo_Coloreable(i);
-			nodo2color.cantidad_colores = 1;
 			nodo2color.colores.agregar_color(nuevo.colores.get(0));
-			if (cantidad_colores_nodo > 1) {
+			if (cantidad_colores_nodo == 1){ 
+				nodo2color.cantidad_colores = 1;
+				if(this.podas){ this.cola.add(i); }
+			}else{
+				//si hay mas de un color agrego el segundo.
 				nodo2color.cantidad_colores = 2;
 				nodo2color.colores.agregar_color(nuevo.colores.get(1));
 			}
@@ -89,5 +101,43 @@ public class LectorEj2 {
 			n_1.adyacentes.add(n_2);
 			n_2.adyacentes.add(n_1);
 		}
+		
+		if(podas){
+			return this.preprocesarNodos1Color();
+		}else{
+			return true;
+		}
+	}
+	
+	private boolean preprocesarNodos1Color(){
+		Nodo_Coloreable_ej2 nodo;
+		Nodo_Coloreable_ej2 vecino;
+		Nodo_Coloreable nodo2color;
+		Integer color;
+		int indice;
+		while(!this.cola.isEmpty()){
+			indice = this.cola.remove();
+			nodo = this.nodos_del_grafo.get(indice);
+			nodo2color = this.grafo_2colores.get(indice);
+			color = nodo.colores.get(0);
+			Iterator<Nodo_Coloreable> it = nodo2color.adyacentes.iterator();
+			while(it.hasNext()){
+				//recorro todos los vecinos
+				nodo2color = (Nodo_Coloreable) it.next();
+				vecino = this.nodos_del_grafo.get(nodo2color.identidad);
+				if(vecino.colores.remove(color)){
+					vecino.cantidad_colores--;				
+					if(vecino.cantidad_colores == 1){
+						nodo2color.cantidad_colores = 1;
+						this.cola.add(vecino.identidad);
+					}
+				}
+				if(vecino.cantidad_colores == 1 && vecino.colores.get(0) == color || vecino.cantidad_colores == 0){
+					//hay dos nodos vecinos que tienen un solo color y es el mismo. Si tiene 0 es porque borro el unico color.
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }
