@@ -12,7 +12,6 @@ import algo3.tp3.ej3.Escritor;
 import algo3.tp3.ej3.GeneradorCasosDeTests;
 import algo3.tp3.ej3.Grafo;
 import algo3.tp3.ej3.Lector;
-import algo3.tp3.ej3.Main;
 import algo3.tp3.ej3.Nodo;
 import algo3.tp3.ej4.GrafoEj4;
 
@@ -623,7 +622,7 @@ public class Tester {
 	public static void ejecutarTest_Beta(int cantidadNodos,int cantidadAristas,int cantidadColores,int cantidadDesplazamientos,int escala,int cantidadIteraciones,boolean nodosFijos,boolean aristasFijas,boolean coloresFijos,boolean limitar) throws Exception{
 		Tester.testerAlAzar(cantidadNodos, cantidadAristas, cantidadColores, cantidadDesplazamientos, escala, cantidadIteraciones, nodosFijos, aristasFijas, coloresFijos, limitar);
 		
-		System.out.print("<cantidad nodos> <cantidad aristas> <cantidad colores> <conflictosGoloso> <tiempoGoloso> <conflictosVecindad1> <tiempoVecindad1> <conflictosVecindad2> <tiempoVecindad2>");
+		System.out.print("<cantidad nodos>,<cantidad aristas>,<cantidad colores>,<conflictosGoloso>,<tiempoGoloso>,<conflictosVecindad1>,<tiempoVecindad1>,<conflictosVecindad2>,<tiempoVecindad2>\n");
 		
 		int cantidadActualNodos = cantidadNodos; 
 		int cantidadActualAristas = cantidadAristas;
@@ -665,7 +664,15 @@ public class Tester {
 				
 			}
 			
-			System.out.print(Integer.toString(cantidadActualNodos) + Integer.toString(cantidadActualAristas) + Integer.toString(cantidadActualColores) + Double.toString(conflictosGoloso) + " " + Double.toString(tiempoGoloso) + " " + Double.toString(conflictosVecindad1) + " " + Double.toString(tiempoVecindad1) + " " + Double.toString(conflictosVecindad2) + " " + Double.toString(tiempoVecindad2));
+			System.out.print(Integer.toString(cantidadActualNodos) + "," 
+					+ Integer.toString(cantidadActualAristas)+ ","  
+					+ Integer.toString(cantidadActualColores) + "," 
+					+ Long.toString((long)conflictosGoloso) + "," 
+					+ Long.toString((long)tiempoGoloso) + "," 
+					+ Long.toString((long)conflictosVecindad1) + "," 
+					+ Long.toString((long)tiempoVecindad1) + "," 
+					+ Long.toString((long)conflictosVecindad2) + "," 
+					+ Long.toString((long)tiempoVecindad2) + "\n");
 			
 			if(!nodosFijos){
 				cantidadActualNodos += escala;

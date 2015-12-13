@@ -57,8 +57,8 @@
 \newlength{\wideitemsep}
 \setlength{\wideitemsep}{.7\itemsep}
 \addtolength{\wideitemsep}{-3pt}
-%\let\olditem\item
-%\renewcommand{\item}{\setlength{\itemsep}{\wideitemsep}\olditem}
+\let\olditem\item
+\renewcommand{\item}{\setlength{\itemsep}{\wideitemsep}\olditem}
 
 \let\olditemize\itemize
 \def\itemize{\olditemize\itemsep=10pt }
