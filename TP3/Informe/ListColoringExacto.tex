@@ -44,14 +44,20 @@ Cada nodo tiene la siguiente cantidad de colores: $A: 2$, $B:4$, $C:5$ y $D:6$
 Como se puede observar en la imagen, cada nivel representa los llamados de \emph{ListColoring} para un determinado nodo y se puede ver como se seleccionan los índices de la lista de colores de a dos de forma que en las hojas se llama a \emph{2-List Coloring} (\texttt{2LC}) con todas las combinaciones de colores.
 
 \subsubsection{Podas}
-
-\begin{itemize}
-	\item La primer poda que se realiza es la de ordenar la lista de nodos de forma que queden primero los nodos con menor cantidad de colores ya que de esta forma si se eligen los colores de un nodo $a$ con dos colores primero y luego se pasa a uno $b$ de cinco, se estaría recorriendo el subgrafo que no contiene a $a$ dos veces en lugar de las cinco que se recorrería si estuviera primero el nodo $b$.
+\label{sec:podas}
+\begin{enumerate}
+	\item \label{it:p1} La primer poda que se realiza es la de ordenar la lista de nodos de forma que queden primero los nodos con menor cantidad de colores ya que de esta forma si se eligen los colores de un nodo $a$ con dos colores primero y luego se pasa a uno $b$ de cinco, se estaría recorriendo el subgrafo que no contiene a $a$ dos veces en lugar de las cinco que se recorrería si estuviera primero el nodo $b$.
 	
-	\item Al revisar el código de la primer entrega nos dimos cuenta que no era necesario hacer todas las permutaciones de los colores de un nodo ya que alcanzaba con seleccionar una sola vez cada color para cada nodo y llamar a 2-List Coloring dado que la recursión se encarga de que los colores se prueben todos con todos.
+	\item \label{it:p2} Al revisar el código de la primer entrega nos dimos cuenta que no era necesario hacer todas las permutaciones de los colores de un nodo ya que alcanzaba con seleccionar una sola vez cada color para cada nodo y llamar a 2-List Coloring dado que la recursión se encarga de que los colores se prueben todos con todos.
 	
-	\item Si se llega a una solución, se corta el backtracking y se devuelve esa. De esta forma en el caso promedio y mejor, no se recorrería todo el árbol de soluciones ya que no necesita encontrar todas las posibles.
-\end{itemize}
+	\item \label{it:p3} Si se llega a una solución, se corta el backtracking y se devuelve esa. De esta forma en el caso promedio y mejor, no se recorrería todo el árbol de soluciones ya que no necesita encontrar todas las posibles.
+	\item \label{it:p4} Por último se implementó una poda que preprocesa los datos y permite detectar si un grafo que tiene al menos un nodo con un solo color puede o no tener solución y en el caso que no pueda determinar efectivamente que no hay solución, igualmente poda todos los casos que generen conflictos con los nodos con un color. Para lograr esto, al momento de crear las estructuras de datos, se guardan en una cola fifo los índices de los nodos que tienen un solo color. Luego de que las estructuras están listas, se procede a analizar los vecinos de cada uno de los nodos de la cola, borrando -si existe- el único color del nodo de las listas de sus vecinos. Luego de borrar el color, se analiza el estado en el que quedó el vecino de la siguiente manera:
+	\begin{itemize}
+	\item Si le queda un solo color se agrega su índice al final de la cola.
+	\item Si tiene un solo color y es el mismo del nodo que estamos analizando o le quedan cero colores, el algoritmo termina, pues no existe solución posible.
+	\end{itemize}
+	 
+\end{enumerate}
 
 Por lo tanto como se está generando el árbol de soluciones completo y las podas cortan ramas solo cuando se encontró un coloreo posible o cuando se determina que no existe coloreo, se puede decir que nuestro algoritmo es correcto.
 
@@ -62,7 +68,7 @@ Para analizar la complejidad utilizaremos el siguiente pseudocódigo, en el cual
 \begin{itemize}
 	\item \texttt{grafo}: para referirse al que viene por parámetro.
 	
-	\item \texttt{grafo2colores}: para el grafo que se construye para pasarselo al algoritmo del problema 1 y que admite hasta 2 colores por nodo.
+	\item \texttt{grafo2colores}: para el grafo que se construye para pasárselo al algoritmo del problema 1 y que admite hasta 2 colores por nodo.
 	
 	\item \texttt{ListColoring}: es el algoritmo que estamos analizando y representa el llamado recursivo a la misma función. 
 	
@@ -113,15 +119,66 @@ Por la documentación de \emph{ArrayList}\footnote{https://docs.oracle.com/javas
 $(k*\mathcal{O}(1) + \mathcal{O}(c/2))^n * \mathcal{O}(n^2 \log{n}) = \mathcal{O}(c^n/2^n) * \mathcal{O}(n^2 \log{n})$ con $k$ constante.
 \end{center}
 
-% \subsection{Experimentación}
+\subsection{Experimentación}
+Para hacer la experimentación generamos grafos al azar variando las aristas, los nodos y los colores\footnote{Siempre hace referencia a máximo de colores que puede tener un nodo, o sea, el tamaño del universo de colores en el cual están contenidas las listas de colores de cada nodo.} por separado para poder analizar como afecta cada una de estas componentes a la complejidad. Una vez generados los grafos, se corrió el algoritmo varias veces por cada uno, obteniendo los tiempos de ejecución, eliminando los outliers y calculando el promedio.\\
 
-% \subsubsection{Constrastación Empírica de la complejidad}
-% \subsubsection{Mejor Caso}
-% \subsubsection{Peor caso}
+En la sección siguiente detallaremos la forma en la que se construyeron los grafos y en todos utilizaremos las leyendas:
+\begin{itemize}
+	\item \emph{Sin Podas}: El algoritmo se modificó para que esté obligado a recorrer todo el árbol de soluciones para cualquier entrada.
+	
+	\item \emph{Podas 1}: Hace referencia a las podas detalladas en los items \ref{it:p1}, \ref{it:p2} y \ref{it:p3} de la sección \ref{sec:podas} que se midieron todas juntas ya que la mas relevante es la que corta el backtracking cuando se encuentra una solución.
 
-% \begin{figure}[H]
-% 	\centering
-%  	\includegraphics[scale=0.6]{imagenes/ej3/tiempos1000B.png}
-% 	\caption{Medición de tiempo promedio con $n$ fijo en 1000}
-% 	%\label{tiemposprom}
-%  \end{figure}
+	\item \emph{Podas 2}: Hace referencia al item \ref{it:p4} de la sección \ref{sec:podas}, la cual se agregó a las otras podas y se midió nuevamente la performance para analizar si esta lograba mejoras ya que implementarla implica hacer un preprocesamiento de los datos.
+\end{itemize}
+
+\subsubsection{Constrastación Empírica de la complejidad}
+
+Lo primero que vamos a analizar son las aristas, para eso construimos grafos con cantidad de nodos ($n$) y de colores fijos, aumentando la cantidad de aristas hasta llegar al grafo completo de $n$ nodos.
+
+\begin{figure}[H]
+	\centering
+ 	\includegraphics[scale=0.45]{imagenes/ej2/Aristas.png}
+	\caption{Grafos de 10 nodos y 10 colores con variación de aristas de cinco en cinco.}
+	\label{aristas}
+ \end{figure}
+
+ Como se puede ver en la figura \ref{aristas} los resultados sin podas tienen un comportamiento oscilante que no nos dice mucho sobre la complejidad, ya que eventualmente podrían tender a una constante, de hecho al intentar conseguir estos resultados, notamos que el algoritmo tardaba demasiado tiempo (en horas) para obtener las mediciones para los casos mas chicos y la única forma de conseguirlas en tiempo razonable fue bajando cantidad de nodos y la de colores. Por lo tanto creemos que este comportamiento se debe a que la cantidad de nodos cercana a tener el máximo de colores es mayor o menor respectivamente y esto condice el análisis de complejidad realizado ya que en el mismo no influye la cantidad de aristas.
+
+\begin{figure}[H]
+	\centering
+ 	\includegraphics[scale=0.45]{imagenes/ej2/AristasPodas.png}
+	\caption{Detalle ampliado del gráfico anterior para las podas 1 y 2.}
+	\label{aristasP}
+ \end{figure}
+
+ Con respecto a las podas se puede ver que tienen un comportamiento mas constante, entre las podas 1 y 2 tiende a ser mejor la 2 (o sea, aplicar todas las podas juntas), pero las diferencias no son tan significativas al variar solo las aristas. Por otro lado, comparadas con las corridas sin podas, se puede observar que las mejoras también oscilan, en algunos casos las mejoras son enormes y en otros los tiempos se aproximan bastante y como las podas modifican la cantidad de nodos recorridos y/o los colores por nodo, llegamos a la misma conclusión que antes, que es que efectivamente las aristas no influyen en la complejidad temporal del algoritmo.\\
+
+ Para analizar como influyen los colores se eligió una cantidad de nodos, las aristas del completo y para ese grafo se fue variando el máximo de colores por nodo
+
+ \begin{figure}[H]
+	\centering
+ 	\includegraphics[scale=0.45]{imagenes/ej2/Colores.png}
+	\caption{}
+	\label{colores}
+ \end{figure}
+
+ \begin{figure}[H]
+	\centering
+ 	\includegraphics[scale=0.45]{imagenes/ej2/ColoresPodas.png}
+	\caption{Detalle ampliado del gráfico anterior para las podas 1 y 2.}
+	\label{coloresP}
+ \end{figure}
+
+ \begin{figure}[H]
+	\centering
+ 	\includegraphics[scale=0.45]{imagenes/ej2/Nodos.png}
+	\caption{}
+	\label{nodos}
+ \end{figure}
+
+ \begin{figure}[H]
+	\centering
+ 	\includegraphics[scale=0.45]{imagenes/ej2/NodosPodas.png}
+	\caption{Detalle ampliado del gráfico anterior para las podas 1 y 2.}
+	\label{nodosP}
+ \end{figure} 
