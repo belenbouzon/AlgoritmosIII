@@ -22,7 +22,7 @@ public class ExperimentosComplejidad {
 		
 		
 		colores = 50;
-		for (n = 100; n<3000 ; n = (int) (n*1.1)){
+		for (n = 500; n<3000 ; n = (int) (n*1.1)){
 			// vamos aumentando la cantidad de nodos y formamos un grafo completo
 			aristas = (int) (((long) (n)) * ((long) (n-1))/2); 
 			String caso = generador.GenerarArchivoDeGrafoByCantColores(n, aristas, colores);
@@ -42,10 +42,9 @@ public class ExperimentosComplejidad {
 		colores = 50;
 		n = 3000;
 		for (aristas = 100000; aristas<2249250 ; aristas = (int) (aristas*1.2)){
-			for (int iteracion=0; iteracion<5; iteracion++){
 				String caso = generador.GenerarArchivoDeGrafoByCantColores(n, aristas, colores);
 				ExperimentosComplejidad.resolverEImprimirTiempos(caso, n, aristas, colores);
-			}
+
 		}
 		
 		System.out.println("===========================");
@@ -58,10 +57,8 @@ public class ExperimentosComplejidad {
 		n = 500;
 		aristas = (int) (n*(n-1))/2;
 		for (colores = 1; colores <= n ; colores = (int) Math.ceil(colores*1.2)){
-			for (int iteracion=0; iteracion<5; iteracion++){
 				String caso = generador.GenerarArchivoDeGrafoByCantColores(n, aristas, colores);
 				ExperimentosComplejidad.resolverEImprimirTiempos(caso, n, aristas, colores);
-			}
 		}
 		
 
