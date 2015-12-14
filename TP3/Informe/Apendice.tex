@@ -139,4 +139,32 @@ La clase \emph{Grafo.java} contiene el método \textit{MakeRainbow()} que colore
 
 \subsubsection{Vecindad 1}
 
-%\lstinputlisting[name=main, numbers=left, frame=lines, firstline=39, lastline=52]{../ej4/src/GrafoEj4.java}
+\texttt{vecindad1} es un método de \texttt{GrafoEj4} que recibe una Arista (conflicto) como parámetro.
+
+\lstinputlisting[name=vecindad1, numbers=left, frame=lines, firstline=85, lastline=111]{../ej4/src/algo3/tp3/ej4/GrafoEj4.java}
+
+\texttt{conflictosPorColor()} es un método de \texttt{NodoConVecinos} que devuelve el diccionario que dice qué vecinos del nodo están pintados con cada color del nodo.
+
+\lstinputlisting[name=conflictosPorColor, numbers=left, frame=lines, firstline=115, lastline=132]{../ej4/src/algo3/tp3/ej4/NodoConVecinos.java}
+
+\texttt{cambiarColor} es un método de \texttt{GrafoEj4} que recibe un color, el diccionario de conflictos por color correspondiente, y un nodo, y reemplaza el color del nodo por el que le pasamos por parámetro. Al tener en el diccionario ya computados los conflictos para todos los colores, no es necesario volver a buscarlos.
+
+\lstinputlisting[name=cambiarColor, numbers=left, frame=lines, firstline=194, lastline=220]{../ej4/src/algo3/tp3/ej4/GrafoEj4.java}
+
+\subsubsection{Vecindad 2}
+
+\texttt{vecindad2} es un método de \texttt{GrafoEj4} que recibe una Arista (conflicto) como parámetro.
+
+\lstinputlisting[name=vecindad2, numbers=left, frame=lines, firstline=113, lastline=147]{../ej4/src/algo3/tp3/ej4/GrafoEj4.java}
+
+\texttt{buscarMejorSwap()} es un método de \texttt{NodoConVecinos} que devuelve un Swap (nodo y cantidad de conflictos que soluciona).
+
+\lstinputlisting[name=buscarMejorSwap, numbers=left, frame=lines, firstline=94, lastline=113]{../ej4/src/algo3/tp3/ej4/NodoConVecinos.java}
+
+\texttt{posiblesSwaps()} es un método de \texttt{NodoConVecinos} que devuelve una lista de aquellos vecinos con los cuales es posible hacer un intercambio de colores.
+
+\lstinputlisting[name=posiblesSwaps, numbers=left, frame=lines, firstline=68, lastline=77]{../ej4/src/algo3/tp3/ej4/NodoConVecinos.java}
+
+\texttt{swapColores} es un método de \texttt{GrafoEj4} que intercambia los colores de dos nodos.
+
+\lstinputlisting[name=swapColores, numbers=left, frame=lines, firstline=158, lastline=191]{../ej4/src/algo3/tp3/ej4/GrafoEj4.java}

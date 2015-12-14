@@ -72,46 +72,60 @@ Para verificar experimentalmente las cotas de complejidad calculadas, escribimos
 
 En primer lugar hicimos un análisis en función de la cantidad de nodos con grafos completos. Esto se puede observar en la figura \ref{nodosEj4}. Allí se ve que los tiempos medidos incrementan dentro de la cota definida por la curva de $n^3$. Esto es razonable ya que en un grafo completo la cantidad de aristas es del órden de $n^2$, y la cantidad máxima de colores se dejó fija para estas mediciones.
 
-\begin{figure}[H]
+\begin{figure}[]
 	\centering
  	\includegraphics[width=18cm]{imagenes/Ej4/TvsNodos.png}
 	\caption{Tiempos de cómputo en búsqueda local en función de la cantidad de nodos.}
 	\label{nodosEj4}
  \end{figure}
  
-También analizamos cómo variaba el tiempo de cómputo en función de la cantidad total de aristas. 
+También analizamos cómo variaba el tiempo de cómputo en función de la cantidad total de aristas (figuras \ref{aristasEj4-1} y \ref{aristasEj4-2}). Estas gráficas revelan que la complejidad medida no coincide con la complejidad que calculamos a partir del análisis del código. La figura \ref{aristasEj4-2}, en particular, estaría indicando que el tiempo de ejecución del algoritmo, con cualquiera de las dos vecindades es $\mathcal{O}(m \cdot conflictos)$, cuando de nuestro análisis surgía que la complejidad de la vecindad 1 era de $\mathcal{O}(conflictos \cdot (n+c)$  y de $\mathcal{O}(conflictos \cdot (n \cdot c + n^2))$ para la vecindad 2.
 
-\begin{figure}[H]
+\begin{figure}[]
 	\centering
  	\includegraphics[width=18cm]{imagenes/Ej4/TvsAristas1.png}
 	\caption{Tiempos de cómputo en búsqueda local en función de la cantidad de aristas.}
 	\label{aristasEj4-1}
  \end{figure}
  
- \begin{figure}[H]
+ \begin{figure}[]
 	\centering
  	\includegraphics[width=18cm]{imagenes/Ej4/TvsAristas2.png}
 	\caption{Tiempos de cómputo por conflicto (promedio) en búsqueda local en función de la cantidad de aristas.}
 	\label{aristasEj4-2}
  \end{figure}
  
+  \begin{figure}[]
+	\centering
+ 	\includegraphics[width=18cm]{imagenes/Ej4/TvsAristas3.png}
+	\caption{T/(conflictos * m) en función de la cantidad de aristas.}
+	\label{aristasEj4-3}
+ \end{figure}
  
  Y en función de la cantidad total de colores.
  
-  \begin{figure}[H]
+  \begin{figure}[]
 	\centering
  	\includegraphics[width=18cm]{imagenes/Ej4/TvsColores.png}
-	\caption{Tiempos de cómputo por conflicto (promedio) en búsqueda local en función de la cantidad de aristas.}
-	\label{aristasEj4-2}
+	\caption{Tiempos de cómputo en búsqueda local en función de la cantidad de colores.}
+	\label{coloresEj4-2}
  \end{figure}
  
  También hicimos una comparación entre la cantidad de conflictos que se resuelven con las distintas heurísticas.
  
-  \begin{figure}[H]
+  \begin{figure}[]
 	\centering
  	\includegraphics[width=18cm]{imagenes/Ej4/conflictosVsAristas.png}
 	\caption{Cantidad de conflictos en el grafo luego de resolver usando distintas heurísticas/vecindades.}
 	\label{conflictosEj4}
  \end{figure}
+ 
+\begin{figure}[]
+	\centering
+ 	\includegraphics[width=18cm]{imagenes/Ej4/porcentajeConflictosVsAristas.png}
+	\caption{Porcentaje de conflictos resueltos por cada vecindad en función de la cantidad de aristas.}
+	\label{conflictosEj4-porcentaje}
+ \end{figure}
+
  
  No hubo diferencias apreciables entre la vecindad 1 y la vecindad 2.
