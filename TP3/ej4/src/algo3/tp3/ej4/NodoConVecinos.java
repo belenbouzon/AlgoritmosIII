@@ -54,24 +54,24 @@ public class NodoConVecinos extends Nodo {
 		
 	}
 	
-	public Integer conflictosColor(int color){
-		Integer res = 0;
-		for (NodoConVecinos n: this._vecinos){
-			if (n.getColor() == color)
-				res += 1;
+	public int cantConflictos(){					// Total: O(cantidad de vecinos), que es O(n)
+		Integer res = 0;							// O(1)
+		for (NodoConVecinos n: this._vecinos){		// O(n) iteraciones
+			if (n.getColor() == this.getColor())				// O(1)
+				res += 1;							// O(1)
 		}
-		return res;
+		return res;									// O(1)
 	}
 	
-	public LinkedList<NodoConVecinos> posiblesSwaps(){
-		LinkedList<NodoConVecinos> res = new LinkedList<NodoConVecinos>();
-		for (NodoConVecinos n: this._vecinos){
-			if (n.getColor() != this.getColor()){
-				if ((n.get_coloresPosibles().contains(this.getColor())) && this.get_coloresPosibles().contains(n.getColor()))
-					res.add(n);
+	public LinkedList<NodoConVecinos> posiblesSwaps(){	// total: O(n*c)
+		LinkedList<NodoConVecinos> res = new LinkedList<NodoConVecinos>();		// O(1)
+		for (NodoConVecinos n: this._vecinos){									// O(n) iteraciones. 
+			if (n.getColor() != this.getColor()){								// O(1)
+				if ((n.get_coloresPosibles().contains(this.getColor())) && this.get_coloresPosibles().contains(n.getColor()))	// O(c)
+					res.add(n);													// O(1)
 			}
 		}
-		return res;
+		return res;																// O(1)
 	}
 	
 	public HashSet<AristaEj4> conflictos() throws Exception{
@@ -83,6 +83,32 @@ public class NodoConVecinos extends Nodo {
 		return res;
 	}
 	
+	private void swapColor(NodoConVecinos otro){
+		int otroColor = otro.getColor();
+		otro.setColor(this.getColor());
+		this.setColor(otroColor);
+	}
+	
+	public Swap buscarMejorSwap(){
+		LinkedList<NodoConVecinos> candidatos = this.posiblesSwaps();
+		NodoConVecinos mejorSwap = null;
+		int mejorMejora = 0;
+		int conflictosPropios = this.cantConflictos();
+		for (NodoConVecinos v: candidatos){			// O(n) iteraciones. Total: O(n*n)
+			int conflictosSinSwap = conflictosPropios + v.cantConflictos();	// O(n)
+			this.swapColor(v);	// hago swap de colores (sin cambiar otras estructuras)
+			int conflictosConSwap = this.cantConflictos() + v.cantConflictos();	// O(n)
+			this.swapColor(v);	// revierto el swap de colores
+			
+			if (conflictosConSwap < conflictosSinSwap){				// O(1)
+				if ((conflictosSinSwap-conflictosConSwap) > mejorMejora){				// O(1)
+					mejorSwap = v;								// O(1)
+					mejorMejora = conflictosSinSwap-conflictosConSwap;				// O(1)
+				}
+			}
+		}
+		return new Swap(mejorSwap, mejorMejora);
+	}
 
 	 
 }

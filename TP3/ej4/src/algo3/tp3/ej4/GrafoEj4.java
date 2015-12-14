@@ -149,52 +149,21 @@ public class GrafoEj4 {
 		 * Elegir cuál de los dos swaps hacer
 		 */
 		
-		LinkedList<NodoConVecinos> candidatosN1 = target.getN1().posiblesSwaps();
-		LinkedList<NodoConVecinos> candidatosN2 = target.getN2().posiblesSwaps();
+	
+		// en mejorMejora guardamos la cantidad de conflictos TOTALES que resolvemos haciendo el swap
+		// en mejorSwap guardamos el nodo con el que habría que hacer ese swap
 		
+		Swap mejorSwapN1 = target.getN1().buscarMejorSwap();
+		Swap mejorSwapN2 = target.getN2().buscarMejorSwap();
+
+
 		
-		int cantidadConflictosInicial = this.getCantConflictos(); 
-		
-		int mejorMejoraN1 = cantidadConflictosInicial;
-		int mejorMejoraN2 = cantidadConflictosInicial;
-		
-		NodoConVecinos mejorSwapN1 = null;
-		NodoConVecinos mejorSwapN2 = null;
-		
-		
-		
-		// TODO: refactorear este doble for loop
-		
-		for (NodoConVecinos v: candidatosN1){
-			int conflictosSinSwap = target.getN1().conflictosColor(target.getN1().getColor()) + v.conflictosColor(v.getColor());
-			int conflictosConSwap = target.getN1().conflictosColor(v.getColor()) + v.conflictosColor(target.getN1().getColor()) -2; //le restamos dos porque cuando pido los conflictos del nodo con el color de sus vecinos, este marcara un error extra ya que el vecino posee ese mismo color
-			
-			
-			if (conflictosConSwap < conflictosSinSwap){
-				if (conflictosConSwap < mejorMejoraN1){
-					mejorSwapN1 = v;
-					mejorMejoraN1 = conflictosConSwap;
-				}
-			}
-		}
-		for (NodoConVecinos v: candidatosN2){
-			int conflictosSinSwap = target.getN2().conflictosColor(target.getN2().getColor()) + v.conflictosColor(v.getColor());
-			int conflictosConSwap = target.getN2().conflictosColor(v.getColor()) + v.conflictosColor(target.getN2().getColor()) -2;
-			
-			if (conflictosConSwap < conflictosSinSwap){
-				if (conflictosConSwap < mejorMejoraN2){
-					mejorSwapN2 = v;
-					mejorMejoraN2 = conflictosConSwap;
-				}
-			}
-		}
-		
-		if (mejorMejoraN1 < mejorMejoraN2){
-			if ((mejorMejoraN1 < cantidadConflictosInicial) && mejorSwapN1 != null)
-				return swapColores(target.getN1(), mejorSwapN1);
+		if (mejorSwapN1.getMejora() > mejorSwapN2.getMejora()){												// O(1)
+			if (mejorSwapN1.getN() != null)		// O(1)
+				return swapColores(target.getN1(), mejorSwapN1.getN());						// O(n)
 		} else{
-			if ((mejorMejoraN2 < cantidadConflictosInicial) && mejorSwapN2 != null)
-				return swapColores(target.getN2(), mejorSwapN2);
+			if (mejorSwapN2.getN() != null)		// O(1)
+				return swapColores(target.getN2(), mejorSwapN2.getN());						// O(n)
 		}
 		
 		return 0; // No encontré un buen swap
@@ -209,7 +178,7 @@ public class GrafoEj4 {
 		return res;
 	}
 	
-	private Integer swapColores(NodoConVecinos n1, NodoConVecinos n2) throws Exception{
+	private Integer swapColores(NodoConVecinos n1, NodoConVecinos n2) throws Exception{		// O(n)
 		// Intercambiar los colores entre n1 y n2, devolviendo la cantidad de conflictos que se resolvieron
 		
 		// TODO: se puede optimizar esto..
