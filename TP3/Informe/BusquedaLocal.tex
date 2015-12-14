@@ -114,25 +114,13 @@ También analizamos cómo variaba el tiempo de cómputo en función de la cantid
 	\label{aristasEj4-V2}
  \end{figure}
  
- Las figuras \ref{aristasEj4-V1} y \ref{aristasEj4-V1}) las realizamos para ver la correlación entre el tiempo de cómputo y la cantidad de conflictos inicial con la que inicia la ejecución del algoritmo. Estas gráficas revelan que la complejidad medida no coincide con la complejidad que calculamos a partir del análisis del código. La figura \ref{aristasEj4-2}, en particular, estaría indicando que el tiempo de ejecución del algoritmo, con cualquiera de las dos vecindades es $\mathcal{O}(m \cdot conflictos)$, cuando de nuestro análisis surgía que la complejidad de la vecindad 1 era de $\mathcal{O}(conflictos \cdot (n+c)$  y de $\mathcal{O}(conflictos \cdot (n \cdot c + n^2)) \in \mathcal{O}(n^4)$ para la vecindad 2.
+ Las figuras \ref{aristasEj4-V1} y \ref{aristasEj4-V2} las realizamos para ver la correlación entre el tiempo de cómputo y la cantidad de conflictos inicial con la que inicia la ejecución del algoritmo. En la vecindad 1 se ve una relación lineal entre la cantidad de conflictos y el tiempo de ejecución (manteniendo la cantidad de nodos y de colores constante). En la vecindad 2 no vemos esto tan claro. Quisimos hacer un análisis más profundo pero los tiempos de ejecución son bastante prolongados y no fue posible realizar el análisis en un tiempo razonable.
  
- \begin{figure}[H]
-	\centering
- 	\includegraphics[width=18cm]{imagenes/Ej4/TvsAristas2.png}
-	\caption{Tiempos de cómputo por conflicto (promedio) en búsqueda local en función de la cantidad de aristas.}
-	\label{aristasEj4-2}
- \end{figure}
- 
-  \begin{figure}[]
-	\centering
- 	\includegraphics[width=18cm]{imagenes/Ej4/TvsAristas3.png}
-	\caption{T/(conflictos * m) en función de la cantidad de aristas.}
-	\label{aristasEj4-3}
- \end{figure}
+
  
  Y en función de la cantidad total de colores.
  
-  \begin{figure}[]
+  \begin{figure}[H]
 	\centering
  	\includegraphics[width=18cm]{imagenes/Ej4/TvsColores.png}
 	\caption{Tiempos de cómputo en búsqueda local en función de la cantidad de colores.}
@@ -141,19 +129,20 @@ También analizamos cómo variaba el tiempo de cómputo en función de la cantid
  
  También hicimos una comparación entre la cantidad de conflictos que se resuelven con las distintas heurísticas.
  
-  \begin{figure}[]
-	\centering
- 	\includegraphics[width=18cm]{imagenes/Ej4/conflictosVsAristas.png}
-	\caption{Cantidad de conflictos en el grafo luego de resolver usando distintas heurísticas/vecindades.}
-	\label{conflictosEj4}
- \end{figure}
- 
+
 
 
  
  
  
  \subsubsection{Cantidad de conflictos resueltos}
+ 
+   \begin{figure}[H]
+	\centering
+ 	\includegraphics[width=18cm]{imagenes/Ej4/conflictosVsNodos.png}
+	\caption{Cantidad de conflictos en el grafo luego de resolver usando distintas heurísticas/vecindades.}
+	\label{conflictosEj4}
+ \end{figure}
  
  \begin{figure}[H]
 	\centering
@@ -166,7 +155,9 @@ También analizamos cómo variaba el tiempo de cómputo en función de la cantid
   \begin{figure}[H]
 	\centering
  	\includegraphics[width=18cm]{imagenes/Ej4/conflictosVsColores.png}
-	\caption{Porcentaje de conflictos resueltos por cada vecindad en función de la cantidad de aristas.}
+	\caption{Porcentaje de conflictos resueltos por cada vecindad en función de la cantidad de colores.}
 	\label{conflictosEj4-porcentaje}
  \end{figure}
- La vecindad 2 no mostró buenos resultados. 
+ 
+ 
+ La vecindad 2 no mostró buenos resultados. Por eso decidimos utilizar la vecindad 1.
