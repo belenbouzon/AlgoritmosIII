@@ -89,7 +89,7 @@ public class ExperimentosComplejidad {
 		
 		convertido = new GrafoEj4(grafoResultante);
 		long busquedaLocalV2T0 = System.nanoTime();
-		convertido.ResolverConVecindad1();
+		convertido.ResolverConVecindad2();
 		long busquedaLocalV2T1 = System.nanoTime();
 		
 		long tiempoBusquedaLocalV2 = busquedaLocalV2T1 - busquedaLocalV2T0;
