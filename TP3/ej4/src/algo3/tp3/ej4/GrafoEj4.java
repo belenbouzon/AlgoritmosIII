@@ -123,19 +123,19 @@ public class GrafoEj4 {
 		 * 
 		 * Hacer lo mismo para nodo 2
 		 * 
-		 * Elegir cuál de los dos swaps hacer
+		 * Elegir cuál de los dos swaps hacer.
 		 */
 		
 	
 		// en mejorMejora guardamos la cantidad de conflictos TOTALES que resolvemos haciendo el swap
 		// en mejorSwap guardamos el nodo con el que habría que hacer ese swap
 		
-		Swap mejorSwapN1 = target.getN1().buscarMejorSwap();
-		Swap mejorSwapN2 = target.getN2().buscarMejorSwap();
+		Swap mejorSwapN1 = target.getN1().buscarMejorSwap();				// O(n*c + n^2)
+		Swap mejorSwapN2 = target.getN2().buscarMejorSwap();				// O(n*c + n^2)
 
 
 		
-		if (mejorSwapN1.getMejora() > mejorSwapN2.getMejora()){												// O(1)
+		if (mejorSwapN1.getMejora() > mejorSwapN2.getMejora()){								// O(1)
 			if (mejorSwapN1.getN() != null)		// O(1)
 				return swapColores(target.getN1(), mejorSwapN1.getN());						// O(n)
 		} else{
@@ -196,18 +196,18 @@ public class GrafoEj4 {
 		 * Cambio el color del nodo target por nuevoColor. En conflictosPorColor recibo una tabla que ya tiene calculados los vecinos con los que target
 		 * va a tener conflicto para cada color posible. (Nos interesan los del color actual y los de nuevoColor).
 		 */
-		Integer diferencia = 0;
-		if (nuevoColor != target.getColor()){
+		Integer diferencia = 0;							//	O(1)
+		if (nuevoColor != target.getColor()){			// O(1)
 			
 			// sacamos de _conflictos los conflictos removidos
-			for (NodoConVecinos c: conflictosPorColor.get(target.getColor())){
+			for (NodoConVecinos c: conflictosPorColor.get(target.getColor())){	// O(n) iteraciones
 				AristaEj4 remover = new AristaEj4(target, c);
-				this._conflictos.remove(remover);
+				this._conflictos.remove(remover);								// O(n) pero es HashTable... amortiza en O(1)
 			}
 			// agregamos a _conflictos los conflictos nuevos
-			for (NodoConVecinos c: conflictosPorColor.get(nuevoColor)){
+			for (NodoConVecinos c: conflictosPorColor.get(nuevoColor)){			// O(n) iteraciones
 				AristaEj4 agregar = new AristaEj4(target, c);
-				this._conflictos.add(agregar);
+				this._conflictos.add(agregar);									// O(n) pero es HashTable... amortiza en O(1)
 			}
 			
 			diferencia = conflictosPorColor.get(target.getColor()).size() - conflictosPorColor.get(nuevoColor).size();

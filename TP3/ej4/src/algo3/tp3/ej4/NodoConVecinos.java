@@ -91,20 +91,20 @@ public class NodoConVecinos extends Nodo {
 		this.setColor(otroColor);
 	}
 	
-	public Swap buscarMejorSwap(){
-		LinkedList<NodoConVecinos> candidatos = this.posiblesSwaps();
-		NodoConVecinos mejorSwap = null;
-		int mejorMejora = 0;
-		int conflictosPropios = this.cantConflictos();
-		for (NodoConVecinos v: candidatos){			// O(n) iteraciones. Total: O(n*n)
-			int conflictosSinSwap = conflictosPropios + v.cantConflictos();	// O(n)
-			this.swapColor(v);	// hago swap de colores (sin cambiar otras estructuras)
+	public Swap buscarMejorSwap(){		// O(n*c + n*n)
+		LinkedList<NodoConVecinos> candidatos = this.posiblesSwaps();					// O(n*c)
+		NodoConVecinos mejorSwap = null;												// O(1)
+		int mejorMejora = 0;															// O(1)																	
+		int conflictosPropios = this.cantConflictos();									// O(n)
+		for (NodoConVecinos v: candidatos){												// O(n) iteraciones. Total: O(n*n)
+			int conflictosSinSwap = conflictosPropios + v.cantConflictos();		// O(n)
+			this.swapColor(v);	// hago swap de colores (sin cambiar otras estructuras). O(1)
 			int conflictosConSwap = this.cantConflictos() + v.cantConflictos();	// O(n)
-			this.swapColor(v);	// revierto el swap de colores
+			this.swapColor(v);	// revierto el swap de colores					O (1)
 			
-			if (conflictosConSwap < conflictosSinSwap){				// O(1)
+			if (conflictosConSwap < conflictosSinSwap){								// O(1)
 				if ((conflictosSinSwap-conflictosConSwap) > mejorMejora){				// O(1)
-					mejorSwap = v;								// O(1)
+					mejorSwap = v;													// O(1)
 					mejorMejora = conflictosSinSwap-conflictosConSwap;				// O(1)
 				}
 			}
