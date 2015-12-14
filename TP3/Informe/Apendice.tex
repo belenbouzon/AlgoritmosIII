@@ -16,9 +16,11 @@ Los metodos que construyen el coloreo se encuentran en Calculador_de_Coloracion_
 \subsection{List Coloring}
 
 La clase \emph{Main.java} se encarga de hacer el backtracking para recorrer todos los nodos fijando de a dos colores:
-\lstinputlisting[name=main, numbers=left, frame=lines, firstline=69, lastline=100]{../ej2/src/Main.java}
-La clase \emph{LectorEj2.java} se encarga de leer el input y transformarlo en dos grafos, uno que contiene todos los colores y el otro que tiene un máximo de dos colores para poder pasarselo como parámetro a \emph{2ListColoring}.
-\lstinputlisting[name=lec, numbers=left, frame=lines, firstline=49, lastline=93]{../ej2/src/LectorEj2.java}
+\lstinputlisting[name=main, numbers=left, frame=lines, firstline=39, lastline=52]{../ej2/src/Main.java}
+\lstinputlisting[name=main, numbers=left, frame=lines, firstline=73, lastline=104]{../ej2/src/Main.java}
+La clase \emph{LectorEj2.java} se encarga de leer el input y transformarlo en dos grafos, uno que contiene todos los colores y el otro que tiene un máximo de dos colores para poder pasarselo como parámetro a \emph{2ListColoring}. También hace el preprocesamiento de los datos para la última poda.
+\lstinputlisting[name=lec, numbers=left, frame=lines, firstline=57, lastline=110]{../ej2/src/LectorEj2.java}
+\lstinputlisting[name=lec, numbers=left, frame=lines, firstline=112, lastline=142]{../ej2/src/LectorEj2.java}
 La clase \emph{Nodo_Coloreable_ej2} es muy similar a la clase \emph{Nodo_Coloreable_ej1}, lo único que cambia es que esta acepta una lista de mas de dos colores.
 \lstinputlisting[name=nc, numbers=left, frame=lines, firstline=12, lastline=16]{../ej2/src/Nodo\string_Coloreable\string_ej2.java}
 
