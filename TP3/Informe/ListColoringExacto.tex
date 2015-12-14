@@ -131,7 +131,7 @@ En la sección siguiente detallaremos la forma en la que se construyeron los gra
 	\item \emph{Podas 2}: Hace referencia al item \ref{it:p4} de la sección \ref{sec:podas}, la cual se agregó a las otras podas y se midió nuevamente la performance para analizar si esta lograba mejoras ya que implementarla implica hacer un preprocesamiento de los datos.
 \end{itemize}
 
-\subsubsection{Constrastación Empírica de la complejidad}
+\subsubsection{Aristas}
 
 Lo primero que vamos a analizar son las aristas, para eso construimos grafos con cantidad de nodos ($n$) y de colores fijos, aumentando la cantidad de aristas hasta llegar al grafo completo de $n$ nodos.
 
@@ -153,14 +153,18 @@ Lo primero que vamos a analizar son las aristas, para eso construimos grafos con
 
  Con respecto a las podas se puede ver que tienen un comportamiento mas constante, entre las podas 1 y 2 tiende a ser mejor la 2 (o sea, aplicar todas las podas juntas), pero las diferencias no son tan significativas al variar solo las aristas. Por otro lado, comparadas con las corridas sin podas, se puede observar que las mejoras también oscilan, en algunos casos las mejoras son enormes y en otros los tiempos se aproximan bastante y como las podas modifican la cantidad de nodos recorridos y/o los colores por nodo, llegamos a la misma conclusión que antes, que es que efectivamente las aristas no influyen en la complejidad temporal del algoritmo.\\
 
+\subsubsection{Colores}
+
  Para analizar como influyen los colores se eligió una cantidad de nodos, las aristas del completo y para ese grafo se fue variando el máximo de colores por nodo
 
  \begin{figure}[H]
 	\centering
  	\includegraphics[scale=0.45]{imagenes/ej2/Colores.png}
-	\caption{}
+	\caption{Grafos de 10 nodos, 45 aristas y colores que varían de 1 a 20.}
 	\label{colores}
  \end{figure}
+
+Al observar la figura \ref{colores} podemos ver que al principio, tanto los resultados sin podas como los de podas 1 y 2, son bastante similares y esto se debe a que hasta antes de 10 colores no existe solución ya que al ser grafos completos de 10 nodos, no se llega al mínimo de un color por nodo y la cantidad de colores a recorrer no es significativa para las mediciones sin podas. Luego de 10 y a partir del 12 vemos que los resultados se empiezan a diferenciar mas y volvemos a ver un comportamiento medio oscilante que como explicamos antes, se debe a que por mas que el máximo de colores sea uno, la cantidad real de colores que tiene cada nodo varía entre uno y el máximo representado por el eje $x$, por lo tanto cuantos mas nodos haya con cantidades de colores cercanas al máximo, mas tiempo va a tardar.
 
  \begin{figure}[H]
 	\centering
@@ -169,12 +173,20 @@ Lo primero que vamos a analizar son las aristas, para eso construimos grafos con
 	\label{coloresP}
  \end{figure}
 
+Si miramos mas de cerca las podas en la figura \ref{coloresP} podemos observar que en algunos casos las mejoras fueron bastante considerables en \emph{Podas 2} y justamente coinciden con los casos en los que esta poda tiene mayor efecto. En particular el grafo con 12 colores tiene dos nodos con un único color y que es el mismo para los dos, por lo tanto a aplicar la poda \ref{it:p4} rápidamente se llega a ese problema y el algoritmo termina.\\
+
+\subsubsection{Nodos}
+
+Por último analizaremos el comportamiento al dejar fija la cantidad de colores, aumentar la cantidad de nodos y las aristas siempre son las del grafo completo para cada $n$. Notar que las aristas no se dejaron fijas ya que no tenía sentido (en especial para las podas) que a medida que aumentan las instancias sea mas fácil encontrar un coloreo porque el grafo es casi completamente disconexo.
+
  \begin{figure}[H]
 	\centering
  	\includegraphics[scale=0.45]{imagenes/ej2/Nodos.png}
-	\caption{}
+	\caption{Grafos completos de 1 a 15 nodos con máximo 50 colores.}
 	\label{nodos}
  \end{figure}
+
+Al observar la figura \ref{nodos} vemos que efectivamente las mediciones de \emph{Sin Podas} muestran resultados exponenciales que escalan muy rápidamente con cantidades de nodos relativamente bajas\footnote{El algoritmo sin podas estuvo corriendo aproximadamente ocho horas y en ese tiempo no pudo obtener los resultados para 10 nodos, 45 aristas y 50 colores.}. Las podas a partir del grafo con 8 nodos muestran mejoras muy grandes ya que los resultados se mantienen mas o menos constantes mientras que el algoritmo sin podas crece exponencialmente.  
 
  \begin{figure}[H]
 	\centering
@@ -182,3 +194,7 @@ Lo primero que vamos a analizar son las aristas, para eso construimos grafos con
 	\caption{Detalle ampliado del gráfico anterior para las podas 1 y 2.}
 	\label{nodosP}
  \end{figure} 
+
+ En la figura \ref{nodosP} se pueden ver unas variaciones en las que \emph{Podas 2} empeora un poco la performance de \emph{Podas 1} y eso se debe a que en esos puntos ya son grafos con cantidades de nodos mas considerables y al tener tantos colores disponibles es poco probable que haya nodos con un solo color, con lo cual esta poda no genera una diferencia positiva. A partir de ese momento los resultados con podas varían mucho si la solución se encuentra rápido o si se tiene que recorrer todo o casi todo el árbol, siendo los valores mas cercanos a cero o mas cercanos a los resultados exponenciales de \emph{Sin Podas}, respectivamente.\\
+
+ En conclusión, luego de realizar este análisis podemos afirmar que los resultados sin podas condicen la cota de complejidad temporal propuesta y que al agregar las podas se pueden obtener resultados bastante mas rápido para valores pequeños de nodos y colores, pero indefectiblemente al aumentar estos valores el tiempo de cómputo se vuelve cada vez mas grande.
