@@ -70,25 +70,53 @@ Como dijimos, el cuerpo principal del algoritmo itera sobre todos los conflictos
 
 Para verificar experimentalmente las cotas de complejidad calculadas, escribimos generadores de grafos al azar y ejecuciones donde vamos generando grafos y resolviéndolos, tomando mediciones. Se puede hallar el código utilizado en el archivo \texttt{ExperimentosComplejidad.java}.
 
-En primer lugar hicimos un análisis en función de la cantidad de nodos con grafos completos. Esto se puede observar en la figura \ref{nodosEj4}. Allí se ve que los tiempos medidos incrementan dentro de la cota definida por la curva de $n^3$. Esto es razonable ya que en un grafo completo la cantidad de aristas es del órden de $n^2$, y la cantidad máxima de colores se dejó fija para estas mediciones.
+En primer lugar hicimos un análisis en función de la cantidad de nodos con grafos completos. Esto se puede observar en las figuras \ref{nodosEj4-v1} y \ref{nodosEj4-v2}. Allí se ve que los tiempos medidos para la vecindad 1 incrementan dentro de la cota definida por la curva de $n^3$. Esto es razonable ya que en un grafo completo la cantidad de aristas es del órden de $n^2$, y la cantidad máxima de colores se dejó fija para estas mediciones.
 
-\begin{figure}[]
+Los tiempos de la vecindad 2 se ve que incrementan dentro de la cota definida por la curva de $n^4$, lo cual también se condice con la complejidad calculada a partir del código, ya que en un grafo completo $\mathcal{O}(m \cdot (n^2 + n \cdot c)) \in \mathcal{O}(n^2 (n^2 + n \cdot c))$
+
+\begin{figure}[H]
 	\centering
- 	\includegraphics[width=18cm]{imagenes/Ej4/TvsNodos.png}
-	\caption{Tiempos de cómputo en búsqueda local en función de la cantidad de nodos.}
-	\label{nodosEj4}
+ 	\includegraphics[width=18cm]{imagenes/Ej4/TvsNodosV1.png}
+	\caption{Tiempos de cómputo en vecindad 1 en función de la cantidad de nodos.}
+	\label{nodosEj4-v1}
  \end{figure}
  
-También analizamos cómo variaba el tiempo de cómputo en función de la cantidad total de aristas (figuras \ref{aristasEj4-1} y \ref{aristasEj4-2}). Estas gráficas revelan que la complejidad medida no coincide con la complejidad que calculamos a partir del análisis del código. La figura \ref{aristasEj4-2}, en particular, estaría indicando que el tiempo de ejecución del algoritmo, con cualquiera de las dos vecindades es $\mathcal{O}(m \cdot conflictos)$, cuando de nuestro análisis surgía que la complejidad de la vecindad 1 era de $\mathcal{O}(conflictos \cdot (n+c)$  y de $\mathcal{O}(conflictos \cdot (n \cdot c + n^2))$ para la vecindad 2.
-
-\begin{figure}[]
+ \begin{figure}[H]
 	\centering
- 	\includegraphics[width=18cm]{imagenes/Ej4/TvsAristas1.png}
+ 	\includegraphics[width=18cm]{imagenes/Ej4/TvsNodosV2.png}
+	\caption{Tiempos de cómputo en vecindad 2 en función de la cantidad de nodos.}
+	\label{nodosEj4-v2}
+ \end{figure}
+ 
+También analizamos cómo variaba el tiempo de cómputo en función de la cantidad total de aristas. En la figura \ref{aristasEj4-Comp} se ve claramente que la vecindad 2 tiene una complejidad de un órden mayor que la de la vecindad 1.
+
+
+
+
+\begin{figure}[H]
+	\centering
+ 	\includegraphics[width=18cm]{imagenes/Ej4/TvsAristasComp.png}
 	\caption{Tiempos de cómputo en búsqueda local en función de la cantidad de aristas.}
-	\label{aristasEj4-1}
+	\label{aristasEj4-Comp}
+ \end{figure}
+
+\begin{figure}[H]
+	\centering
+ 	\includegraphics[width=18cm]{imagenes/Ej4/tiempoPorConflictovsAristasV1.png}
+	\caption{Tiempos de cómputo por conflicto (promedio) con vecindad 1 en función de la cantidad de aristas.}
+	\label{aristasEj4-V1}
  \end{figure}
  
- \begin{figure}[]
+ \begin{figure}[H]
+	\centering
+ 	\includegraphics[width=18cm]{imagenes/Ej4/tiempoPorConflictovsAristasV2.png}
+	\caption{Tiempos de cómputo por conflicto (promedio) con vecindad 2 en función de la cantidad de aristas.}
+	\label{aristasEj4-V2}
+ \end{figure}
+ 
+ Las figuras \ref{aristasEj4-V1} y \ref{aristasEj4-V1}) las realizamos para ver la correlación entre el tiempo de cómputo y la cantidad de conflictos inicial con la que inicia la ejecución del algoritmo. Estas gráficas revelan que la complejidad medida no coincide con la complejidad que calculamos a partir del análisis del código. La figura \ref{aristasEj4-2}, en particular, estaría indicando que el tiempo de ejecución del algoritmo, con cualquiera de las dos vecindades es $\mathcal{O}(m \cdot conflictos)$, cuando de nuestro análisis surgía que la complejidad de la vecindad 1 era de $\mathcal{O}(conflictos \cdot (n+c)$  y de $\mathcal{O}(conflictos \cdot (n \cdot c + n^2)) \in \mathcal{O}(n^4)$ para la vecindad 2.
+ 
+ \begin{figure}[H]
 	\centering
  	\includegraphics[width=18cm]{imagenes/Ej4/TvsAristas2.png}
 	\caption{Tiempos de cómputo por conflicto (promedio) en búsqueda local en función de la cantidad de aristas.}
@@ -120,12 +148,25 @@ También analizamos cómo variaba el tiempo de cómputo en función de la cantid
 	\label{conflictosEj4}
  \end{figure}
  
-\begin{figure}[]
+
+
+ 
+ 
+ 
+ \subsubsection{Cantidad de conflictos resueltos}
+ 
+ \begin{figure}[H]
 	\centering
  	\includegraphics[width=18cm]{imagenes/Ej4/porcentajeConflictosVsAristas.png}
 	\caption{Porcentaje de conflictos resueltos por cada vecindad en función de la cantidad de aristas.}
 	\label{conflictosEj4-porcentaje}
  \end{figure}
-
  
- No hubo diferencias apreciables entre la vecindad 1 y la vecindad 2.
+ 
+  \begin{figure}[H]
+	\centering
+ 	\includegraphics[width=18cm]{imagenes/Ej4/conflictosVsColores.png}
+	\caption{Porcentaje de conflictos resueltos por cada vecindad en función de la cantidad de aristas.}
+	\label{conflictosEj4-porcentaje}
+ \end{figure}
+ La vecindad 2 no mostró buenos resultados. 
