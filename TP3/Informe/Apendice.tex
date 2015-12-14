@@ -1,3 +1,4 @@
+% !TEX root = ./informe.tex
 \newpage
 \section{Apéndice: Código fuente}
 
@@ -30,22 +31,22 @@ La clase \emph{Nodo_Coloreable_ej2} es muy similar a la clase \emph{Nodo_Colorea
 La clase \emph{Lector.java} se encarga de tomar los datos del archivo de entrada y procesarlos para construir el grafo mediante el método \textit{MakeGraph()}:\\
 
 \begin{lstlisting}
-	public Grafo MakeGraph() throws IOException 
+	public Grafo MakeGraph() throws IOException
 	{
 		Grafo grafo = new Grafo();
 		int[] nodosAristasColores = Ej3Utils.ToIntegerArray(this.getArchivo().readLine().split(" "));
 		grafo.cantidadDeNodos = nodosAristasColores[0];
 		grafo.setCantidadDeAristas(nodosAristasColores[1]);
 		grafo.setCantidadDeColores(nodosAristasColores[2]);
-		
-		try { grafo.setNodos(this.ObtenerListaDeNodos(grafo.cantidadDeNodos, grafo.getCantidadDeColores()));} 
+
+		try { grafo.setNodos(this.ObtenerListaDeNodos(grafo.cantidadDeNodos, grafo.getCantidadDeColores()));}
 		catch (IOException e) { System.out.println("Se produjo un error al generar los nodos del grafo.");}
 		boolean[][] matrizDeAdyacencia = GenerarMatrizDeAdyacencia(grafo.getCantidadDeNodos(), grafo.getCantidadDeAristas(), false);
 		grafo.setListaDeAdyacencia(Ej3Utils.matrizDeAdyacenciaToListDeAdyacencia(matrizDeAdyacencia, grafo.getNodos()));
-		
+
 		return grafo;
 	}
-		
+
 \end{lstlisting}
 
 
@@ -60,11 +61,11 @@ La clase \emph{Grafo.java} contiene el método \textit{MakeRainbow()} que colore
 		while(nodosPintados < this.cantidadDeNodos)
 		{
 			colaNodos.add(PicANode(this)); //O(1)
-			
+
 			while (!colaNodos.isEmpty()) //O(n)
 			{
 				Nodo nodoActual = colaNodos.removeFirst(); //O(1)
-				
+
 				if (!nodoActual.isVisitado())
 				{
 					colaNodos.addAll(this.getVecinosDe(nodoActual)); //O(n)
@@ -76,8 +77,8 @@ La clase \emph{Grafo.java} contiene el método \textit{MakeRainbow()} que colore
 			}
 		}
 	}
-	
-	private static Nodo PicANode(Grafo grafo) 
+
+	private static Nodo PicANode(Grafo grafo)
 	{
 		Nodo next = new Nodo();
 		for(Nodo nodo : grafo.getNodos())
@@ -90,11 +91,11 @@ La clase \emph{Grafo.java} contiene el método \textit{MakeRainbow()} que colore
 		}
 		return next;
 	}
-	
+
 	private static void PintarNodo(Nodo nodoActual, LinkedList<Integer> coloresRestantes, Grafo grafo) //O(c*n*log(n))
 	{
 		int colorAPintar = CalcularColorMenosPerjudicial(nodoActual, grafo); //O(c*n*log(n))
-		nodoActual.setColor(colorAPintar); 
+		nodoActual.setColor(colorAPintar);
 	}
 
 	private static int CalcularColorMenosPerjudicial(Nodo nodoActual, Grafo grafo) //O(c*n*log(n))
@@ -108,30 +109,34 @@ La clase \emph{Grafo.java} contiene el método \textit{MakeRainbow()} que colore
 			{
 				pesoColor = peso;
 				colorAPintar = color;
-			}	
-		}	
+			}
+		}
 		return colorAPintar;
 	}
 
 
-	private static Double CalcularPeso(int color, List<Nodo> vecinos) 
+	private static Double CalcularPeso(int color, List<Nodo> vecinos)
 	{
 		ArrayList<Double> pesos = new ArrayList<Double>();
 		for (Nodo nodo : vecinos) //O(n)
 		{
 			if (nodo.LeImportaQueSuVecinoSePinteDelColor(color)) //O(1)
 					pesos.add(nodo.PeligroDePintarUnVecinoDelColor(color));//O(1)(amortizado)
-					
+
 		}
 		Collections.sort(pesos); //O(nlog(n))
 		Double pesoTotal = 0.0;
 		for (int k = 0; k < pesos.size(); k++) //O(n)
 			pesoTotal += pesos.get(k)/(k+2); //O(1)
-		
+
 		return pesoTotal;
 	}
-		
+
 \end{lstlisting}
 
 
 \subsection{Búsqueda Local}
+
+\subsubsection{Vecindad 1}
+
+%\lstinputlisting[name=main, numbers=left, frame=lines, firstline=39, lastline=52]{../ej4/src/GrafoEj4.java}

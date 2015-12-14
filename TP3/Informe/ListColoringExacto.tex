@@ -2,7 +2,7 @@
 \section{Problema 2: Algoritmo Exacto para List Coloring}
 
 \subsection{Descripción de la problemática}
-En esta oportunidad se nos pide resolver el problema List Coloring que consiste en (si es posible) colorear un grafo de forma que ningún nodo tenga el mismo color que un nodo adyacente, respetando la lista de colores de cada nodo, lo cual quiere decir que no se le puede asignar un color a un nodo si este no pertenecía a su lista de colores posibles. 
+En esta oportunidad se nos pide resolver el problema List Coloring que consiste en (si es posible) colorear un grafo de forma que ningún nodo tenga el mismo color que un nodo adyacente, respetando la lista de colores de cada nodo, lo cual quiere decir que no se le puede asignar un color a un nodo si este no pertenecía a su lista de colores posibles.
 
 \subsection{Resolución propuesta y justificación}
 
@@ -48,16 +48,16 @@ Como se puede observar en la imagen, cada nivel representa los llamados de \emph
 \label{sec:podas}
 \begin{enumerate}
 	\item \label{it:p1} La primer poda que se realiza es la de ordenar la lista de nodos de forma que queden primero los nodos con menor cantidad de colores ya que de esta forma si se eligen los colores de un nodo $a$ con dos colores primero y luego se pasa a uno $b$ de cinco, se estaría recorriendo el subgrafo que no contiene a $a$ dos veces en lugar de las cinco que se recorrería si estuviera primero el nodo $b$.
-	
+
 	\item \label{it:p2} Al revisar el código de la primer entrega nos dimos cuenta que no era necesario hacer todas las permutaciones de los colores de un nodo ya que alcanzaba con seleccionar una sola vez cada color para cada nodo y llamar a 2-List Coloring dado que la recursión se encarga de que los colores se prueben todos con todos.
-	
+
 	\item \label{it:p3} Si se llega a una solución, se corta el backtracking y se devuelve esa. De esta forma en el caso promedio y mejor, no se recorrería todo el árbol de soluciones ya que no necesita encontrar todas las posibles.
 	\item \label{it:p4} Por último se implementó una poda que preprocesa los datos y permite detectar si un grafo que tiene al menos un nodo con un solo color puede o no tener solución y en el caso que no pueda determinar efectivamente que no hay solución, igualmente poda todos los casos que generen conflictos con los nodos con un color. Para lograr esto, al momento de crear las estructuras de datos, se guardan en una cola fifo los índices de los nodos que tienen un solo color. Luego de que las estructuras están listas, se procede a analizar los vecinos de cada uno de los nodos de la cola, borrando -si existe- el único color del nodo de las listas de sus vecinos. Luego de borrar el color, se analiza el estado en el que quedó el vecino de la siguiente manera:
 	\begin{itemize}
 	\item Si le queda un solo color se agrega su índice al final de la cola.
 	\item Si tiene un solo color y es el mismo del nodo que estamos analizando o le quedan cero colores, el algoritmo termina, pues no existe solución posible.
 	\end{itemize}
-	 
+
 \end{enumerate}
 
 Por lo tanto como se está generando el árbol de soluciones completo y las podas cortan ramas solo cuando se encontró un coloreo posible o cuando se determina que no existe coloreo, se puede decir que nuestro algoritmo es correcto.
@@ -68,15 +68,15 @@ Por lo tanto como se está generando el árbol de soluciones completo y las poda
 Para analizar la complejidad utilizaremos el siguiente pseudocódigo, en el cual se utilizan los términos definidos a continuación:
 \begin{itemize}
 	\item \texttt{grafo}: para referirse al que viene por parámetro.
-	
+
 	\item \texttt{grafo2colores}: para el grafo que se construye para pasárselo al algoritmo del problema 1 y que admite hasta 2 colores por nodo.
-	
-	\item \texttt{ListColoring}: es el algoritmo que estamos analizando y representa el llamado recursivo a la misma función. 
-	
+
+	\item \texttt{ListColoring}: es el algoritmo que estamos analizando y representa el llamado recursivo a la misma función.
+
 	\item \texttt{2ListColoring}: es el algoritmo del problema 1 y se usa para obtener la solución a un grafo con a lo sumo dos colores por nodo.
-	
+
 	\item $count$: es una variable pasada por parámetro que se utiliza para avanzar y retroceder en la lista de nodos.
-	
+
 	\item $c$: es la cantidad máxima de colores que puede tener un nodo y que está dada por la entrada del problema.
 \end{itemize}
 
@@ -86,13 +86,13 @@ Como queremos analizar el peor caso, mostraremos las complejidades para el algor
 \begin{algorithm}[H]
 \caption{ListColoring Exacto Sin Podas}
 \label{lce}
-\begin{algorithmic}[1] 
+\begin{algorithmic}[1]
 
 \STATE $count = $ índice en la lista de nodos del \texttt{grafo} (inicializada en cero, viene por parámetro)
 
 \IF {$count ==$ cantidad de nodos del \texttt{grafo}}
 	\STATE Llamar a \texttt{2ListColoring} para resolver \texttt{grafo2colores} \COMMENT{$\mathcal{O}(n^2 \log{n})$} %complejidad del 1
-	\STATE Retornar 
+	\STATE Retornar
 \ENDIF
 
 \STATE $nodo = $ Obtener el nodo a procesar del \texttt{grafo} con el índice $count$ \COMMENT{$\mathcal{O}(1)$} \label{get1}
@@ -103,7 +103,7 @@ Como queremos analizar el peor caso, mostraremos las complejidades para el algor
 \WHILE[$\mathcal{O}(c/2)$ en cantidad de ejecuciones.]{Haya próximo en la lista de colores} \label{hn}
 	\STATE $color1 = $ Próximo en la lista \COMMENT{$\mathcal{O}(1)$} \label{next}
 	\STATE Asignar $color1$ en la primer posición de la lista $coloresSeleccionados$ \COMMENT{$\mathcal{O}(1)$}
-	\IF{Hay próximo en la lista de colores} 
+	\IF{Hay próximo en la lista de colores}
 		\STATE $color2 = $ Próximo en la lista \COMMENT{$\mathcal{O}(1)$} \label{nx}
 		\STATE Asignar $color2$ en la segunda posición de la lista $coloresSeleccionados$ \COMMENT{$\mathcal{O}(1)$}
 	\ENDIF
@@ -126,7 +126,7 @@ Para hacer la experimentación generamos grafos al azar variando las aristas, lo
 En la sección siguiente detallaremos la forma en la que se construyeron los grafos y en todos utilizaremos las leyendas:
 \begin{itemize}
 	\item \emph{Sin Podas}: El algoritmo se modificó para que esté obligado a recorrer todo el árbol de soluciones para cualquier entrada.
-	
+
 	\item \emph{Podas 1}: Hace referencia a las podas detalladas en los items \ref{it:p1}, \ref{it:p2} y \ref{it:p3} de la sección \ref{sec:podas} que se midieron todas juntas ya que la mas relevante es la que corta el backtracking cuando se encuentra una solución.
 
 	\item \emph{Podas 2}: Hace referencia al item \ref{it:p4} de la sección \ref{sec:podas}, la cual se agregó a las otras podas y se midió nuevamente la performance para analizar si esta lograba mejoras ya que implementarla implica hacer un preprocesamiento de los datos.
@@ -138,7 +138,7 @@ Lo primero que vamos a analizar son las aristas, para eso construimos grafos con
 
 \begin{figure}[H]
 	\centering
- 	\includegraphics[scale=0.45]{imagenes/ej2/Aristas.png}
+ 	\includegraphics[scale=0.45]{imagenes/Ej2/Aristas.png}
 	\caption{Grafos de 10 nodos y 10 colores con variación de aristas de cinco en cinco.}
 	\label{aristas}
  \end{figure}
@@ -147,7 +147,7 @@ Lo primero que vamos a analizar son las aristas, para eso construimos grafos con
 
 \begin{figure}[H]
 	\centering
- 	\includegraphics[scale=0.45]{imagenes/ej2/AristasPodas.png}
+ 	\includegraphics[scale=0.45]{imagenes/Ej2/AristasPodas.png}
 	\caption{Detalle ampliado del gráfico anterior para las podas 1 y 2.}
 	\label{aristasP}
  \end{figure}
@@ -160,7 +160,7 @@ Lo primero que vamos a analizar son las aristas, para eso construimos grafos con
 
  \begin{figure}[H]
 	\centering
- 	\includegraphics[scale=0.45]{imagenes/ej2/Colores.png}
+ 	\includegraphics[scale=0.45]{imagenes/Ej2/Colores.png}
 	\caption{Grafos de 10 nodos, 45 aristas y colores que varían de 1 a 20.}
 	\label{colores}
  \end{figure}
@@ -169,7 +169,7 @@ Al observar la figura \ref{colores} podemos ver que al principio, tanto los resu
 
  \begin{figure}[H]
 	\centering
- 	\includegraphics[scale=0.45]{imagenes/ej2/ColoresPodas.png}
+ 	\includegraphics[scale=0.45]{imagenes/Ej2/ColoresPodas.png}
 	\caption{Detalle ampliado del gráfico anterior para las podas 1 y 2.}
 	\label{coloresP}
  \end{figure}
@@ -182,19 +182,19 @@ Por último analizaremos el comportamiento al dejar fija la cantidad de colores,
 
  \begin{figure}[H]
 	\centering
- 	\includegraphics[scale=0.45]{imagenes/ej2/Nodos.png}
+ 	\includegraphics[scale=0.45]{imagenes/Ej2/Nodos.png}
 	\caption{Grafos completos de 1 a 15 nodos con máximo 50 colores.}
 	\label{nodos}
  \end{figure}
 
-Al observar la figura \ref{nodos} vemos que efectivamente las mediciones de \emph{Sin Podas} muestran resultados exponenciales que escalan muy rápidamente con cantidades de nodos relativamente bajas\footnote{El algoritmo sin podas estuvo corriendo aproximadamente ocho horas y en ese tiempo no pudo obtener los resultados para 10 nodos, 45 aristas y 50 colores.}. Las podas a partir del grafo con 8 nodos muestran mejoras muy grandes ya que los resultados se mantienen mas o menos constantes mientras que el algoritmo sin podas crece exponencialmente.  
+Al observar la figura \ref{nodos} vemos que efectivamente las mediciones de \emph{Sin Podas} muestran resultados exponenciales que escalan muy rápidamente con cantidades de nodos relativamente bajas\footnote{El algoritmo sin podas estuvo corriendo aproximadamente ocho horas y en ese tiempo no pudo obtener los resultados para 10 nodos, 45 aristas y 50 colores.}. Las podas a partir del grafo con 8 nodos muestran mejoras muy grandes ya que los resultados se mantienen mas o menos constantes mientras que el algoritmo sin podas crece exponencialmente.
 
  \begin{figure}[H]
 	\centering
- 	\includegraphics[scale=0.45]{imagenes/ej2/NodosPodas.png}
+ 	\includegraphics[scale=0.45]{imagenes/Ej2/NodosPodas.png}
 	\caption{Detalle ampliado del gráfico anterior para las podas 1 y 2.}
 	\label{nodosP}
- \end{figure} 
+ \end{figure}
 
  En la figura \ref{nodosP} se pueden ver unas variaciones en las que \emph{Podas 2} empeora un poco la performance de \emph{Podas 1} y eso se debe a que en esos puntos ya son grafos con cantidades de nodos mas considerables y al tener tantos colores disponibles es poco probable que haya nodos con un solo color, con lo cual esta poda no genera una diferencia positiva. A partir de ese momento los resultados con podas varían mucho si la solución se encuentra rápido o si se tiene que recorrer todo o casi todo el árbol, siendo los valores mas cercanos a cero o mas cercanos a los resultados exponenciales de \emph{Sin Podas}, respectivamente.\\
 

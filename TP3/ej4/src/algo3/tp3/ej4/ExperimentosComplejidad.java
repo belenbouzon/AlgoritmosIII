@@ -40,8 +40,8 @@ public class ExperimentosComplejidad {
 		
 		
 		colores = 50;
-		n = 2000;
-		for (aristas = 100; aristas<1999000 ; aristas = (int) (aristas*1.2)){
+		n = 3000;
+		for (aristas = 100000; aristas<2249250 ; aristas = (int) (aristas*1.2)){
 			for (int iteracion=0; iteracion<5; iteracion++){
 				String caso = generador.GenerarArchivoDeGrafoByCantColores(n, aristas, colores);
 				ExperimentosComplejidad.resolverEImprimirTiempos(caso, n, aristas, colores);

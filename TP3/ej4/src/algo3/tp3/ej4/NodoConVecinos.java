@@ -112,7 +112,7 @@ public class NodoConVecinos extends Nodo {
 		return new Swap(mejorSwap, mejorMejora);
 	}
 	
-	public Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColor(){	// O(c+n)
+	public Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColor(){	// O(n)
 		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColor = new Hashtable<Integer, ArrayList<NodoConVecinos>>();  // O(1)
 		
 		for (int color: this.get_coloresPosibles()){						// O(c)
@@ -120,8 +120,8 @@ public class NodoConVecinos extends Nodo {
 			conflictosPorColor.put(color, vacia);
 		}
 		
-		for (NodoConVecinos v: this.vecinos()){							// O(n)
-			if (conflictosPorColor.containsKey(v.getColor())){
+		for (NodoConVecinos v: this.vecinos()){							// O(n) iteraciones
+			if (conflictosPorColor.containsKey(v.getColor())){			// O(c)  pero amortiza a O(1)
 				ArrayList<NodoConVecinos> nuevovalor = conflictosPorColor.get(v.getColor());
 				nuevovalor.add(v);
 				conflictosPorColor.put(v.getColor(), nuevovalor);

@@ -1,7 +1,8 @@
+% !TEX root = ./informe.tex
 \section{Problema 3: Heurística Constructiva Golosa}
 
 \subsection{Descripción de la problemática}
-En este apartado nuestra tarea consiste en generar un algoritmo que implemente una heurística cuyo objetivo sea encontrar alguna forma de colorear los nodos (es decir, asignar a cada materia un aula ), minimizando en la medida de lo posible la cantidad de conflictos (entendidos estos como instancias que impiden que el coloreo generado sea válido, es decir, que verifique para toda arista que a sus nodos adyacentes se les haya asignado distinto color.) 
+En este apartado nuestra tarea consiste en generar un algoritmo que implemente una heurística cuyo objetivo sea encontrar alguna forma de colorear los nodos (es decir, asignar a cada materia un aula ), minimizando en la medida de lo posible la cantidad de conflictos (entendidos estos como instancias que impiden que el coloreo generado sea válido, es decir, que verifique para toda arista que a sus nodos adyacentes se les haya asignado distinto color.)
 
 
 \subsection{Resolución propuesta y justificación}
@@ -18,11 +19,11 @@ Supóngase que se tiene el siguiente grafo, donde los números dentro de cada no
   \end{figure}
 
 
-Defínase  ${X}_{(c,p)}$ como el valor relativo X del color c para el nodo p (es decir, ${X}_{(c,p)}$ =  (c $\epsilon$ \{colores de p\} ? 1 : 0) / ( \# \{colores de p\})), Peso(N$_{c}$) como la función que determina la magnitud del perjuicio ocasionable al elegir colorear el nodo N de color c 
+Defínase  ${X}_{(c,p)}$ como el valor relativo X del color c para el nodo p (es decir, ${X}_{(c,p)}$ =  (c $\epsilon$ \{colores de p\} ? 1 : 0) / ( \# \{colores de p\})), Peso(N$_{c}$) como la función que determina la magnitud del perjuicio ocasionable al elegir colorear el nodo N de color c
 \footnote{Formalmente, si llamamos ValoresRelativos a una lista de ordenada que contiene un valor relativo ${X}_{(c,p)}$ para cada nodo p adyacente a N en relación al color c, entonces Peso(N$_{c}$) = \[
 \sum_{i=0}^{\# \{ ValoresRelativos \}} \frac{ValoresRelativos[i])}{i+2}
 \] }
- (con c $\epsilon$ \{colores de N\}). Entonces en un primer paso, los valores son los siguientes: 
+ (con c $\epsilon$ \{colores de N\}). Entonces en un primer paso, los valores son los siguientes:
 
 
 
@@ -50,7 +51,7 @@ Por lo tanto, \\
 Peso(0$_{1}$) =  $\frac{ \frac{1}{2}_{(1,3)}}{\textbf{2}}$ + $\frac{\frac{1}{3}_{(1,2)}}{\textbf{3}}$ + $\frac{\frac{0}{1}_{(1,1)}}{\textbf{4}}$ $\simeq$ 0.36 \\
 Peso(0$_{2}$) =  $\frac{\frac{1}{1}_{(2,1)}}{\textbf{2}}$ + $\frac{\frac{0}{3}_{(2,2)}}{\textbf{3}}$ + $\frac{\frac{0}{2}_{(2,3)}}{\textbf{4}}$ $\simeq$  0.5 \\
 \newline
-Como Peso(0$_{1}$) $\leq$  Peso(0$_{2}$), el color del que se pintará al nodo es del 1 (tal como se muestra en la \newline 
+Como Peso(0$_{1}$) $\leq$  Peso(0$_{2}$), el color del que se pintará al nodo es del 1 (tal como se muestra en la \newline
 figura \ref{1color} )
 
  \begin{figure}[H]
@@ -68,7 +69,7 @@ Prosigamos con el nodo 1. Su valor es el siguiente:
 	\begin{itemize}
 		\item Color 2:
 		\begin{itemize}
-			\item  $\frac{0}{2}_{(2,0)}$ 
+			\item  $\frac{0}{2}_{(2,0)}$
 		\end{itemize}
 	\end{itemize}
 \end{itemize}
@@ -158,22 +159,22 @@ De esta forma, queda coloreado todo el grafo como se muestra en la figura \ref{4
 % La clase \emph{Lector.java} se encarga de tomar los datos del archivo de entrada y procesarlos para construir el grafo mediante el método \textit{MakeGraph()}:\\
 
 % \begin{lstlisting}
-% 	public Grafo MakeGraph() throws IOException 
+% 	public Grafo MakeGraph() throws IOException
 % 	{
 % 		Grafo grafo = new Grafo();
 % 		int[] nodosAristasColores = Ej3Utils.ToIntegerArray(this.getArchivo().readLine().split(" "));
 % 		grafo.cantidadDeNodos = nodosAristasColores[0];
 % 		grafo.setCantidadDeAristas(nodosAristasColores[1]);
 % 		grafo.setCantidadDeColores(nodosAristasColores[2]);
-		
-% 		try { grafo.setNodos(this.ObtenerListaDeNodos(grafo.cantidadDeNodos, grafo.getCantidadDeColores()));} 
+
+% 		try { grafo.setNodos(this.ObtenerListaDeNodos(grafo.cantidadDeNodos, grafo.getCantidadDeColores()));}
 % 		catch (IOException e) { System.out.println("Se produjo un error al generar los nodos del grafo.");}
 % 		boolean[][] matrizDeAdyacencia = GenerarMatrizDeAdyacencia(grafo.getCantidadDeNodos(), grafo.getCantidadDeAristas(), false);
 % 		grafo.setListaDeAdyacencia(Ej3Utils.matrizDeAdyacenciaToListDeAdyacencia(matrizDeAdyacencia, grafo.getNodos()));
-		
+
 % 		return grafo;
 % 	}
-		
+
 % \end{lstlisting}
 
 
@@ -188,11 +189,11 @@ De esta forma, queda coloreado todo el grafo como se muestra en la figura \ref{4
 % 		while(nodosPintados < this.cantidadDeNodos)
 % 		{
 % 			colaNodos.add(PicANode(this)); //O(1)
-			
+
 % 			while (!colaNodos.isEmpty()) //O(n)
 % 			{
 % 				Nodo nodoActual = colaNodos.removeFirst(); //O(1)
-				
+
 % 				if (!nodoActual.isVisitado())
 % 				{
 % 					colaNodos.addAll(this.getVecinosDe(nodoActual)); //O(n)
@@ -204,8 +205,8 @@ De esta forma, queda coloreado todo el grafo como se muestra en la figura \ref{4
 % 			}
 % 		}
 % 	}
-	
-% 	private static Nodo PicANode(Grafo grafo) 
+
+% 	private static Nodo PicANode(Grafo grafo)
 % 	{
 % 		Nodo next = new Nodo();
 % 		for(Nodo nodo : grafo.getNodos())
@@ -218,11 +219,11 @@ De esta forma, queda coloreado todo el grafo como se muestra en la figura \ref{4
 % 		}
 % 		return next;
 % 	}
-	
+
 % 	private static void PintarNodo(Nodo nodoActual, LinkedList<Integer> coloresRestantes, Grafo grafo) //O(c*n*log(n))
 % 	{
 % 		int colorAPintar = CalcularColorMenosPerjudicial(nodoActual, grafo); //O(c*n*log(n))
-% 		nodoActual.setColor(colorAPintar); 
+% 		nodoActual.setColor(colorAPintar);
 % 	}
 
 % 	private static int CalcularColorMenosPerjudicial(Nodo nodoActual, Grafo grafo) //O(c*n*log(n))
@@ -236,29 +237,29 @@ De esta forma, queda coloreado todo el grafo como se muestra en la figura \ref{4
 % 			{
 % 				pesoColor = peso;
 % 				colorAPintar = color;
-% 			}	
-% 		}	
+% 			}
+% 		}
 % 		return colorAPintar;
 % 	}
 
 
-% 	private static Double CalcularPeso(int color, List<Nodo> vecinos) 
+% 	private static Double CalcularPeso(int color, List<Nodo> vecinos)
 % 	{
 % 		ArrayList<Double> pesos = new ArrayList<Double>();
 % 		for (Nodo nodo : vecinos) //O(n)
 % 		{
 % 			if (nodo.LeImportaQueSuVecinoSePinteDelColor(color)) //O(1)
 % 					pesos.add(nodo.PeligroDePintarUnVecinoDelColor(color));//O(1)(amortizado)
-					
+
 % 		}
 % 		Collections.sort(pesos); //O(nlog(n))
 % 		Double pesoTotal = 0.0;
 % 		for (int k = 0; k < pesos.size(); k++) //O(n)
 % 			pesoTotal += pesos.get(k)/(k+2); //O(1)
-		
+
 % 		return pesoTotal;
 % 	}
-		
+
 % \end{lstlisting}
 
 
@@ -266,13 +267,13 @@ De esta forma, queda coloreado todo el grafo como se muestra en la figura \ref{4
 
 A continuación se presenta el pseudocódigo del coloreo implementado:
 
-\begin{algorithmic} 
-\WHILE{nodos pintados $\leq$ cantidad de nodos //O(n)} 
+\begin{algorithmic}
+\WHILE{nodos pintados $\leq$ cantidad de nodos //O(n)}
 	\STATE {Elegir un nodo no visitado del grafo // O(n)} (Porque para determinar cuál no fue visitado recorre una lista de booleanos que contiene una posición por cada nodo)
 	\STATE {Encolarlo //O(1)}
-	\WHILE{hay elementos en la cola}  
+	\WHILE{hay elementos en la cola}
 		\STATE {Tomar el primer elemento de la cola //O(1)}
-		\IF {no fue coloreado //O(1) } 
+		\IF {no fue coloreado //O(1) }
 			\STATE{ Agregar a todos sus vecinos a la cola //O(n)}
 			\STATE {Pintar nodo //O(n*c*log(n))}
 		\ENDIF

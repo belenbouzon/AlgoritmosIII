@@ -1,3 +1,4 @@
+% !TEX root = ./informe.tex
 \newpage
 \section{Problema 1: Algoritmo Exacto para 2-List Coloring}
 
@@ -9,9 +10,9 @@ Este problema es facilmente reducible a 2-SAT, por lo cual existen algortmos pol
 Como mencionamos antes, el problema del 2-ListColoring es fácilmente reducible a un problema de 2-SAT, y en esto se basa el algoritmo implementado. Si existe una coloración posible, entonces el hecho de que un determinado nodo esté pintado de un color implica que ninguno de sus vecinos esta pintado del mismo. Además, si un nodo tiene dos colores posibles, el nodo esta pintado de un color C1 si y solo si no esta pintado del color C2.
 El 2-SAT se representa con un grafo dirigido en donde un nodo A (que representa una proposición) apunta a un nodo B si A implica B.
 
-Sean x, y, z proposiciones representadas por nodos de nuestro grafo dirigido, si en el grafo existe una arista desde el nodo que representa a x al nodo que representa a y, y otra arista entre el nodo que representa a y al nodo que representa a z, esto significa que x $\rightarrow$ y e y $\rightarrow$ z, de lo cual se deduce que x $\rightarrow$ z. Generalizando se puede decir que, dadas x, z proposiciones,  x $\rightarrow$ z si y solo si existe un camino desde el nodo que representa a x hasta el nodo que representa a z. Es decir, en este contexto una componente fuertemente conexa representa un conjunto de proposiciones de las cuales se puede afirmar que todas son válidas o todas son falsas. 
+Sean x, y, z proposiciones representadas por nodos de nuestro grafo dirigido, si en el grafo existe una arista desde el nodo que representa a x al nodo que representa a y, y otra arista entre el nodo que representa a y al nodo que representa a z, esto significa que x $\rightarrow$ y e y $\rightarrow$ z, de lo cual se deduce que x $\rightarrow$ z. Generalizando se puede decir que, dadas x, z proposiciones,  x $\rightarrow$ z si y solo si existe un camino desde el nodo que representa a x hasta el nodo que representa a z. Es decir, en este contexto una componente fuertemente conexa representa un conjunto de proposiciones de las cuales se puede afirmar que todas son válidas o todas son falsas.
 
-Para la resolución del 2-SAT, se implementa el algoritmo de Kosaraju. Este algoritmo recibe como entrada un grafo dirigido y devuelve como resultado las componentes fuertemente conexas que se encuentran en el mismo. 
+Para la resolución del 2-SAT, se implementa el algoritmo de Kosaraju. Este algoritmo recibe como entrada un grafo dirigido y devuelve como resultado las componentes fuertemente conexas que se encuentran en el mismo.
 
 Como el algoritmo de Kosaraju encuentra todas las componentes fuertemente conexas, entonces, dadas dos componentes C1 y C2, si existe un camino entre C1 y C2, no puede existir un camino desde C2 a C1 (de lo contrario ambas debería estar en la misma componente). Además, si existe un camino entre C1 y C2, con el algoritmo de Kosaraju C1 será detectada antes que C2. Nuestra implementación fue diseñada para que la lista de componentes fuertemente conexas resultante del algoritmo preserve este orden de detección. Posteriormente de la ejecución del Kosaraju, nuestro algoritmo registra, para cada componente conexa, cual es la componente conexa que contiene la negación de sus proposiciones. En caso de que una misma componente conexa contenga a una proposición y su negación, entonces se determina que el problema no tiene solución, ya que implicaría que, sea x la proposición en cuestión, x $\leftrightarrow$ $\lnot$x.
 
@@ -137,7 +138,7 @@ A continuación se presenta el pseudocódigo para 2-List Coloring:
 	\ENDFOR
 	\RETURN {VALIDO}
 \end{algorithmic}
-\textbf{EndFunction} 
+\textbf{EndFunction}
 
 \vspace{5mm}
 

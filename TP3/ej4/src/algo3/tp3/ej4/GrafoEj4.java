@@ -82,7 +82,7 @@ public class GrafoEj4 {
 
 	
 	
-	public int vecindad1(AristaEj4 target) throws Exception{		// O(c+n)
+	public int vecindad1(AristaEj4 target) throws Exception{		// O(n*c)
 		/*
 		 * Intentamos alterar el grafo para reducir el conflicto que se halla en la Arista target.
 		 * Lo hacemos tratando de cambiar el color de alguno de los dos nodos sin introducir más conflictos.
@@ -97,8 +97,8 @@ public class GrafoEj4 {
 		 * hacer lo mismo para Nodo n2
 		 */
 		
-		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN1 = target.getN1().conflictosPorColor();  // O(c+n)
-		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN2 = target.getN2().conflictosPorColor();  // O(c+n)
+		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN1 = target.getN1().conflictosPorColor();  // O(n*c)
+		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN2 = target.getN2().conflictosPorColor();  // O(n*c)
 		
 		Integer candidatoN1 = minimo(conflictosPorColorN1);							// O(c)
 		Integer candidatoN2 = minimo(conflictosPorColorN2);							// O(c)
