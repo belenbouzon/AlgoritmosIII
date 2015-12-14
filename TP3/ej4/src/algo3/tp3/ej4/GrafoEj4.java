@@ -82,7 +82,7 @@ public class GrafoEj4 {
 
 	
 	
-	public int vecindad1(AristaEj4 target) throws Exception{
+	public int vecindad1(AristaEj4 target) throws Exception{		// O(c+n)
 		/*
 		 * Intentamos alterar el grafo para reducir el conflicto que se halla en la Arista target.
 		 * Lo hacemos tratando de cambiar el color de alguno de los dos nodos sin introducir más conflictos.
@@ -97,39 +97,16 @@ public class GrafoEj4 {
 		 * hacer lo mismo para Nodo n2
 		 */
 		
-		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN1 = new Hashtable<Integer, ArrayList<NodoConVecinos>>();  // O(1)
-		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN2 = new Hashtable<Integer, ArrayList<NodoConVecinos>>();	// O(1)
-		for (int color: target.getN1().get_coloresPosibles()){						// O(c)
-			ArrayList<NodoConVecinos> vacia = new ArrayList<NodoConVecinos>();
-			conflictosPorColorN1.put(color, vacia);
-		}
-		for (int color: target.getN2().get_coloresPosibles()){						// O(c)
-			ArrayList<NodoConVecinos> vacia = new ArrayList<NodoConVecinos>();
-			conflictosPorColorN2.put(color, vacia);
-		}
-		
-		for (NodoConVecinos v: target.getN1().vecinos()){							// O(n)
-			if (conflictosPorColorN1.containsKey(v.getColor())){
-				ArrayList<NodoConVecinos> nuevovalor = conflictosPorColorN1.get(v.getColor());
-				nuevovalor.add(v);
-				conflictosPorColorN1.put(v.getColor(), nuevovalor);
-			}
-		}
-		for (NodoConVecinos v: target.getN2().vecinos()){							// O(n)
-			if (conflictosPorColorN2.containsKey(v.getColor())){
-				ArrayList<NodoConVecinos> nuevovalor = conflictosPorColorN2.get(v.getColor());
-				nuevovalor.add(v);
-				conflictosPorColorN2.put(v.getColor(), nuevovalor);
-			}
-		}
+		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN1 = target.getN1().conflictosPorColor();  // O(c+n)
+		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN2 = target.getN2().conflictosPorColor();  // O(c+n)
 		
 		Integer candidatoN1 = minimo(conflictosPorColorN1);							// O(c)
 		Integer candidatoN2 = minimo(conflictosPorColorN2);							// O(c)
 		
 		if (conflictosPorColorN1.get(candidatoN1).size() <= conflictosPorColorN2.get(candidatoN2).size()){	// O(1)
-			return this.cambiarColor(candidatoN1, conflictosPorColorN1, target.getN1());
+			return this.cambiarColor(candidatoN1, conflictosPorColorN1, target.getN1());			// O(n)
 		} else{
-			return this.cambiarColor(candidatoN2, conflictosPorColorN2, target.getN2());
+			return this.cambiarColor(candidatoN2, conflictosPorColorN2, target.getN2());			// O(n)
 		}
 	}
 	
