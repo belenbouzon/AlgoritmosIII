@@ -31,7 +31,7 @@ A partir de una arista que representa un conflicto (llamemos a los nodos de la a
 \REQUIRE $conflicto$.n1.getColor() == $conflicto$.n2.getColor()
 \STATE crear un diccionario para ambos nodos. El diccionario tendrá como key a los colores del nodo, y como valor una lista de vecinos del nodo que tienen asignado ese color. Llamaremos a estos diccionarios $conflictosPorColorN1$ y $conflictosPorColorN2$. Inicializamos esos diccionarios con una lista vacía para cada color:
 \FOR{color in $conflicto$.n1.get_coloresPosibles}
-    \STATE $conflictosPorColorN1$[color] = Lista vacía de nodos;
+    \STATE $conflictosPorColorN1$[color] = Lista vacía de nodos; \COMMENT{$\mathcal{O}(1)$} 
 \ENDFOR
 \FOR{color in $conflicto$.n2.get_coloresPosibles}
     \STATE $conflictosPorColorN2$[color] = Lista vacía de nodos;
@@ -62,49 +62,6 @@ A partir de una arista que representa un conflicto (llamemos a los nodos de la a
 \leavevmode
 
 
- 
-% 		 * 1. obtener conjunto de colores posibles para Nodo n1
-% 		 * 2. crear HashTable<int, int> conflictosPorColor (inicializar en 0) 
-% 		 * 3. para cada v en vecinos de n1
-% 		 *     3.1. conflictosPorColor[v.getColor()] += 1
-% 		 * hacer lo mismo para Nodo n2
-% 		 */
-
-
-% 		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN1 = new Hashtable<Integer, ArrayList<NodoConVecinos>>();  // O(1)
-% 		Hashtable<Integer, ArrayList<NodoConVecinos>> conflictosPorColorN2 = new Hashtable<Integer, ArrayList<NodoConVecinos>>();	// O(1)
-% 		for (int color: target.getN1().get_coloresPosibles()){						// O(c)
-% 			ArrayList<NodoConVecinos> vacia = new ArrayList<NodoConVecinos>();
-% 			conflictosPorColorN1.put(color, vacia);
-% 		}
-% 		for (int color: target.getN2().get_coloresPosibles()){						// O(c)
-% 			ArrayList<NodoConVecinos> vacia = new ArrayList<NodoConVecinos>();
-% 			conflictosPorColorN2.put(color, vacia);
-% 		}
-% 		
-% 		for (NodoConVecinos v: target.getN1().vecinos()){							// O(n)
-% 			if (conflictosPorColorN1.containsKey(v.getColor())){
-% 				ArrayList<NodoConVecinos> nuevovalor = conflictosPorColorN1.get(v.getColor());
-% 				nuevovalor.add(v);
-% 				conflictosPorColorN1.put(v.getColor(), nuevovalor);
-% 			}
-% 		}
-% 		for (NodoConVecinos v: target.getN2().vecinos()){							// O(n)
-% 			if (conflictosPorColorN2.containsKey(v.getColor())){
-% 				ArrayList<NodoConVecinos> nuevovalor = conflictosPorColorN2.get(v.getColor());
-% 				nuevovalor.add(v);
-% 				conflictosPorColorN2.put(v.getColor(), nuevovalor);
-% 			}
-% 		}
-% 		
-% 		Integer candidatoN1 = minimo(conflictosPorColorN1);							// O(c)
-% 		Integer candidatoN2 = minimo(conflictosPorColorN2);							// O(c)
-% 		
-% 		if (conflictosPorColorN1.get(candidatoN1).size() <= conflictosPorColorN2.get(candidatoN2).size()){	// O(1)
-% 			return this.cambiarColor(candidatoN1, conflictosPorColorN1, target.getN1());
-% 		} else{
-% 			return this.cambiarColor(candidatoN2, conflictosPorColorN2, target.getN2());
-% 		}
 \subsubsection{Vecindad 2}
 
 \subsection{Análisis de complejidad}
@@ -117,8 +74,3 @@ A partir de una arista que representa un conflicto (llamemos a los nodos de la a
 \subsection{Experimentación}
 
 
-\subsubsection{Peor caso}
-
-
-
-\subsubsection{Mejor caso}
