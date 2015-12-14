@@ -255,41 +255,7 @@ public class Calculador_de_Coloracion_Ej1 {
 		return res.toString();
 	}
 	
-	private static void test_grafos_dirigidos(){
-		Nodo_Dirigido_SAT n1 = new Nodo_Dirigido_SAT(0,0,true);
-		Nodo_Dirigido_SAT n2 = new Nodo_Dirigido_SAT(1,0,true);
-		Nodo_Dirigido_SAT n3 = new Nodo_Dirigido_SAT(2,0,true);
-		Nodo_Dirigido_SAT n4 = new Nodo_Dirigido_SAT(3,0,true);
-		Nodo_Dirigido_SAT n5 = new Nodo_Dirigido_SAT(4,0,true);
-		Nodo_Dirigido_SAT n6 = new Nodo_Dirigido_SAT(5,0,true);
-		
-		n1.agregar_adyacentes(n2);
-		n2.agregar_adyacentes(n3);
-		n3.agregar_adyacentes(n4);
-		n3.agregar_adyacentes(n5);
-		n5.agregar_adyacentes(n6);
-		n6.agregar_adyacentes(n2);
-		Calculador_de_Coloracion_Ej1 testeo = new Calculador_de_Coloracion_Ej1(0,null);
-		testeo.grafo_dirigido = new ArrayList<Nodo_Dirigido_SAT>(6);
-		testeo.grafo_dirigido.add(n1);
-		testeo.grafo_dirigido.add(n2);
-		testeo.grafo_dirigido.add(n3);
-		testeo.grafo_dirigido.add(n4);
-		testeo.grafo_dirigido.add(n5);
-		testeo.grafo_dirigido.add(n6);
-		testeo.DFS();
-		Iterator<TreeSet<Nodo_Dirigido_SAT>> it = testeo.componentes_fuertemente_conexas.iterator();
-		while(it.hasNext()){
-			Iterator<Nodo_Dirigido_SAT> iterador_conjunto = it.next().iterator();
-			Nodo_Dirigido_SAT n = iterador_conjunto.next();
-			System.out.printf("conjunto: %d elementos: ", n.id_componente_conexa);
-			System.out.printf("%d ", n.identidad);
-			while(iterador_conjunto.hasNext()){
-				System.out.printf("%d ", iterador_conjunto.next().identidad);
-			}
-			System.out.printf("\n");
-		}
-	}
+	
 	public void resolucion(){
 		this.generar_grafo_dirigido();
 		this.DFS();
@@ -311,41 +277,6 @@ public class Calculador_de_Coloracion_Ej1 {
 		}else{
 			return this.imprimir_valores();
 		}
-	}
-	private static void test_colores(){
-		ArrayList<Nodo_Coloreable> entrada = new ArrayList<Nodo_Coloreable>(3);
-		Nodo_Coloreable n1 = new Nodo_Coloreable(0);
-		n1.colores.agregar_color(1);
-		n1.colores.agregar_color(2);
-		n1.cantidad_colores = 2;
-		
-		Nodo_Coloreable n2 = new Nodo_Coloreable(1);
-		n2.colores.agregar_color(1);
-		n2.colores.agregar_color(3);
-		n2.cantidad_colores = 2;
-		
-		Nodo_Coloreable n3 = new Nodo_Coloreable(2);
-		n3.colores.agregar_color(2);
-		n3.colores.agregar_color(3);
-		n3.cantidad_colores = 2;
-		
-		n1.adyacentes.add(n2);
-		n1.adyacentes.add(n3);
-		
-		n2.adyacentes.add(n1);
-		n2.adyacentes.add(n3);
-		
-		n3.adyacentes.add(n2);
-		n3.adyacentes.add(n1);
-		
-		entrada.add(n1);
-		entrada.add(n2);
-		entrada.add(n3);
-		Calculador_de_Coloracion_Ej1 testeo = new Calculador_de_Coloracion_Ej1(3,entrada);
-		testeo.resolucion();
-	}
-	public static void main(String [] entrada){
-		test_colores();
 	}
 	
 }
