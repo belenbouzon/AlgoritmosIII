@@ -11,6 +11,7 @@ public class ExperimentosComplejidad {
 		int colores;
 		int n;
 		int aristas;
+		GeneradorCasosDeTests generador = new algo3.tp3.ej3.GeneradorCasosDeTests();
 
 		
 		// vamos aumentando la cantidad de nodos
@@ -18,7 +19,7 @@ public class ExperimentosComplejidad {
 		System.out.println("Vamos aumentando la cantidad de nodos, manteniendo la cantidad de colores en 50. La cantidad de aristas para cada caso es máxima (grafo completo).");
 		System.out.println("===========================");
 		System.out.println("n,m,c,tiempo greedy,conflictos greedy,tiempo busqueda local v1, conflictos busqueda local v1");
-		GeneradorCasosDeTests generador = new algo3.tp3.ej3.GeneradorCasosDeTests();
+		
 		
 		
 		
@@ -87,7 +88,7 @@ public class ExperimentosComplejidad {
 		System.out.println("Vamos aumentando la cantidad de aristas, manteniendo la cantidad de colores en 50 y la cantidad de nodos en "
 				+ "2000.");
 		System.out.println("===========================");
-		System.out.println("n,m,c,tiempo greedy,conflictos greedy,tiempo busqueda local v1, conflictos busqueda local v1");
+		System.out.println("n,m,c,tiempo greedy,conflictos greedy,tiempo busqueda local v2, conflictos busqueda local v2");
 		
 		colores = 50;
 		n = 2000;
@@ -103,7 +104,7 @@ public class ExperimentosComplejidad {
 		System.out.println("### TESTS VECINDAD 2");
 		System.out.println("Vamos aumentando la cantidad de colores, manteniendo la cantidad de nodos en 1000 (grafo completo)");
 		System.out.println("===========================");
-		System.out.println("n,m,c,tiempo greedy,conflictos greedy,tiempo busqueda local v1, conflictos busqueda local v1");
+		System.out.println("n,m,c,tiempo greedy,conflictos greedy,tiempo busqueda local v2, conflictos busqueda local v2");
 		
 		n = 500;
 		aristas = (int) (n*(n-1))/2;
