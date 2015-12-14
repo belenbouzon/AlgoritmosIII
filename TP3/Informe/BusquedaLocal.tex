@@ -23,6 +23,43 @@ A partir de una arista que representa un conflicto (llamemos a los nodos de la a
  \item De esos dos elegimos al menor. Si la cantidad de conflictos es menor a la que se tiene dejando todo como está, cambiamos el color del nodo. Si no, la vecindad no sirvió y no hacemos modificaciones en el grafo.
 \end{enumerate}
 
+\begin{algorithm}[H]
+\caption{Vecindad 1.}
+\label{vecindad1 pseudocode}
+\begin{algorithmic}[1] 
+\STATE La vecindad opera sobre una arista que recibe como parámetro. Llamaremos a esta arista $conflicto$. Los dos nodos unidos por esta arista serán $conflicto$.n1 y $conflicto$.n2.
+\REQUIRE $conflicto$.n1.getColor() == $conflicto$.n2.getColor()
+\STATE crear un diccionario para ambos nodos. El diccionario tendrá como key a los colores del nodo, y como valor una lista de vecinos del nodo que tienen asignado ese color. Llamaremos a estos diccionarios $conflictosPorColorN1$ y $conflictosPorColorN2$. Inicializamos esos diccionarios con una lista vacía para cada color:
+\FOR{color in $conflicto$.n1.get_coloresPosibles}
+    \STATE $conflictosPorColorN1$[color] = Lista vacía de nodos;
+\ENDFOR
+\FOR{color in $conflicto$.n2.get_coloresPosibles}
+    \STATE $conflictosPorColorN2$[color] = Lista vacía de nodos;
+\ENDFOR
+
+\STATE Recorremos la lista de vecinos de los dos nodos de $conflicto$. Si un vecino está pintado con alguno de los colores posibles del nodo en conflicto, lo agregamos a la lista correspondiente.
+\FOR{vecino in $conflicto$.n1.vecinos}
+    \IF{vecino.color definido en $conflictosPorColorN1$}
+	\STATE $conflictosPorColorN1$[vecino.color].agregar(vecino)
+    \ENDIF
+\ENDFOR
+\FOR{vecino in $conflicto$.n2.vecinos}
+    \IF{vecino.color definido en $conflictosPorColorN1$}
+	\STATE $conflictosPorColorN2$[vecino.color].agregar(vecino)
+    \ENDIF
+\ENDFOR
+
+\STATE para $conflictosPorColorN1$ y $conflictosPorColorN2$ buscamos el mínimo: es decir, aquel color que tiene como valor la lista más corta. Y entre el menor de n1 y n2, elegimos al menor.
+
+\STATE 
+
+
+
+
+\STATE Retornar
+\end{algorithmic}
+\end{algorithm}
+\leavevmode
 
 
  
