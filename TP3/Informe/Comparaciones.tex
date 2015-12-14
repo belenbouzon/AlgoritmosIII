@@ -23,7 +23,7 @@ Para ello, separamos este apartado en la observación de tres conjuntos de resul
 \end{itemize}
 
 Consideramos que hacerlo fue de especial relevancia, dado que al incrementar individualmente el valor de parámetros independientes es factible que se terminen realizando experimentos sobre grafos estructuralmente distintos, con poca o ninguna relación en cuanto a sus propiedades.\\
-Los resultadoss se observan a continuación:\\
+Los resultados se observan a continuación:\\
 
 
 \subsection {Resultados obtenidos a partir de grafos cíclicos}
@@ -68,7 +68,7 @@ Por último, el gráfico \ref{ComparacionConflictosCiclico} nos muestra que la c
 \subsection {Resultados obtenidos a partir de grafos completos}
 
 En las figuras \ref{TiempoGreedyCompleto} y \ref{TiemposLocalCompleto} muestran los tiempos (junto a sus cotas temporales) medidos observados para ambos algoritmos ejecutados sobre grafos completos de distintos tamaños.\\
-Se hace realmente visible la direfencia en cuanto a costos temporales en la figura \ref{ComparacionTiemposCompleto}, en la cual se exhiben solapadas las barras que indican el tiempo de cómputo medido para cada algoritmo.
+Se hace realmente visible la diferencia en cuanto a costos temporales en la figura \ref{ComparacionTiemposCompleto}, en la cual se exhiben solapadas las barras que indican el tiempo de cómputo medido para cada algoritmo.
 
  \begin{figure}[H]
     \centering
@@ -91,8 +91,8 @@ Se hace realmente visible la direfencia en cuanto a costos temporales en la figu
  	  \label{ComparacionTiemposCompleto}
   \end{figure}
 
-Sin embargo, a diferencia de lo observado en la figura \ref{ComparacionConflictosCiclico}, en la ilustración \ref{ComparacionConflictosCompleto} puede apreciarse la disminución en la cantidad de conflictos resultante del posprocesamiento del grafo obtenido luego de la ejeución del algoritmo goloso.\\
-Dicho esto, pareciera ser que en los casos en que el grafo no es esparso, el algoritmo de búsqueda local si es una buena opción en términos del costo temporal y el beneficio cualitativo del resultado.
+Sin embargo, a diferencia de lo observado en la figura \ref{ComparacionConflictosCiclico}, en la ilustración \ref{ComparacionConflictosCompleto} puede apreciarse la disminución en la cantidad de conflictos resultante del posprocesamiento del grafo obtenido luego de la ejecución del algoritmo goloso.\\
+Dicho esto, pareciera ser que en los casos en que el grafo no es esparzo, el algoritmo de búsqueda local si es una buena opción en términos del costo temporal y el beneficio cualitativo del resultado.
 
  \begin{figure}[H]
     \centering
@@ -103,23 +103,33 @@ Dicho esto, pareciera ser que en los casos en que el grafo no es esparso, el alg
 
 \subsection {Resultados obtenidos a parir de grafos bipartitos completos}
 
+Como se mencionó antes, la particularidad de esta familia de grafos es que se pueden colorear con dos colores si nos aseguramos de que cada nodo tenga al menos dos colores específicos. Por lo tanto analizaremos de que manera aprovechan estas propiedades las dos heurísticas.\\
+
+Observando la figura \ref{TiemposGreedyBL} notamos que a diferencia con las otras familias de grafos analizadas, los tiempos de ejecución de \emph{Búsqueda Local} son considerablemente mayores a los del \emph{Goloso}.
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=18cm]{imagenes/Ej5/bipartitosCompletos/TiemposGreedyBL.png}
   \caption{}
-    \label{}
+    \label{TiemposGreedyBL}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=18cm]{imagenes/Ej5/bipartitosCompletos/ConflictosGreedyBL.png}
   \caption{}
-    \label{}
+    \label{ConflictosGreedyBL}
 \end{figure}
+
+Por otra parte en la figura \ref{ConflictosGreedyBL} se puede ver que al comparar la cantidad final de conflictos, el greedy deja muchos sin resolver ya que por como se seleccionan los colores para cada nodo no puede darse cuenta de que es un grafo bipartito y no puede hacer uso de las propiedades del mismo para encontrar un coloreo. En contrapartida tenemos la búsqueda local, que al utilizar como entrada el grafo coloreado por el goloso, logra resolver todos los conflictos. Lo cual está directamente relacionado con que el tiempo de ejecución sea tanto mas grande porque si recordamos la complejidad de la vecindad 1 que era $\mathcal{O}(n + c)$ con $n$ nodos y $c$ conflictos, se deduce que a mayor cantidad de conflictos que deja el goloso sin resolver, mayor va a ser el tiempo que le tome resolverlos a la búsqueda local. Si miramos los gráficos \ref{TiemposGreedyBL} y \ref{ConflictosGreedyBL} se puede decir que, a misma cantidad de nodos, son comparables los tiempos de ejecución de la búsqueda local con la cantidad de conflictos sin resolver del goloso ya que se elevan casi en igual medida.\\
+
+Por último, en la figura \ref{ConfTiempoBL} graficamos la cantidad de conflictos resueltos por el algoritmo de búsqueda local en función del tiempo. Al igual que antes se puede ver que a mayor cantidad de conflictos, mayor tiempo de cómputo. Por lo cual para esta familia de grafos específicamente si se busca obtener una solución exacta, se podría utilizar el algoritmo de búsqueda local como alternativa al backtracking, pero si lo que se busca es una aproximación en poco tiempo, se debería usar el goloso.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=18cm]{imagenes/Ej5/bipartitosCompletos/ConfTiempoBL.png}
   \caption{}
-    \label{}
+    \label{ConfTiempoBL}
 \end{figure}
+
+En conclusión, luego de examinar estos tres aspectos, creemos que a la hora de elegir utilizar una heurística, es conveniente analizar los resultados de las distintas opciones para determinar cual se adapta mejor a los resultados que estamos buscando. Ya que si bien la búsqueda local en general obtuvo mejoras en menos tiempo que el goloso, no hay que olvidarse que para obtener esas mejoras se corrió el goloso antes. Por lo tanto es bueno saber estos resultados a la hora de elegir, para poder priorizar las características que mas nos importa reforzar, ya se que de un coloreo rápido, que minimice los conflictos, que se aproxime mas a un resultado exacto, etc.
