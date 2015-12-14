@@ -9,9 +9,9 @@ Por un lado generamos grafos completamente al azar, de los cuales no se conoce a
 
 Por otro lado, para otros tests, utilizaremos grafos bipartitos completos, de los cuales tenemos la certeza de que son coloreables (ya que esta demostrado que todo grafo bipartito es coloreable utilizando dos colores). Estos grafos bipartitos se construyeron de manera que dos colores específicos están presentes como alternativas en todos los nodos,  y adicionalmente se agregaron otros colores elegidos al azar para cada nodo. De esta forma, se esta asegurando que existe al menos una solución de coloreo válida para todos los grafos bipartitos generados. Este coloreo consistiría en seleccionar el primer color que los nodos tienen en común para uno de los subconjuntos de vértices del grafo bipartito, y el otro color para el otro subconjunto.
 
-Pensamos que los grafos bipartitos generados para los tests pueden resultar, aunque son un caso particular, pueden resultar interesantes para el análisis de la cantidad de conflictos de las heurísticas. Son grafos de los cuales se tiene la certeza de que son coloreables, pero que igualmente pueden contener una cantidad elevada de nodos y aristas.
+Pensamos que los grafos bipartitos generados para los tests, aunque son un caso particular, pueden resultar interesantes para el análisis de la cantidad de conflictos de las heurísticas. Son grafos de los cuales se tiene la certeza de que son coloreables, pero que igualmente pueden contener una cantidad elevada de nodos y aristas.
 
-A continuación se exponen los gráficos generados a partir de los resultados de los experimentos que ideamos e implementamos con el fin de hacer un análisis empirico del costo temporal y la calidad de los resultados obtenidos a partir del algoritmo goloso (Ejercicio 3) y de la vecindad 1 del algoritmo de búsqueda local (Ejercicio 4).
+A continuación se exponen los gráficos generados a partir de los resultados de los experimentos que ideamos e implementamos con el fin de hacer un análisis empírico del costo temporal y la calidad de los resultados obtenidos a partir del algoritmo goloso (Ejercicio 3) y de la vecindad 1 del algoritmo de búsqueda local (Ejercicio 4).
 
 Para ello, separamos este apartado en la observación de tres conjuntos de resultados:
 
@@ -27,7 +27,7 @@ Los resultadoss se observan a continuación:\\
 
 \subsection {Resultados obtenidos a partir de grafos cíclicos}
 
-En las figuras \ref{TiempoGreedyCiclico} y \ref{TiempoLocalCiclico} muestran los tiempos medidos observados para los dinstintos algoritmos en grafos cíclicos de distintos tamaños. \\
+En las figuras \ref{TiempoGreedyCiclico} y \ref{TiempoLocalCiclico} se muestran los tiempos medidos para los distintos algoritmos en grafos cíclicos de distintos tamaños. \\
 Observándolos en su conjunto, se puede apreciar que no sólo el algoritmo goloso se comporta de manera más uniforme en función de la entrada, si no que también se hace notorio que el mismo demanda un tiempo de cómputo mucho mayor en cada uno de los casos.\\
 
 \begin{figure}[H]
@@ -102,4 +102,23 @@ Dicho esto, pareciera ser que en los casos en que el grafo no es esparso, el alg
 
 \subsection {Resultados obtenidos a parir de grafos bipartitos completos}
 
-\textcolor{red}{\huge{AGREGAR TODOS LOS GRAFICOS QUE ESTAN EN LA CARPETA IMAGENES/EJ5/BIPARTITOS Y COMENTARLOS}}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=18cm]{imagenes/Ej5/bipartitosCompletos/TiemposGreedyBL.png}
+  \caption{}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=18cm]{imagenes/Ej5/bipartitosCompletos/ConflictosGreedyBL.png}
+  \caption{}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=18cm]{imagenes/Ej5/bipartitosCompletos/ConfTiempoBL.png}
+  \caption{}
+    \label{}
+\end{figure}
