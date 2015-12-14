@@ -46,25 +46,11 @@ public class AristaEj4 {
 	
 	@Override
     public int hashCode() {
-        /*return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
+        return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
             // if deriving: appendSuper(super.hashCode()).
             append(n1).
             append(n2).
             toHashCode();
-        */
-		final int prime = 31;
-		int result = 1;
-		if(this.n1.hashCode() > this.n2.hashCode()){
-			result = prime * result + this.n1.hashCode();
-			result = prime * result + this.n2.hashCode();
-			return result;
-		}else{
-			result = prime * result + this.n2.hashCode();
-			result = prime * result + this.n1.hashCode();
-			return result;
-		}
-		
-		
     }
     
 }

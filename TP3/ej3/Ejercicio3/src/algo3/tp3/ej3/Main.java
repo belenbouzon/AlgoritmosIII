@@ -8,7 +8,7 @@ public class Main
 	public static void main(String[] args) throws Exception 
 	{	
 		/*Parametros*/
-		int cantDeNodos = 1000;
+		//int cantDeNodos = 1000;
 		/*int cantDeAristas = 800000; 
 		int escala = 10000;
 		int cantMaximaDeAristas = 1000*999;
@@ -22,7 +22,28 @@ public class Main
 		GenerarTestCiclico(cantDeNodosMaxima);
 */
 		
-		System.out.println("Proceso finalizado");
+		/*
+		 * Resuelvo el problema que me pasen como parámetro (leo de archivo)
+		 */
+		
+		
+		if (args.length < 1){
+			System.out.println("Debe pasar como parámetro el nombre de archivo del input.\n");
+			return;
+		}
+			
+		Lector lector = new Lector(args[0]);
+		Grafo grafoResultante = lector.MakeGraph(-1);
+		grafoResultante.MakeRainbow();
+				
+		String output = new String();
+		
+		for (Nodo n: grafoResultante.getNodos())
+			output += Integer.toString(n.getColor()) + " ";
+		output += "\n";
+		
+		System.out.println(output);
+		
 	}
 
 /*	private static void GenerarTestCiclico(int cantDeNodosMaxima) throws Exception 
@@ -71,7 +92,7 @@ public class Main
 		fw.close();
 	}
 
-	private static void GenerarTestEnFuncionDeAristas(int cantDeNodos, int cantDeColores, int escala) throws Exception 
+	public static void GenerarTestEnFuncionDeAristas(int cantDeNodos, int cantDeColores, int escala) throws Exception 
 	{
 		int cantMaximaDeAristas = cantDeNodos*(cantDeNodos-1);
 		
@@ -112,7 +133,7 @@ public class Main
 		archivoDeConflictos.Fin();
 	}
 
-	private void GenerarTestEnFuncionDeColores(int cantColores, int cantMaximaDeColores, int cantDeNodos, int cantDeAristas, int escala) throws Exception, IOException {
+	public void GenerarTestEnFuncionDeColores(int cantColores, int cantMaximaDeColores, int cantDeNodos, int cantDeAristas, int escala) throws Exception, IOException {
 		CrearArchivosDeSalida();
 		
 		while (cantColores <= cantMaximaDeColores)
