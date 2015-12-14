@@ -31,36 +31,36 @@ En las figuras \ref{TiempoGreedyCiclico} y \ref{TiempoLocalCiclico} muestran los
 Observándolos en su conjunto, se puede apreciar que no sólo el algoritmo goloso se comporta de manera más uniforme en función de la entrada, si no que también se hace notorio que el mismo demanda un tiempo de cómputo mucho mayor en cada uno de los casos.\\
 
 \begin{figure}[H]
-    \begin{center}
+    \centering
   	\includegraphics[width=18cm]{imagenes/Ej5/TiempoGreedyCiclico.png}
- 	\label{TiempoGreedyCiclico}
-    \end{center}
+    \caption{}
+ 	  \label{TiempoGreedyCiclico}
   \end{figure}
 
  \begin{figure}[H]
-    \begin{center}
+    \centering
   	\includegraphics[width=18cm]{imagenes/Ej5/TiempoLocalCiclico.png}
- 	\label{TiempoLocalCiclico}
-    \end{center}
+    \caption{}
+ 	  \label{TiempoLocalCiclico}
   \end{figure}
 
 Esto se manifiesta en la figura \ref{ComparacionTiemposCiclico}. Allí graficamos el porcentaje de tiempo ejecución de cada algoritmo para cada instancia en función del tiempo total de cómputo.\\
 La comparativa se realizó de esta manera debido a que no son algoritmos que corran sobre instancias iguales: El algoritmo de búsqueda local busca mejorar un resultado ya obtenido por el algoritmo goloso y recibe nodos que se asumen bien coloreados de acuerdo a algún criterio prefijado.
 
  \begin{figure}[H]
-    \begin{center}
+    \centering
   	\includegraphics[width=18cm]{imagenes/Ej5/ComparacionTiemposCiclico.png}
- 	\label{ComparacionTiemposCiclico}
-    \end{center}
+    \caption{}
+ 	  \label{ComparacionTiemposCiclico}
   \end{figure}
 
 Por último, el gráfico \ref{ComparacionConflictosCiclico} nos muestra que la cantidad de conflictos entre el output de los distintos algoritmos no varía notoriamente. Esto nos fuerza a concluir que en situaciones en las que se anticipa que el grafo pueda llegar a tener una estructura similar a uno cíclico y no sea estrictamente necesario conseguir un coloreo tan óptimo como sea posible, puede ser conveniente tomar los resultados arrojados por el primer algoritmo.
 
  \begin{figure}[H]
-    \begin{center}
+    \centering
   	\includegraphics[width=18cm]{imagenes/Ej5/ComparacionConflictosCiclico.png}
- 	\label{ComparacionConflictosCiclico}
-    \end{center}
+    \caption{}
+ 	  \label{ComparacionConflictosCiclico}
   \end{figure}
 
 
@@ -70,34 +70,34 @@ En las figuras \ref{TiempoGreedyCompleto} y \ref{TiemposLocalCompleto} muestran 
 Se hace realmente visible la direfencia en cuanto a costos temporales en la figura \ref{ComparacionTiemposCompleto}, en la cual se exhiben solapadas las barras que indican el tiempo de cómputo medido para cada algoritmo.
 
  \begin{figure}[H]
-    \begin{center}
+    \centering
   	\includegraphics[width=18cm]{imagenes/Ej5/TiempoGreedyCompleto.png}
- 	\label{TiempoGreedyCompleto}
-    \end{center}
+    \caption{}
+ 	  \label{TiempoGreedyCompleto}
   \end{figure}
 
  \begin{figure}[H]
-    \begin{center}
+    \centering
   	\includegraphics[width=18cm]{imagenes/Ej5/TiemposLocalCompleto.png}
- 	\label{TiemposLocalCompleto}
-    \end{center}
+    \caption{}
+ 	  \label{TiemposLocalCompleto}
   \end{figure}
 
  \begin{figure}[H]
-    \begin{center}
+    \centering
   	\includegraphics[width=18cm]{imagenes/Ej5/ComparacionTiemposCompleto.png}
- 	\label{ComparacionTiemposCompleto}
-    \end{center}
+    \caption{}
+ 	  \label{ComparacionTiemposCompleto}
   \end{figure}
 
 Sin embargo, a diferencia de lo observado en la figura \ref{ComparacionConflictosCiclico}, en la ilustración \ref{ComparacionConflictosCompleto} puede apreciarse la disminución en la cantidad de conflictos resultante del posprocesamiento del grafo obtenido luego de la ejeución del algoritmo goloso.\\
 Dicho esto, pareciera ser que en los casos en que el grafo no es esparso, el algoritmo de búsqueda local si es una buena opción en términos del costo temporal y el beneficio cualitativo del resultado.
 
  \begin{figure}[H]
-    \begin{center}
+    \centering
   	\includegraphics[width=18cm]{imagenes/Ej5/ComparacionConflictosCompleto.png}
- 	\label{ComparacionConflictosCompleto}
-    \end{center}
+    \caption{}
+ 	  \label{ComparacionConflictosCompleto}
   \end{figure}
 
 \subsection {Resultados obtenidos a parir de grafos bipartitos completos}
